@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine Learning Exercises Workbook</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4ff; min-height: 100vh; }
+  
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; padding: 20px 30px; display: flex; align-items: center; justify-content: space-between; }
+  .header h1 { font-size: 1.4em; }
+  
+  .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .btn { background: #e94560; color: white; border: none; padding: 8px 18px; border-radius: 20px; cursor: pointer; font-size: 0.9em; font-weight: 600; transition: all 0.2s; }
+  .btn:hover { background: #c73652; transform: scale(1.05); }
+  .btn-outline { background: transparent; border: 2px solid white; color: white; }
+  .btn-outline:hover { background: rgba(255,255,255,0.1); }
+  
+  .progress-bar { background: rgba(255,255,255,0.2); height: 4px; margin: 0 30px; }
+  .progress-fill { height: 100%; background: #e94560; transition: width 0.3s ease; }
+  
+  .page-indicator { text-align: center; padding: 10px; font-size: 0.85em; color: #666; background: white; border-bottom: 1px solid #e0e0e0; }
+  
+  .exercise-container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+  
+  .exercise-card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; animation: fadeIn 0.3s ease; }
+  
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .card-header { padding: 20px 24px; display: flex; align-items: center; gap: 14px; }
+  .level-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+  .level-1 .card-header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+  .level-1 .level-badge { background: rgba(255,255,255,0.25); color: white; }
+  .level-2 .card-header { background: linear-gradient(135deg, #11998e, #38ef7d); color: white; }
+  .level-2 .level-badge { background: rgba(255,255,255,0.25); color: white; }
+  .level-3 .card-header { background: linear-gradient(135deg, #f7971e, #ffd200); color: #333; }
+  .level-3 .level-badge { background: rgba(0,0,0,0.15); color: #333; }
+  
+  .exercise-num { font-size: 2em; font-weight: 800; opacity: 0.4; min-width: 50px; }
+  .exercise-title h2 { font-size: 1.2em; font-weight: 700; }
+  .exercise-title p { font-size: 0.85em; opacity: 0.85; margin-top: 3px; }
+  
+  .card-body { padding: 24px; }
+  
+  .goal-box { background: #f8f9ff; border-left: 4px solid #667eea; border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 18px; }
+  .goal-box .label { font-size: 0.75em; font-weight: 700; text-transform: uppercase; color: #667eea; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .goal-box p { font-size: 0.95em; color: #333; line-height: 1.5; }
+  
+  .steps-section { margin-bottom: 18px; }
+  .steps-section .section-title { font-size: 0.8em; font-weight: 700; text-transform: uppercase; color: #999; margin-bottom: 10px; letter-spacing: 0.5px; }
+  .step { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+  .step-num { background: #667eea; color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75em; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .level-2 .step-num { background: #11998e; }
+  .level-3 .step-num { background: #f7971e; }
+  .step p { font-size: 0.9em; color: #444; line-height: 1.5; }
+  
+  .code-section { background: #1e1e2e; border-radius: 10px; overflow: hidden; margin-bottom: 18px; }
+  .code-header { background: #2d2d3f; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; }
+  .code-header span { color: #888; font-size: 0.8em; font-family: monospace; }
+  .dots { display: flex; gap: 5px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-red { background: #ff5f57; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #28c840; }
+  pre { padding: 18px; margin: 0; overflow-x: auto; }
+  code { font-family: 'Courier New', Courier, monospace; font-size: 0.85em; line-height: 1.7; color: #cdd6f4; }
+  
+  .kw { color: #cba6f7; }
+  .fn { color: #89b4fa; }
+  .str { color: #a6e3a1; }
+  .cm { color: #6c7086; font-style: italic; }
+  .num { color: #fab387; }
+  .cls { color: #f9e2af; }
+  
+  .tip-box { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 12px 16px; display: flex; gap: 10px; align-items: flex-start; }
+  .tip-box .tip-icon { font-size: 1.2em; flex-shrink: 0; }
+  .tip-box p { font-size: 0.88em; color: #555; line-height: 1.5; }
+  
+  .nav-section { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; }
+  .nav-btn { background: white; border: 2px solid #e0e0e0; color: #333; padding: 10px 24px; border-radius: 25px; cursor: pointer; font-size: 0.9em; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+  .nav-btn:hover { border-color: #667eea; color: #667eea; }
+  .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  
+  .toc-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 100; }
+  .toc-overlay.active { display: flex; align-items: center; justify-content: center; }
+  .toc-panel { background: white; border-radius: 16px; padding: 24px; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; }
+  .toc-panel h2 { font-size: 1.2em; margin-bottom: 16px; color: #333; }
+  .toc-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; cursor: pointer; transition: background 0.15s; margin-bottom: 4px; }
+  .toc-item:hover { background: #f0f4ff; }
+  .toc-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8em; font-weight: 700; color: white; flex-shrink: 0; }
+  .toc-l1 { background: #667eea; }
+  .toc-l2 { background: #11998e; }
+  .toc-l3 { background: #f7971e; }
+  .toc-label { font-size: 0.9em; color: #333; }
+  .toc-close { background: none; border: none; font-size: 1.3em; cursor: pointer; float: right; margin-top: -5px; }
+  
+  .cover-page { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); color: white; min-height: calc(100vh - 80px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
+  .cover-page h1 { font-size: 2.5em; font-weight: 800; margin-bottom: 10px; }
+  .cover-page .subtitle { font-size: 1.1em; opacity: 0.7; margin-bottom: 30px; }
+  .cover-chapters { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px; }
+  .chapter-chip { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; padding: 14px 20px; min-width: 180px; }
+  .chapter-chip h3 { font-size: 0.9em; font-weight: 700; margin-bottom: 4px; }
+  .chapter-chip p { font-size: 0.8em; opacity: 0.6; }
+  .cover-start { background: #e94560; color: white; border: none; padding: 14px 36px; border-radius: 30px; font-size: 1.1em; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+  .cover-start:hover { background: #c73652; transform: scale(1.05); }
+  
+  @media print { .header, .nav-section, .progress-bar, .page-indicator { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🤖 ML Exercises Workbook</h1>
+  <div class="controls">
+    <button class="btn btn-outline" onclick="showTOC()">☰ Contents</button>
+    <button class="btn" onclick="downloadPDF()">⬇ Download PDF</button>
+  </div>
+</div>
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div class="page-indicator" id="pageIndicator">Cover Page</div>
+
+<div id="mainContent"></div>
+
+<div class="toc-overlay" id="tocOverlay" onclick="hideTOC(event)">
+  <div class="toc-panel">
+    <button class="toc-close" onclick="hideTOC()">✕</button>
+    <h2>📋 Table of Contents</h2>
+    <div id="tocList"></div>
+  </div>
+</div>
+
+<script>
+const exercises = [
+  {
+    id: 0, type: 'cover'
+  },
+  {
+    id: 1, level: 1, levelName: 'Supervised: Classification',
+    title: 'Load & Split Data',
+    desc: 'Prepare your dataset for machine learning',
+    goal: 'Load a CSV dataset, separate features (X) and target (y), and split into train/test sets.',
+    steps: [
+      'Import pandas and train_test_split from sklearn',
+      'Read your CSV file into a DataFrame',
+      'Separate features X (all columns except target) and label y (target column)',
+      'Split data: 80% training, 20% testing with random_state=42 for reproducibility'
+    ],
+    code: `<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> <span class="fn">train_test_split</span>
+
+<span class="cm"># Load dataset</span>
+df = pd.<span class="fn">read_csv</span>(<span class="str">"data.csv"</span>)
+
+<span class="cm"># Separate features and target</span>
+X = df.<span class="fn">drop</span>(<span class="str">"target"</span>, axis=<span class="num">1</span>)
+y = df[<span class="str">"target"</span>]
+
+<span class="cm"># Split into train/test sets</span>
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(
+    X, y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>
+)`,
+    tip: '💡 Always set random_state=42 so your split is reproducible. test_size=0.2 means 20% goes to testing.'
+  },
+  {
+    id: 2, level: 1, levelName: 'Supervised: Classification',
+    title: 'Logistic Regression',
+    desc: 'Your first classification model',
+    goal: 'Train a Logistic Regression classifier and print the accuracy score on the test set.',
+    steps: [
+      'Import LogisticRegression and accuracy_score',
+      'Create the model with max_iter=200 to ensure convergence',
+      'Fit (train) the model on training data',
+      'Predict on the test set, then compare predictions to true labels'
+    ],
+    code: `<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> <span class="cls">LogisticRegression</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> <span class="fn">accuracy_score</span>
+
+<span class="cm"># Create and train model</span>
+model = <span class="cls">LogisticRegression</span>(max_iter=<span class="num">200</span>)
+model.<span class="fn">fit</span>(X_train, y_train)
+
+<span class="cm"># Predict and evaluate</span>
+y_pred = model.<span class="fn">predict</span>(X_test)
+<span class="fn">print</span>(<span class="str">"Accuracy:"</span>, <span class="fn">accuracy_score</span>(y_test, y_pred))`,
+    tip: '💡 Logistic Regression is great for binary classification. Accuracy = correct predictions / total predictions.'
+  },
+  {
+    id: 3, level: 1, levelName: 'Supervised: Classification',
+    title: 'Decision Tree Classifier',
+    desc: 'A tree-based classification model',
+    goal: 'Train a Decision Tree classifier and print the full classification report.',
+    steps: [
+      'Import DecisionTreeClassifier and classification_report',
+      'Create the model with random_state=42',
+      'Fit the model on training data',
+      'Generate a full report: precision, recall, F1-score per class'
+    ],
+    code: `<span class="kw">from</span> sklearn.tree <span class="kw">import</span> <span class="cls">DecisionTreeClassifier</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> <span class="fn">classification_report</span>
+
+<span class="cm"># Create and train model</span>
+model = <span class="cls">DecisionTreeClassifier</span>(random_state=<span class="num">42</span>)
+model.<span class="fn">fit</span>(X_train, y_train)
+
+<span class="cm"># Predict and print full report</span>
+y_pred = model.<span class="fn">predict</span>(X_test)
+<span class="fn">print</span>(<span class="fn">classification_report</span>(y_test, y_pred))`,
+    tip: '💡 The classification report shows precision (accuracy of positive predictions), recall (how many positives found), and F1 (harmonic mean of both).'
+  },
+  {
+    id: 4, level: 1, levelName: 'Supervised: Classification',
+    title: 'Confusion Matrix',
+    desc: 'Visualize where your model makes mistakes',
+    goal: 'Plot a confusion matrix heatmap to visualize where the classifier makes errors.',
+    steps: [
+      'Import confusion_matrix, seaborn, and matplotlib',
+      'Compute confusion matrix from true and predicted labels',
+      'Use sns.heatmap to visualize with annotations (annot=True)',
+      'Add axis labels and title for clarity'
+    ],
+    code: `<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> <span class="fn">confusion_matrix</span>
+<span class="kw">import</span> seaborn <span class="kw">as</span> sns
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+<span class="cm"># Compute confusion matrix</span>
+cm = <span class="fn">confusion_matrix</span>(y_test, y_pred)
+
+<span class="cm"># Plot heatmap</span>
+sns.<span class="fn">heatmap</span>(cm, annot=<span class="kw">True</span>, fmt=<span class="str">"d"</span>, cmap=<span class="str">"Blues"</span>)
+plt.<span class="fn">xlabel</span>(<span class="str">"Predicted"</span>)
+plt.<span class="fn">ylabel</span>(<span class="str">"Actual"</span>)
+plt.<span class="fn">title</span>(<span class="str">"Confusion Matrix"</span>)
+plt.<span class="fn">show</span>()`,
+    tip: '💡 The diagonal cells (top-left to bottom-right) show correct predictions. Off-diagonal cells show mistakes. Bigger diagonal = better model!'
+  },
+  {
+    id: 5, level: 1, levelName: 'Supervised: Classification',
+    title: 'Random Forest + Full Evaluation',
+    desc: 'Ensemble power with complete metrics',
+    goal: 'Train a Random Forest, then print accuracy, full classification report, and confusion matrix.',
+    steps: [
+      'Import RandomForestClassifier and all metrics',
+      'Create model with n_estimators=100 (100 trees) and random_state=42',
+      'Train and predict as before',
+      'Print accuracy, classification_report, and confusion_matrix together'
+    ],
+    code: `<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> <span class="cls">RandomForestClassifier</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> (
+    <span class="fn">accuracy_score</span>, <span class="fn">classification_report</span>, <span class="fn">confusion_matrix</span>
+)
+
+model = <span class="cls">RandomForestClassifier</span>(n_estimators=<span class="num">100</span>, random_state=<span class="num">42</span>)
+model.<span class="fn">fit</span>(X_train, y_train)
+y_pred = model.<span class="fn">predict</span>(X_test)
+
+<span class="fn">print</span>(<span class="str">"Accuracy:"</span>, <span class="fn">accuracy_score</span>(y_test, y_pred))
+<span class="fn">print</span>(<span class="fn">classification_report</span>(y_test, y_pred))
+<span class="fn">print</span>(<span class="str">"Confusion Matrix:\\n"</span>, <span class="fn">confusion_matrix</span>(y_test, y_pred))`,
+    tip: '💡 Random Forest combines many decision trees and votes on the final answer — usually much more accurate than a single tree!'
+  },
+  {
+    id: 6, level: 2, levelName: 'Supervised: Regression',
+    title: 'Load & Prepare Regression Data',
+    desc: 'Get your data ready for predicting numbers',
+    goal: 'Load a CSV with numeric features, drop missing values, and split into train/test sets.',
+    steps: [
+      'Load housing.csv and chain .dropna() to remove rows with missing values',
+      'Set X as all feature columns and y as the "price" target column',
+      'Split data 80/20 for training and testing',
+      'Verify shapes: X_train.shape should show rows and features'
+    ],
+    code: `<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> <span class="fn">train_test_split</span>
+
+<span class="cm"># Load and clean data</span>
+df = pd.<span class="fn">read_csv</span>(<span class="str">"housing.csv"</span>).<span class="fn">dropna</span>()
+
+<span class="cm"># Separate features and target</span>
+X = df.<span class="fn">drop</span>(<span class="str">"price"</span>, axis=<span class="num">1</span>)
+y = df[<span class="str">"price"</span>]
+
+<span class="cm"># Train/test split</span>
+X_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(
+    X, y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>
+)`,
+    tip: '💡 Regression predicts continuous values (like prices, temperatures). Unlike classification, there are no "classes" — just numbers on a scale.'
+  },
+  {
+    id: 7, level: 2, levelName: 'Supervised: Regression',
+    title: 'Linear Regression',
+    desc: 'Fit a straight line through your data',
+    goal: 'Train a Linear Regression model and evaluate it using MAE and R² score.',
+    steps: [
+      'Import LinearRegression, mean_absolute_error, and r2_score',
+      'Fit the model on training data',
+      'Predict prices on the test set',
+      'Calculate MAE (average error in units) and R² (goodness of fit, 1.0 = perfect)'
+    ],
+    code: `<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> <span class="cls">LinearRegression</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> <span class="fn">mean_absolute_error</span>, <span class="fn">r2_score</span>
+
+<span class="cm"># Train model</span>
+model = <span class="cls">LinearRegression</span>()
+model.<span class="fn">fit</span>(X_train, y_train)
+
+<span class="cm"># Predict and evaluate</span>
+y_pred = model.<span class="fn">predict</span>(X_test)
+<span class="fn">print</span>(<span class="str">"MAE:"</span>, <span class="fn">mean_absolute_error</span>(y_test, y_pred))
+<span class="fn">print</span>(<span class="str">"R² Score:"</span>, <span class="fn">r2_score</span>(y_test, y_pred))`,
+    tip: '💡 R² close to 1.0 means the model fits well. MAE tells you the average prediction error in the same units as your target (e.g., dollars).'
+  },
+  {
+    id: 8, level: 2, levelName: 'Supervised: Regression',
+    title: 'Decision Tree Regressor',
+    desc: 'Trees for predicting numbers',
+    goal: 'Train a Decision Tree Regressor and evaluate with RMSE and R² score.',
+    steps: [
+      'Import DecisionTreeRegressor, mean_squared_error, r2_score, and numpy',
+      'Set max_depth=5 to prevent overfitting',
+      'Fit, predict, and calculate RMSE = √(mean squared error)',
+      'Compare R² to your Linear Regression result'
+    ],
+    code: `<span class="kw">from</span> sklearn.tree <span class="kw">import</span> <span class="cls">DecisionTreeRegressor</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> <span class="fn">mean_squared_error</span>, <span class="fn">r2_score</span>
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># Train model with depth limit</span>
+model = <span class="cls">DecisionTreeRegressor</span>(max_depth=<span class="num">5</span>, random_state=<span class="num">42</span>)
+model.<span class="fn">fit</span>(X_train, y_train)
+
+<span class="cm"># Evaluate</span>
+y_pred = model.<span class="fn">predict</span>(X_test)
+<span class="fn">print</span>(<span class="str">"RMSE:"</span>, np.<span class="fn">sqrt</span>(<span class="fn">mean_squared_error</span>(y_test, y_pred)))
+<span class="fn">print</span>(<span class="str">"R²:"</span>, <span class="fn">r2_score</span>(y_test, y_pred))`,
+    tip: '💡 RMSE penalizes large errors more than MAE. Use max_depth to control tree complexity — too deep = overfitting on training data.'
+  },
+  {
+    id: 9, level: 2, levelName: 'Supervised: Regression',
+    title: 'Gradient Boosting & XGBoost',
+    desc: 'Compare two powerful ensemble methods',
+    goal: 'Train both GradientBoosting and XGBoost regressors and compare their R² scores.',
+    steps: [
+      'Import GradientBoostingRegressor and XGBRegressor',
+      'Use a for-loop to train both models with the same setup',
+      'Calculate R² for each model',
+      'Compare: which performs better on your data?'
+    ],
+    code: `<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> <span class="cls">GradientBoostingRegressor</span>
+<span class="kw">from</span> xgboost <span class="kw">import</span> <span class="cls">XGBRegressor</span>
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> <span class="fn">r2_score</span>
+
+<span class="cm"># Train and compare both models</span>
+<span class="kw">for</span> name, model <span class="kw">in</span> [
+    (<span class="str">"GradientBoosting"</span>, <span class="cls">GradientBoostingRegressor</span>(random_state=<span class="num">42</span>)),
+    (<span class="str">"XGBoost"</span>,          <span class="cls">XGBRegressor</span>(random_state=<span class="num">42</span>))
+]:
+    model.<span class="fn">fit</span>(X_train, y_train)
+    score = <span class="fn">r2_score</span>(y_test, model.<span class="fn">predict</span>(X_test))
+    <span class="fn">print</span>(<span class="str">f"{name} R²: {score:.4f}"</span>)`,
+    tip: '💡 XGBoost is often faster and better than sklearn\'s GradientBoosting. Both work by building trees sequentially, each correcting the previous one\'s errors.'
+  },
+  {
+    id: 10, level: 2, levelName: 'Supervised: Regression',
+    title: 'Residual Plot',
+    desc: 'Diagnose your regression model visually',
+    goal: 'Plot residuals (actual − predicted) to assess how well the model fits the data.',
+    steps: [
+      'Calculate residuals: actual values minus predicted values',
+      'Create a scatter plot with predicted values on x-axis, residuals on y-axis',
+      'Add a horizontal red dashed line at y=0 (perfect prediction line)',
+      'Look for random scatter — patterns suggest the model is missing something'
+    ],
+    code: `<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+<span class="cm"># Calculate residuals</span>
+residuals = y_test.values - y_pred
+
+<span class="cm"># Plot</span>
+plt.<span class="fn">figure</span>(figsize=(<span class="num">8</span>, <span class="num">4</span>))
+plt.<span class="fn">scatter</span>(y_pred, residuals, alpha=<span class="num">0.5</span>, color=<span class="str">"steelblue"</span>)
+plt.<span class="fn">axhline</span>(<span class="num">0</span>, color=<span class="str">"red"</span>, linestyle=<span class="str">"--"</span>)
+plt.<span class="fn">xlabel</span>(<span class="str">"Predicted Values"</span>)
+plt.<span class="fn">ylabel</span>(<span class="str">"Residuals"</span>)
+plt.<span class="fn">title</span>(<span class="str">"Residual Plot"</span>)
+plt.<span class="fn">tight_layout</span>()
+plt.<span class="fn">show</span>()`,
+    tip: '💡 Residuals should look like random noise around zero. A "fan" shape means your model has heteroscedasticity — errors vary with prediction size.'
+  },
+  {
+    id: 11, level: 3, levelName: 'Unsupervised Learning',
+    title: 'Load & Scale Data',
+    desc: 'Normalize features before clustering or PCA',
+    goal: 'Load a CSV and standardize all features using StandardScaler before clustering or PCA.',
+    steps: [
+      'Import StandardScaler from sklearn.preprocessing',
+      'Load data and drop any label column (errors="ignore" if it doesn\'t exist)',
+      'Create a StandardScaler and call fit_transform(X)',
+      'Result: each feature now has mean=0 and std=1'
+    ],
+    code: `<span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> <span class="cls">StandardScaler</span>
+
+<span class="cm"># Load data</span>
+df = pd.<span class="fn">read_csv</span>(<span class="str">"data.csv"</span>)
+X = df.<span class="fn">drop</span>(<span class="str">"label"</span>, axis=<span class="num">1</span>, errors=<span class="str">"ignore"</span>)
+
+<span class="cm"># Standardize features</span>
+scaler = <span class="cls">StandardScaler</span>()
+X_scaled = scaler.<span class="fn">fit_transform</span>(X)
+
+<span class="fn">print</span>(<span class="str">"Shape:"</span>, X_scaled.shape)`,
+    tip: '💡 Scaling is critical for distance-based algorithms like K-Means and PCA. Without it, features with large values (e.g., income in thousands) will dominate.'
+  },
+  {
+    id: 12, level: 3, levelName: 'Unsupervised Learning',
+    title: 'K-Means Clustering',
+    desc: 'Group your data into clusters automatically',
+    goal: 'Apply K-Means with 3 clusters, assign labels to the DataFrame, and print the distribution.',
+    steps: [
+      'Import KMeans from sklearn.cluster',
+      'Create KMeans with n_clusters=3, random_state=42, n_init=10',
+      'Fit on scaled data — the algorithm finds 3 cluster centers',
+      'Assign cluster labels back to the DataFrame and check distribution'
+    ],
+    code: `<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> <span class="cls">KMeans</span>
+
+<span class="cm"># Apply K-Means clustering</span>
+kmeans = <span class="cls">KMeans</span>(n_clusters=<span class="num">3</span>, random_state=<span class="num">42</span>, n_init=<span class="num">10</span>)
+kmeans.<span class="fn">fit</span>(X_scaled)
+
+<span class="cm"># Assign cluster labels</span>
+df[<span class="str">"Cluster"</span>] = kmeans.labels_
+
+<span class="fn">print</span>(df[<span class="str">"Cluster"</span>].<span class="fn">value_counts</span>())
+<span class="fn">print</span>(<span class="str">"Inertia:"</span>, kmeans.inertia_)`,
+    tip: '💡 Inertia = sum of distances from each point to its cluster center. Lower inertia means tighter clusters (but adding more clusters always lowers it — use the Elbow Method to pick the right k).'
+  },
+  {
+    id: 13, level: 3, levelName: 'Unsupervised Learning',
+    title: 'Elbow Method',
+    desc: 'Find the optimal number of clusters',
+    goal: 'Plot inertia vs. number of clusters k to find the optimal k for K-Means.',
+    steps: [
+      'Create an empty list inertias = []',
+      'Loop k from 1 to 10, fit K-Means for each k',
+      'Append each model\'s inertia_ value to the list',
+      'Plot and look for the "elbow" — where inertia stops dropping sharply'
+    ],
+    code: `<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> <span class="cls">KMeans</span>
+
+inertias = []
+<span class="kw">for</span> k <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    km = <span class="cls">KMeans</span>(n_clusters=k, random_state=<span class="num">42</span>, n_init=<span class="num">10</span>)
+    km.<span class="fn">fit</span>(X_scaled)
+    inertias.<span class="fn">append</span>(km.inertia_)
+
+plt.<span class="fn">plot</span>(<span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>), inertias, <span class="str">"bo-"</span>)
+plt.<span class="fn">xlabel</span>(<span class="str">"Number of Clusters (k)"</span>)
+plt.<span class="fn">ylabel</span>(<span class="str">"Inertia"</span>)
+plt.<span class="fn">title</span>(<span class="str">"Elbow Method"</span>)
+plt.<span class="fn">show</span>()`,
+    tip: '💡 The "elbow" is where adding more clusters gives diminishing returns. If inertia drops steeply from k=1 to k=3, then flattens — use k=3!'
+  },
+  {
+    id: 14, level: 3, levelName: 'Unsupervised Learning',
+    title: 'PCA — Dimensionality Reduction',
+    desc: 'Compress many features into 2D for visualization',
+    goal: 'Reduce features to 2 principal components and visualize clusters in a 2D scatter plot.',
+    steps: [
+      'Import PCA from sklearn.decomposition',
+      'Set n_components=2 to project all features down to 2 dimensions',
+      'Call fit_transform on scaled data',
+      'Scatter plot with cluster colors — each point is a data sample in 2D'
+    ],
+    code: `<span class="kw">from</span> sklearn.decomposition <span class="kw">import</span> <span class="cls">PCA</span>
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+<span class="cm"># Reduce to 2 dimensions</span>
+pca = <span class="cls">PCA</span>(n_components=<span class="num">2</span>)
+X_pca = pca.<span class="fn">fit_transform</span>(X_scaled)
+
+<span class="fn">print</span>(<span class="str">"Explained Variance:"</span>, pca.explained_variance_ratio_)
+
+plt.<span class="fn">scatter</span>(X_pca[:, <span class="num">0</span>], X_pca[:, <span class="num">1</span>],
+            c=kmeans.labels_, cmap=<span class="str">"viridis"</span>, alpha=<span class="num">0.6</span>)
+plt.<span class="fn">xlabel</span>(<span class="str">"PC1"</span>)
+plt.<span class="fn">ylabel</span>(<span class="str">"PC2"</span>)
+plt.<span class="fn">title</span>(<span class="str">"PCA — 2D Cluster Visualization"</span>)
+plt.<span class="fn">colorbar</span>(label=<span class="str">"Cluster"</span>)
+plt.<span class="fn">show</span>()`,
+    tip: '💡 explained_variance_ratio_ tells you how much info each component keeps. If PC1+PC2 explain 80%+ of variance, your 2D plot is a good representation!'
+  },
+  {
+    id: 15, level: 3, levelName: 'Unsupervised Learning',
+    title: 'Full Unsupervised Pipeline',
+    desc: 'Chain everything together elegantly',
+    goal: 'Build a complete pipeline: StandardScaler → PCA (2D) → KMeans → visualize with cluster colors.',
+    steps: [
+      'Import Pipeline from sklearn.pipeline',
+      'Chain all 3 steps: ("scaler", StandardScaler()), ("pca", PCA(n_components=2)), ("kmeans", KMeans(...))',
+      'Call pipe.fit(X) — all transformations happen automatically in order',
+      'Extract labels and 2D coordinates for visualization'
+    ],
+    code: `<span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> <span class="cls">Pipeline</span>
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> <span class="cls">StandardScaler</span>
+<span class="kw">from</span> sklearn.decomposition <span class="kw">import</span> <span class="cls">PCA</span>
+<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> <span class="cls">KMeans</span>
+<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+pipe = <span class="cls">Pipeline</span>([
+    (<span class="str">"scaler"</span>, <span class="cls">StandardScaler</span>()),
+    (<span class="str">"pca"</span>,    <span class="cls">PCA</span>(n_components=<span class="num">2</span>)),
+    (<span class="str">"kmeans"</span>, <span class="cls">KMeans</span>(n_clusters=<span class="num">3</span>, random_state=<span class="num">42</span>, n_init=<span class="num">10</span>))
+])
+pipe.<span class="fn">fit</span>(X)
+labels = pipe[<span class="str">"kmeans"</span>].labels_
+X_2d = pipe[:-<span class="num">1</span>].<span class="fn">transform</span>(X)
+
+plt.<span class="fn">scatter</span>(X_2d[:, <span class="num">0</span>], X_2d[:, <span class="num">1</span>], c=labels, cmap=<span class="str">"tab10"</span>, alpha=<span class="num">0.7</span>)
+plt.<span class="fn">title</span>(<span class="str">"Pipeline: Scaler → PCA → KMeans"</span>)
+plt.<span class="fn">show</span>()`,
+    tip: '💡 Pipelines prevent data leakage and make your code production-ready. In real projects, always wrap your preprocessing steps in a Pipeline!'
+  }
+];
+
+let currentPage = 0;
+
+function getLevelClass(level) {
+  return level === 1 ? 'level-1' : level === 2 ? 'level-2' : 'level-3';
+}
+
+function renderPage(page) {
+  const container = document.getElementById('mainContent');
+  const ex = exercises[page];
+  
+  if (ex.type === 'cover') {
+    container.innerHTML = `
+      <div class="cover-page">
+        <div style="font-size:3em; margin-bottom:10px">🤖</div>
+        <h1>Machine Learning<br>Exercises Workbook</h1>
+        <p class="subtitle">15 hands-on exercises from beginner to advanced</p>
+        <div class="cover-chapters">
+          <div class="chapter-chip">
+            <h3>🟣 Level 1</h3>
+            <p>Supervised Classification<br>Exercises #1–5</p>
+          </div>
+          <div class="chapter-chip">
+            <h3>🟢 Level 2</h3>
+            <p>Supervised Regression<br>Exercises #6–10</p>
+          </div>
+          <div class="chapter-chip">
+            <h3>🟡 Level 3</h3>
+            <p>Unsupervised Learning<br>Exercises #11–15</p>
+          </div>
+        </div>
+        <button class="cover-start" onclick="goToPage(1)">Start Learning →</button>
+      </div>`;
+    document.getElementById('pageIndicator').textContent = 'Cover · 15 Exercises';
+  } else {
+    const lc = getLevelClass(ex.level);
+    container.innerHTML = `
+      <div class="exercise-container">
+        <div class="exercise-card ${lc}">
+          <div class="card-header">
+            <div class="exercise-num">#${ex.id}</div>
+            <div class="exercise-title">
+              <h2>${ex.title}</h2>
+              <p>${ex.desc}</p>
+            </div>
+            <div class="level-badge">${ex.levelName}</div>
+          </div>
+          <div class="card-body">
+            <div class="goal-box">
+              <div class="label">🎯 Goal</div>
+              <p>${ex.goal}</p>
+            </div>
+            <div class="steps-section">
+              <div class="section-title">📋 Steps</div>
+              ${ex.steps.map((s, i) => `<div class="step"><div class="step-num">${i+1}</div><p>${s}</p></div>`).join('')}
+            </div>
+            <div class="code-section">
+              <div class="code-header">
+                <div class="dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                <span>python</span>
+              </div>
+              <pre><code>${ex.code}</code></pre>
+            </div>
+            <div class="tip-box">
+              <div class="tip-icon">💡</div>
+              <p>${ex.tip.replace('💡 ', '')}</p>
+            </div>
+          </div>
+        </div>
+        <div class="nav-section">
+          <button class="nav-btn" onclick="goToPage(${page - 1})" ${page === 0 ? 'disabled' : ''}>← Previous</button>
+          <span style="color:#888; font-size:0.85em">${page} / 15</span>
+          <button class="nav-btn" onclick="goToPage(${page + 1})" ${page === 15 ? 'disabled' : ''}>Next →</button>
+        </div>
+      </div>`;
+    document.getElementById('pageIndicator').textContent = `Exercise ${ex.id} of 15 · ${ex.levelName}`;
+  }
+  
+  const pct = (page / 15) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function goToPage(p) {
+  if (p < 0 || p > 15) return;
+  currentPage = p;
+  renderPage(p);
+  window.scrollTo(0, 0);
+}
+
+function showTOC() {
+  const list = document.getElementById('tocList');
+  list.innerHTML = exercises.slice(1).map(ex => {
+    const cls = ex.level === 1 ? 'toc-l1' : ex.level === 2 ? 'toc-l2' : 'toc-l3';
+    return `<div class="toc-item" onclick="goToPage(${ex.id}); hideTOC()">
+      <div class="toc-num ${cls}">${ex.id}</div>
+      <div class="toc-label"><strong>${ex.title}</strong><br><span style="font-size:0.8em;color:#888">${ex.levelName}</span></div>
+    </div>`;
+  }).join('');
+  document.getElementById('tocOverlay').classList.add('active');
+}
+
+function hideTOC(e) {
+  if (!e || e.target === document.getElementById('tocOverlay')) {
+    document.getElementById('tocOverlay').classList.remove('active');
+  }
+}
+
+function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('p', 'mm', 'a4');
+  const W = 210, H = 297;
+  const margin = 15;
+  
+  const levelColors = { 1: [102, 126, 234], 2: [17, 153, 142], 3: [247, 151, 30] };
+  const levelNames = { 1: 'Level 1: Classification', 2: 'Level 2: Regression', 3: 'Level 3: Unsupervised' };
+  
+  // Cover page
+  doc.setFillColor(15, 52, 96);
+  doc.rect(0, 0, W, H, 'F');
+  doc.setFillColor(22, 33, 62);
+  doc.rect(0, 60, W, 140, 'F');
+  
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(28);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Machine Learning', W/2, 90, { align: 'center' });
+  doc.text('Exercises Workbook', W/2, 105, { align: 'center' });
+  
+  doc.setFontSize(13);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(180, 180, 210);
+  doc.text('15 step-by-step exercises · sklearn · xgboost · pandas · numpy', W/2, 120, { align: 'center' });
+  
+  const chips = [
+    ['Level 1', 'Classification · Ex #1–5', [102, 126, 234]],
+    ['Level 2', 'Regression · Ex #6–10', [17, 153, 142]],
+    ['Level 3', 'Unsupervised · Ex #11–15', [247, 151, 30]]
+  ];
+  chips.forEach(([title, sub, col], i) => {
+    const x = 20 + i * 60;
+    doc.setFillColor(...col);
+    doc.roundedRect(x, 140, 55, 35, 4, 4, 'F');
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text(title, x + 27, 155, { align: 'center' });
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.text(sub, x + 27, 164, { align: 'center' });
+  });
+  
+  // Exercise pages
+  exercises.slice(1).forEach(ex => {
+    doc.addPage();
+    const col = levelColors[ex.level];
+    
+    // Header gradient simulation
+    doc.setFillColor(...col);
+    doc.rect(0, 0, W, 42, 'F');
+    doc.setFillColor(col[0]*0.7, col[1]*0.7, col[2]*0.7);
+    doc.rect(0, 35, W, 7, 'F');
+    
+    // Exercise number
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(36);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(255, 255, 255, 0.3);
+    doc.setTextColor(255, 255, 255);
+    doc.setGState && doc.setGState(doc.GState && new doc.GState({ opacity: 0.3 }));
+    doc.text(`#${ex.id}`, margin, 28);
+    
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(255, 255, 255);
+    doc.text(ex.title, margin + 22, 22);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(230, 230, 255);
+    doc.text(ex.levelName, margin + 22, 30);
+    
+    let y = 50;
+    
+    // Goal box
+    doc.setFillColor(245, 247, 255);
+    doc.roundedRect(margin, y, W - margin*2, 22, 3, 3, 'F');
+    doc.setFillColor(...col);
+    doc.rect(margin, y, 3, 22, 'F');
+    doc.setTextColor(...col);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.text('GOAL', margin + 7, y + 7);
+    doc.setTextColor(50, 50, 50);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    const goalLines = doc.splitTextToSize(ex.goal, W - margin*2 - 12);
+    doc.text(goalLines, margin + 7, y + 13);
+    y += 28;
+    
+    // Steps
+    doc.setTextColor(120, 120, 120);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.text('STEPS', margin, y + 5);
+    y += 9;
+    
+    ex.steps.forEach((step, i) => {
+      doc.setFillColor(...col);
+      doc.circle(margin + 4, y + 3, 3.5, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(7);
+      doc.text(`${i+1}`, margin + 4, y + 4.5, { align: 'center' });
+      doc.setTextColor(60, 60, 60);
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      const stepLines = doc.splitTextToSize(step, W - margin*2 - 14);
+      doc.text(stepLines, margin + 11, y + 4);
+      y += stepLines.length * 5 + 3;
+    });
+    y += 4;
+    
+    // Code block
+    const codeText = ex.code.replace(/<[^>]+>/g, '');
+    const codeLines = codeText.split('\n');
+    const codeHeight = codeLines.length * 5 + 12;
+    
+    doc.setFillColor(30, 30, 46);
+    doc.roundedRect(margin, y, W - margin*2, codeHeight, 4, 4, 'F');
+    doc.setFillColor(45, 45, 63);
+    doc.roundedRect(margin, y, W - margin*2, 10, 4, 4, 'F');
+    doc.rect(margin, y + 6, W - margin*2, 4, 'F');
+    
+    // Dots
+    [[255, 95, 87], [255, 189, 46], [40, 200, 64]].forEach(([r,g,b], i) => {
+      doc.setFillColor(r, g, b);
+      doc.circle(margin + 7 + i * 7, y + 5, 2, 'F');
+    });
+    
+    doc.setFont('courier', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(205, 214, 244);
+    codeLines.forEach((line, i) => {
+      doc.text(line, margin + 5, y + 16 + i * 5);
+    });
+    y += codeHeight + 6;
+    
+    // Tip box
+    if (y < H - 30) {
+      doc.setFillColor(255, 248, 225);
+      doc.roundedRect(margin, y, W - margin*2, 18, 3, 3, 'F');
+      doc.setFillColor(255, 224, 130);
+      doc.roundedRect(margin, y, W - margin*2, 18, 3, 3, 'S');
+      doc.setTextColor(100, 80, 0);
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      const tipText = ex.tip.replace('💡 ', '💡 ');
+      const tipLines = doc.splitTextToSize(tipText, W - margin*2 - 8);
+      doc.text(tipLines, margin + 4, y + 7);
+    }
+    
+    // Page number
+    doc.setTextColor(180, 180, 180);
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`${ex.id} / 15`, W/2, H - 8, { align: 'center' });
+  });
+  
+  doc.save('ML_Exercises_Workbook.pdf');
+}
+
+// Build TOC
+renderPage(0);
+</script>
+</body>
+</html>
