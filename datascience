@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Sciences — by Naila</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a25;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --accent1: #7c5cfc;
+    --accent2: #00d4a8;
+    --accent3: #ff6b6b;
+    --accent4: #ffc857;
+    --glow1: rgba(124,92,252,0.15);
+    --glow2: rgba(0,212,168,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* BG texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% -10%, rgba(124,92,252,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0,212,168,0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ---- HEADER ---- */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.15em;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+
+  .logo span { color: var(--accent1); }
+
+  nav { display: flex; gap: 6px; }
+  nav button {
+    background: none; border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85em; font-weight: 500;
+    color: var(--muted);
+    padding: 6px 14px; border-radius: 20px;
+    transition: all 0.2s;
+  }
+  nav button.active, nav button:hover {
+    color: var(--text);
+    background: var(--surface2);
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    position: relative; z-index: 1;
+    padding: 80px 40px 60px;
+    max-width: 900px; margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 6px 16px;
+    font-size: 0.78em;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent2);
+    margin-bottom: 28px;
+    letter-spacing: 0.5px;
+  }
+
+  .hero-badge::before {
+    content: ''; width: 7px; height: 7px;
+    background: var(--accent2);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.2em, 6vw, 3.8em);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+  }
+
+  h1 .hl { color: var(--accent1); }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 1.05em;
+    font-weight: 300;
+    max-width: 500px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  .hero-stats {
+    display: flex; gap: 32px; justify-content: center;
+    font-size: 0.82em; color: var(--muted);
+  }
+
+  .hero-stats strong {
+    display: block;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6em;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  /* ---- TABS ---- */
+  .tabs-bar {
+    position: relative; z-index: 1;
+    display: flex; justify-content: center; gap: 8px;
+    padding: 0 40px 32px;
+  }
+
+  .tab-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88em; font-weight: 500;
+    padding: 9px 22px; border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .tab-btn.active {
+    background: var(--accent1);
+    border-color: var(--accent1);
+    color: white;
+    box-shadow: 0 0 20px rgba(124,92,252,0.35);
+  }
+
+  /* ---- MAIN CONTENT ---- */
+  .content-area {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 40px 100px;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; animation: fadeUp 0.35s ease; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- COURSE GRID ---- */
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+    gap: 24px;
+  }
+
+  .course-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: pointer;
+  }
+
+  .course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .course-card-header {
+    padding: 28px 28px 20px;
+    position: relative;
+  }
+
+  .course-card-header.c1 { background: linear-gradient(135deg, #1a1030, #0f1f30); }
+  .course-card-header.c2 { background: linear-gradient(135deg, #0a1f1a, #0f1830); }
+
+  .course-icon {
+    font-size: 2.4em;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .course-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68em;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+
+  .c1 .course-tag { background: rgba(124,92,252,0.2); color: var(--accent1); border: 1px solid rgba(124,92,252,0.3); }
+  .c2 .course-tag { background: rgba(0,212,168,0.15); color: var(--accent2); border: 1px solid rgba(0,212,168,0.25); }
+
+  .course-card-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .course-card-header p {
+    color: var(--muted);
+    font-size: 0.86em;
+    line-height: 1.5;
+  }
+
+  .course-card-body { padding: 20px 28px 24px; }
+
+  .lesson-list { list-style: none; margin-bottom: 20px; }
+  .lesson-list li {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.87em;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+
+  .lesson-list li:last-child { border: none; }
+  .lesson-list li:hover { color: var(--text); }
+
+  .lesson-num {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7em; font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .c1-num { background: rgba(124,92,252,0.2); color: var(--accent1); }
+  .c2-num { background: rgba(0,212,168,0.15); color: var(--accent2); }
+
+  .course-actions { display: flex; gap: 10px; }
+
+  .btn-primary {
+    flex: 1;
+    padding: 11px 0;
+    border-radius: 12px;
+    border: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-size: 0.88em;
+    transition: all 0.2s;
+  }
+
+  .btn-p1 { background: var(--accent1); color: white; }
+  .btn-p1:hover { background: #6a4de8; transform: scale(1.02); }
+  .btn-p2 { background: var(--accent2); color: #0a0a0f; }
+  .btn-p2:hover { background: #00bfa0; transform: scale(1.02); }
+
+  .btn-outline {
+    padding: 11px 18px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: none; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500; font-size: 0.88em;
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+  /* ---- RESUME VIEW ---- */
+  .resume-header {
+    display: flex; align-items: flex-start; gap: 20px;
+    margin-bottom: 36px;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+  }
+
+  .resume-icon-lg { font-size: 3em; flex-shrink: 0; }
+
+  .resume-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.7em; font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .resume-header p { color: var(--muted); font-size: 0.9em; line-height: 1.6; }
+
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); border-radius: 20px;
+    padding: 7px 16px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif; font-size: 0.83em;
+    margin-bottom: 24px; transition: all 0.2s;
+  }
+  .back-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+  .resume-sections { display: grid; gap: 20px; }
+
+  .resume-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .rs-header {
+    padding: 16px 22px;
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .rs-header:hover { background: var(--surface2); }
+
+  .rs-icon {
+    width: 34px; height: 34px;
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1em; flex-shrink: 0;
+  }
+
+  .rs-icon.v1 { background: rgba(124,92,252,0.2); }
+  .rs-icon.v2 { background: rgba(0,212,168,0.15); }
+  .rs-icon.v3 { background: rgba(255,107,107,0.15); }
+  .rs-icon.v4 { background: rgba(255,200,87,0.15); }
+
+  .rs-header h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95em; font-weight: 700;
+    flex: 1;
+  }
+
+  .rs-toggle {
+    color: var(--muted); font-size: 1.1em;
+    transition: transform 0.25s;
+  }
+
+  .rs-toggle.open { transform: rotate(180deg); }
+
+  .rs-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+
+  .rs-body.open { max-height: 1000px; }
+
+  .rs-content {
+    padding: 20px 22px;
+    font-size: 0.88em; color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .rs-content strong { color: var(--text); }
+
+  .concept-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 10px; margin-top: 14px;
+  }
+
+  .concept-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+
+  .concept-item .ci-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78em; color: var(--accent2);
+    margin-bottom: 4px;
+  }
+
+  .concept-item p { font-size: 0.88em; line-height: 1.5; }
+
+  .code-snippet {
+    background: #0d0d14;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8em;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+
+  .kw { color: #c084fc; }
+  .fn { color: #60a5fa; }
+  .str { color: #86efac; }
+  .cm { color: #4a4a6a; font-style: italic; }
+  .num { color: #fb923c; }
+
+  /* ---- QUIZ VIEW ---- */
+  .quiz-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .quiz-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8em; font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .quiz-header p { color: var(--muted); }
+
+  .quiz-selector {
+    display: flex; gap: 12px; justify-content: center;
+    margin-bottom: 40px; flex-wrap: wrap;
+  }
+
+  .qs-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    min-width: 240px;
+  }
+
+  .qs-btn:hover { border-color: var(--accent1); }
+  .qs-btn.sel { border-color: var(--accent1); background: rgba(124,92,252,0.1); }
+
+  .qs-btn .qsb-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.95em;
+    margin-bottom: 4px;
+  }
+
+  .qs-btn .qsb-meta {
+    font-size: 0.78em; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .quiz-area {
+    max-width: 680px; margin: 0 auto;
+  }
+
+  .q-progress {
+    display: flex; gap: 4px; margin-bottom: 28px;
+  }
+
+  .q-dot {
+    height: 4px; flex: 1;
+    border-radius: 2px;
+    background: var(--surface2);
+    transition: background 0.3s;
+  }
+
+  .q-dot.done { background: var(--accent1); }
+  .q-dot.correct { background: var(--accent2); }
+  .q-dot.wrong { background: var(--accent3); }
+
+  .question-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75em; color: var(--accent1);
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .question-card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1em; font-weight: 700;
+    line-height: 1.5; margin-bottom: 24px;
+  }
+
+  .options { display: grid; gap: 10px; }
+
+  .option-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 18px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9em; color: var(--text);
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    border-color: var(--accent1);
+    background: rgba(124,92,252,0.08);
+  }
+
+  .option-btn.correct {
+    border-color: var(--accent2);
+    background: rgba(0,212,168,0.1);
+    color: var(--accent2);
+  }
+
+  .option-btn.wrong {
+    border-color: var(--accent3);
+    background: rgba(255,107,107,0.08);
+    color: var(--accent3);
+  }
+
+  .opt-letter {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78em; font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .feedback-box {
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 16px;
+    font-size: 0.87em;
+    line-height: 1.6;
+    display: none;
+  }
+
+  .feedback-box.show { display: block; }
+  .feedback-box.ok { background: rgba(0,212,168,0.1); border: 1px solid rgba(0,212,168,0.25); color: var(--accent2); }
+  .feedback-box.no { background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.2); color: #ff8e8e; }
+
+  .q-nav {
+    display: flex; justify-content: flex-end;
+  }
+
+  .next-btn {
+    background: var(--accent1); color: white;
+    border: none; border-radius: 12px;
+    padding: 12px 28px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600; font-size: 0.9em;
+    transition: all 0.2s; display: none;
+  }
+
+  .next-btn.show { display: block; }
+  .next-btn:hover { background: #6a4de8; }
+
+  /* Score screen */
+  .score-screen {
+    text-align: center; padding: 60px 20px;
+    display: none;
+  }
+
+  .score-screen.show { display: block; animation: fadeUp 0.4s ease; }
+
+  .score-circle {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    border: 3px solid var(--accent1);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+    background: radial-gradient(circle, rgba(124,92,252,0.1), transparent);
+    box-shadow: 0 0 40px rgba(124,92,252,0.2);
+  }
+
+  .score-circle .sc-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.8em; font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .score-circle .sc-total {
+    font-size: 0.82em; color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .score-screen h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.6em; font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .score-screen p { color: var(--muted); margin-bottom: 32px; }
+
+  .score-actions { display: flex; gap: 12px; justify-content: center; }
+
+  .retry-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 12px;
+    padding: 12px 24px; cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500; font-size: 0.9em;
+    transition: all 0.2s;
+  }
+  .retry-btn:hover { border-color: rgba(255,255,255,0.2); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
+
+  @media (max-width: 700px) {
+    header { padding: 0 20px; }
+    .hero { padding: 50px 20px 40px; }
+    .content-area { padding: 0 20px 60px; }
+    .courses-grid { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    .tabs-bar { padding: 0 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Data<span>Sciences</span></div>
+  <nav>
+    <button class="active" onclick="setView('courses', this)">Courses</button>
+    <button onclick="setView('quiz', this)">Quiz</button>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-badge">by Naila</div>
+  <h1>Data <span class="hl">Sciences</span></h1>
+  <p>Explore course summaries, key concepts, and test your knowledge with interactive quizzes.</p>
+  <div class="hero-stats">
+    <div><strong>2</strong> Courses</div>
+    <div><strong>20+</strong> Concepts</div>
+    <div><strong>20</strong> Quiz Questions</div>
+  </div>
+</div>
+
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('all', this)">All Courses</button>
+  <button class="tab-btn" onclick="switchTab('resume', this)">Course Summaries</button>
+  <button class="tab-btn" onclick="switchTab('quiz', this)">Practice Quiz</button>
+</div>
+
+<div class="content-area">
+
+  <!-- COURSES VIEW -->
+  <div id="view-courses" class="view active">
+    <div class="courses-grid">
+
+      <!-- Course 1 -->
+      <div class="course-card" onclick="openResume(1)">
+        <div class="course-card-header c1">
+          <span class="course-icon">📊</span>
+          <div class="course-tag">Course 01</div>
+          <h2>Data Analysis & Data Science</h2>
+          <p>Understand what data is, how analysts and scientists differ, and see real-life examples from weather, sports & schools.</p>
+        </div>
+        <div class="course-card-body">
+          <ul class="lesson-list">
+            <li><span class="lesson-num c1-num">1</span> What is a Data Analyst?</li>
+            <li><span class="lesson-num c1-num">2</span> 5-Step Data Analysis Process</li>
+            <li><span class="lesson-num c1-num">3</span> What is a Data Scientist?</li>
+            <li><span class="lesson-num c1-num">4</span> Analyst vs Scientist comparison</li>
+            <li><span class="lesson-num c1-num">5</span> Real-Life Examples (Weather, Sports, School)</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-primary btn-p1" onclick="event.stopPropagation(); openResume(1)">📖 View Summary</button>
+            <button class="btn-outline" onclick="event.stopPropagation(); goQuiz(0)">🎯 Take Quiz</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Course 2 -->
+      <div class="course-card" onclick="openResume(2)">
+        <div class="course-card-header c2">
+          <span class="course-icon">🐼</span>
+          <div class="course-tag">Course 02</div>
+          <h2>Understanding Data & Pandas Library</h2>
+          <p>Learn the types of data, why libraries matter, and how Pandas makes data analysis fast and easy with Python.</p>
+        </div>
+        <div class="course-card-body">
+          <ul class="lesson-list">
+            <li><span class="lesson-num c2-num">1</span> What is Data? (Types & examples)</li>
+            <li><span class="lesson-num c2-num">2</span> Real-World AI Uses Data</li>
+            <li><span class="lesson-num c2-num">3</span> What is a Python Library?</li>
+            <li><span class="lesson-num c2-num">4</span> Meet Pandas: Series & DataFrame</li>
+            <li><span class="lesson-num c2-num">5</span> Why CSV? Kaggle intro</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-primary btn-p2" onclick="event.stopPropagation(); openResume(2)">📖 View Summary</button>
+            <button class="btn-outline" onclick="event.stopPropagation(); goQuiz(1)">🎯 Take Quiz</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESUME VIEW -->
+  <div id="view-resume" class="view">
+    <button class="back-btn" onclick="backToAll()">← Back to Courses</button>
+    <div id="resume-content"></div>
+  </div>
+
+  <!-- QUIZ VIEW -->
+  <div id="view-quiz" class="view">
+    <div class="quiz-header">
+      <h2>🎯 Knowledge Check</h2>
+      <p>Test what you've learned. Choose a course to begin.</p>
+    </div>
+
+    <div id="quiz-selector-area">
+      <div class="quiz-selector">
+        <div class="qs-btn" id="qsb0" onclick="selectQuizSet(0)">
+          <div class="qsb-title">📊 Data Analysis & Science</div>
+          <div class="qsb-meta">10 questions · multiple choice</div>
+        </div>
+        <div class="qs-btn" id="qsb1" onclick="selectQuizSet(1)">
+          <div class="qsb-title">🐼 Pandas & Data</div>
+          <div class="qsb-meta">10 questions · multiple choice</div>
+        </div>
+      </div>
+      <div style="text-align:center;">
+        <button class="btn-primary btn-p1" style="width:200px;" onclick="startQuiz()">Start Quiz →</button>
+      </div>
+    </div>
+
+    <div id="quiz-active" style="display:none;">
+      <button class="back-btn" onclick="resetQuiz()">← Choose another quiz</button>
+      <div class="quiz-area">
+        <div class="q-progress" id="qProgress"></div>
+        <div id="questionArea"></div>
+        <div class="q-nav">
+          <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+        </div>
+        <div class="score-screen" id="scoreScreen">
+          <div class="score-circle">
+            <span class="sc-num" id="scoreNum">0</span>
+            <span class="sc-total" id="scoreTot">/ 10</span>
+          </div>
+          <h2 id="scoreTitle">Well done!</h2>
+          <p id="scoreMsg"></p>
+          <div class="score-actions">
+            <button class="retry-btn" onclick="retryQuiz()">↺ Retry</button>
+            <button class="btn-primary btn-p1" style="padding:12px 24px;border-radius:12px;" onclick="resetQuiz()">Choose quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+/* ========= DATA ========= */
+
+const resumes = {
+  1: {
+    icon: '📊',
+    tag: 'Course 01',
+    title: 'Data Analysis & Data Science',
+    desc: 'A beginner-friendly overview of data roles, the data analysis process, and how data is used in the real world.',
+    color: 'c1',
+    sections: [
+      {
+        icon: '🔍', variant: 'v1',
+        title: 'What is a Data Analyst?',
+        content: `A <strong>Data Analyst</strong> looks at data to find patterns and answers past questions like <em>"What happened last month?"</em>. They are like a sports commentator — they explain what happened.<br><br>
+        Example process with school grades:<br>
+        1. Collect all test scores<br>
+        2. Notice you score better after studying 2+ hours<br>
+        3. Find the pattern: <strong>more study = better grades</strong>`,
+        concepts: [
+          { title: 'Role', body: 'Explains past events using data' },
+          { title: 'Output', body: 'Reports, dashboards, charts' },
+          { title: 'Tools', body: 'Excel, SQL, Python, Tableau' },
+          { title: 'Analogy', body: 'Like a sports commentator' }
+        ]
+      },
+      {
+        icon: '📋', variant: 'v2',
+        title: '5-Step Data Analysis Process',
+        content: `The data analysis process follows 5 key steps, illustrated with the question: "Which study method works best?"`,
+        concepts: [
+          { title: '1. Collect', body: 'Write down study hours and test scores' },
+          { title: '2. Clean', body: 'Remove any mistakes in your notes' },
+          { title: '3. Look', body: 'Find patterns (study in morning = better?)' },
+          { title: '4. Visualize', body: 'Make charts to see it clearly' },
+          { title: '5. Decide', body: 'Use the best study method!' }
+        ]
+      },
+      {
+        icon: '🧑‍🔬', variant: 'v3',
+        title: 'What is a Data Scientist?',
+        content: `A <strong>Data Scientist</strong> predicts the future using data — they are like a weather forecaster. They build models to forecast things.<br><br>
+        What they do:<br>
+        • Help doctors find patterns in diseases<br>
+        • Track weather patterns to predict storms<br>
+        • Analyse sports statistics<br>
+        • Study traffic patterns in cities`,
+        concepts: [
+          { title: 'Role', body: 'Predicts future events using models' },
+          { title: 'Output', body: 'ML models, predictions, insights' },
+          { title: 'Tools', body: 'Python, sklearn, TensorFlow' },
+          { title: 'Analogy', body: 'Like a weather forecaster' }
+        ]
+      },
+      {
+        icon: '⚡', variant: 'v4',
+        title: 'Analyst vs Scientist — Key Differences',
+        content: `Both roles work with data, but their focus differs significantly.`,
+        concepts: [
+          { title: 'Analyst — Time', body: 'Looks at the PAST: "What happened?"' },
+          { title: 'Scientist — Time', body: 'Looks at the FUTURE: "What will happen?"' },
+          { title: 'Analyst — Output', body: 'Reports, visualizations, summaries' },
+          { title: 'Scientist — Output', body: 'Predictive models, algorithms' }
+        ]
+      },
+      {
+        icon: '🌍', variant: 'v1',
+        title: 'Real-Life Applications',
+        content: `Data analysis is everywhere around us:<br><br>
+        <strong>Weather Forecast:</strong> Scientists collect temperature data, track wind speed, measure rainfall, look for patterns and use charts to predict tomorrow's weather.<br><br>
+        <strong>Sports:</strong> Teams track player performance, analyze which plays work best, see patterns in scoring times, compare home vs away results.<br><br>
+        <strong>Schools:</strong> Track attendance patterns, see which subjects are hard, measure test score improvements, plan better schedules.`,
+        concepts: []
+      }
+    ]
+  },
+  2: {
+    icon: '🐼',
+    tag: 'Course 02',
+    title: 'Understanding Data & Pandas Library',
+    color: 'c2',
+    desc: 'Learn what data is, why Python libraries exist, and how Pandas transforms raw data into insight.',
+    sections: [
+      {
+        icon: '📦', variant: 'v2',
+        title: 'What is Data?',
+        content: `Data is any information that can be collected and analyzed. It comes in 4 main types:`,
+        concepts: [
+          { title: '📊 Numbers', body: 'Age, price, ratings, temperature' },
+          { title: '📝 Text', body: 'Reviews, messages, names' },
+          { title: '🖼 Images', body: 'Stored as pixel numbers' },
+          { title: '🏷 Categories', body: 'Genre, yes/no, country' }
+        ]
+      },
+      {
+        icon: '🤖', variant: 'v1',
+        title: 'Real-World AI Uses Data',
+        content: `Almost every technology we use daily is powered by data:<br><br>
+        <strong>🎬 Netflix</strong> — "Because you watched..." learns from millions of viewing histories.<br>
+        <strong>📧 Gmail Spam Filter</strong> — learns from billions of emails marked as spam.<br>
+        <strong>📱 Face ID</strong> — learns from thousands of face scans to unlock your phone.`,
+        concepts: []
+      },
+      {
+        icon: '📚', variant: 'v3',
+        title: 'What is a Python Library?',
+        content: `Python by itself is a basic toolbox. A <strong>library</strong> is pre-written code you can use to do complex things easily.<br><br>
+        Think of it like: Python alone = basic tools 🔧 | Python + Libraries = Specialized workshop 🏭`,
+        concepts: [
+          { title: 'pandas', body: 'Data manipulation & analysis' },
+          { title: 'numpy', body: 'Numerical computing' },
+          { title: 'matplotlib', body: 'Data visualization' },
+          { title: 'sklearn', body: 'Machine learning' }
+        ]
+      },
+      {
+        icon: '🐼', variant: 'v2',
+        title: 'Meet Pandas',
+        content: `Pandas is the industry standard for data science. Created by Wes McKinney — a finance professional who got tired of Excel!<br><br>
+        <strong>Without Pandas (20 lines):</strong>`,
+        code: `<span class="cm"># Find average rating - manual way</span>
+total = <span class="num">0</span>; count = <span class="num">0</span>
+file = <span class="fn">open</span>(<span class="str">'games.csv'</span>)
+<span class="kw">for</span> line <span class="kw">in</span> file:
+    parts = line.<span class="fn">split</span>(<span class="str">','</span>)
+    total += <span class="fn">float</span>(parts[<span class="num">3</span>])
+    count += <span class="num">1</span>
+average = total / count
+
+<span class="cm"># With Pandas (3 lines):</span>
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+df = pd.<span class="fn">read_csv</span>(<span class="str">'games.csv'</span>)
+average = df[<span class="str">'rating'</span>].<span class="fn">mean</span>()`,
+        concepts: [
+          { title: 'Series', body: 'A single column of data (1D)' },
+          { title: 'DataFrame', body: 'A full table with rows & columns (2D)' },
+          { title: 'read_csv()', body: 'Load a CSV file into a DataFrame' },
+          { title: '.mean()', body: 'Calculate the average of a column' }
+        ]
+      },
+      {
+        icon: '📁', variant: 'v4',
+        title: 'Why CSV? Why Kaggle?',
+        content: `<strong>CSV (Comma-Separated Values)</strong> is preferred for data science over Excel because:<br>
+        • It's simpler — plain text that any program can open<br>
+        • Loads faster, especially for large datasets<br>
+        • No formatting (colors/formulas) — just clean data<br>
+        • Pandas and AI tools work best with CSV<br><br>
+        <strong>Kaggle</strong> is a free platform where you can download datasets, run code in your browser, join competitions, and learn from others.`,
+        concepts: []
+      }
+    ]
+  }
+};
+
+const quizData = [
+  // Course 1: Data Analysis & Science
+  [
+    { q: "What does a Data Analyst primarily do?", opts: ["Predicts future events using ML models", "Looks at past data to find patterns and explain what happened", "Builds neural networks", "Writes mobile applications"], ans: 1, exp: "A Data Analyst looks at past data to answer questions like 'What happened last month?' — like a sports commentator explaining a game." },
+    { q: "What is the correct order of the 5-step data analysis process?", opts: ["Decide → Look → Clean → Collect → Visualize", "Collect → Clean → Look → Visualize → Decide", "Visualize → Collect → Decide → Clean → Look", "Clean → Look → Collect → Decide → Visualize"], ans: 1, exp: "The 5 steps are: Collect data → Clean it → Look for patterns → Visualize → Decide based on findings." },
+    { q: "How is a Data Scientist best described?", opts: ["Like a sports commentator who explains what happened", "Like a librarian who stores data", "Like a weather forecaster who predicts using data", "Like a journalist who reports news"], ans: 2, exp: "A Data Scientist predicts the future using models — just like a weather forecaster uses historical data to predict tomorrow's weather." },
+    { q: "Which of these is something a Data Scientist does, NOT a Data Analyst?", opts: ["Making charts of past sales", "Answering 'What happened last month?'", "Building a model to predict customer churn", "Creating a report of attendance records"], ans: 2, exp: "Data Scientists build predictive models. Analysts explain past data. Predicting customer churn requires a ML model." },
+    { q: "A school uses data to track attendance patterns. What kind of data work is this?", opts: ["Machine learning prediction", "Data analysis — finding patterns in past records", "Data engineering", "Deep learning"], ans: 1, exp: "Tracking attendance patterns is data analysis — looking at historical records to understand trends." },
+    { q: "In a weather forecast, scientists collect temperature data for years, look for patterns, and use charts to predict. Which role does this describe?", opts: ["Data Analyst only", "Data Scientist only", "Both Data Analyst and Data Scientist", "Neither"], ans: 2, exp: "Weather forecasting combines both: analysts find patterns in past data, scientists build predictive models for the future." },
+    { q: "The 'Visualize' step in data analysis means:", opts: ["Collecting raw data from sources", "Imagining what the data might look like", "Creating charts and graphs to see patterns clearly", "Making a final decision based on data"], ans: 2, exp: "Visualizing data means creating charts, graphs, and plots so patterns become easy to see and understand." },
+    { q: "A sports team analyzes home vs away game results and scoring patterns. What are they doing?", opts: ["Machine learning", "Data cleaning", "Data analysis to improve strategy", "Database management"], ans: 2, exp: "Analyzing game results and patterns to improve strategy is classic data analysis — used widely in modern sports." },
+    { q: "What does the 'Clean' step in data analysis involve?", opts: ["Removing any mistakes, duplicates, or errors in your data", "Creating beautiful visualizations", "Making predictions about future data", "Collecting more data"], ans: 0, exp: "Data cleaning removes mistakes, wrong entries, missing values, and duplicates so the analysis is accurate." },
+    { q: "Which analogy best describes a Data Analyst?", opts: ["A chef creating a new recipe", "A weather forecaster predicting rain", "A sports commentator explaining what happened", "An architect designing a building"], ans: 2, exp: "A Data Analyst is like a sports commentator — they explain what happened after the fact using evidence (data)." }
+  ],
+  // Course 2: Pandas
+  [
+    { q: "Which of these is NOT one of the 4 main types of data?", opts: ["Numbers (age, price)", "Text (reviews, messages)", "Images (pixel numbers)", "Algorithms (code logic)"], ans: 3, exp: "The 4 types of data are: Numbers, Text, Images, and Categories. Algorithms are not a data type." },
+    { q: "What does Pandas primarily do?", opts: ["Creates web applications", "Works with tables and spreadsheets for data manipulation", "Trains deep learning models", "Manages databases"], ans: 1, exp: "Pandas is a Python library for working with tables and spreadsheets — it makes data manipulation super easy." },
+    { q: "Who created the Pandas library?", opts: ["Guido van Rossum", "Linus Torvalds", "Wes McKinney", "Jeff Dean"], ans: 2, exp: "Pandas was created by Wes McKinney, a finance professional who got tired of using Excel for data analysis." },
+    { q: "What is the difference between a Pandas Series and a DataFrame?", opts: ["Series is for numbers only, DataFrame is for text only", "Series is a single column (1D), DataFrame is a full table (2D)", "Series is faster, DataFrame is for large data only", "There is no difference"], ans: 1, exp: "A Series is a single column of data (1-dimensional). A DataFrame is a full table with rows and columns (2-dimensional)." },
+    { q: "What is a Python Library?", opts: ["A place to store books about Python", "A file that stores Python scripts", "Pre-written code you can import and use", "A Python web hosting service"], ans: 2, exp: "A library is pre-written code that you can import and use. It helps you do complex things without writing everything from scratch." },
+    { q: "Why is CSV preferred over Excel for data science and AI?", opts: ["CSV has more features and formulas", "CSV files are prettier with colors", "CSV is plain text, universal, fast to load, and works best with AI tools", "Excel files are too small"], ans: 2, exp: "CSV is plain text without formatting — any program can open it, it loads faster, and pandas/AI tools work best with CSV." },
+    { q: "What does `df = pd.read_csv('data.csv')` do?", opts: ["Saves a DataFrame to a CSV file", "Loads a CSV file into a pandas DataFrame", "Creates an empty DataFrame", "Deletes a CSV file"], ans: 1, exp: "pd.read_csv() reads a CSV file and loads it into a pandas DataFrame, ready for analysis." },
+    { q: "What is Kaggle?", opts: ["A Python library for data visualization", "A free platform for data science learning, datasets, and competitions", "A database management system", "An AI hardware company"], ans: 1, exp: "Kaggle is a free website where you can download datasets, run code in your browser, join competitions, and learn from others." },
+    { q: "Gmail's spam filter, Netflix recommendations, and Face ID all have what in common?", opts: ["They are all built with the same programming language", "They all use data to learn and make predictions", "They are all owned by Google", "They all require manual human review"], ans: 1, exp: "All three systems learn from large amounts of data — Gmail from spam emails, Netflix from viewing history, Face ID from face scans." },
+    { q: "What does the `.mean()` method do in Pandas?", opts: ["Finds the middle value in a dataset", "Calculates the average of a column's values", "Counts the number of rows", "Removes missing values"], ans: 1, exp: "The .mean() method calculates the arithmetic average of all values in a pandas Series or column." }
+  ]
+];
+
+/* ========= STATE ========= */
+let currentQuizSet = -1;
+let currentQ = 0;
+let score = 0;
+let answered = false;
+
+/* ========= VIEW SWITCHING ========= */
+function setView(view, btn) {
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (view === 'courses') switchTab('all');
+  else if (view === 'quiz') switchTab('quiz');
+}
+
+function switchTab(tab, btn) {
+  if (btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  if (tab === 'all') document.getElementById('view-courses').classList.add('active');
+  else if (tab === 'resume') { document.getElementById('view-resume').classList.add('active'); }
+  else if (tab === 'quiz') document.getElementById('view-quiz').classList.add('active');
+}
+
+function backToAll() {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-courses').classList.add('active');
+  document.querySelectorAll('.tab-btn')[0].classList.add('active');
+  document.querySelectorAll('.tab-btn')[1].classList.remove('active');
+  document.querySelectorAll('.tab-btn')[2].classList.remove('active');
+}
+
+/* ========= RESUME ========= */
+function openResume(id) {
+  const r = resumes[id];
+  let html = `
+    <div class="resume-header">
+      <div class="resume-icon-lg">${r.icon}</div>
+      <div>
+        <div class="course-tag ${r.color === 'c1' ? '' : 'c2'}" style="margin-bottom:8px;">${r.tag}</div>
+        <h2>${r.title}</h2>
+        <p>${r.desc}</p>
+      </div>
+    </div>
+    <div class="resume-sections">`;
+
+  r.sections.forEach((sec, i) => {
+    html += `
+      <div class="resume-section">
+        <div class="rs-header" onclick="toggleSection(this)">
+          <div class="rs-icon ${sec.variant}">${sec.icon}</div>
+          <h3>${sec.title}</h3>
+          <span class="rs-toggle">▾</span>
+        </div>
+        <div class="rs-body ${i === 0 ? 'open' : ''}">
+          <div class="rs-content">
+            <p>${sec.content}</p>`;
+
+    if (sec.code) {
+      html += `<div class="code-snippet"><pre>${sec.code}</pre></div>`;
+    }
+
+    if (sec.concepts && sec.concepts.length) {
+      html += `<div class="concept-grid">`;
+      sec.concepts.forEach(c => {
+        html += `<div class="concept-item"><div class="ci-title">${c.title}</div><p>${c.body}</p></div>`;
+      });
+      html += `</div>`;
+    }
+
+    html += `</div></div></div>`;
+  });
+
+  html += `</div>`;
+
+  document.getElementById('resume-content').innerHTML = html;
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-resume').classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-btn')[1].classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function toggleSection(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.rs-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+/* ========= QUIZ ========= */
+function goQuiz(set) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-quiz').classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-btn')[2].classList.add('active');
+  selectQuizSet(set);
+  window.scrollTo(0, 0);
+}
+
+function selectQuizSet(idx) {
+  currentQuizSet = idx;
+  document.querySelectorAll('.qs-btn').forEach((b, i) => {
+    b.classList.toggle('sel', i === idx);
+  });
+}
+
+function startQuiz() {
+  if (currentQuizSet < 0) { selectQuizSet(0); }
+  currentQ = 0; score = 0; answered = false;
+  document.getElementById('quiz-selector-area').style.display = 'none';
+  document.getElementById('quiz-active').style.display = 'block';
+  document.getElementById('scoreScreen').classList.remove('show');
+  buildProgress();
+  renderQuestion();
+}
+
+function buildProgress() {
+  const prog = document.getElementById('qProgress');
+  prog.innerHTML = quizData[currentQuizSet].map((_, i) => `<div class="q-dot" id="dot${i}"></div>`).join('');
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = quizData[currentQuizSet][currentQ];
+  document.getElementById('nextBtn').classList.remove('show');
+
+  const letters = ['A','B','C','D'];
+  let html = `
+    <div class="question-card">
+      <span class="q-num">Question ${currentQ + 1} of ${quizData[currentQuizSet].length}</span>
+      <h3>${q.q}</h3>
+      <div class="options">`;
+
+  q.opts.forEach((opt, i) => {
+    html += `<button class="option-btn" onclick="selectAnswer(${i})" id="opt${i}">
+      <span class="opt-letter">${letters[i]}</span>${opt}
+    </button>`;
+  });
+
+  html += `</div>
+    <div class="feedback-box" id="feedback"></div>
+    </div>`;
+
+  document.getElementById('questionArea').innerHTML = html;
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+
+  const q = quizData[currentQuizSet][currentQ];
+  const feedback = document.getElementById('feedback');
+  const dot = document.getElementById(`dot${currentQ}`);
+
+  document.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+
+  if (idx === q.ans) {
+    document.getElementById(`opt${idx}`).classList.add('correct');
+    feedback.className = 'feedback-box show ok';
+    feedback.innerHTML = `✅ <strong>Correct!</strong> ${q.exp}`;
+    score++;
+    dot.classList.add('correct');
+  } else {
+    document.getElementById(`opt${idx}`).classList.add('wrong');
+    document.getElementById(`opt${q.ans}`).classList.add('correct');
+    feedback.className = 'feedback-box show no';
+    feedback.innerHTML = `❌ <strong>Not quite.</strong> ${q.exp}`;
+    dot.classList.add('wrong');
+  }
+
+  dot.classList.add('done');
+  document.getElementById('nextBtn').classList.add('show');
+}
+
+function nextQuestion() {
+  currentQ++;
+  const total = quizData[currentQuizSet].length;
+
+  if (currentQ >= total) {
+    showScore();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showScore() {
+  document.getElementById('questionArea').innerHTML = '';
+  document.getElementById('nextBtn').classList.remove('show');
+  const ss = document.getElementById('scoreScreen');
+  ss.classList.add('show');
+  document.getElementById('scoreNum').textContent = score;
+  document.getElementById('scoreTot').textContent = `/ ${quizData[currentQuizSet].length}`;
+
+  const pct = score / quizData[currentQuizSet].length;
+  let title, msg;
+  if (pct >= 0.9) { title = '🏆 Excellent!'; msg = 'You have mastered this course. Outstanding performance!'; }
+  else if (pct >= 0.7) { title = '🎉 Well Done!'; msg = 'Great understanding of the material. Keep it up!'; }
+  else if (pct >= 0.5) { title = '📚 Keep Going!'; msg = 'You\'re getting there! Review the course summary and try again.'; }
+  else { title = '💪 Don\'t Give Up!'; msg = 'Review the course summary carefully and try again. You\'ve got this!'; }
+
+  document.getElementById('scoreTitle').textContent = title;
+  document.getElementById('scoreMsg').textContent = msg;
+}
+
+function retryQuiz() {
+  currentQ = 0; score = 0; answered = false;
+  document.getElementById('scoreScreen').classList.remove('show');
+  buildProgress();
+  renderQuestion();
+}
+
+function resetQuiz() {
+  currentQuizSet = -1;
+  document.getElementById('quiz-selector-area').style.display = 'block';
+  document.getElementById('quiz-active').style.display = 'none';
+  document.querySelectorAll('.qs-btn').forEach(b => b.classList.remove('sel'));
+}
+
+</script>
+</body>
+</html>
