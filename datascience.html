@@ -18,6 +18,7 @@
     --accent2: #00d4a8;
     --accent3: #ff6b6b;
     --accent4: #ffc857;
+    --accent5: #f97316;
     --glow1: rgba(124,92,252,0.15);
     --glow2: rgba(0,212,168,0.12);
   }
@@ -32,7 +33,6 @@
     overflow-x: hidden;
   }
 
-  /* BG texture */
   body::before {
     content: '';
     position: fixed;
@@ -44,7 +44,6 @@
     z-index: 0;
   }
 
-  /* ---- HEADER ---- */
   header {
     position: sticky; top: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
@@ -79,7 +78,6 @@
     background: var(--surface2);
   }
 
-  /* ---- HERO ---- */
   .hero {
     position: relative; z-index: 1;
     padding: 80px 40px 60px;
@@ -146,7 +144,6 @@
     line-height: 1;
   }
 
-  /* ---- TABS ---- */
   .tabs-bar {
     position: relative; z-index: 1;
     display: flex; justify-content: center; gap: 8px;
@@ -171,7 +168,6 @@
     box-shadow: 0 0 20px rgba(124,92,252,0.35);
   }
 
-  /* ---- MAIN CONTENT ---- */
   .content-area {
     position: relative; z-index: 1;
     max-width: 1100px; margin: 0 auto;
@@ -186,7 +182,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ---- COURSE GRID ---- */
   .courses-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
@@ -214,6 +209,7 @@
 
   .course-card-header.c1 { background: linear-gradient(135deg, #1a1030, #0f1f30); }
   .course-card-header.c2 { background: linear-gradient(135deg, #0a1f1a, #0f1830); }
+  .course-card-header.c3 { background: linear-gradient(135deg, #1f1200, #0f1820); }
 
   .course-icon {
     font-size: 2.4em;
@@ -232,6 +228,7 @@
 
   .c1 .course-tag { background: rgba(124,92,252,0.2); color: var(--accent1); border: 1px solid rgba(124,92,252,0.3); }
   .c2 .course-tag { background: rgba(0,212,168,0.15); color: var(--accent2); border: 1px solid rgba(0,212,168,0.25); }
+  .c3 .course-tag { background: rgba(249,115,22,0.15); color: var(--accent5); border: 1px solid rgba(249,115,22,0.3); }
 
   .course-card-header h2 {
     font-family: 'Syne', sans-serif;
@@ -272,6 +269,7 @@
 
   .c1-num { background: rgba(124,92,252,0.2); color: var(--accent1); }
   .c2-num { background: rgba(0,212,168,0.15); color: var(--accent2); }
+  .c3-num { background: rgba(249,115,22,0.15); color: var(--accent5); }
 
   .course-actions { display: flex; gap: 10px; }
 
@@ -289,6 +287,8 @@
   .btn-p1:hover { background: #6a4de8; transform: scale(1.02); }
   .btn-p2 { background: var(--accent2); color: #0a0a0f; }
   .btn-p2:hover { background: #00bfa0; transform: scale(1.02); }
+  .btn-p3 { background: var(--accent5); color: white; }
+  .btn-p3:hover { background: #ea6c0a; transform: scale(1.02); }
 
   .btn-outline {
     padding: 11px 18px;
@@ -302,7 +302,6 @@
   }
   .btn-outline:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
 
-  /* ---- RESUME VIEW ---- */
   .resume-header {
     display: flex; align-items: flex-start; gap: 20px;
     margin-bottom: 36px;
@@ -361,6 +360,7 @@
   .rs-icon.v2 { background: rgba(0,212,168,0.15); }
   .rs-icon.v3 { background: rgba(255,107,107,0.15); }
   .rs-icon.v4 { background: rgba(255,200,87,0.15); }
+  .rs-icon.v5 { background: rgba(249,115,22,0.15); }
 
   .rs-header h3 {
     font-family: 'Syne', sans-serif;
@@ -408,6 +408,8 @@
     margin-bottom: 4px;
   }
 
+  .concept-item .ci-title.orange { color: var(--accent5); }
+
   .concept-item p { font-size: 0.88em; line-height: 1.5; }
 
   .code-snippet {
@@ -428,7 +430,6 @@
   .cm { color: #4a4a6a; font-style: italic; }
   .num { color: #fb923c; }
 
-  /* ---- QUIZ VIEW ---- */
   .quiz-header {
     text-align: center;
     margin-bottom: 40px;
@@ -584,7 +585,6 @@
   .next-btn.show { display: block; }
   .next-btn:hover { background: #6a4de8; }
 
-  /* Score screen */
   .score-screen {
     text-align: center; padding: 60px 20px;
     display: none;
@@ -637,7 +637,6 @@
   }
   .retry-btn:hover { border-color: rgba(255,255,255,0.2); }
 
-  /* scrollbar */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--surface2); border-radius: 3px; }
@@ -667,9 +666,9 @@
   <h1>Data <span class="hl">Sciences</span></h1>
   <p>Explore course summaries, key concepts, and test your knowledge with interactive quizzes.</p>
   <div class="hero-stats">
-    <div><strong>2</strong> Courses</div>
-    <div><strong>20+</strong> Concepts</div>
-    <div><strong>20</strong> Quiz Questions</div>
+    <div><strong>3</strong> Courses</div>
+    <div><strong>30+</strong> Concepts</div>
+    <div><strong>30</strong> Quiz Questions</div>
   </div>
 </div>
 
@@ -731,6 +730,29 @@
         </div>
       </div>
 
+      <!-- Course 3: NumPy -->
+      <div class="course-card" onclick="openResume(3)">
+        <div class="course-card-header c3">
+          <span class="course-icon">🔢</span>
+          <div class="course-tag">Course 03</div>
+          <h2>NumPy — Numerical Computing with Python</h2>
+          <p>Master arrays, shapes, reshaping, indexing, math operations and statistics with the NumPy library.</p>
+        </div>
+        <div class="course-card-body">
+          <ul class="lesson-list">
+            <li><span class="lesson-num c3-num">1</span> What is NumPy?</li>
+            <li><span class="lesson-num c3-num">2</span> What is an Array? (1D & 2D)</li>
+            <li><span class="lesson-num c3-num">3</span> Creating Arrays (zeros, ones, arange)</li>
+            <li><span class="lesson-num c3-num">4</span> Shape, Reshape & Indexing</li>
+            <li><span class="lesson-num c3-num">5</span> Math Operations & Basic Statistics</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-primary btn-p3" onclick="event.stopPropagation(); openResume(3)">📖 View Summary</button>
+            <button class="btn-outline" onclick="event.stopPropagation(); goQuiz(2)">🎯 Take Quiz</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -755,6 +777,10 @@
         </div>
         <div class="qs-btn" id="qsb1" onclick="selectQuizSet(1)">
           <div class="qsb-title">🐼 Pandas & Data</div>
+          <div class="qsb-meta">10 questions · multiple choice</div>
+        </div>
+        <div class="qs-btn" id="qsb2" onclick="selectQuizSet(2)">
+          <div class="qsb-title">🔢 NumPy</div>
           <div class="qsb-meta">10 questions · multiple choice</div>
         </div>
       </div>
@@ -942,6 +968,130 @@ average = df[<span class="str">'rating'</span>].<span class="fn">mean</span>()`,
         concepts: []
       }
     ]
+  },
+  3: {
+    icon: '🔢',
+    tag: 'Course 03',
+    title: 'NumPy — Numerical Computing with Python',
+    color: 'c3',
+    desc: 'A hands-on introduction to NumPy arrays, shapes, indexing, math operations, and basic statistics for data science.',
+    sections: [
+      {
+        icon: '⚡', variant: 'v5',
+        title: 'What is NumPy?',
+        content: `<strong>NumPy</strong> (Numerical Python) is a Python library built for fast numerical computation. It is the foundation of nearly every data science and machine learning tool in Python.<br><br>
+        Why NumPy instead of plain Python lists?<br>
+        • <strong>Faster</strong> — NumPy uses C under the hood, making calculations much quicker than Python lists<br>
+        • <strong>Less code</strong> — operations that take 10 lines in Python take 1 line in NumPy<br>
+        • <strong>Used everywhere</strong> — Pandas, scikit-learn, TensorFlow are all built on top of NumPy`,
+        concepts: [
+          { title: 'Full name', body: 'Numerical Python' },
+          { title: 'Speed', body: 'Faster than Python lists (uses C internally)' },
+          { title: 'Use cases', body: 'Data Science & Machine Learning' },
+          { title: 'Import alias', body: 'import numpy as np' }
+        ]
+      },
+      {
+        icon: '📐', variant: 'v2',
+        title: 'What is an Array?',
+        content: `An <strong>array</strong> is NumPy's core data structure — a collection of numbers stored efficiently in memory.<br><br>
+        Key rule: <strong>all elements in an array must be the same type</strong> (e.g. all integers, or all floats). This is what makes NumPy so fast — it knows exactly how much memory each element needs.`,
+        concepts: [
+          { title: '1D Array', body: 'Like a list: [1, 2, 3, 4, 5]' },
+          { title: '2D Array', body: 'Like a table with rows & columns' },
+          { title: 'Same type', body: 'All elements must share the same data type' },
+          { title: 'ndarray', body: 'The official name: N-Dimensional Array' }
+        ]
+      },
+      {
+        icon: '🏗️', variant: 'v5',
+        title: 'Creating Arrays',
+        content: `NumPy provides several ways to create arrays without typing every value manually:`,
+        code: `<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># From a Python list</span>
+arr = np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>])
+
+<span class="cm"># Array of zeros</span>
+zeros = np.<span class="fn">zeros</span>(<span class="num">5</span>)       <span class="cm"># [0. 0. 0. 0. 0.]</span>
+
+<span class="cm"># Array of ones</span>
+ones = np.<span class="fn">ones</span>(<span class="num">3</span>)         <span class="cm"># [1. 1. 1.]</span>
+
+<span class="cm"># Numbers in order (like range)</span>
+seq = np.<span class="fn">arange</span>(<span class="num">0</span>, <span class="num">10</span>, <span class="num">2</span>)  <span class="cm"># [0 2 4 6 8]</span>`,
+        concepts: [
+          { title: 'np.array()', body: 'Convert a Python list into a NumPy array' },
+          { title: 'np.zeros(n)', body: 'Create an array of n zeros' },
+          { title: 'np.ones(n)', body: 'Create an array of n ones' },
+          { title: 'np.arange()', body: 'Generate numbers in order with a step' }
+        ]
+      },
+      {
+        icon: '🔷', variant: 'v3',
+        title: 'Shape & Reshape',
+        content: `<strong>Shape</strong> tells you the dimensions of an array — how many rows and columns it has.<br><br>
+        <strong>Reshape</strong> lets you change the structure of an array without changing its data. The total number of elements must stay the same.`,
+        code: `arr = np.<span class="fn">arange</span>(<span class="num">12</span>)       <span class="cm"># [0, 1, 2, ..., 11]</span>
+<span class="fn">print</span>(arr.shape)          <span class="cm"># (12,)  → 1D, 12 elements</span>
+
+<span class="cm"># Reshape to 3 rows, 4 columns</span>
+table = arr.<span class="fn">reshape</span>(<span class="num">3</span>, <span class="num">4</span>)
+<span class="fn">print</span>(table.shape)        <span class="cm"># (3, 4)</span>
+<span class="cm"># 3 × 4 = 12 ✓ total stays the same</span>`,
+        concepts: [
+          { title: '.shape', body: 'Returns (rows, columns) of the array' },
+          { title: 'Example (3,4)', body: '3 rows and 4 columns = 12 elements' },
+          { title: '.reshape()', body: 'Changes form but keeps total elements the same' },
+          { title: 'Rule', body: 'rows × columns must equal original total' }
+        ]
+      },
+      {
+        icon: '✂️', variant: 'v2',
+        title: 'Indexing & Slicing',
+        content: `Accessing elements in a NumPy array works just like Python lists — but with extra power for 2D arrays.<br><br>
+        <strong>Key rule:</strong> indexing starts at 0, and the end index is NOT included in slices.`,
+        code: `arr = np.<span class="fn">array</span>([<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>])
+
+arr[<span class="num">0</span>]      <span class="cm"># → 10  (first element)</span>
+arr[<span class="num">-1</span>]     <span class="cm"># → 50  (last element)</span>
+arr[<span class="num">2</span>:<span class="num">5</span>]    <span class="cm"># → [30, 40, 50]  (index 2 to 4)</span>
+
+<span class="cm"># 2D array indexing: [row, column]</span>
+mat = np.<span class="fn">array</span>([[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>],[<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>]])
+mat[<span class="num">1</span>, <span class="num">2</span>]   <span class="cm"># → 6  (row 1, column 2)</span>`,
+        concepts: [
+          { title: 'arr[0]', body: 'First element (index starts at 0)' },
+          { title: 'arr[-1]', body: 'Last element using negative index' },
+          { title: 'arr[2:7]', body: 'Elements from index 2 to 6 (7 not included)' },
+          { title: 'mat[r, c]', body: 'Row r, column c in a 2D array' }
+        ]
+      },
+      {
+        icon: '➕', variant: 'v4',
+        title: 'Math Operations & Basic Statistics',
+        content: `NumPy performs operations <strong>element by element</strong> — meaning it applies the operation to every element at once, without a loop.<br><br>
+        For math operations between two arrays, they must have the same size.`,
+        code: `a = np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
+b = np.<span class="fn">array</span>([<span class="num">4</span>, <span class="num">5</span>, <span class="num">6</span>])
+
+a + b        <span class="cm"># → [5, 7, 9]</span>
+a * b        <span class="cm"># → [4, 10, 18]</span>
+a * <span class="num">2</span>        <span class="cm"># → [2, 4, 6]  (scalar)</span>
+
+<span class="cm"># Basic statistics</span>
+np.<span class="fn">mean</span>(a)   <span class="cm"># → 2.0  (average)</span>
+np.<span class="fn">max</span>(a)    <span class="cm"># → 3    (maximum)</span>
+np.<span class="fn">min</span>(a)    <span class="cm"># → 1    (minimum)</span>
+np.<span class="fn">std</span>(a)    <span class="cm"># standard deviation</span>`,
+        concepts: [
+          { title: 'Element-wise', body: 'Each element paired with its counterpart' },
+          { title: 'np.mean()', body: 'Average of all values in the array' },
+          { title: 'np.max() / min()', body: 'Largest or smallest value' },
+          { title: 'np.std()', body: 'How spread out the values are' }
+        ]
+      }
+    ]
   }
 };
 
@@ -971,6 +1121,19 @@ const quizData = [
     { q: "What is Kaggle?", opts: ["A Python library for data visualization", "A free platform for data science learning, datasets, and competitions", "A database management system", "An AI hardware company"], ans: 1, exp: "Kaggle is a free website where you can download datasets, run code in your browser, join competitions, and learn from others." },
     { q: "Gmail's spam filter, Netflix recommendations, and Face ID all have what in common?", opts: ["They are all built with the same programming language", "They all use data to learn and make predictions", "They are all owned by Google", "They all require manual human review"], ans: 1, exp: "All three systems learn from large amounts of data — Gmail from spam emails, Netflix from viewing history, Face ID from face scans." },
     { q: "What does the `.mean()` method do in Pandas?", opts: ["Finds the middle value in a dataset", "Calculates the average of a column's values", "Counts the number of rows", "Removes missing values"], ans: 1, exp: "The .mean() method calculates the arithmetic average of all values in a pandas Series or column." }
+  ],
+  // Course 3: NumPy
+  [
+    { q: "What does NumPy stand for?", opts: ["New Universal Math Python", "Numerical Python", "Number & Array Python Library", "Numpy Universal Processing"], ans: 1, exp: "NumPy stands for Numerical Python — it is a library designed for fast numerical computation in Python." },
+    { q: "Why is NumPy faster than plain Python lists?", opts: ["It uses a different version of Python", "It stores data in the cloud", "It uses C internally and stores elements of the same type", "It limits arrays to 100 elements"], ans: 2, exp: "NumPy is fast because it uses optimized C code under the hood and stores homogeneous data (same type), which is much more memory-efficient." },
+    { q: "What is the key rule about element types in a NumPy array?", opts: ["All elements must be strings", "Elements can be any mix of types", "All elements must be the same type", "Arrays can only store integers"], ans: 2, exp: "All elements in a NumPy array must share the same data type. This is what enables NumPy's speed and efficiency." },
+    { q: "What does np.zeros(5) create?", opts: ["An array with 5 random numbers", "An array of 5 ones", "An array of 5 zeros", "An empty array of size 5"], ans: 2, exp: "np.zeros(5) creates a NumPy array containing exactly 5 zero values: [0. 0. 0. 0. 0.]" },
+    { q: "What does np.arange(0, 10, 2) return?", opts: ["[0, 2, 4, 6, 8, 10]", "[0, 2, 4, 6, 8]", "[2, 4, 6, 8, 10]", "[1, 3, 5, 7, 9]"], ans: 1, exp: "np.arange(start, stop, step) generates numbers from 0 up to (but not including) 10, stepping by 2: [0, 2, 4, 6, 8]." },
+    { q: "An array has shape (3, 4). What does this mean?", opts: ["3 elements total, 4 types", "3 columns and 4 rows", "3 rows and 4 columns = 12 elements", "3D array with 4 layers"], ans: 2, exp: "Shape (3, 4) means 3 rows and 4 columns, giving a total of 3 × 4 = 12 elements in the array." },
+    { q: "You have an array of 12 elements. Which reshape is valid?", opts: ["reshape(5, 3)", "reshape(4, 4)", "reshape(3, 4)", "reshape(2, 7)"], ans: 2, exp: "reshape(3, 4) gives 3 × 4 = 12 elements — matching the original. The total must stay the same when reshaping." },
+    { q: "What does arr[2:7] return?", opts: ["Elements at index 2 and 7 only", "Elements from index 2 to index 7 inclusive", "Elements from index 2 to index 6 (7 not included)", "The 7th element"], ans: 2, exp: "In NumPy slicing, arr[2:7] returns elements at indices 2, 3, 4, 5, 6 — the end index (7) is NOT included." },
+    { q: "Given a = [1,2,3] and b = [4,5,6], what does a + b give in NumPy?", opts: ["[1,2,3,4,5,6] (concatenation)", "[5, 7, 9] (element-wise addition)", "An error", "[4, 10, 18]"], ans: 1, exp: "NumPy adds arrays element by element: 1+4=5, 2+5=7, 3+6=9 → [5, 7, 9]. This is different from Python lists which would concatenate." },
+    { q: "What does np.std() calculate?", opts: ["The average of the array", "The largest value in the array", "How spread out the values are (standard deviation)", "The total sum of all elements"], ans: 2, exp: "np.std() calculates the standard deviation — a measure of how spread out or varied the values in an array are from the mean." }
   ]
 ];
 
@@ -1014,7 +1177,7 @@ function openResume(id) {
     <div class="resume-header">
       <div class="resume-icon-lg">${r.icon}</div>
       <div>
-        <div class="course-tag ${r.color === 'c1' ? '' : 'c2'}" style="margin-bottom:8px;">${r.tag}</div>
+        <div class="course-tag" style="margin-bottom:8px;">${r.tag}</div>
         <h2>${r.title}</h2>
         <p>${r.desc}</p>
       </div>
