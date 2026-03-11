@@ -19,6 +19,7 @@
     --accent3: #ff6b6b;
     --accent4: #ffc857;
     --accent5: #f97316;
+    --accent6: #22d3ee;
     --glow1: rgba(124,92,252,0.15);
     --glow2: rgba(0,212,168,0.12);
   }
@@ -210,6 +211,7 @@
   .course-card-header.c1 { background: linear-gradient(135deg, #1a1030, #0f1f30); }
   .course-card-header.c2 { background: linear-gradient(135deg, #0a1f1a, #0f1830); }
   .course-card-header.c3 { background: linear-gradient(135deg, #1f1200, #0f1820); }
+  .course-card-header.c4 { background: linear-gradient(135deg, #001f22, #0a1025); }
 
   .course-icon {
     font-size: 2.4em;
@@ -229,6 +231,7 @@
   .c1 .course-tag { background: rgba(124,92,252,0.2); color: var(--accent1); border: 1px solid rgba(124,92,252,0.3); }
   .c2 .course-tag { background: rgba(0,212,168,0.15); color: var(--accent2); border: 1px solid rgba(0,212,168,0.25); }
   .c3 .course-tag { background: rgba(249,115,22,0.15); color: var(--accent5); border: 1px solid rgba(249,115,22,0.3); }
+  .c4 .course-tag { background: rgba(34,211,238,0.12); color: var(--accent6); border: 1px solid rgba(34,211,238,0.25); }
 
   .course-card-header h2 {
     font-family: 'Syne', sans-serif;
@@ -270,6 +273,7 @@
   .c1-num { background: rgba(124,92,252,0.2); color: var(--accent1); }
   .c2-num { background: rgba(0,212,168,0.15); color: var(--accent2); }
   .c3-num { background: rgba(249,115,22,0.15); color: var(--accent5); }
+  .c4-num { background: rgba(34,211,238,0.12); color: var(--accent6); }
 
   .course-actions { display: flex; gap: 10px; }
 
@@ -289,6 +293,8 @@
   .btn-p2:hover { background: #00bfa0; transform: scale(1.02); }
   .btn-p3 { background: var(--accent5); color: white; }
   .btn-p3:hover { background: #ea6c0a; transform: scale(1.02); }
+  .btn-p4 { background: var(--accent6); color: #0a0a0f; }
+  .btn-p4:hover { background: #06b6d4; transform: scale(1.02); }
 
   .btn-outline {
     padding: 11px 18px;
@@ -361,6 +367,7 @@
   .rs-icon.v3 { background: rgba(255,107,107,0.15); }
   .rs-icon.v4 { background: rgba(255,200,87,0.15); }
   .rs-icon.v5 { background: rgba(249,115,22,0.15); }
+  .rs-icon.v6 { background: rgba(34,211,238,0.12); }
 
   .rs-header h3 {
     font-family: 'Syne', sans-serif;
@@ -666,9 +673,9 @@
   <h1>Data <span class="hl">Sciences</span></h1>
   <p>Explore course summaries, key concepts, and test your knowledge with interactive quizzes.</p>
   <div class="hero-stats">
-    <div><strong>3</strong> Courses</div>
-    <div><strong>30+</strong> Concepts</div>
-    <div><strong>30</strong> Quiz Questions</div>
+    <div><strong>4</strong> Courses</div>
+    <div><strong>40+</strong> Concepts</div>
+    <div><strong>40</strong> Quiz Questions</div>
   </div>
 </div>
 
@@ -753,6 +760,29 @@
         </div>
       </div>
 
+      <!-- Course 4: Matplotlib -->
+      <div class="course-card" onclick="openResume(4)">
+        <div class="course-card-header c4">
+          <span class="course-icon">📈</span>
+          <div class="course-tag">Course 04</div>
+          <h2>Matplotlib — Data Visualization</h2>
+          <p>Turn raw numbers into meaningful charts. Learn line graphs, bar charts, pie charts, scatter plots and more.</p>
+        </div>
+        <div class="course-card-body">
+          <ul class="lesson-list">
+            <li><span class="lesson-num c4-num">1</span> What is Matplotlib & Why Charts?</li>
+            <li><span class="lesson-num c4-num">2</span> Line Chart — Change Over Time</li>
+            <li><span class="lesson-num c4-num">3</span> Bar Chart — Comparing Groups</li>
+            <li><span class="lesson-num c4-num">4</span> Pie Chart — Parts of a Whole</li>
+            <li><span class="lesson-num c4-num">5</span> Scatter Plot — Finding Connections</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-primary btn-p4" onclick="event.stopPropagation(); openResume(4)">📖 View Summary</button>
+            <button class="btn-outline" onclick="event.stopPropagation(); goQuiz(3)">🎯 Take Quiz</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -781,6 +811,10 @@
         </div>
         <div class="qs-btn" id="qsb2" onclick="selectQuizSet(2)">
           <div class="qsb-title">🔢 NumPy</div>
+          <div class="qsb-meta">10 questions · multiple choice</div>
+        </div>
+        <div class="qs-btn" id="qsb3" onclick="selectQuizSet(3)">
+          <div class="qsb-title">📈 Matplotlib</div>
           <div class="qsb-meta">10 questions · multiple choice</div>
         </div>
       </div>
@@ -1092,6 +1126,128 @@ np.<span class="fn">std</span>(a)    <span class="cm"># standard deviation</span
         ]
       }
     ]
+  },
+  4: {
+    icon: '📈',
+    tag: 'Course 04',
+    title: 'Matplotlib — Data Visualization',
+    color: 'c4',
+    desc: "Learn how to visualize data with Python's most popular charting library — from simple line plots to scatter plots and pie charts.",
+    sections: [
+      {
+        icon: '💡', variant: 'v6',
+        title: 'What is Matplotlib?',
+        content: `<strong>Matplotlib</strong> is a Python library that turns numbers into visual charts — just like a calculator helps you with math, Matplotlib helps you make charts from data.<br><br>
+        Why visualize data? Because <strong>pictures are easier to understand than raw numbers!</strong><br><br>
+        For example, seeing a rising curve on a chart immediately shows growth — far more clearly than a table of numbers.`,
+        concepts: [
+          { title: 'What it does', body: 'Turns data into charts, graphs, and plots' },
+          { title: 'Import alias', body: 'import matplotlib.pyplot as plt' },
+          { title: 'Chart types', body: 'Line, Bar, Pie, Scatter, Histogram' },
+          { title: 'Save charts', body: 'plt.savefig("chart.png") saves as image file' }
+        ]
+      },
+      {
+        icon: '📉', variant: 'v6',
+        title: 'Line Chart — Change Over Time',
+        content: `A <strong>line chart</strong> is perfect for tracking how something changes over time. Use it whenever your data has a time component (days, months, years).<br><br>
+        Real-life examples: your weight each month, daily temperature for a week, savings growing over time, hours of sunlight each day.<br><br>
+        Line charts are great for seeing if something goes <strong>UP or DOWN</strong> over time.`,
+        code: `<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+
+months = [<span class="str">'Jan'</span>, <span class="str">'Feb'</span>, <span class="str">'Mar'</span>, <span class="str">'Apr'</span>, <span class="str">'May'</span>]
+weight = [<span class="num">65</span>, <span class="num">64</span>, <span class="num">63</span>, <span class="num">62</span>, <span class="num">61</span>]
+
+plt.<span class="fn">plot</span>(months, weight, color=<span class="str">'purple'</span>, marker=<span class="str">'o'</span>)
+plt.<span class="fn">title</span>(<span class="str">'Weight Each Month'</span>)
+plt.<span class="fn">xlabel</span>(<span class="str">'Month'</span>)
+plt.<span class="fn">ylabel</span>(<span class="str">'Weight (kg)'</span>)
+plt.<span class="fn">grid</span>(<span class="kw">True</span>)
+plt.<span class="fn">show</span>()`,
+        concepts: [
+          { title: 'plt.plot()', body: 'Creates a line chart' },
+          { title: "marker='o'", body: 'Adds circle dots at each data point' },
+          { title: 'plt.grid(True)', body: 'Adds a background grid' },
+          { title: 'When to use', body: 'Tracking changes over time' }
+        ]
+      },
+      {
+        icon: '📊', variant: 'v2',
+        title: 'Bar Chart — Comparing Groups',
+        content: `A <strong>bar chart</strong> is used for comparing different groups or categories side by side.<br><br>
+        Real-life examples:<br>
+        • Which subject has the most homework? (Math: 5, English: 3, Science: 7)<br>
+        • Comparing test scores between classes<br>
+        • Number of rainy days each month<br><br>
+        Use <strong>plt.bar()</strong> for vertical bars, or <strong>plt.barh()</strong> for horizontal bars.`,
+        code: `names = [<span class="str">'Math'</span>, <span class="str">'English'</span>, <span class="str">'Science'</span>]
+scores = [<span class="num">85</span>, <span class="num">70</span>, <span class="num">92</span>]
+
+<span class="cm"># Vertical bar chart</span>
+plt.<span class="fn">bar</span>(names, scores, color=[<span class="str">'blue'</span>, <span class="str">'green'</span>, <span class="str">'orange'</span>])
+plt.<span class="fn">title</span>(<span class="str">'Test Scores by Subject'</span>)
+plt.<span class="fn">ylabel</span>(<span class="str">'Score'</span>)
+plt.<span class="fn">show</span>()
+
+<span class="cm"># Horizontal bar chart</span>
+plt.<span class="fn">barh</span>(names, scores, color=<span class="str">'steelblue'</span>)
+plt.<span class="fn">show</span>()`,
+        concepts: [
+          { title: 'plt.bar()', body: 'Creates a vertical bar chart' },
+          { title: 'plt.barh()', body: 'Creates a horizontal bar chart' },
+          { title: 'color=[]', body: 'Pass a list to give each bar a different color' },
+          { title: 'When to use', body: 'Comparing different groups or categories' }
+        ]
+      },
+      {
+        icon: '🥧', variant: 'v4',
+        title: 'Pie Chart — Parts of a Whole',
+        content: `A <strong>pie chart</strong> shows how a whole is divided into parts — it always adds up to 100%.<br><br>
+        Example — How you spend your day:<br>
+        Sleep: 35% &nbsp;|&nbsp; School: 25% &nbsp;|&nbsp; Study: 15% &nbsp;|&nbsp; Hobbies: 15% &nbsp;|&nbsp; Other: 10%<br><br>
+        Use <strong>autopct='%1.1f%%'</strong> to automatically display percentage labels on each slice.`,
+        code: `labels = [<span class="str">'Sleep'</span>, <span class="str">'School'</span>, <span class="str">'Study'</span>, <span class="str">'Hobbies'</span>, <span class="str">'Other'</span>]
+sizes  = [<span class="num">35</span>, <span class="num">25</span>, <span class="num">15</span>, <span class="num">15</span>, <span class="num">10</span>]
+
+plt.<span class="fn">pie</span>(sizes, labels=labels,
+        autopct=<span class="str">'%1.1f%%'</span>, startangle=<span class="num">90</span>)
+plt.<span class="fn">title</span>(<span class="str">'How I Spend My Day'</span>)
+plt.<span class="fn">show</span>()`,
+        concepts: [
+          { title: 'plt.pie()', body: 'Creates a pie chart from a list of sizes' },
+          { title: 'autopct', body: 'Automatically labels each slice with its percentage' },
+          { title: 'startangle', body: 'Rotates the starting position of the first slice' },
+          { title: 'When to use', body: 'Showing percentages that add up to 100%' }
+        ]
+      },
+      {
+        icon: '✨', variant: 'v3',
+        title: 'Scatter Plot — Finding Connections',
+        content: `A <strong>scatter plot</strong> helps you see if two things are related — does one variable affect another?<br><br>
+        Real-life examples:<br>
+        • Study hours vs test scores — More study = Better score?<br>
+        • Sleep hours vs energy level — More sleep = More energy?<br><br>
+        Each dot represents one data point. If the dots form a rising diagonal pattern, the two things are <strong>positively correlated</strong>.`,
+        code: `<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+np.random.<span class="fn">seed</span>(<span class="num">42</span>)
+study = np.random.<span class="fn">rand</span>(<span class="num">30</span>) * <span class="num">6</span>
+scores = study * <span class="num">12</span> + np.random.<span class="fn">rand</span>(<span class="num">30</span>) * <span class="num">20</span>
+
+plt.<span class="fn">scatter</span>(study, scores, color=<span class="str">'red'</span>, s=<span class="num">80</span>)
+plt.<span class="fn">title</span>(<span class="str">'Study Hours vs Test Score'</span>)
+plt.<span class="fn">xlabel</span>(<span class="str">'Study Hours'</span>)
+plt.<span class="fn">ylabel</span>(<span class="str">'Score (%)'</span>)
+plt.<span class="fn">show</span>()`,
+        concepts: [
+          { title: 'plt.scatter()', body: 'Creates a scatter plot with individual points' },
+          { title: 's=80', body: 'Controls the size of the dots' },
+          { title: 'Correlation', body: 'Rising dots = positive relationship between variables' },
+          { title: 'When to use', body: 'Checking if two variables are related' }
+        ]
+      }
+    ]
   }
 };
 
@@ -1134,6 +1290,19 @@ const quizData = [
     { q: "What does arr[2:7] return?", opts: ["Elements at index 2 and 7 only", "Elements from index 2 to index 7 inclusive", "Elements from index 2 to index 6 (7 not included)", "The 7th element"], ans: 2, exp: "In NumPy slicing, arr[2:7] returns elements at indices 2, 3, 4, 5, 6 — the end index (7) is NOT included." },
     { q: "Given a = [1,2,3] and b = [4,5,6], what does a + b give in NumPy?", opts: ["[1,2,3,4,5,6] (concatenation)", "[5, 7, 9] (element-wise addition)", "An error", "[4, 10, 18]"], ans: 1, exp: "NumPy adds arrays element by element: 1+4=5, 2+5=7, 3+6=9 → [5, 7, 9]. This is different from Python lists which would concatenate." },
     { q: "What does np.std() calculate?", opts: ["The average of the array", "The largest value in the array", "How spread out the values are (standard deviation)", "The total sum of all elements"], ans: 2, exp: "np.std() calculates the standard deviation — a measure of how spread out or varied the values in an array are from the mean." }
+  ],
+  // Course 4: Matplotlib
+  [
+    { q: "What is Matplotlib primarily used for?", opts: ["Building web applications", "Turning data into charts and visual graphs", "Training machine learning models", "Managing databases"], ans: 1, exp: "Matplotlib is a Python library for data visualization — it turns numbers and data into visual charts like line graphs, bar charts, and pie charts." },
+    { q: "What is the standard way to import Matplotlib for plotting?", opts: ["import matplotlib as ml", "import matplotlib.pyplot as plt", "import pyplot from matplotlib", "from charts import matplotlib"], ans: 1, exp: "The standard import is: import matplotlib.pyplot as plt — giving access to all plotting functions via the 'plt' alias." },
+    { q: "Which chart type is best for showing how something changes over time?", opts: ["Pie chart", "Scatter plot", "Line chart", "Histogram"], ans: 2, exp: "A line chart is perfect for tracking change over time — e.g. daily temperature, monthly savings, or weight over months." },
+    { q: "What does plt.bar() create?", opts: ["A horizontal bar chart", "A vertical bar chart", "A pie chart", "A scatter plot"], ans: 1, exp: "plt.bar() creates a vertical bar chart. For horizontal bars, you use plt.barh() instead." },
+    { q: "When should you use a pie chart?", opts: ["When tracking data over time", "When comparing two variables to find a relationship", "When showing how a total is divided into percentage parts", "When displaying the distribution of a dataset"], ans: 2, exp: "A pie chart shows parts of a whole — all slices add up to 100%. Use it when you want to show percentages or proportions." },
+    { q: "What does the autopct='%1.1f%%' parameter do in plt.pie()?", opts: ["Sets the start angle of the chart", "Automatically labels each slice with its percentage", "Controls the color of each slice", "Sets the size of the pie chart"], ans: 1, exp: "autopct='%1.1f%%' automatically calculates and displays the percentage value on each slice of the pie chart." },
+    { q: "What is a scatter plot used for?", opts: ["Showing parts of a whole", "Comparing groups side by side", "Seeing if two variables are related or correlated", "Tracking a single value over time"], ans: 2, exp: "A scatter plot places dots for each data point to reveal if two variables are related — for example, study hours vs test scores." },
+    { q: "In plt.plot(x, y, marker='o'), what does marker='o' do?", opts: ["Changes the line color to orange", "Makes the line dashed", "Adds circle markers at each data point on the line", "Sets the opacity of the chart"], ans: 2, exp: "marker='o' adds a circular dot at each data point on the line chart, making individual values easier to see." },
+    { q: "What function saves a chart as an image file instead of displaying it?", opts: ["plt.show()", "plt.export()", "plt.savefig()", "plt.save()"], ans: 2, exp: "plt.savefig('filename.png') saves the current chart as an image file. You call it instead of (or before) plt.show()." },
+    { q: "What is the difference between plt.bar() and plt.barh()?", opts: ["plt.bar() is for numbers, plt.barh() is for categories", "plt.bar() creates vertical bars, plt.barh() creates horizontal bars", "plt.bar() uses one color, plt.barh() uses multiple colors", "There is no difference"], ans: 1, exp: "plt.bar() makes vertical bars (y-axis shows values), while plt.barh() makes horizontal bars (x-axis shows values). Same data, different orientation." }
   ]
 ];
 
