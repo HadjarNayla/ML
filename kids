@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بايثون للأطفال - هجار نايلة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #FF6B9D;
+    --yellow: #FFD93D;
+    --mint: #6BCBCB;
+    --purple: #A78BFA;
+    --orange: #FF9A3C;
+    --bg: #FFF5F9;
+    --white: #ffffff;
+    --dark: #2D1B69;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='28' font-size='28'%3E⭐%3C/text%3E%3C/svg%3E") 16 16, auto;
+  }
+
+  /* ===== STARS BG ===== */
+  .stars-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .star {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: floatStar 6s ease-in-out infinite;
+    opacity: 0.4;
+  }
+  @keyframes floatStar {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.4; }
+    50% { transform: translateY(-20px) rotate(20deg); opacity: 0.8; }
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    position: relative; z-index: 10;
+    background: linear-gradient(135deg, #FF6B9D, #A78BFA, #6BCBCB);
+    padding: 30px 20px 50px;
+    text-align: center;
+    border-radius: 0 0 60px 60px;
+    box-shadow: 0 10px 40px rgba(167,139,250,0.4);
+    overflow: hidden;
+  }
+
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='4' fill='rgba(255,255,255,0.15)'/%3E%3C/svg%3E") repeat;
+    animation: bgMove 20s linear infinite;
+  }
+  @keyframes bgMove { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+
+  .mascot {
+    font-size: 5rem;
+    display: block;
+    animation: bounce 2s ease-in-out infinite;
+    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
+    position: relative; z-index: 1;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.05); }
+  }
+
+  header h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    position: relative; z-index: 1;
+    margin: 10px 0 5px;
+  }
+  header p {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.9);
+    position: relative; z-index: 1;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--dark);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-top: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  }
+
+  /* ===== NAV TABS ===== */
+  .tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 30px 20px 10px;
+    position: relative; z-index: 10;
+  }
+  .tab-btn {
+    background: white;
+    border: 3px solid transparent;
+    border-radius: 20px;
+    padding: 12px 22px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .tab-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+  .tab-btn.active { color: white; transform: translateY(-3px) scale(1.05); }
+  .tab-btn[data-tab="intro"].active { background: var(--pink); border-color: var(--pink); }
+  .tab-btn[data-tab="python"].active { background: var(--orange); border-color: var(--orange); }
+  .tab-btn[data-tab="ai"].active { background: var(--purple); border-color: var(--purple); }
+  .tab-btn[data-tab="quiz"].active { background: var(--mint); border-color: var(--mint); }
+
+  /* ===== CONTENT ===== */
+  main {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 20px 60px;
+    position: relative; z-index: 5;
+  }
+
+  .section { display: none; animation: popIn 0.4s ease; }
+  .section.active { display: block; }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.95) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* ===== CARDS ===== */
+  .card {
+    background: white;
+    border-radius: 28px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    border: 3px solid transparent;
+    transition: transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover { transform: translateY(-4px); }
+  .card.pink { border-color: var(--pink); }
+  .card.orange { border-color: var(--orange); }
+  .card.purple { border-color: var(--purple); }
+  .card.mint { border-color: var(--mint); }
+  .card.yellow { border-color: var(--yellow); }
+
+  .card-emoji {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 12px;
+    animation: wiggle 3s ease-in-out infinite;
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  .card h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; }
+  .card p { font-size: 1rem; line-height: 1.8; color: #555; }
+  .card-tag {
+    position: absolute; top: 20px; left: 20px;
+    background: var(--yellow);
+    color: var(--dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  /* ===== CODE BOX ===== */
+  .code-box {
+    background: #1E1B4B;
+    border-radius: 20px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    color: #A5F3FC;
+    direction: ltr;
+    text-align: left;
+    line-height: 1.8;
+    position: relative;
+    overflow: hidden;
+  }
+  .code-box::before {
+    content: '🐍 كود بايثون';
+    position: absolute;
+    top: 10px; right: 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.75rem;
+    color: #6EE7B7;
+    direction: rtl;
+  }
+  .code-box .kw { color: #F9A8D4; }
+  .code-box .fn { color: #FDE68A; }
+  .code-box .str { color: #6EE7B7; }
+  .code-box .num { color: #C4B5FD; }
+  .code-box .cm { color: #94A3B8; font-style: italic; }
+
+  /* ===== INTERACTIVE BUTTONS ===== */
+  .run-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--orange), var(--pink));
+    color: white;
+    border: none;
+    border-radius: 18px;
+    padding: 12px 28px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255,107,157,0.4);
+    transition: all 0.3s;
+    margin-top: 12px;
+  }
+  .run-btn:hover { transform: scale(1.07) translateY(-2px); box-shadow: 0 10px 30px rgba(255,107,157,0.5); }
+  .run-btn:active { transform: scale(0.97); }
+
+  .output-box {
+    background: #F0FFF4;
+    border: 2px dashed var(--mint);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-top: 14px;
+    font-size: 1rem;
+    color: #065F46;
+    min-height: 50px;
+    display: none;
+    animation: popIn 0.3s ease;
+    font-weight: 700;
+    text-align: center;
+    line-height: 2;
+  }
+
+  /* ===== INPUT AREA ===== */
+  .input-area {
+    display: flex; gap: 12px; margin: 12px 0; flex-wrap: wrap;
+  }
+  .kid-input {
+    flex: 1; min-width: 160px;
+    border: 3px solid var(--purple);
+    border-radius: 16px;
+    padding: 12px 16px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    color: var(--dark);
+    background: #FAF5FF;
+    transition: border-color 0.3s;
+  }
+  .kid-input:focus { border-color: var(--pink); background: #FFF0F6; }
+
+  /* ===== AI SECTION ===== */
+  .ai-demo {
+    background: linear-gradient(135deg, #EDE9FE, #FCE7F3);
+    border-radius: 24px;
+    padding: 24px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  .ai-brain {
+    font-size: 4rem;
+    display: block;
+    margin: 10px auto;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(167,139,250,0.5)); }
+    50% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(167,139,250,0.9)); }
+  }
+
+  /* ===== QUIZ ===== */
+  .quiz-q {
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    border-right: 6px solid var(--mint);
+    display: none;
+  }
+  .quiz-q.active { display: block; animation: popIn 0.4s ease; }
+  .quiz-q h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 16px; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .opt-btn {
+    background: #F3F4F6;
+    border: 3px solid transparent;
+    border-radius: 16px;
+    padding: 14px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--dark);
+  }
+  .opt-btn:hover { background: #EDE9FE; border-color: var(--purple); transform: scale(1.03); }
+  .opt-btn.correct { background: #D1FAE5; border-color: #10B981; color: #065F46; }
+  .opt-btn.wrong { background: #FEE2E2; border-color: #EF4444; color: #7F1D1D; }
+
+  .score-box {
+    text-align: center;
+    padding: 40px;
+    display: none;
+    animation: popIn 0.5s ease;
+  }
+  .score-box .big-emoji { font-size: 5rem; display: block; margin-bottom: 16px; }
+  .score-box h2 { font-size: 2rem; font-weight: 900; }
+  .score-box p { font-size: 1.1rem; color: #666; margin-top: 8px; }
+
+  /* ===== PROGRESS ===== */
+  .progress-bar {
+    background: #E5E7EB;
+    border-radius: 20px;
+    height: 12px;
+    margin: 12px 0;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(90deg, var(--mint), var(--purple));
+    transition: width 0.6s ease;
+  }
+
+  /* ===== CONFETTI ===== */
+  .confetti-piece {
+    position: fixed;
+    width: 10px; height: 14px;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 999;
+    animation: confettiFall 3s ease-in forwards;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #999;
+    font-size: 0.9rem;
+    position: relative; z-index: 5;
+  }
+  footer strong { color: var(--pink); }
+
+  /* ===== LEVEL BADGES ===== */
+  .levels {
+    display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;
+  }
+  .level {
+    display: flex; align-items: center; gap: 8px;
+    background: white;
+    border-radius: 16px;
+    padding: 10px 18px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 2px solid;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .level:hover { transform: translateY(-2px) scale(1.04); }
+  .level.beginner { border-color: var(--mint); color: #065F46; }
+  .level.medium { border-color: var(--orange); color: #92400E; }
+  .level.pro { border-color: var(--purple); color: #4C1D95; }
+
+  /* ===== TIPS ===== */
+  .tip-box {
+    background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+    border-radius: 20px;
+    padding: 18px 22px;
+    margin: 16px 0;
+    border-right: 5px solid var(--yellow);
+    display: flex; align-items: flex-start; gap: 12px;
+  }
+  .tip-box .tip-icon { font-size: 1.8rem; flex-shrink: 0; }
+  .tip-box p { font-size: 0.95rem; line-height: 1.7; color: #78350F; }
+</style>
+</head>
+<body>
+
+<!-- Stars Background -->
+<div class="stars-bg" id="starsBg"></div>
+
+<!-- Header -->
+<header>
+  <span class="mascot">🐍</span>
+  <h1>بايثون والذكاء الاصطناعي للأطفال</h1>
+  <p>تعلّم البرمجة بطريقة ممتعة وسهلة! ✨</p>
+  <span class="badge">🎨 تصميم: هجار نايلة</span>
+</header>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="intro" onclick="switchTab('intro')">
+    🏠 البداية
+  </button>
+  <button class="tab-btn" data-tab="python" onclick="switchTab('python')">
+    🐍 بايثون
+  </button>
+  <button class="tab-btn" data-tab="ai" onclick="switchTab('ai')">
+    🤖 الذكاء الاصطناعي
+  </button>
+  <button class="tab-btn" data-tab="quiz" onclick="switchTab('quiz')">
+    🧠 اختبار ممتع
+  </button>
+</div>
+
+<main>
+  <!-- ======= INTRO ======= -->
+  <div class="section active" id="intro">
+
+    <div class="card pink">
+      <span class="card-emoji">👋</span>
+      <h2>مرحباً يا صغيري الرائع!</h2>
+      <p>هل تريد أن تصبح مبرمجاً ذكياً؟ هنا ستتعلم كيف تتحدث مع الحاسوب وتجعله يفعل ما تريد! 🌟</p>
+      <div class="tip-box" style="margin-top:16px;">
+        <span class="tip-icon">💡</span>
+        <p>البرمجة مثل إعطاء الحاسوب وصفة طبخ — تخبره خطوة بخطوة ماذا يفعل!</p>
+      </div>
+    </div>
+
+    <div class="card orange">
+      <span class="card-emoji">🏆</span>
+      <h2>مستوياتنا الثلاثة</h2>
+      <p>اختر مستواك وابدأ الرحلة!</p>
+      <div class="levels" style="margin-top:14px;">
+        <div class="level beginner" onclick="switchTab('python'); showMsg('ممتاز! لنبدأ من الأساسيات 🌱')">🌱 مبتدئ</div>
+        <div class="level medium" onclick="switchTab('python'); showMsg('رائع! أنت في المستوى المتوسط 🔥')">🔥 متوسط</div>
+        <div class="level pro" onclick="switchTab('ai'); showMsg('واو! أنت محترف 🚀')">🚀 محترف</div>
+      </div>
+      <div id="levelMsg" style="margin-top:12px; font-weight:700; color:var(--purple); display:none;"></div>
+    </div>
+
+    <div class="card mint">
+      <span class="card-emoji">🌍</span>
+      <h2>ماذا ستتعلم اليوم؟</h2>
+      <p>
+        ⭐ كيف تكتب أول كود بايثون<br>
+        ⭐ ما هو الذكاء الاصطناعي وكيف يتعلم<br>
+        ⭐ كيف تصنع حاسبة ولعبة صغيرة<br>
+        ⭐ اختبار ممتع لتجربة ما تعلمته!
+      </p>
+      <button class="run-btn" onclick="switchTab('python')">
+        🚀 هيا نبدأ!
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ======= PYTHON ======= -->
+  <div class="section" id="python">
+
+    <div class="card orange">
+      <div class="card-tag">📚 درس 1</div>
+      <span class="card-emoji" style="margin-top:24px;">👋</span>
+      <h2>مرحباً أيها العالم!</h2>
+      <p>أول شيء نتعلمه هو كيف نجعل الحاسوب يقول كلاماً!</p>
+      <div class="code-box">
+        <span class="cm"># هذا أول كود بايثون لك!</span><br>
+        <span class="fn">print</span>(<span class="str">"مرحباً يا عالم!"</span>)<br>
+        <span class="fn">print</span>(<span class="str">"أنا أحب البرمجة 🐍"</span>)
+      </div>
+      <button class="run-btn" onclick="runCode('out1', ['🖥️ مرحباً يا عالم!', '🖥️ أنا أحب البرمجة 🐍'])">
+        ▶ شغّل الكود!
+      </button>
+      <div class="output-box" id="out1"></div>
+    </div>
+
+    <div class="card pink">
+      <div class="card-tag">📚 درس 2</div>
+      <span class="card-emoji" style="margin-top:24px;">🔢</span>
+      <h2>الأرقام والحساب</h2>
+      <p>بايثون آلة حاسبة رائعة! اكتب اسمك وعمرك لنجرب:</p>
+      <div class="input-area">
+        <input class="kid-input" id="kidName" type="text" placeholder="اكتب اسمك هنا...">
+        <input class="kid-input" id="kidAge" type="number" placeholder="عمرك..." min="4" max="18">
+      </div>
+      <div class="code-box">
+        <span class="kw">name</span> = <span class="str">"[اسمك]"</span><br>
+        <span class="kw">age</span> = <span class="num">[عمرك]</span><br>
+        <span class="fn">print</span>(<span class="str">"مرحباً"</span>, name)<br>
+        <span class="fn">print</span>(<span class="str">"عمرك:"</span>, age, <span class="str">"سنة"</span>)<br>
+        <span class="fn">print</span>(<span class="str">"بعد 10 سنوات ستكون عمرك:"</span>, age + <span class="num">10</span>)
+      </div>
+      <button class="run-btn" onclick="runPersonalized()">
+        ▶ شغّل بياناتي!
+      </button>
+      <div class="output-box" id="out2"></div>
+    </div>
+
+    <div class="card purple">
+      <div class="card-tag">📚 درس 3</div>
+      <span class="card-emoji" style="margin-top:24px;">🔁</span>
+      <h2>التكرار — قوة الكود!</h2>
+      <p>بدل ما تكتب كلمة 10 مرات، خلّ الحاسوب يكررها!</p>
+      <div class="code-box">
+        <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="str">"⭐ أنا مبرمج رائع!"</span>)
+      </div>
+      <button class="run-btn" onclick="runLoop()">
+        ▶ كرّر معي!
+      </button>
+      <div class="output-box" id="out3"></div>
+    </div>
+
+    <div class="card mint">
+      <div class="card-tag">📚 درس 4</div>
+      <span class="card-emoji" style="margin-top:24px;">🎮</span>
+      <h2>آلة الحساب الممتعة</h2>
+      <p>أدخل عددين واختر العملية!</p>
+      <div class="input-area">
+        <input class="kid-input" id="num1" type="number" placeholder="العدد الأول" style="border-color:var(--mint)">
+        <input class="kid-input" id="num2" type="number" placeholder="العدد الثاني" style="border-color:var(--mint)">
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;">
+        <button class="run-btn" style="background:linear-gradient(135deg,#6BCBCB,#A78BFA)" onclick="calc('+')">➕ جمع</button>
+        <button class="run-btn" style="background:linear-gradient(135deg,#FF6B9D,#FF9A3C)" onclick="calc('-')">➖ طرح</button>
+        <button class="run-btn" style="background:linear-gradient(135deg,#FFD93D,#FF9A3C)" onclick="calc('*')">✖️ ضرب</button>
+        <button class="run-btn" style="background:linear-gradient(135deg,#A78BFA,#6BCBCB)" onclick="calc('/')">➗ قسمة</button>
+      </div>
+      <div class="output-box" id="out4"></div>
+    </div>
+
+  </div>
+
+  <!-- ======= AI ======= -->
+  <div class="section" id="ai">
+
+    <div class="card purple">
+      <span class="card-emoji">🤖</span>
+      <h2>ما هو الذكاء الاصطناعي؟</h2>
+      <p>الذكاء الاصطناعي هو جعل الحاسوب يفكر مثل الإنسان! يتعلم من الأمثلة ويتحسن مع الوقت، تماماً مثلك عندما تتعلم في المدرسة! 🏫</p>
+      <div class="ai-demo">
+        <span class="ai-brain">🧠</span>
+        <p style="font-weight:700; color: #4C1D95;">الحاسوب يرى آلاف الصور ليتعلم التمييز بينها!</p>
+      </div>
+    </div>
+
+    <div class="card pink">
+      <div class="card-tag">🤖 تجربة AI</div>
+      <span class="card-emoji" style="margin-top:24px;">😊</span>
+      <h2>كيف يتعرف AI على المشاعر؟</h2>
+      <p>اختر وجهاً تعبيرياً وسيحاول الذكاء الاصطناعي تخمين مشاعرك!</p>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; margin:16px 0; justify-content:center;">
+        <button onclick="detectEmotion('😊','سعيد')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😊</button>
+        <button onclick="detectEmotion('😢','حزين')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😢</button>
+        <button onclick="detectEmotion('😡','غاضب')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😡</button>
+        <button onclick="detectEmotion('😮','متفاجئ')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😮</button>
+        <button onclick="detectEmotion('🤩','متحمس')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">🤩</button>
+        <button onclick="detectEmotion('😴','نعسان')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😴</button>
+      </div>
+      <div class="output-box" id="emotionOut"></div>
+    </div>
+
+    <div class="card orange">
+      <span class="card-emoji">🌡️</span>
+      <h2>تصنيف الأشياء — مثل AI!</h2>
+      <p>الذكاء الاصطناعي يصنّف الأشياء. هيا نصنّف حيوانات!</p>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin:16px 0; justify-content:center;">
+        <button onclick="classify('🐶 كلب','حيوان أليف 🏠','يحب اللعب والدغدغة!')" style="font-size:2rem; background:#FFF7ED; border:3px solid var(--orange); border-radius:16px; padding:10px 18px; cursor:pointer; font-family:Tajawal; font-weight:700; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">🐶 كلب</button>
+        <button onclick="classify('🦁 أسد','حيوان بري 🌿','ملك الغابة!')" style="font-size:2rem; background:#ECFDF5; border:3px solid var(--mint); border-radius:16px; padding:10px 18px; cursor:pointer; font-family:Tajawal; font-weight:700; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">🦁 أسد</button>
+        <button onclick="classify('🐠 سمكة','حيوان بحري 🌊','تعيش في الماء!')" style="font-size:2rem; background:#EFF6FF; border:3px solid var(--purple); border-radius:16px; padding:10px 18px; cursor:pointer; font-family:Tajawal; font-weight:700; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">🐠 سمكة</button>
+        <button onclick="classify('🦅 نسر','حيوان طائر ✈️','يطير في السماء!')" style="font-size:2rem; background:#FFF5F9; border:3px solid var(--pink); border-radius:16px; padding:10px 18px; cursor:pointer; font-family:Tajawal; font-weight:700; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">🦅 نسر</button>
+      </div>
+      <div class="output-box" id="classifyOut"></div>
+    </div>
+
+    <div class="card mint">
+      <span class="card-emoji">🎯</span>
+      <h2>كيف يتعلم الذكاء الاصطناعي؟</h2>
+      <div class="code-box">
+        <span class="cm"># AI يتعلم من الأمثلة</span><br>
+        <span class="kw">data</span> = [<br>
+        &nbsp;&nbsp;(<span class="str">"قطة"</span>, <span class="str">"حيوان أليف"</span>),<br>
+        &nbsp;&nbsp;(<span class="str">"نمر"</span>, <span class="str">"حيوان بري"</span>),<br>
+        &nbsp;&nbsp;(<span class="str">"دلفين"</span>, <span class="str">"حيوان بحري"</span>)<br>
+        ]<br>
+        <span class="cm"># AI يتعلم ثم يتوقع!</span><br>
+        <span class="kw">model</span>.<span class="fn">learn</span>(data)<br>
+        <span class="kw">model</span>.<span class="fn">predict</span>(<span class="str">"أسد"</span>) <span class="cm"># → حيوان بري</span>
+      </div>
+      <div class="tip-box">
+        <span class="tip-icon">🧠</span>
+        <p>كلما أعطيت AI بيانات أكثر، كلما أصبح أذكى وأدق في تنبؤاته!</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ======= QUIZ ======= -->
+  <div class="section" id="quiz">
+
+    <div id="quizContainer">
+      <div class="card yellow">
+        <span class="card-emoji">🧠</span>
+        <h2>اختبار المعرفة!</h2>
+        <p>5 أسئلة ممتعة لترى كم تعلمت. هيا نبدأ! 💪</p>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <p id="progressText" style="font-size:0.9rem; color:#888; margin-top:6px;">السؤال 0 من 5</p>
+        <button class="run-btn" onclick="startQuiz()" id="startBtn">
+          🚀 ابدأ الاختبار!
+        </button>
+      </div>
+
+      <div class="quiz-q" id="q0">
+        <h3>1️⃣ ماذا تفعل دالة print() في بايثون؟</h3>
+        <div class="options">
+          <button class="opt-btn" onclick="answer(this,true)">🖥️ تعرض نصاً على الشاشة</button>
+          <button class="opt-btn" onclick="answer(this,false)">🖨️ تطبع على الورق</button>
+          <button class="opt-btn" onclick="answer(this,false)">❌ تحذف الكود</button>
+          <button class="opt-btn" onclick="answer(this,false)">💾 تحفظ الملف</button>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q1">
+        <h3>2️⃣ ماذا يخزّن المتغير في بايثون؟</h3>
+        <div class="options">
+          <button class="opt-btn" onclick="answer(this,false)">🎮 ألعاب فقط</button>
+          <button class="opt-btn" onclick="answer(this,true)">📦 أي نوع من البيانات</button>
+          <button class="opt-btn" onclick="answer(this,false)">🖼️ صور فقط</button>
+          <button class="opt-btn" onclick="answer(this,false)">🔊 أصوات فقط</button>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q2">
+        <h3>3️⃣ ما الذي تفعله حلقة for في بايثون؟</h3>
+        <div class="options">
+          <button class="opt-btn" onclick="answer(this,false)">🛑 توقف البرنامج</button>
+          <button class="opt-btn" onclick="answer(this,false)">🔒 تغلق الكود</button>
+          <button class="opt-btn" onclick="answer(this,true)">🔁 تكرر الأوامر</button>
+          <button class="opt-btn" onclick="answer(this,false)">🗑️ تمسح البيانات</button>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q3">
+        <h3>4️⃣ كيف يتعلم الذكاء الاصطناعي؟</h3>
+        <div class="options">
+          <button class="opt-btn" onclick="answer(this,false)">📺 يشاهد التلفاز</button>
+          <button class="opt-btn" onclick="answer(this,true)">📊 من الكثير من البيانات</button>
+          <button class="opt-btn" onclick="answer(this,false)">😴 ينام ويحلم</button>
+          <button class="opt-btn" onclick="answer(this,false)">🎲 بالصدفة فقط</button>
+        </div>
+      </div>
+
+      <div class="quiz-q" id="q4">
+        <h3>5️⃣ ما اسم لغة البرمجة التي تعلمناها؟</h3>
+        <div class="options">
+          <button class="opt-btn" onclick="answer(this,false)">🐱 قطة</button>
+          <button class="opt-btn" onclick="answer(this,false)">🐉 تنين</button>
+          <button class="opt-btn" onclick="answer(this,true)">🐍 بايثون</button>
+          <button class="opt-btn" onclick="answer(this,false)">🦊 ثعلب</button>
+        </div>
+      </div>
+
+      <div class="score-box" id="scoreBox">
+        <span class="big-emoji" id="scoreEmoji">🏆</span>
+        <h2 id="scoreTitle">عظيم!</h2>
+        <p id="scoreText">لقد أجبت على الأسئلة بشكل ممتاز!</p>
+        <div style="margin-top:20px; font-size:2rem; font-weight:900; color:var(--purple)" id="scoreNum"></div>
+        <button class="run-btn" onclick="resetQuiz()" style="margin-top:20px;">
+          🔄 العب مرة أخرى!
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>🌟 صُنع بحب للأطفال العرب | تصميم: <strong>هجار نايلة</strong> 💖</p>
+  <p style="margin-top:6px;">🐍 تعلم البرمجة، اصنع المستقبل! 🚀</p>
+</footer>
+
+<script>
+// ===== STARS =====
+const starsBg = document.getElementById('starsBg');
+const starItems = ['⭐','🌟','✨','💫','🎀','🌸','🍭','🎈','🌈','🦋'];
+for (let i = 0; i < 20; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  s.textContent = starItems[Math.floor(Math.random() * starItems.length)];
+  s.style.left = Math.random() * 100 + 'vw';
+  s.style.top = Math.random() * 100 + 'vh';
+  s.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+  s.style.animationDelay = Math.random() * 6 + 's';
+  s.style.animationDuration = (4 + Math.random() * 4) + 's';
+  starsBg.appendChild(s);
+}
+
+// ===== TABS =====
+function switchTab(tab) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+}
+
+// ===== CODE RUNNERS =====
+function runCode(outId, lines) {
+  const box = document.getElementById(outId);
+  box.style.display = 'block';
+  box.innerHTML = '';
+  lines.forEach((line, i) => {
+    setTimeout(() => {
+      box.innerHTML += line + '<br>';
+    }, i * 400);
+  });
+}
+
+function runPersonalized() {
+  const name = document.getElementById('kidName').value.trim() || 'صديقي';
+  const age = parseInt(document.getElementById('kidAge').value) || 10;
+  const box = document.getElementById('out2');
+  box.style.display = 'block';
+  const lines = [
+    '🖥️ مرحباً ' + name + '!',
+    '🖥️ عمرك: ' + age + ' سنة',
+    '🖥️ بعد 10 سنوات ستكون عمرك: ' + (age + 10) + ' سنة 🎂',
+    '🖥️ أنت رائع يا ' + name + '! 🌟'
+  ];
+  box.innerHTML = '';
+  lines.forEach((line, i) => setTimeout(() => box.innerHTML += line + '<br>', i * 400));
+  confetti();
+}
+
+function runLoop() {
+  const box = document.getElementById('out3');
+  box.style.display = 'block';
+  box.innerHTML = '';
+  const msgs = ['⭐ أنا مبرمج رائع!','⭐ أنا مبرمج رائع!','⭐ أنا مبرمج رائع!','⭐ أنا مبرمج رائع!','⭐ أنا مبرمج رائع!'];
+  msgs.forEach((m, i) => setTimeout(() => box.innerHTML += m + '<br>', i * 300));
+}
+
+function calc(op) {
+  const n1 = parseFloat(document.getElementById('num1').value);
+  const n2 = parseFloat(document.getElementById('num2').value);
+  const box = document.getElementById('out4');
+  if (isNaN(n1) || isNaN(n2)) { box.style.display='block'; box.textContent = '⚠️ من فضلك أدخل عددين!'; return; }
+  let res, sym;
+  if (op === '+') { res = n1 + n2; sym = '+'; }
+  else if (op === '-') { res = n1 - n2; sym = '-'; }
+  else if (op === '*') { res = n1 * n2; sym = '×'; }
+  else { if (n2 === 0) { box.style.display='block'; box.textContent = '⚠️ لا يمكن القسمة على صفر!'; return; } res = (n1 / n2).toFixed(2); sym = '÷'; }
+  box.style.display = 'block';
+  box.innerHTML = `🖥️ ${n1} ${sym} ${n2} = <span style="color:var(--purple); font-size:1.4rem;">${res}</span> 🎉`;
+  confetti();
+}
+
+function detectEmotion(emoji, feeling) {
+  const box = document.getElementById('emotionOut');
+  box.style.display = 'block';
+  box.innerHTML = '⏳ الذكاء الاصطناعي يحلل...';
+  setTimeout(() => {
+    box.innerHTML = `🤖 الذكاء الاصطناعي يرى: ${emoji}<br>🎯 النتيجة: أنت تبدو <strong>${feeling}</strong>! 💡<br>دقة التنبؤ: ${85 + Math.floor(Math.random()*14)}%`;
+    confetti();
+  }, 1200);
+}
+
+function classify(animal, category, fact) {
+  const box = document.getElementById('classifyOut');
+  box.style.display = 'block';
+  box.innerHTML = '🤖 الذكاء الاصطناعي يفكر...';
+  setTimeout(() => {
+    box.innerHTML = `🔍 ${animal} → <strong>${category}</strong><br>💡 ${fact}<br>✅ التصنيف صحيح بنسبة 98%!`;
+    confetti();
+  }, 1000);
+}
+
+// ===== LEVEL MSG =====
+function showMsg(msg) {
+  const el = document.getElementById('levelMsg');
+  el.style.display = 'block';
+  el.textContent = msg;
+}
+
+// ===== QUIZ =====
+let quizStarted = false, currentQ = 0, score = 0, answered = false;
+
+function startQuiz() {
+  document.getElementById('startBtn').style.display = 'none';
+  quizStarted = true;
+  showQ(0);
+}
+
+function showQ(idx) {
+  document.querySelectorAll('.quiz-q').forEach(q => q.classList.remove('active'));
+  const el = document.getElementById('q' + idx);
+  if (el) el.classList.add('active');
+  answered = false;
+  document.getElementById('progressFill').style.width = (idx / 5 * 100) + '%';
+  document.getElementById('progressText').textContent = `السؤال ${idx} من 5`;
+}
+
+function answer(btn, correct) {
+  if (!quizStarted || answered) return;
+  answered = true;
+  if (correct) { btn.classList.add('correct'); score++; confetti(); }
+  else { btn.classList.add('wrong'); }
+  currentQ++;
+  setTimeout(() => {
+    if (currentQ >= 5) { showScore(); } else { showQ(currentQ); }
+  }, 1000);
+}
+
+function showScore() {
+  document.querySelectorAll('.quiz-q').forEach(q => q.classList.remove('active'));
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressText').textContent = 'اكتمل الاختبار!';
+  const box = document.getElementById('scoreBox');
+  box.style.display = 'block';
+  const emojis = ['😅','😊','🌟','🏆','🚀'];
+  const titles = ['حاول مرة أخرى!','أحسنت!','ممتاز!','رائع جداً!','أسطوري!'];
+  document.getElementById('scoreEmoji').textContent = emojis[score];
+  document.getElementById('scoreTitle').textContent = titles[score];
+  document.getElementById('scoreNum').textContent = score + ' / 5 ⭐';
+  document.getElementById('scoreText').textContent = score >= 4 ? '🎉 أنت نجم البرمجة!' : score >= 2 ? '👍 تعلمت الكثير اليوم!' : '📚 راجع الدروس وحاول مجدداً!';
+  if (score >= 4) { setTimeout(confetti, 100); setTimeout(confetti, 600); setTimeout(confetti, 1200); }
+}
+
+function resetQuiz() {
+  currentQ = 0; score = 0; quizStarted = false; answered = false;
+  document.getElementById('scoreBox').style.display = 'none';
+  document.querySelectorAll('.quiz-q').forEach(q => q.classList.remove('active'));
+  document.querySelectorAll('.opt-btn').forEach(b => { b.classList.remove('correct','wrong'); });
+  document.getElementById('progressFill').style.width = '0%';
+  document.getElementById('progressText').textContent = 'السؤال 0 من 5';
+  document.getElementById('startBtn').style.display = 'inline-flex';
+}
+
+// ===== CONFETTI =====
+function confetti() {
+  const colors = ['#FF6B9D','#FFD93D','#6BCBCB','#A78BFA','#FF9A3C','#6EE7B7'];
+  for (let i = 0; i < 30; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.top = '-20px';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+    piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+    piece.style.animationDelay = Math.random() * 0.5 + 's';
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 4000);
+  }
+}
+</script>
+</body>
+</html>
