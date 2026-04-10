@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أكاديمية النجوم — بايثون والذكاء الاصطناعي للأطفال | هجار نايلة</title>
+<title>حجار نايلة — بايثون والذكاء الاصطناعي للأطفال</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -39,12 +39,10 @@ body {
   min-height: 100vh;
 }
 
-/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--sky); }
 ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
 
-/* ===== GALAXY BG ===== */
 #galaxy {
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   overflow: hidden;
@@ -71,7 +69,6 @@ body {
   to { transform: translate(30px, 20px) scale(1.1); }
 }
 
-/* ===== SIDEBAR NAV ===== */
 #sidebar {
   position: fixed;
   right: 0; top: 0; bottom: 0;
@@ -143,7 +140,6 @@ body {
 .prog-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--pink), var(--cyan)); transition: width 0.6s ease; }
 .prog-text { font-size: 0.75rem; color: var(--cyan); font-weight: 700; margin-top: 6px; }
 
-/* ===== HAMBURGER ===== */
 #menuToggle {
   display: none;
   position: fixed;
@@ -158,14 +154,12 @@ body {
   color: white;
 }
 
-/* ===== MAIN CONTENT ===== */
 #main {
   margin-right: 270px;
   min-height: 100vh;
   position: relative; z-index: 1;
 }
 
-/* ===== HERO ===== */
 #hero {
   padding: 60px 40px 40px;
   text-align: center;
@@ -223,7 +217,6 @@ body {
 .hero-stat .val { font-size: 1.8rem; font-weight: 900; color: var(--yellow); }
 .hero-stat .lbl { font-size: 0.8rem; color: var(--muted); }
 
-/* ===== SECTION WRAPPER ===== */
 .content-section {
   display: none;
   padding: 30px 40px 60px;
@@ -236,7 +229,6 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== SECTION HEADER ===== */
 .section-header {
   display: flex; align-items: center; gap: 16px;
   margin-bottom: 32px;
@@ -261,7 +253,6 @@ body {
 .level-tag.intermediate { background: rgba(251,146,60,0.15); color: var(--orange); border: 1px solid rgba(251,146,60,0.3); }
 .level-tag.advanced { background: rgba(244,114,182,0.15); color: var(--pink); border: 1px solid rgba(244,114,182,0.3); }
 
-/* ===== LESSON CARD ===== */
 .lesson-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -306,7 +297,6 @@ body {
 .lesson-card h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
 .lesson-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; }
 
-/* ===== CODE EDITOR ===== */
 .code-editor {
   background: #0D1117;
   border-radius: 14px;
@@ -344,7 +334,6 @@ body {
 .cls { color: #22D3EE; }
 .op { color: #FB923C; }
 
-/* ===== INTERACTIVE AREA ===== */
 .interactive-zone {
   background: rgba(255,255,255,0.03);
   border: 1px dashed rgba(255,255,255,0.1);
@@ -411,7 +400,6 @@ body {
 .out-info { color: var(--cyan); }
 .out-warn { color: var(--yellow); }
 
-/* ===== TIP BOX ===== */
 .tip { display: flex; gap: 12px; background: rgba(252,211,77,0.06); border: 1px solid rgba(252,211,77,0.15); border-radius: 12px; padding: 14px 16px; margin: 14px 0; }
 .tip-icon { font-size: 1.4rem; flex-shrink: 0; }
 .tip p { font-size: 0.9rem; color: #CBD5E1; line-height: 1.7; }
@@ -423,7 +411,6 @@ body {
 .warn-box p { font-size: 0.9rem; color: #CBD5E1; line-height: 1.7; }
 .warn-box strong { color: var(--pink); }
 
-/* ===== CONCEPT GRID ===== */
 .concept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 16px 0; }
 .concept-card {
   background: rgba(255,255,255,0.04);
@@ -439,7 +426,6 @@ body {
 .concept-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
 .concept-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
 
-/* ===== QUIZ ===== */
 .quiz-container { background: var(--card-bg); border-radius: 20px; padding: 28px; margin: 20px 0; border: 1px solid var(--border); }
 .quiz-q-text { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; line-height: 1.6; }
 .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -463,7 +449,6 @@ body {
 .quiz-result .big { font-size: 3rem; }
 .quiz-result p { color: var(--muted); font-size: 1rem; margin-top: 8px; }
 
-/* ===== VOICE SECTION ===== */
 .voice-viz {
   display: flex; align-items: center; justify-content: center; gap: 4px;
   height: 60px; margin: 16px 0;
@@ -501,7 +486,6 @@ body {
   50% { box-shadow: 0 0 0 25px rgba(244,114,182,0); }
 }
 
-/* ===== IMAGE RECOGNITION ===== */
 .img-drop {
   border: 2px dashed rgba(34,211,238,0.4);
   border-radius: 18px;
@@ -529,11 +513,9 @@ body {
 }
 @keyframes popLabel { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
 
-/* ===== ML VISUALIZER ===== */
 .nn-canvas-wrap { background: #020617; border-radius: 14px; padding: 20px; margin: 16px 0; border: 1px solid var(--border); }
 canvas { display: block; margin: 0 auto; }
 
-/* ===== PROGRESS STEPS ===== */
 .steps-list { margin: 16px 0; }
 .step-item {
   display: flex; gap: 14px; align-items: flex-start;
@@ -554,7 +536,6 @@ canvas { display: block; margin: 0 auto; }
 .step-content h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
 .step-content p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
 
-/* ===== ACHIEVEMENTS ===== */
 .achievements {
   display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;
 }
@@ -571,13 +552,11 @@ canvas { display: block; margin: 0 auto; }
 .ach.earned { border-color: var(--yellow); background: rgba(252,211,77,0.08); color: var(--yellow); }
 .ach .ach-icon { font-size: 1.4rem; }
 
-/* ===== TABLE ===== */
 .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 14px 0; }
 .data-table th { background: rgba(255,255,255,0.06); padding: 10px 14px; text-align: right; font-weight: 700; color: var(--cyan); border-bottom: 1px solid var(--border); }
 .data-table td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--muted); }
 .data-table tr:hover td { background: rgba(255,255,255,0.02); color: var(--white); }
 
-/* ===== CHART BAR ===== */
 .chart-bars {
   display: flex; align-items: flex-end; gap: 10px;
   height: 140px;
@@ -593,7 +572,6 @@ canvas { display: block; margin: 0 auto; }
 .bar-lbl { font-size: 0.75rem; color: var(--muted); text-align: center; }
 .bar-val { font-size: 0.8rem; font-weight: 700; color: var(--white); }
 
-/* ===== CONFETTI ===== */
 .confetti-bit {
   position: fixed;
   width: 8px; height: 10px;
@@ -607,7 +585,6 @@ canvas { display: block; margin: 0 auto; }
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
 }
 
-/* ===== NOTIFICATION ===== */
 #notif {
   position: fixed;
   bottom: 30px; left: 30px;
@@ -627,7 +604,6 @@ canvas { display: block; margin: 0 auto; }
 #notif h4 { font-size: 0.9rem; font-weight: 700; color: var(--yellow); }
 #notif p { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   #sidebar { transform: translateX(100%); }
   #sidebar.open { transform: translateX(0); }
@@ -642,13 +618,10 @@ canvas { display: block; margin: 0 auto; }
 </head>
 <body>
 
-<!-- Galaxy -->
 <div id="galaxy"></div>
 
-<!-- Mobile Toggle -->
 <button id="menuToggle" onclick="toggleMenu()">☰</button>
 
-<!-- Notification -->
 <div id="notif">
   <span class="notif-icon" id="notifIcon">⭐</span>
   <div>
@@ -657,11 +630,10 @@ canvas { display: block; margin: 0 auto; }
   </div>
 </div>
 
-<!-- SIDEBAR -->
 <nav id="sidebar">
   <div class="sidebar-logo">
     <span class="rocket">🚀</span>
-    <h2>أكاديمية النجوم</h2>
+    <h2>حجار نايلة</h2>
     <span>بايثون والذكاء الاصطناعي</span>
   </div>
 
@@ -709,10 +681,8 @@ canvas { display: block; margin: 0 auto; }
   <div class="nav-item" onclick="nav('cert')"><span class="nav-icon">🏅</span> شهادتي</div>
 </nav>
 
-<!-- MAIN -->
 <div id="main">
 
-<!-- ======== HOME ======== -->
 <div class="content-section active" id="sec-home">
   <div id="hero">
     <div class="hero-emoji-row">
@@ -723,7 +693,7 @@ canvas { display: block; margin: 0 auto; }
       <span style="--d:2.2s">🚀</span>
       <span style="--d:1.6s">⭐</span>
     </div>
-    <h1>أكاديمية النجوم<br>للبرمجة والذكاء الاصطناعي</h1>
+    <h1>حجار نايلة<br>للبرمجة والذكاء الاصطناعي</h1>
     <p>رحلتك إلى عالم البرمجة تبدأ هنا! تعلم بايثون، الذكاء الاصطناعي، التعرف على الصوت والصور — خطوة بخطوة بأسلوب ممتع وتفاعلي باللغة العربية 🌟</p>
     <div class="hero-stats">
       <div class="hero-stat"><div class="val">24</div><div class="lbl">درس شامل</div></div>
@@ -772,7 +742,6 @@ canvas { display: block; margin: 0 auto; }
   </div>
 </div>
 
-<!-- ======== PY1: Hello World ======== -->
 <div class="content-section" id="sec-py1">
   <div class="section-header">
     <span class="section-icon">👋</span>
@@ -798,10 +767,7 @@ canvas { display: block; margin: 0 auto; }
     <p>دالة <code style="color:var(--yellow)">print()</code> تأمر الحاسوب بعرض نص على الشاشة. هذا أبسط أمر في بايثون!</p>
     <div class="code-editor">
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">hello.py</span></div>
-      <div class="code-area"><span class="cm"># هذا تعليق — الحاسوب يتجاهله
-# علامة # تعني "هذا شرح للإنسان فقط"</span>
-
-<span class="fn">print</span>(<span class="str">"مرحباً يا عالم!"</span>)
+      <div class="code-area"><span class="fn">print</span>(<span class="str">"مرحباً يا عالم!"</span>)
 <span class="fn">print</span>(<span class="str">"أنا أتعلم بايثون اليوم 🐍"</span>)
 <span class="fn">print</span>(<span class="str">"اسمي:"</span>, <span class="str">"بطل المستقبل"</span>)</div>
     </div>
@@ -831,10 +797,10 @@ canvas { display: block; margin: 0 auto; }
     </div>
     <div class="code-editor" style="margin-top:14px;">
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">types.py</span></div>
-      <div class="code-area"><span class="fn">print</span>(<span class="fn">type</span>(<span class="str">"مرحباً"</span>))   <span class="cm"># &lt;class 'str'&gt;</span>
-<span class="fn">print</span>(<span class="fn">type</span>(<span class="num">42</span>))        <span class="cm"># &lt;class 'int'&gt;</span>
-<span class="fn">print</span>(<span class="fn">type</span>(<span class="num">3.14</span>))      <span class="cm"># &lt;class 'float'&gt;</span>
-<span class="fn">print</span>(<span class="fn">type</span>(<span class="kw">True</span>))      <span class="cm"># &lt;class 'bool'&gt;</span></div>
+      <div class="code-area"><span class="fn">print</span>(<span class="fn">type</span>(<span class="str">"مرحباً"</span>))
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="num">42</span>))
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="num">3.14</span>))
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="kw">True</span>))</div>
     </div>
   </div>
 
@@ -850,7 +816,6 @@ canvas { display: block; margin: 0 auto; }
   <button class="btn-run btn-green" onclick="completeLesson('py1','py2','مرحباً يا عالم!')">التالي: المتغيرات ←</button>
 </div>
 
-<!-- ======== PY2: Variables ======== -->
 <div class="content-section" id="sec-py2">
   <div class="section-header">
     <span class="section-icon">📦</span>
@@ -863,18 +828,16 @@ canvas { display: block; margin: 0 auto; }
     <p>المتغير مثل صندوق يضع فيه اسماً ويخزن فيه قيمة. يمكنك تغيير ما بداخله في أي وقت!</p>
     <div class="code-editor">
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">variables.py</span></div>
-      <div class="code-area"><span class="cm"># نخزن معلومات في متغيرات</span>
-name = <span class="str">"سارة"</span>          <span class="cm"># متغير نصي</span>
-age = <span class="num">12</span>              <span class="cm"># متغير رقمي</span>
-height = <span class="num">1.55</span>         <span class="cm"># متغير عشري</span>
-is_student = <span class="kw">True</span>     <span class="cm"># متغير منطقي</span>
+      <div class="code-area">name = <span class="str">"سارة"</span>
+age = <span class="num">12</span>
+height = <span class="num">1.55</span>
+is_student = <span class="kw">True</span>
 
 <span class="fn">print</span>(<span class="str">"الاسم:"</span>, name)
 <span class="fn">print</span>(<span class="str">"العمر:"</span>, age)
 <span class="fn">print</span>(<span class="str">"الطول:"</span>, height, <span class="str">"متر"</span>)
 <span class="fn">print</span>(<span class="str">"طالبة؟"</span>, is_student)
 
-<span class="cm"># يمكنك تغيير قيمة المتغير</span>
 age = age + <span class="num">1</span>
 <span class="fn">print</span>(<span class="str">"بعد عيد الميلاد:"</span>, age)</div>
     </div>
@@ -896,15 +859,15 @@ age = age + <span class="num">1</span>
     <p>أحياناً نحتاج تحويل النوع — مثلاً من نص إلى رقم!</p>
     <div class="code-editor">
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">convert.py</span></div>
-      <div class="code-area">num_text = <span class="str">"42"</span>        <span class="cm"># هذا نص وليس رقماً!</span>
-num_int = <span class="fn">int</span>(num_text)   <span class="cm"># تحويل إلى عدد صحيح</span>
+      <div class="code-area">num_text = <span class="str">"42"</span>
+num_int = <span class="fn">int</span>(num_text)
 
 price = <span class="num">19.99</span>
-price_int = <span class="fn">int</span>(price)    <span class="cm"># 19 (يحذف الكسور)</span>
-price_str = <span class="fn">str</span>(price)    <span class="cm"># "19.99" (نص)</span>
+price_int = <span class="fn">int</span>(price)
+price_str = <span class="fn">str</span>(price)
 
-<span class="fn">print</span>(num_int + <span class="num">8</span>)         <span class="cm"># 50 ✅</span>
-<span class="fn">print</span>(<span class="str">"السعر: "</span> + price_str) <span class="cm"># "السعر: 19.99" ✅</span></div>
+<span class="fn">print</span>(num_int + <span class="num">8</span>)
+<span class="fn">print</span>(<span class="str">"السعر: "</span> + price_str)</div>
     </div>
     <div class="tip"><span class="tip-icon">⚠️</span><p><strong>انتبه:</strong> <code>int("مرحبا")</code> سيعطي خطأ! يمكنك تحويل الأرقام النصية فقط مثل <code>"42"</code></p></div>
   </div>
@@ -915,15 +878,14 @@ price_str = <span class="fn">str</span>(price)    <span class="cm"># "19.99" (ن
     <div class="code-editor">
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">strings.py</span></div>
       <div class="code-area">name = <span class="str">"أحمد محمد"</span>
-<span class="fn">print</span>(name.<span class="fn">upper</span>())        <span class="cm"># أحمد محمد (بالحروف الكبيرة)</span>
-<span class="fn">print</span>(name.<span class="fn">lower</span>())        <span class="cm"># أحمد محمد (بالحروف الصغيرة)</span>
-<span class="fn">print</span>(<span class="fn">len</span>(name))            <span class="cm"># 10 (عدد الحروف)</span>
-<span class="fn">print</span>(name.<span class="fn">replace</span>(<span class="str">"أحمد"</span>, <span class="str">"علي"</span>)) <span class="cm"># علي محمد</span>
+<span class="fn">print</span>(name.<span class="fn">upper</span>())
+<span class="fn">print</span>(name.<span class="fn">lower</span>())
+<span class="fn">print</span>(<span class="fn">len</span>(name))
+<span class="fn">print</span>(name.<span class="fn">replace</span>(<span class="str">"أحمد"</span>, <span class="str">"علي"</span>))
 
-<span class="cm"># ضم النصوص</span>
 first = <span class="str">"مرحباً"</span>
 second = <span class="str">"يا صديقي"</span>
-<span class="fn">print</span>(first + <span class="str">" "</span> + second)   <span class="cm"># مرحباً يا صديقي</span>
+<span class="fn">print</span>(first + <span class="str">" "</span> + second)
 <span class="fn">print</span>(<span class="fn">f</span><span class="str">"الاسم: {name} والطول: {len(name)}"</span>)</div>
     </div>
     <div class="interactive-zone">
@@ -944,7 +906,6 @@ second = <span class="str">"يا صديقي"</span>
   <button class="btn-run btn-green" onclick="completeLesson('py2','py3','المتغيرات')">التالي: العمليات الحسابية ←</button>
 </div>
 
-<!-- ======== PY3: Math ======== -->
 <div class="content-section" id="sec-py3">
   <div class="section-header">
     <span class="section-icon">🔢</span>
@@ -959,13 +920,13 @@ second = <span class="str">"يا صديقي"</span>
       <div class="code-area">a = <span class="num">15</span>
 b = <span class="num">4</span>
 
-<span class="fn">print</span>(a + b)   <span class="cm"># 19 — الجمع</span>
-<span class="fn">print</span>(a - b)   <span class="cm"># 11 — الطرح</span>
-<span class="fn">print</span>(a * b)   <span class="cm"># 60 — الضرب</span>
-<span class="fn">print</span>(a / b)   <span class="cm"># 3.75 — القسمة</span>
-<span class="fn">print</span>(a <span class="op">//</span> b)  <span class="cm"># 3 — قسمة صحيحة (بدون كسور)</span>
-<span class="fn">print</span>(a <span class="op">%</span> b)   <span class="cm"># 3 — باقي القسمة</span>
-<span class="fn">print</span>(a <span class="op">**</span> b)  <span class="cm"># 50625 — الأس (15^4)</span></div>
+<span class="fn">print</span>(a + b)
+<span class="fn">print</span>(a - b)
+<span class="fn">print</span>(a * b)
+<span class="fn">print</span>(a / b)
+<span class="fn">print</span>(a <span class="op">//</span> b)
+<span class="fn">print</span>(a <span class="op">%</span> b)
+<span class="fn">print</span>(a <span class="op">**</span> b)</div>
     </div>
     <div class="interactive-zone">
       <h4>🧮 آلة الحاسبة التفاعلية</h4>
@@ -991,13 +952,12 @@ b = <span class="num">4</span>
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">advanced_math.py</span></div>
       <div class="code-area"><span class="kw">import</span> math
 
-<span class="fn">print</span>(math.<span class="fn">sqrt</span>(<span class="num">144</span>))   <span class="cm"># 12.0 — الجذر التربيعي</span>
-<span class="fn">print</span>(math.<span class="fn">pi</span>)           <span class="cm"># 3.14159... — باي</span>
-<span class="fn">print</span>(math.<span class="fn">floor</span>(<span class="num">3.9</span>))   <span class="cm"># 3 — التقريب للأسفل</span>
-<span class="fn">print</span>(math.<span class="fn">ceil</span>(<span class="num">3.1</span>))    <span class="cm"># 4 — التقريب للأعلى</span>
-<span class="fn">print</span>(math.<span class="fn">abs</span>(-<span class="num">5</span>))      <span class="cm"># 5 — القيمة المطلقة</span>
+<span class="fn">print</span>(math.<span class="fn">sqrt</span>(<span class="num">144</span>))
+<span class="fn">print</span>(math.<span class="fn">pi</span>)
+<span class="fn">print</span>(math.<span class="fn">floor</span>(<span class="num">3.9</span>))
+<span class="fn">print</span>(math.<span class="fn">ceil</span>(<span class="num">3.1</span>))
+<span class="fn">print</span>(math.<span class="fn">abs</span>(-<span class="num">5</span>))
 
-<span class="cm"># مثال عملي: حساب دائرة</span>
 radius = <span class="num">7</span>
 area = math.pi * radius ** <span class="num">2</span>
 <span class="fn">print</span>(<span class="fn">f</span><span class="str">f"مساحة الدائرة: {area:.2f}"</span>)</div>
@@ -1014,7 +974,6 @@ area = math.pi * radius ** <span class="num">2</span>
   <button class="btn-run btn-green" onclick="completeLesson('py3','py4','العمليات الحسابية')">التالي: الشروط ←</button>
 </div>
 
-<!-- ======== PY4: Conditions ======== -->
 <div class="content-section" id="sec-py4">
   <div class="section-header">
     <span class="section-icon">❓</span>
@@ -1035,11 +994,6 @@ area = math.pi * radius ** <span class="num">2</span>
     <span class="fn">print</span>(<span class="str">"أنت مراهق 🌙"</span>)
 <span class="kw">else</span>:
     <span class="fn">print</span>(<span class="str">"أنت طفل 🧒"</span>)
-
-<span class="cm"># عمليات المقارنة:</span>
-<span class="cm"># ==  يساوي    !=  لا يساوي</span>
-<span class="cm"># >   أكبر     <   أصغر</span>
-<span class="cm"># >=  أكبر أو يساوي   <=  أصغر أو يساوي</span>
 
 score = <span class="num">85</span>
 grade = <span class="str">"ممتاز"</span> <span class="kw">if</span> score >= <span class="num">90</span> <span class="kw">else</span> <span class="str">"جيد"</span> <span class="kw">if</span> score >= <span class="num">70</span> <span class="kw">else</span> <span class="str">"راسب"</span>
@@ -1096,7 +1050,6 @@ raining = <span class="kw">True</span>
   <button class="btn-run btn-green" onclick="completeLesson('py4','py5','الشروط')">التالي: الحلقات ←</button>
 </div>
 
-<!-- ======== PY5: Loops ======== -->
 <div class="content-section" id="sec-py5">
   <div class="section-header">
     <span class="section-icon">🔁</span>
@@ -1108,16 +1061,13 @@ raining = <span class="kw">True</span>
     <h3>حلقة for</h3>
     <div class="code-editor">
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">for_loop.py</span></div>
-      <div class="code-area"><span class="cm"># العد من 1 إلى 5</span>
-<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):
+      <div class="code-area"><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):
     <span class="fn">print</span>(<span class="str">f"🌟 العدد {i}"</span>)
 
-<span class="cm"># المرور على قائمة</span>
 fruits = [<span class="str">"تفاح"</span>, <span class="str">"موز"</span>, <span class="str">"برتقال"</span>, <span class="str">"عنب"</span>]
 <span class="kw">for</span> fruit <span class="kw">in</span> fruits:
     <span class="fn">print</span>(<span class="str">f"🍎 الفاكهة: {fruit}"</span>)
 
-<span class="cm"># جدول الضرب!</span>
 <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>):
     <span class="fn">print</span>(<span class="str">f"5 × {i} = {5*i}"</span>)</div>
     </div>
@@ -1138,9 +1088,8 @@ fruits = [<span class="str">"تفاح"</span>, <span class="str">"موز"</span>
       <div class="code-area">count = <span class="num">0</span>
 <span class="kw">while</span> count < <span class="num">5</span>:
     <span class="fn">print</span>(<span class="str">f"العداد: {count}"</span>)
-    count += <span class="num">1</span>   <span class="cm"># count = count + 1</span>
+    count += <span class="num">1</span>
 
-<span class="cm"># مثال: لعبة التخمين</span>
 secret = <span class="num">7</span>
 guess = <span class="num">0</span>
 attempts = <span class="num">0</span>
@@ -1167,23 +1116,20 @@ attempts = <span class="num">0</span>
     <h3>break و continue</h3>
     <div class="code-editor">
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">break_continue.py</span></div>
-      <div class="code-area"><span class="cm"># break — يوقف الحلقة</span>
-<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
+      <div class="code-area"><span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
     <span class="kw">if</span> i == <span class="num">5</span>:
-        <span class="kw">break</span>     <span class="cm"># يخرج من الحلقة</span>
-    <span class="fn">print</span>(i)   <span class="cm"># يطبع 0,1,2,3,4 فقط</span>
+        <span class="kw">break</span>
+    <span class="fn">print</span>(i)
 
-<span class="cm"># continue — يتخطى التكرار الحالي</span>
 <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
     <span class="kw">if</span> i % <span class="num">2</span> == <span class="num">0</span>:
-        <span class="kw">continue</span>  <span class="cm"># يتخطى الأرقام الزوجية</span>
-    <span class="fn">print</span>(i)   <span class="cm"># يطبع 1,3,5,7,9 فقط</span></div>
+        <span class="kw">continue</span>
+    <span class="fn">print</span>(i)</div>
     </div>
   </div>
   <button class="btn-run btn-green" onclick="completeLesson('py5','py6','الحلقات')">التالي: القوائم ←</button>
 </div>
 
-<!-- ======== PY6: Lists ======== -->
 <div class="content-section" id="sec-py6">
   <div class="section-header">
     <span class="section-icon">📋</span>
@@ -1197,18 +1143,16 @@ attempts = <span class="num">0</span>
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">lists.py</span></div>
       <div class="code-area">fruits = [<span class="str">"تفاح"</span>, <span class="str">"موز"</span>, <span class="str">"عنب"</span>, <span class="str">"مانجو"</span>]
 
-<span class="cm"># الوصول بالمؤشر (يبدأ من 0)</span>
-<span class="fn">print</span>(fruits[<span class="num">0</span>])    <span class="cm"># تفاح (الأول)</span>
-<span class="fn">print</span>(fruits[-<span class="num">1</span>])   <span class="cm"># مانجو (الأخير)</span>
-<span class="fn">print</span>(fruits[<span class="num">1</span>:<span class="num">3</span>])  <span class="cm"># [موز, عنب]</span>
+<span class="fn">print</span>(fruits[<span class="num">0</span>])
+<span class="fn">print</span>(fruits[-<span class="num">1</span>])
+<span class="fn">print</span>(fruits[<span class="num">1</span>:<span class="num">3</span>])
 
-<span class="cm"># إضافة وحذف</span>
-fruits.<span class="fn">append</span>(<span class="str">"برتقال"</span>)    <span class="cm"># إضافة في النهاية</span>
-fruits.<span class="fn">insert</span>(<span class="num">0</span>, <span class="str">"كيوي"</span>)   <span class="cm"># إضافة في البداية</span>
-fruits.<span class="fn">remove</span>(<span class="str">"موز"</span>)       <span class="cm"># حذف عنصر</span>
+fruits.<span class="fn">append</span>(<span class="str">"برتقال"</span>)
+fruits.<span class="fn">insert</span>(<span class="num">0</span>, <span class="str">"كيوي"</span>)
+fruits.<span class="fn">remove</span>(<span class="str">"موز"</span>)
 
-<span class="fn">print</span>(<span class="fn">len</span>(fruits))           <span class="cm"># عدد العناصر</span>
-<span class="fn">print</span>(fruits.<span class="fn">sort</span>())        <span class="cm"># ترتيب</span></div>
+<span class="fn">print</span>(<span class="fn">len</span>(fruits))
+<span class="fn">print</span>(fruits.<span class="fn">sort</span>())</div>
     </div>
     <div class="interactive-zone">
       <h4>🛒 قائمة التسوق التفاعلية</h4>
@@ -1230,17 +1174,16 @@ fruits.<span class="fn">remove</span>(<span class="str">"موز"</span>)       <
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">list_ops.py</span></div>
       <div class="code-area">nums = [<span class="num">5</span>, <span class="num">2</span>, <span class="num">8</span>, <span class="num">1</span>, <span class="num">9</span>, <span class="num">3</span>]
 
-<span class="fn">print</span>(<span class="fn">sum</span>(nums))    <span class="cm"># 28 — المجموع</span>
-<span class="fn">print</span>(<span class="fn">max</span>(nums))    <span class="cm"># 9  — الأكبر</span>
-<span class="fn">print</span>(<span class="fn">min</span>(nums))    <span class="cm"># 1  — الأصغر</span>
-<span class="fn">print</span>(<span class="fn">sorted</span>(nums)) <span class="cm"># مرتبة تصاعدياً</span>
+<span class="fn">print</span>(<span class="fn">sum</span>(nums))
+<span class="fn">print</span>(<span class="fn">max</span>(nums))
+<span class="fn">print</span>(<span class="fn">min</span>(nums))
+<span class="fn">print</span>(<span class="fn">sorted</span>(nums))
 
-<span class="cm"># List Comprehension — طريقة رائعة!</span>
 squares = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)]
-<span class="fn">print</span>(squares)  <span class="cm"># [1, 4, 9, 16, 25]</span>
+<span class="fn">print</span>(squares)
 
 evens = [x <span class="kw">for</span> x <span class="kw">in</span> nums <span class="kw">if</span> x % <span class="num">2</span> == <span class="num">0</span>]
-<span class="fn">print</span>(evens)    <span class="cm"># [2, 8] — الأرقام الزوجية</span></div>
+<span class="fn">print</span>(evens)</div>
     </div>
     <div class="interactive-zone">
       <h4>📊 تحليل الأرقام</h4>
@@ -1254,7 +1197,6 @@ evens = [x <span class="kw">for</span> x <span class="kw">in</span> nums <span c
   <button class="btn-run btn-green" onclick="completeLesson('py6','py7','القوائم')">التالي: القواميس ←</button>
 </div>
 
-<!-- ======== PY7: Dictionaries ======== -->
 <div class="content-section" id="sec-py7">
   <div class="section-header">
     <span class="section-icon">🗂️</span>
@@ -1273,14 +1215,12 @@ evens = [x <span class="kw">for</span> x <span class="kw">in</span> nums <span c
     <span class="str">"subjects"</span>: [<span class="str">"رياضيات"</span>, <span class="str">"علوم"</span>, <span class="str">"لغة"</span>]
 }
 
-<span class="fn">print</span>(student[<span class="str">"name"</span>])         <span class="cm"># علي</span>
-<span class="fn">print</span>(student.<span class="fn">get</span>(<span class="str">"age"</span>))      <span class="cm"># 14</span>
+<span class="fn">print</span>(student[<span class="str">"name"</span>])
+<span class="fn">print</span>(student.<span class="fn">get</span>(<span class="str">"age"</span>))
 
-<span class="cm"># إضافة وتعديل</span>
-student[<span class="str">"score"</span>] = <span class="num">95</span>          <span class="cm"># إضافة مفتاح جديد</span>
-student[<span class="str">"age"</span>] = <span class="num">15</span>            <span class="cm"># تعديل قيمة</span>
+student[<span class="str">"score"</span>] = <span class="num">95</span>
+student[<span class="str">"age"</span>] = <span class="num">15</span>
 
-<span class="cm"># المرور على القاموس</span>
 <span class="kw">for</span> key, value <span class="kw">in</span> student.<span class="fn">items</span>():
     <span class="fn">print</span>(<span class="str">f"{key}: {value}"</span>)</div>
     </div>
@@ -1301,7 +1241,6 @@ student[<span class="str">"age"</span>] = <span class="num">15</span>           
   <button class="btn-run btn-green" onclick="completeLesson('py7','py8','القواميس')">التالي: الدوال ←</button>
 </div>
 
-<!-- ======== PY8: Functions ======== -->
 <div class="content-section" id="sec-py8">
   <div class="section-header">
     <span class="section-icon">⚙️</span>
@@ -1350,26 +1289,23 @@ bmi, s = <span class="fn">calculate_bmi</span>(<span class="num">60</span>, <spa
     <h3>دوال Lambda والدوال المدمجة</h3>
     <div class="code-editor">
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">lambda.py</span></div>
-      <div class="code-area"><span class="cm"># Lambda — دوال صغيرة في سطر واحد</span>
-square = <span class="kw">lambda</span> x: x ** <span class="num">2</span>
+      <div class="code-area">square = <span class="kw">lambda</span> x: x ** <span class="num">2</span>
 add = <span class="kw">lambda</span> a, b: a + b
 
-<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">5</span>))      <span class="cm"># 25</span>
-<span class="fn">print</span>(<span class="fn">add</span>(<span class="num">3</span>, <span class="num">7</span>))     <span class="cm"># 10</span>
+<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">5</span>))
+<span class="fn">print</span>(<span class="fn">add</span>(<span class="num">3</span>, <span class="num">7</span>))
 
-<span class="cm"># map و filter</span>
 nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
 doubled = <span class="fn">list</span>(<span class="fn">map</span>(<span class="kw">lambda</span> x: x*<span class="num">2</span>, nums))
-<span class="fn">print</span>(doubled)   <span class="cm"># [2, 4, 6, 8, 10]</span>
+<span class="fn">print</span>(doubled)
 
 evens = <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">lambda</span> x: x%<span class="num">2</span>==<span class="num">0</span>, nums))
-<span class="fn">print</span>(evens)     <span class="cm"># [2, 4]</span></div>
+<span class="fn">print</span>(evens)</div>
     </div>
   </div>
   <button class="btn-run btn-green" onclick="completeLesson('py8','py9','الدوال')">التالي: البرمجة الكائنية ←</button>
 </div>
 
-<!-- ======== PY9: OOP ======== -->
 <div class="content-section" id="sec-py9">
   <div class="section-header">
     <span class="section-icon">🏗️</span>
@@ -1395,7 +1331,6 @@ evens = <span class="fn">list</span>(<span class="fn">filter</span>(<span class=
         self.energy += <span class="num">10</span>
         <span class="fn">print</span>(<span class="str">f"{self.name} يأكل {food} 😋 طاقة: {self.energy}"</span>)
 
-<span class="cm"># إنشاء كائنات</span>
 cat = <span class="cls">Animal</span>(<span class="str">"قطة"</span>, <span class="str">"مياو"</span>, <span class="str">"🐱"</span>)
 dog = <span class="cls">Animal</span>(<span class="str">"كلب"</span>, <span class="str">"هاو"</span>, <span class="str">"🐶"</span>)
 
@@ -1420,7 +1355,6 @@ dog.<span class="fn">eat</span>(<span class="str">"عظمة"</span>)</div>
   <button class="btn-run btn-green" onclick="completeLesson('py9','ai1','البرمجة الكائنية')">التالي: الذكاء الاصطناعي ←</button>
 </div>
 
-<!-- ======== PY10: Files ======== -->
 <div class="content-section" id="sec-py10">
   <div class="section-header">
     <span class="section-icon">📁</span>
@@ -1432,17 +1366,14 @@ dog.<span class="fn">eat</span>(<span class="str">"عظمة"</span>)</div>
     <h3>قراءة وكتابة الملفات</h3>
     <div class="code-editor">
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">files.py</span></div>
-      <div class="code-area"><span class="cm"># كتابة ملف</span>
-<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"notes.txt"</span>, <span class="str">"w"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+      <div class="code-area"><span class="kw">with</span> <span class="fn">open</span>(<span class="str">"notes.txt"</span>, <span class="str">"w"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
     f.<span class="fn">write</span>(<span class="str">"أنا أتعلم بايثون!\n"</span>)
     f.<span class="fn">write</span>(<span class="str">"البرمجة رائعة 🚀\n"</span>)
 
-<span class="cm"># قراءة ملف</span>
 <span class="kw">with</span> <span class="fn">open</span>(<span class="str">"notes.txt"</span>, <span class="str">"r"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
     content = f.<span class="fn">read</span>()
     <span class="fn">print</span>(content)
 
-<span class="cm"># JSON — تخزين بيانات منظمة</span>
 <span class="kw">import</span> json
 data = {<span class="str">"name"</span>: <span class="str">"علي"</span>, <span class="str">"score"</span>: <span class="num">95</span>}
 <span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.json"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
@@ -1462,7 +1393,6 @@ data = {<span class="str">"name"</span>: <span class="str">"علي"</span>, <spa
   <button class="btn-run btn-green" onclick="completeLesson('py10','ai1','الملفات')">التالي: الذكاء الاصطناعي ←</button>
 </div>
 
-<!-- ======== AI1: What is AI ======== -->
 <div class="content-section" id="sec-ai1">
   <div class="section-header">
     <span class="section-icon">🤖</span>
@@ -1503,7 +1433,6 @@ data = {<span class="str">"name"</span>: <span class="str">"علي"</span>, <spa
   <button class="btn-run btn-green" onclick="completeLesson('ai1','ai2','مفهوم الذكاء الاصطناعي')">التالي: تعلم الآلة ←</button>
 </div>
 
-<!-- ======== AI2: ML ======== -->
 <div class="content-section" id="sec-ai2">
   <div class="section-header">
     <span class="section-icon">📊</span>
@@ -1550,15 +1479,12 @@ data = {<span class="str">"name"</span>: <span class="str">"علي"</span>, <spa
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">ml_example.py</span></div>
       <div class="code-area"><span class="kw">from</span> sklearn.<span class="fn">neighbors</span> <span class="kw">import</span> KNeighborsClassifier
 
-<span class="cm"># بيانات التدريب: [الطول, الوزن] → النوع</span>
 X_train = [[<span class="num">1.8</span>, <span class="num">80</span>], [<span class="num">1.6</span>, <span class="num">60</span>], [<span class="num">1.75</span>, <span class="num">75</span>], [<span class="num">1.55</span>, <span class="num">50</span>]]
 y_train = [<span class="str">"ذكر"</span>, <span class="str">"أنثى"</span>, <span class="str">"ذكر"</span>, <span class="str">"أنثى"</span>]
 
-<span class="cm"># تدريب النموذج</span>
 model = KNeighborsClassifier(n_neighbors=<span class="num">3</span>)
 model.<span class="fn">fit</span>(X_train, y_train)
 
-<span class="cm"># التنبؤ بشخص جديد</span>
 new_person = [[<span class="num">1.70</span>, <span class="num">70</span>]]
 prediction = model.<span class="fn">predict</span>(new_person)
 <span class="fn">print</span>(<span class="str">f"التنبؤ: {prediction[0]}"</span>)</div>
@@ -1568,7 +1494,6 @@ prediction = model.<span class="fn">predict</span>(new_person)
   <button class="btn-run btn-green" onclick="completeLesson('ai2','ai3','تعلم الآلة')">التالي: الشبكات العصبية ←</button>
 </div>
 
-<!-- ======== AI3: Neural Networks ======== -->
 <div class="content-section" id="sec-ai3">
   <div class="section-header">
     <span class="section-icon">🧠</span>
@@ -1602,19 +1527,16 @@ prediction = model.<span class="fn">predict</span>(new_person)
       <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">neural_net.py</span></div>
       <div class="code-area"><span class="kw">from</span> tensorflow <span class="kw">import</span> keras
 
-<span class="cm"># بناء الشبكة</span>
 model = keras.<span class="cls">Sequential</span>([
     keras.layers.<span class="cls">Dense</span>(<span class="num">128</span>, activation=<span class="str">'relu'</span>, input_shape=(<span class="num">784</span>,)),
     keras.layers.<span class="cls">Dense</span>(<span class="num">64</span>, activation=<span class="str">'relu'</span>),
     keras.layers.<span class="cls">Dense</span>(<span class="num">10</span>, activation=<span class="str">'softmax'</span>)
 ])
 
-<span class="cm"># تجهيز النموذج</span>
 model.<span class="fn">compile</span>(optimizer=<span class="str">'adam'</span>,
               loss=<span class="str">'categorical_crossentropy'</span>,
               metrics=[<span class="str">'accuracy'</span>])
 
-<span class="cm"># التدريب</span>
 model.<span class="fn">fit</span>(X_train, y_train, epochs=<span class="num">10</span>)</div>
     </div>
   </div>
@@ -1629,7 +1551,6 @@ model.<span class="fn">fit</span>(X_train, y_train, epochs=<span class="num">10<
   <button class="btn-run btn-green" onclick="completeLesson('ai3','ai4','الشبكات العصبية')">التالي: تصنيف البيانات ←</button>
 </div>
 
-<!-- ======== AI4: Classification ======== -->
 <div class="content-section" id="sec-ai4">
   <div class="section-header">
     <span class="section-icon">📈</span>
@@ -1683,7 +1604,6 @@ model.<span class="fn">fit</span>(X_train, y_train, epochs=<span class="num">10<
   <button class="btn-run btn-green" onclick="completeLesson('ai4','voice1','تصنيف البيانات')">التالي: التعرف الصوتي ←</button>
 </div>
 
-<!-- ======== VOICE1: Theory ======== -->
 <div class="content-section" id="sec-voice1">
   <div class="section-header">
     <span class="section-icon">🎤</span>
@@ -1709,7 +1629,6 @@ model.<span class="fn">fit</span>(X_train, y_train, epochs=<span class="num">10<
 
 recognizer = sr.<span class="cls">Recognizer</span>()
 
-<span class="cm"># الاستماع من الميكروفون</span>
 <span class="kw">with</span> sr.<span class="cls">Microphone</span>() <span class="kw">as</span> source:
     <span class="fn">print</span>(<span class="str">"تكلم الآن... 🎤"</span>)
     audio = recognizer.<span class="fn">listen</span>(source)
@@ -1717,7 +1636,7 @@ recognizer = sr.<span class="cls">Recognizer</span>()
 <span class="kw">try</span>:
     text = recognizer.<span class="fn">recognize_google</span>(
         audio,
-        language=<span class="str">"ar-SA"</span>   <span class="cm"># العربية!</span>
+        language=<span class="str">"ar-SA"</span>
     )
     <span class="fn">print</span>(<span class="str">f"قلت: {text}"</span>)
 <span class="kw">except</span>:
@@ -1728,7 +1647,6 @@ recognizer = sr.<span class="cls">Recognizer</span>()
   <button class="btn-run btn-green" onclick="completeLesson('voice1','voice2','نظرية التعرف الصوتي')">التالي: التجربة الصوتية ←</button>
 </div>
 
-<!-- ======== VOICE2: Live ======== -->
 <div class="content-section" id="sec-voice2">
   <div class="section-header">
     <span class="section-icon">🗣️</span>
@@ -1773,7 +1691,6 @@ recognizer = sr.<span class="cls">Recognizer</span>()
   <button class="btn-run btn-green" onclick="completeLesson('voice2','voice3','التعرف الصوتي')">التالي: تحويل النص لصوت ←</button>
 </div>
 
-<!-- ======== VOICE3: TTS ======== -->
 <div class="content-section" id="sec-voice3">
   <div class="section-header">
     <span class="section-icon">🔊</span>
@@ -1789,15 +1706,12 @@ recognizer = sr.<span class="cls">Recognizer</span>()
 
 engine = pyttsx3.<span class="fn">init</span>()
 
-<span class="cm"># إعداد الصوت</span>
-engine.<span class="fn">setProperty</span>(<span class="str">'rate'</span>, <span class="num">150</span>)    <span class="cm"># سرعة الكلام</span>
-engine.<span class="fn">setProperty</span>(<span class="str">'volume'</span>, <span class="num">0.9</span>)  <span class="cm"># مستوى الصوت</span>
+engine.<span class="fn">setProperty</span>(<span class="str">'rate'</span>, <span class="num">150</span>)
+engine.<span class="fn">setProperty</span>(<span class="str">'volume'</span>, <span class="num">0.9</span>)
 
-<span class="cm"># قائمة الأصوات المتاحة</span>
 voices = engine.<span class="fn">getProperty</span>(<span class="str">'voices'</span>)
 engine.<span class="fn">setProperty</span>(<span class="str">'voice'</span>, voices[<span class="num">0</span>].id)
 
-<span class="cm"># التحدث</span>
 engine.<span class="fn">say</span>(<span class="str">"مرحباً! أنا حاسوب يتكلم بالعربية!"</span>)
 engine.<span class="fn">runAndWait</span>()</div>
     </div>
@@ -1821,7 +1735,6 @@ engine.<span class="fn">runAndWait</span>()</div>
   <button class="btn-run btn-green" onclick="completeLesson('voice3','img1','تحويل النص لصوت')">التالي: رؤية الحاسوب ←</button>
 </div>
 
-<!-- ======== IMG1: Theory ======== -->
 <div class="content-section" id="sec-img1">
   <div class="section-header">
     <span class="section-icon">👁️</span>
@@ -1837,18 +1750,14 @@ engine.<span class="fn">runAndWait</span>()</div>
       <div class="code-area"><span class="kw">import</span> cv2
 <span class="kw">import</span> numpy <span class="kw">as</span> np
 
-<span class="cm"># تحميل صورة</span>
 img = cv2.<span class="fn">imread</span>(<span class="str">'photo.jpg'</span>)
-<span class="fn">print</span>(img.shape)  <span class="cm"># (480, 640, 3) → الأبعاد</span>
+<span class="fn">print</span>(img.shape)
 
-<span class="cm"># كل بكسل = [أزرق, أخضر, أحمر]</span>
-pixel = img[<span class="num">100</span>, <span class="num">200</span>]  <span class="cm"># البكسل في السطر 100 العمود 200</span>
+pixel = img[<span class="num">100</span>, <span class="num">200</span>]
 <span class="fn">print</span>(<span class="str">f"قيمة البكسل: {pixel}"</span>)
 
-<span class="cm"># تحويل إلى رمادي</span>
 gray = cv2.<span class="fn">cvtColor</span>(img, cv2.COLOR_BGR2GRAY)
 
-<span class="cm"># اكتشاف الحواف</span>
 edges = cv2.<span class="fn">Canny</span>(gray, <span class="num">100</span>, <span class="num">200</span>)</div>
     </div>
     <div class="interactive-zone">
@@ -1875,7 +1784,6 @@ edges = cv2.<span class="fn">Canny</span>(gray, <span class="num">100</span>, <s
   <button class="btn-run btn-green" onclick="completeLesson('img1','img2','رؤية الحاسوب')">التالي: تحليل الصور ←</button>
 </div>
 
-<!-- ======== IMG2: Live Detection ======== -->
 <div class="content-section" id="sec-img2">
   <div class="section-header">
     <span class="section-icon">📷</span>
@@ -1917,7 +1825,6 @@ edges = cv2.<span class="fn">Canny</span>(gray, <span class="num">100</span>, <s
   <button class="btn-run btn-green" onclick="completeLesson('img2','img3','تحليل الصور')">التالي: التعرف على المشاعر ←</button>
 </div>
 
-<!-- ======== IMG3: Emotion ======== -->
 <div class="content-section" id="sec-img3">
   <div class="section-header">
     <span class="section-icon">😊</span>
@@ -1989,7 +1896,6 @@ cap = cv2.<span class="cls">VideoCapture</span>(<span class="num">0</span>)
   <button class="btn-run btn-green" onclick="completeLesson('img3','quiz','التعرف على المشاعر')">التالي: الاختبار الشامل ←</button>
 </div>
 
-<!-- ======== QUIZ ======== -->
 <div class="content-section" id="sec-quiz">
   <div class="section-header">
     <span class="section-icon">🧩</span>
@@ -1999,7 +1905,7 @@ cap = cv2.<span class="cls">VideoCapture</span>(<span class="num">0</span>)
   <div id="quizWrap">
     <div class="lesson-card yellow" style="text-align:center;">
       <span style="font-size:4rem;display:block;margin-bottom:16px;">🏆</span>
-      <h3 style="font-size:1.5rem;margin-bottom:10px;">اختبار الأكاديمية الشامل</h3>
+      <h3 style="font-size:1.5rem;margin-bottom:10px;">اختبار حجار نايلة الشامل</h3>
       <p style="color:var(--muted);margin-bottom:20px;">20 سؤالاً في بايثون والذكاء الاصطناعي والتعرف على الصوت والصور</p>
       <div class="prog-bar" style="max-width:400px;margin:0 auto 12px;height:10px;"><div class="prog-fill" id="qProg" style="width:0%"></div></div>
       <p id="qProgTxt" style="color:var(--muted);font-size:0.85rem;margin-bottom:20px;">السؤال 0 من 20</p>
@@ -2010,7 +1916,6 @@ cap = cv2.<span class="cls">VideoCapture</span>(<span class="num">0</span>)
   </div>
 </div>
 
-<!-- ======== CERT ======== -->
 <div class="content-section" id="sec-cert">
   <div class="section-header">
     <span class="section-icon">🏅</span>
@@ -2020,7 +1925,7 @@ cap = cv2.<span class="cls">VideoCapture</span>(<span class="num">0</span>)
     <div style="position:absolute;top:-20px;right:-20px;font-size:5rem;opacity:0.1;">⭐</div>
     <div style="position:absolute;bottom:-20px;left:-20px;font-size:5rem;opacity:0.1;">🚀</div>
     <div style="font-size:3rem;margin-bottom:16px;">🏅</div>
-    <p style="color:var(--yellow);font-size:0.9rem;letter-spacing:2px;margin-bottom:8px;">أكاديمية النجوم للبرمجة</p>
+    <p style="color:var(--yellow);font-size:0.9rem;letter-spacing:2px;margin-bottom:8px;">حجار نايلة للبرمجة</p>
     <h2 style="font-size:2rem;background:linear-gradient(135deg,var(--yellow),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;">شهادة إتمام الدورة</h2>
     <p style="color:var(--muted);margin-bottom:20px;">هذه الشهادة تُمنح لـ</p>
     <input class="py-input" id="certName" placeholder="اكتب اسمك هنا..." style="text-align:center;font-size:1.3rem;font-weight:700;max-width:300px;margin:0 auto 20px;display:block;background:rgba(252,211,77,0.06);border-color:var(--yellow);">
@@ -2035,7 +1940,7 @@ cap = cv2.<span class="cls">VideoCapture</span>(<span class="num">0</span>)
       <div style="text-align:center;"><div style="font-size:1.5rem;">🎤</div><div style="font-size:0.75rem;color:var(--muted);">التعرف الصوتي</div></div>
       <div style="text-align:center;"><div style="font-size:1.5rem;">📷</div><div style="font-size:0.75rem;color:var(--muted);">رؤية الحاسوب</div></div>
     </div>
-    <p style="color:var(--yellow);font-size:0.8rem;">تصميم: هجار نايلة ❤️ | <span id="certDate"></span></p>
+    <p style="color:var(--yellow);font-size:0.8rem;">تصميم: حجار نايلة ❤️ | <span id="certDate"></span></p>
   </div>
   <div style="text-align:center;margin-top:20px;">
     <button class="btn-run btn-yellow" onclick="printCert()" style="font-size:1rem;padding:14px 32px;">🖨️ اطبع شهادتك!</button>
@@ -2043,10 +1948,9 @@ cap = cv2.<span class="cls">VideoCapture</span>(<span class="num">0</span>)
   </div>
 </div>
 
-</div><!-- end main -->
+</div>
 
 <script>
-// ===== GALAXY =====
 const galaxy = document.getElementById('galaxy');
 for(let i=0;i<150;i++){
   const s=document.createElement('div'); s.className='star-dot';
@@ -2060,7 +1964,6 @@ for(let i=0;i<150;i++){
   galaxy.appendChild(n);
 });
 
-// ===== NAV =====
 let completedLessons=new Set();
 function nav(id){
   document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
@@ -2085,7 +1988,6 @@ function completeLesson(cur,next,name){
   setTimeout(()=>nav(next),600);
 }
 
-// ===== NOTIF =====
 function showNotif(icon,title,text){
   document.getElementById('notifIcon').textContent=icon;
   document.getElementById('notifTitle').textContent=title;
@@ -2095,7 +1997,6 @@ function showNotif(icon,title,text){
   setTimeout(()=>n.classList.remove('show'),3500);
 }
 
-// ===== CONFETTI =====
 function confetti(){
   const colors=['#F472B6','#FCD34D','#22D3EE','#A78BFA','#FB923C','#34D399'];
   for(let i=0;i<40;i++){
@@ -2106,7 +2007,6 @@ function confetti(){
   }
 }
 
-// ===== QUIZ HELPER =====
 function quizAns(btn,qid,correct){
   const btns=document.getElementById(qid).querySelectorAll('.q-opt');
   btns.forEach(b=>b.disabled=true);
@@ -2116,7 +2016,6 @@ function quizAns(btn,qid,correct){
   else showNotif('❌','إجابة خاطئة','لا بأس، حاول مرة أخرى!');
 }
 
-// ===== OUTPUT HELPERS =====
 function showOutput(id,lines,type=''){
   const el=document.getElementById(id);
   el.style.display='block'; el.innerHTML='';
@@ -2126,7 +2025,6 @@ function showOutput(id,lines,type=''){
   },i*250));
 }
 
-// ===== PY1 =====
 function runPy1(){
   const n=document.getElementById('p1name').value||'صديقي';
   const a=parseInt(document.getElementById('p1age').value)||10;
@@ -2143,7 +2041,6 @@ function runPy1(){
   confetti();
 }
 
-// ===== PY2 =====
 function runPy2(){
   const n=document.getElementById('v2name').value||'صديقي';
   const c=document.getElementById('v2city').value||'المدينة';
@@ -2162,7 +2059,6 @@ function runPy2(){
   ]);
 }
 
-// ===== STR OPS =====
 function strOp(op){
   const s=document.getElementById('v2str').value||'مرحباً بايثون';
   let r='';
@@ -2174,7 +2070,6 @@ function strOp(op){
   showOutput('out-str',[r]);
 }
 
-// ===== MATH =====
 function doMath(op){
   const a=parseFloat(document.getElementById('m1').value)||0;
   const b=parseFloat(document.getElementById('m2').value)||0;
@@ -2205,7 +2100,6 @@ function calcCircle(){
   ]);
 }
 
-// ===== PY4 =====
 function checkGrade(){
   const s=parseInt(document.getElementById('scoreIn').value)||0;
   let g,e;
@@ -2234,7 +2128,6 @@ function checkGo(){
   showOutput('out-go',msg);
 }
 
-// ===== PY5 =====
 function multTable(){
   const n=parseInt(document.getElementById('multNum').value)||7;
   const lines=[`>>> جدول الضرب للعدد ${n}:`,`${'─'.repeat(20)}`];
@@ -2257,7 +2150,6 @@ function playGuess(){
 }
 function resetGuess(){secretNum=Math.floor(Math.random()*20)+1;guessCount=0;document.getElementById('guessIn').value='';document.getElementById('out-guess').style.display='none';}
 
-// ===== PY6 =====
 let shopItems=[];
 function addShopItem(){
   const v=document.getElementById('shopItem').value.trim();
@@ -2294,7 +2186,6 @@ function analyzeNums(){
   ]);
 }
 
-// ===== PY7 =====
 function buildProfile(){
   const n=document.getElementById('dName').value||'صديقي';
   const a=document.getElementById('dAge').value||'?';
@@ -2315,7 +2206,6 @@ function buildProfile(){
   ]);
 }
 
-// ===== PY8 =====
 function calcBMI(){
   const w=parseFloat(document.getElementById('bmiW').value)||60;
   const h=parseFloat(document.getElementById('bmiH').value)/100||1.70;
@@ -2334,7 +2224,6 @@ function calcBMI(){
   ],bmi>=18.5&&bmi<25?'':'warn');
 }
 
-// ===== PY9 OOP =====
 let animalEnergy=100;
 function animalDo(action){
   const n=document.getElementById('aniName').value||'الحيوان';
@@ -2346,13 +2235,11 @@ function animalDo(action){
   else if(action==='play'){animalEnergy-=20;msg=`🎾 ${n} يلعب!`;showOutput('out-oop',[`>>> ${n.toLowerCase()}.play()`,msg,`الطاقة: ${animalEnergy} (-20) 🔋`]);}
 }
 
-// ===== PY10 Files =====
 let savedNote='';
 function saveNote(){savedNote=document.getElementById('noteArea').value;showOutput('out-file',[`>>> with open("note.txt","w") as f:`,`...     f.write(notes)`,`✅ تم حفظ ${savedNote.length} حرف!`,`الملف: note.txt`]);}
 function readNote(){if(!savedNote){showOutput('out-file',['⚠️ لا توجد ملاحظات محفوظة'],'warn');return;}showOutput('out-file',[`>>> with open("note.txt","r") as f:`,`...     content = f.read()`,`المحتوى:`,savedNote]);}
 function clearNote(){savedNote='';document.getElementById('noteArea').value='';document.getElementById('out-file').style.display='none';}
 
-// ===== AI2 ML GAME =====
 const mlAnimals=[
   {e:'🐕',name:'كلب',type:'حيوان أليف'},
   {e:'🦁',name:'أسد',type:'حيوان بري'},
@@ -2380,7 +2267,6 @@ function classifyML(i){
 function resetML(){mlData={};initML();document.getElementById('out-ml').style.display='none';}
 initML();
 
-// ===== AI3 Neural Network =====
 let nnAnimated=false;
 function drawNN(){
   const canvas=document.getElementById('nnCanvas');
@@ -2388,8 +2274,6 @@ function drawNN(){
   const ctx=canvas.getContext('2d');
   const W=canvas.width, H=canvas.height;
   ctx.clearRect(0,0,W,H);
-  const layers=[[4],[6,6],[3]];
-  const flat=[[3],[5,5,4],[3]];
   const nodes=[
     [{x:80,y:60},{x:80,y:120},{x:80,y:180},{x:80,y:240}],
     [{x:220,y:60},{x:220,y:100},{x:220,y:140},{x:220,y:180},{x:220,y:220},{x:220,y:260}],
@@ -2398,7 +2282,6 @@ function drawNN(){
   ];
   const colors=['#22D3EE','#A78BFA','#F472B6','#34D399'];
   const labels=['إدخال','مخفية 1','مخفية 2','إخراج'];
-  // draw connections
   for(let l=0;l<nodes.length-1;l++){
     nodes[l].forEach(n=>{
       nodes[l+1].forEach(m=>{
@@ -2407,7 +2290,6 @@ function drawNN(){
       });
     });
   }
-  // draw nodes
   nodes.forEach((layer,li)=>{
     layer.forEach((n,ni)=>{
       ctx.beginPath(); ctx.arc(n.x,n.y,18,0,Math.PI*2);
@@ -2444,7 +2326,6 @@ function animateNN(){
   },400);
 }
 
-// ===== AI3 Training =====
 let epochData=[],curEpoch=0;
 function trainStep(){
   curEpoch++;
@@ -2471,7 +2352,6 @@ function renderEpochBars(){
 }
 function resetTrain(){curEpoch=0;epochData=[];document.getElementById('out-nn').style.display='none';document.getElementById('epochBars').innerHTML='';}
 
-// ===== AI4 =====
 function classifyFruit(){
   const col=document.getElementById('frColor').value||'أحمر';
   const taste=document.getElementById('frTaste').value||'حلو';
@@ -2518,7 +2398,6 @@ function analyzeSentiment(){
   ]);
 }
 
-// ===== VOICE =====
 let recognition=null, isListening=false;
 function toggleMic(){
   if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){
@@ -2569,7 +2448,7 @@ function startCommands(){
     else if(cmd.includes('بايثون')) resp='🐍 Python هي لغة برمجة رائعة!';
     else if(cmd.includes('احسب')) resp='🧮 حسناً، ماذا تريد أن أحسب؟';
     else if(cmd.includes('أهلاً')||cmd.includes('مرحباً')) resp='👋 أهلاً وسهلاً! كيف حالك اليوم؟';
-    else if(cmd.includes('اسمك')) resp='🤖 أنا مساعدك الذكي في أكاديمية النجوم!';
+    else if(cmd.includes('اسمك')) resp='🤖 أنا مساعدك الذكي في حجار نايلة!';
     else resp=`🤔 قلت: "${cmd}" — لم أفهم الأمر!`;
     showOutput('out-cmds',[`قلت: "${cmd}"`,resp]);
   };
@@ -2577,7 +2456,6 @@ function startCommands(){
   showOutput('out-cmds',['🎤 اسمعك... قل أمراً!'],'info');
 }
 
-// ===== TTS =====
 function speakText(){
   const txt=document.getElementById('ttsText').value||'مرحباً';
   const rate=parseFloat(document.getElementById('ttsRate').value)||1;
@@ -2598,7 +2476,6 @@ function speakText(){
   }
 }
 
-// ===== IMAGE DETECTION =====
 function analyzeImage(event){
   const file=event.target.files[0];
   if(!file) return;
@@ -2627,7 +2504,6 @@ function analyzeImage(event){
   reader.readAsDataURL(file);
 }
 
-// ===== CAMERA =====
 let videoStream=null;
 async function startCamera(){
   try{
@@ -2654,7 +2530,6 @@ function stopCamera(){
   document.getElementById('camCanvas').style.display='none';
 }
 
-// ===== EMOTION =====
 function readEmotion(emoji,feeling,conf){
   const el=document.getElementById('out-emotion');
   el.style.display='block';
@@ -2680,7 +2555,6 @@ function readEmotion(emoji,feeling,conf){
   },1400);
 }
 
-// ===== PIXEL CANVAS =====
 function drawPixels(mode){
   const c=document.getElementById('pixelCanvas');
   const ctx=c.getContext('2d');
@@ -2698,7 +2572,6 @@ function drawPixels(mode){
   }
 }
 
-// ===== BIG QUIZ =====
 const bigQuestions=[
   {q:'ما الذي تفعله دالة print() في بايثون؟',opts:['تطبع على الورق','تعرض نصاً على الشاشة ✅','تحذف الكود','تحفظ الملف'],ans:1},
   {q:'ما رمز الأس في بايثون؟',opts:['^ (كاريت)','** (نجمتان) ✅','// (خطان)','% (بالمئة)'],ans:1},
@@ -2778,7 +2651,6 @@ function showBigResult(){
   if(pct>=70){setTimeout(confetti,100);setTimeout(confetti,700);}
 }
 
-// ===== CERT =====
 document.getElementById('certDate').textContent=new Date().toLocaleDateString('ar-SA');
 function printCert(){
   const name=document.getElementById('certName').value||'البطل المجهول';
