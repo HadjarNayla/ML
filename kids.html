@@ -3,867 +3,2789 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بايثون للأطفال - هجار نايلة</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<title>أكاديمية النجوم — بايثون والذكاء الاصطناعي للأطفال | هجار نايلة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --pink: #FF6B9D;
-    --yellow: #FFD93D;
-    --mint: #6BCBCB;
-    --purple: #A78BFA;
-    --orange: #FF9A3C;
-    --bg: #FFF5F9;
-    --white: #ffffff;
-    --dark: #2D1B69;
-  }
+:root {
+  --sky: #0F172A;
+  --sky2: #1E293B;
+  --card-bg: #1E293B;
+  --card2: #263348;
+  --pink: #F472B6;
+  --pink2: #EC4899;
+  --cyan: #22D3EE;
+  --cyan2: #06B6D4;
+  --yellow: #FCD34D;
+  --green: #34D399;
+  --purple: #A78BFA;
+  --orange: #FB923C;
+  --red: #F87171;
+  --white: #F8FAFC;
+  --muted: #94A3B8;
+  --border: rgba(255,255,255,0.08);
+  --glow-pink: rgba(244,114,182,0.3);
+  --glow-cyan: rgba(34,211,238,0.3);
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-  body {
-    font-family: 'Tajawal', sans-serif;
-    background: var(--bg);
-    color: var(--dark);
-    overflow-x: hidden;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='28' font-size='28'%3E⭐%3C/text%3E%3C/svg%3E") 16 16, auto;
-  }
+html { scroll-behavior: smooth; }
 
-  /* ===== STARS BG ===== */
-  .stars-bg {
-    position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
-  }
-  .star {
-    position: absolute;
-    font-size: 1.5rem;
-    animation: floatStar 6s ease-in-out infinite;
-    opacity: 0.4;
-  }
-  @keyframes floatStar {
-    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.4; }
-    50% { transform: translateY(-20px) rotate(20deg); opacity: 0.8; }
-  }
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--sky);
+  color: var(--white);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
 
-  /* ===== HEADER ===== */
-  header {
-    position: relative; z-index: 10;
-    background: linear-gradient(135deg, #FF6B9D, #A78BFA, #6BCBCB);
-    padding: 30px 20px 50px;
-    text-align: center;
-    border-radius: 0 0 60px 60px;
-    box-shadow: 0 10px 40px rgba(167,139,250,0.4);
-    overflow: hidden;
-  }
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--sky); }
+::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
 
-  header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='4' fill='rgba(255,255,255,0.15)'/%3E%3C/svg%3E") repeat;
-    animation: bgMove 20s linear infinite;
-  }
-  @keyframes bgMove { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+/* ===== GALAXY BG ===== */
+#galaxy {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  overflow: hidden;
+}
+.star-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--dur, 3s) ease-in-out infinite;
+}
+@keyframes twinkle {
+  0%,100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+.nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.07;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from { transform: translate(0,0) scale(1); }
+  to { transform: translate(30px, 20px) scale(1.1); }
+}
 
-  .mascot {
-    font-size: 5rem;
-    display: block;
-    animation: bounce 2s ease-in-out infinite;
-    filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
-    position: relative; z-index: 1;
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-15px) scale(1.05); }
-  }
+/* ===== SIDEBAR NAV ===== */
+#sidebar {
+  position: fixed;
+  right: 0; top: 0; bottom: 0;
+  width: 270px;
+  background: rgba(15,23,42,0.97);
+  backdrop-filter: blur(20px);
+  border-left: 1px solid var(--border);
+  z-index: 100;
+  overflow-y: auto;
+  padding: 20px 0;
+  transition: transform 0.3s ease;
+}
 
-  header h1 {
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    font-weight: 900;
-    color: white;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    position: relative; z-index: 1;
-    margin: 10px 0 5px;
-  }
-  header p {
-    font-size: 1.2rem;
-    color: rgba(255,255,255,0.9);
-    position: relative; z-index: 1;
-  }
-  .badge {
-    display: inline-block;
-    background: var(--yellow);
-    color: var(--dark);
-    font-weight: 700;
-    font-size: 0.85rem;
-    padding: 4px 14px;
-    border-radius: 20px;
-    margin-top: 8px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-  }
+.sidebar-logo {
+  padding: 16px 20px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+.sidebar-logo .rocket { font-size: 2rem; display: block; }
+.sidebar-logo h2 { font-size: 1rem; font-weight: 900; color: var(--pink); line-height: 1.4; margin-top: 6px; }
+.sidebar-logo span { font-size: 0.75rem; color: var(--muted); }
 
-  /* ===== NAV TABS ===== */
-  .tabs {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 30px 20px 10px;
-    position: relative; z-index: 10;
-  }
-  .tab-btn {
-    background: white;
-    border: 3px solid transparent;
-    border-radius: 20px;
-    padding: 12px 22px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .tab-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
-  .tab-btn.active { color: white; transform: translateY(-3px) scale(1.05); }
-  .tab-btn[data-tab="intro"].active { background: var(--pink); border-color: var(--pink); }
-  .tab-btn[data-tab="python"].active { background: var(--orange); border-color: var(--orange); }
-  .tab-btn[data-tab="ai"].active { background: var(--purple); border-color: var(--purple); }
-  .tab-btn[data-tab="quiz"].active { background: var(--mint); border-color: var(--mint); }
+.nav-section-title {
+  padding: 10px 20px 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
-  /* ===== CONTENT ===== */
-  main {
-    max-width: 900px;
-    margin: 20px auto;
-    padding: 0 20px 60px;
-    position: relative; z-index: 5;
-  }
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.2s;
+  border-right: 3px solid transparent;
+  font-size: 0.9rem;
+  color: #CBD5E1;
+  font-weight: 500;
+}
+.nav-item:hover { background: rgba(244,114,182,0.08); color: var(--pink); }
+.nav-item.active { background: rgba(244,114,182,0.12); color: var(--pink); border-right-color: var(--pink); }
+.nav-item .nav-icon { font-size: 1.1rem; flex-shrink: 0; }
+.nav-item .nav-badge {
+  margin-right: auto;
+  font-size: 0.65rem;
+  background: var(--green);
+  color: #065F46;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+.nav-item .nav-badge.new { background: var(--pink); color: white; }
+.nav-item .nav-badge.hard { background: var(--orange); color: white; }
 
-  .section { display: none; animation: popIn 0.4s ease; }
-  .section.active { display: block; }
-  @keyframes popIn {
-    from { opacity: 0; transform: scale(0.95) translateY(10px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
+.progress-sidebar {
+  margin: 16px 20px;
+  padding: 14px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+.progress-sidebar h4 { font-size: 0.8rem; color: var(--muted); margin-bottom: 8px; }
+.prog-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--pink), var(--cyan)); transition: width 0.6s ease; }
+.prog-text { font-size: 0.75rem; color: var(--cyan); font-weight: 700; margin-top: 6px; }
 
-  /* ===== CARDS ===== */
-  .card {
-    background: white;
-    border-radius: 28px;
-    padding: 28px;
-    margin-bottom: 24px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    border: 3px solid transparent;
-    transition: transform 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .card:hover { transform: translateY(-4px); }
-  .card.pink { border-color: var(--pink); }
-  .card.orange { border-color: var(--orange); }
-  .card.purple { border-color: var(--purple); }
-  .card.mint { border-color: var(--mint); }
-  .card.yellow { border-color: var(--yellow); }
+/* ===== HAMBURGER ===== */
+#menuToggle {
+  display: none;
+  position: fixed;
+  top: 16px; right: 16px;
+  z-index: 200;
+  background: var(--pink);
+  border: none;
+  border-radius: 12px;
+  width: 44px; height: 44px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: white;
+}
 
-  .card-emoji {
-    font-size: 3rem;
-    display: block;
-    margin-bottom: 12px;
-    animation: wiggle 3s ease-in-out infinite;
-  }
-  @keyframes wiggle {
-    0%, 100% { transform: rotate(-5deg); }
-    50% { transform: rotate(5deg); }
-  }
+/* ===== MAIN CONTENT ===== */
+#main {
+  margin-right: 270px;
+  min-height: 100vh;
+  position: relative; z-index: 1;
+}
 
-  .card h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; }
-  .card p { font-size: 1rem; line-height: 1.8; color: #555; }
-  .card-tag {
-    position: absolute; top: 20px; left: 20px;
-    background: var(--yellow);
-    color: var(--dark);
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 20px;
-  }
+/* ===== HERO ===== */
+#hero {
+  padding: 60px 40px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(244,114,182,0.12) 0%, transparent 70%);
+}
+.hero-emoji-row {
+  font-size: 2.5rem;
+  display: flex; justify-content: center; gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.hero-emoji-row span {
+  display: inline-block;
+  animation: floatUp var(--d,3s) ease-in-out infinite alternate;
+}
+@keyframes floatUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-12px); }
+}
+#hero h1 {
+  font-family: 'Cairo', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--pink), var(--cyan), var(--yellow));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+#hero p {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 30px;
+  line-height: 1.8;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.hero-stat {
+  text-align: center;
+  padding: 16px 24px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  min-width: 100px;
+}
+.hero-stat .val { font-size: 1.8rem; font-weight: 900; color: var(--yellow); }
+.hero-stat .lbl { font-size: 0.8rem; color: var(--muted); }
 
-  /* ===== CODE BOX ===== */
-  .code-box {
-    background: #1E1B4B;
-    border-radius: 20px;
-    padding: 20px 24px;
-    margin: 16px 0;
-    font-family: 'Courier New', monospace;
-    font-size: 1rem;
-    color: #A5F3FC;
-    direction: ltr;
-    text-align: left;
-    line-height: 1.8;
-    position: relative;
-    overflow: hidden;
-  }
-  .code-box::before {
-    content: '🐍 كود بايثون';
-    position: absolute;
-    top: 10px; right: 14px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 0.75rem;
-    color: #6EE7B7;
-    direction: rtl;
-  }
-  .code-box .kw { color: #F9A8D4; }
-  .code-box .fn { color: #FDE68A; }
-  .code-box .str { color: #6EE7B7; }
-  .code-box .num { color: #C4B5FD; }
-  .code-box .cm { color: #94A3B8; font-style: italic; }
+/* ===== SECTION WRAPPER ===== */
+.content-section {
+  display: none;
+  padding: 30px 40px 60px;
+  max-width: 1000px;
+  animation: fadeSlide 0.4s ease;
+}
+.content-section.active { display: block; }
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
-  /* ===== INTERACTIVE BUTTONS ===== */
-  .run-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: linear-gradient(135deg, var(--orange), var(--pink));
-    color: white;
-    border: none;
-    border-radius: 18px;
-    padding: 12px 28px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(255,107,157,0.4);
-    transition: all 0.3s;
-    margin-top: 12px;
-  }
-  .run-btn:hover { transform: scale(1.07) translateY(-2px); box-shadow: 0 10px 30px rgba(255,107,157,0.5); }
-  .run-btn:active { transform: scale(0.97); }
+/* ===== SECTION HEADER ===== */
+.section-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.section-icon { font-size: 2.5rem; }
+.section-header h2 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.8rem; font-weight: 900;
+}
+.section-header p { font-size: 0.95rem; color: var(--muted); margin-top: 4px; }
+.level-tag {
+  margin-right: auto;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.level-tag.beginner { background: rgba(52,211,153,0.15); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+.level-tag.intermediate { background: rgba(251,146,60,0.15); color: var(--orange); border: 1px solid rgba(251,146,60,0.3); }
+.level-tag.advanced { background: rgba(244,114,182,0.15); color: var(--pink); border: 1px solid rgba(244,114,182,0.3); }
 
-  .output-box {
-    background: #F0FFF4;
-    border: 2px dashed var(--mint);
-    border-radius: 16px;
-    padding: 16px 20px;
-    margin-top: 14px;
-    font-size: 1rem;
-    color: #065F46;
-    min-height: 50px;
-    display: none;
-    animation: popIn 0.3s ease;
-    font-weight: 700;
-    text-align: center;
-    line-height: 2;
-  }
+/* ===== LESSON CARD ===== */
+.lesson-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 26px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.lesson-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,0.3); }
+.lesson-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 4px; height: 100%;
+  border-radius: 0 20px 20px 0;
+}
+.lesson-card.pink::before { background: var(--pink); }
+.lesson-card.cyan::before { background: var(--cyan); }
+.lesson-card.yellow::before { background: var(--yellow); }
+.lesson-card.green::before { background: var(--green); }
+.lesson-card.purple::before { background: var(--purple); }
+.lesson-card.orange::before { background: var(--orange); }
 
-  /* ===== INPUT AREA ===== */
-  .input-area {
-    display: flex; gap: 12px; margin: 12px 0; flex-wrap: wrap;
-  }
-  .kid-input {
-    flex: 1; min-width: 160px;
-    border: 3px solid var(--purple);
-    border-radius: 16px;
-    padding: 12px 16px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 1rem;
-    outline: none;
-    color: var(--dark);
-    background: #FAF5FF;
-    transition: border-color 0.3s;
-  }
-  .kid-input:focus { border-color: var(--pink); background: #FFF0F6; }
+.lesson-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  font-weight: 900;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+.lesson-card.pink .lesson-num { background: rgba(244,114,182,0.15); color: var(--pink); }
+.lesson-card.cyan .lesson-num { background: rgba(34,211,238,0.15); color: var(--cyan); }
+.lesson-card.yellow .lesson-num { background: rgba(252,211,77,0.15); color: var(--yellow); }
+.lesson-card.green .lesson-num { background: rgba(52,211,153,0.15); color: var(--green); }
+.lesson-card.purple .lesson-num { background: rgba(167,139,250,0.15); color: var(--purple); }
+.lesson-card.orange .lesson-num { background: rgba(251,146,60,0.15); color: var(--orange); }
 
-  /* ===== AI SECTION ===== */
-  .ai-demo {
-    background: linear-gradient(135deg, #EDE9FE, #FCE7F3);
-    border-radius: 24px;
-    padding: 24px;
-    margin: 16px 0;
-    text-align: center;
-  }
-  .ai-brain {
-    font-size: 4rem;
-    display: block;
-    margin: 10px auto;
-    animation: pulse 2s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(167,139,250,0.5)); }
-    50% { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(167,139,250,0.9)); }
-  }
+.lesson-card h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+.lesson-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.8; }
 
-  /* ===== QUIZ ===== */
-  .quiz-q {
-    background: white;
-    border-radius: 24px;
-    padding: 24px;
-    margin-bottom: 20px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    border-right: 6px solid var(--mint);
-    display: none;
-  }
-  .quiz-q.active { display: block; animation: popIn 0.4s ease; }
-  .quiz-q h3 { font-size: 1.3rem; font-weight: 900; margin-bottom: 16px; }
-  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .opt-btn {
-    background: #F3F4F6;
-    border: 3px solid transparent;
-    border-radius: 16px;
-    padding: 14px;
-    font-family: 'Tajawal', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s;
-    color: var(--dark);
-  }
-  .opt-btn:hover { background: #EDE9FE; border-color: var(--purple); transform: scale(1.03); }
-  .opt-btn.correct { background: #D1FAE5; border-color: #10B981; color: #065F46; }
-  .opt-btn.wrong { background: #FEE2E2; border-color: #EF4444; color: #7F1D1D; }
+/* ===== CODE EDITOR ===== */
+.code-editor {
+  background: #0D1117;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 16px 0;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.editor-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; }
+.dot-red { background: #FF5F57; }
+.dot-yellow { background: #FEBC2E; }
+.dot-green { background: #28C840; }
+.editor-title { font-size: 0.75rem; color: var(--muted); margin-right: auto; font-family: monospace; }
+.code-area {
+  padding: 20px;
+  font-family: 'Courier New', Consolas, monospace;
+  font-size: 0.95rem;
+  line-height: 2;
+  color: #E2E8F0;
+  direction: ltr;
+  text-align: left;
+  overflow-x: auto;
+  white-space: pre;
+}
+.kw { color: #F472B6; font-weight: 700; }
+.fn { color: #FCD34D; }
+.str { color: #34D399; }
+.num { color: #A78BFA; }
+.cm { color: #64748B; font-style: italic; }
+.cls { color: #22D3EE; }
+.op { color: #FB923C; }
 
-  .score-box {
-    text-align: center;
-    padding: 40px;
-    display: none;
-    animation: popIn 0.5s ease;
-  }
-  .score-box .big-emoji { font-size: 5rem; display: block; margin-bottom: 16px; }
-  .score-box h2 { font-size: 2rem; font-weight: 900; }
-  .score-box p { font-size: 1.1rem; color: #666; margin-top: 8px; }
+/* ===== INTERACTIVE AREA ===== */
+.interactive-zone {
+  background: rgba(255,255,255,0.03);
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 16px 0;
+}
+.interactive-zone h4 { font-size: 0.9rem; color: var(--cyan); margin-bottom: 14px; font-weight: 700; }
 
-  /* ===== PROGRESS ===== */
-  .progress-bar {
-    background: #E5E7EB;
-    border-radius: 20px;
-    height: 12px;
-    margin: 12px 0;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    border-radius: 20px;
-    background: linear-gradient(90deg, var(--mint), var(--purple));
-    transition: width 0.6s ease;
-  }
+.input-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.py-input {
+  flex: 1; min-width: 150px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.95rem;
+  color: var(--white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.py-input:focus { border-color: var(--pink); background: rgba(244,114,182,0.06); }
+.py-input::placeholder { color: #475569; }
 
-  /* ===== CONFETTI ===== */
-  .confetti-piece {
-    position: fixed;
-    width: 10px; height: 14px;
-    border-radius: 3px;
-    pointer-events: none;
-    z-index: 999;
-    animation: confettiFall 3s ease-in forwards;
-  }
-  @keyframes confettiFall {
-    0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-  }
+.btn-run {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.btn-run:hover { transform: translateY(-2px); filter: brightness(1.1); }
+.btn-run:active { transform: scale(0.97); }
+.btn-pink { background: linear-gradient(135deg, var(--pink), var(--pink2)); color: white; box-shadow: 0 4px 20px var(--glow-pink); }
+.btn-cyan { background: linear-gradient(135deg, var(--cyan), var(--cyan2)); color: #0F172A; box-shadow: 0 4px 20px var(--glow-cyan); }
+.btn-green { background: linear-gradient(135deg, var(--green), #10B981); color: #0F172A; box-shadow: 0 4px 15px rgba(52,211,153,0.3); }
+.btn-yellow { background: linear-gradient(135deg, var(--yellow), #F59E0B); color: #0F172A; box-shadow: 0 4px 15px rgba(252,211,77,0.3); }
+.btn-purple { background: linear-gradient(135deg, var(--purple), #7C3AED); color: white; }
+.btn-orange { background: linear-gradient(135deg, var(--orange), #EA580C); color: white; }
+.btn-sm { padding: 7px 16px; font-size: 0.85rem; }
 
-  /* ===== FOOTER ===== */
-  footer {
-    text-align: center;
-    padding: 30px 20px;
-    color: #999;
-    font-size: 0.9rem;
-    position: relative; z-index: 5;
-  }
-  footer strong { color: var(--pink); }
+.output-terminal {
+  background: #020617;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  color: var(--green);
+  min-height: 60px;
+  display: none;
+  border: 1px solid rgba(52,211,153,0.2);
+  line-height: 2;
+  direction: rtl;
+  text-align: right;
+}
+.output-terminal .out-line { display: block; animation: typeLine 0.2s ease; }
+@keyframes typeLine { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+.out-error { color: var(--red); }
+.out-info { color: var(--cyan); }
+.out-warn { color: var(--yellow); }
 
-  /* ===== LEVEL BADGES ===== */
-  .levels {
-    display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;
-  }
-  .level {
-    display: flex; align-items: center; gap: 8px;
-    background: white;
-    border-radius: 16px;
-    padding: 10px 18px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border: 2px solid;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .level:hover { transform: translateY(-2px) scale(1.04); }
-  .level.beginner { border-color: var(--mint); color: #065F46; }
-  .level.medium { border-color: var(--orange); color: #92400E; }
-  .level.pro { border-color: var(--purple); color: #4C1D95; }
+/* ===== TIP BOX ===== */
+.tip { display: flex; gap: 12px; background: rgba(252,211,77,0.06); border: 1px solid rgba(252,211,77,0.15); border-radius: 12px; padding: 14px 16px; margin: 14px 0; }
+.tip-icon { font-size: 1.4rem; flex-shrink: 0; }
+.tip p { font-size: 0.9rem; color: #CBD5E1; line-height: 1.7; }
+.tip strong { color: var(--yellow); }
+.info-box { display: flex; gap: 12px; background: rgba(34,211,238,0.06); border: 1px solid rgba(34,211,238,0.15); border-radius: 12px; padding: 14px 16px; margin: 14px 0; }
+.info-box p { font-size: 0.9rem; color: #CBD5E1; line-height: 1.7; }
+.info-box strong { color: var(--cyan); }
+.warn-box { display: flex; gap: 12px; background: rgba(244,114,182,0.06); border: 1px solid rgba(244,114,182,0.15); border-radius: 12px; padding: 14px 16px; margin: 14px 0; }
+.warn-box p { font-size: 0.9rem; color: #CBD5E1; line-height: 1.7; }
+.warn-box strong { color: var(--pink); }
 
-  /* ===== TIPS ===== */
-  .tip-box {
-    background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
-    border-radius: 20px;
-    padding: 18px 22px;
-    margin: 16px 0;
-    border-right: 5px solid var(--yellow);
-    display: flex; align-items: flex-start; gap: 12px;
-  }
-  .tip-box .tip-icon { font-size: 1.8rem; flex-shrink: 0; }
-  .tip-box p { font-size: 0.95rem; line-height: 1.7; color: #78350F; }
+/* ===== CONCEPT GRID ===== */
+.concept-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 16px 0; }
+.concept-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  transition: all 0.25s;
+  cursor: default;
+}
+.concept-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-2px); }
+.concept-card .cc-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+.concept-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+.concept-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+/* ===== QUIZ ===== */
+.quiz-container { background: var(--card-bg); border-radius: 20px; padding: 28px; margin: 20px 0; border: 1px solid var(--border); }
+.quiz-q-text { font-size: 1.1rem; font-weight: 700; margin-bottom: 18px; line-height: 1.6; }
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.q-opt {
+  background: rgba(255,255,255,0.04);
+  border: 2px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: right;
+}
+.q-opt:hover:not(:disabled) { border-color: var(--purple); background: rgba(167,139,250,0.1); }
+.q-opt.correct { border-color: var(--green); background: rgba(52,211,153,0.12); color: var(--green); }
+.q-opt.wrong { border-color: var(--red); background: rgba(248,113,113,0.12); color: var(--red); }
+.quiz-result { text-align: center; padding: 20px 0; display: none; }
+.quiz-result .big { font-size: 3rem; }
+.quiz-result p { color: var(--muted); font-size: 1rem; margin-top: 8px; }
+
+/* ===== VOICE SECTION ===== */
+.voice-viz {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  height: 60px; margin: 16px 0;
+}
+.voice-bar {
+  width: 5px;
+  background: var(--pink);
+  border-radius: 4px;
+  transition: height 0.1s;
+  height: 8px;
+}
+.voice-bar.active { animation: voiceAnim var(--d,0.5s) ease-in-out infinite alternate; }
+@keyframes voiceAnim {
+  from { height: 8px; }
+  to { height: var(--h, 40px); }
+}
+.mic-circle {
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+  cursor: pointer;
+  margin: 0 auto;
+  box-shadow: 0 0 0 0 var(--glow-pink);
+  transition: all 0.3s;
+}
+.mic-circle:hover { transform: scale(1.05); }
+.mic-circle.listening {
+  animation: micPulse 1s ease-in-out infinite;
+  box-shadow: 0 0 0 20px rgba(244,114,182,0.1);
+}
+@keyframes micPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(244,114,182,0.4); }
+  50% { box-shadow: 0 0 0 25px rgba(244,114,182,0); }
+}
+
+/* ===== IMAGE RECOGNITION ===== */
+.img-drop {
+  border: 2px dashed rgba(34,211,238,0.4);
+  border-radius: 18px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.img-drop:hover { border-color: var(--cyan); background: rgba(34,211,238,0.04); }
+.img-drop.dragover { border-color: var(--pink); background: rgba(244,114,182,0.06); }
+.img-drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.img-preview { max-width: 100%; max-height: 250px; border-radius: 12px; margin: 16px auto; display: block; }
+.detect-labels {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;
+  justify-content: center;
+}
+.det-label {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  animation: popLabel 0.3s ease;
+}
+@keyframes popLabel { from { opacity: 0; transform: scale(0.7); } to { opacity: 1; transform: scale(1); } }
+
+/* ===== ML VISUALIZER ===== */
+.nn-canvas-wrap { background: #020617; border-radius: 14px; padding: 20px; margin: 16px 0; border: 1px solid var(--border); }
+canvas { display: block; margin: 0 auto; }
+
+/* ===== PROGRESS STEPS ===== */
+.steps-list { margin: 16px 0; }
+.step-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.step-item:last-child { border-bottom: none; }
+.step-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.step-num.done { background: var(--green); color: #0F172A; }
+.step-num.active { background: var(--pink); color: white; }
+.step-num.todo { background: rgba(255,255,255,0.08); color: var(--muted); }
+.step-content h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
+.step-content p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+/* ===== ACHIEVEMENTS ===== */
+.achievements {
+  display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0;
+}
+.ach {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+.ach.earned { border-color: var(--yellow); background: rgba(252,211,77,0.08); color: var(--yellow); }
+.ach .ach-icon { font-size: 1.4rem; }
+
+/* ===== TABLE ===== */
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 14px 0; }
+.data-table th { background: rgba(255,255,255,0.06); padding: 10px 14px; text-align: right; font-weight: 700; color: var(--cyan); border-bottom: 1px solid var(--border); }
+.data-table td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--muted); }
+.data-table tr:hover td { background: rgba(255,255,255,0.02); color: var(--white); }
+
+/* ===== CHART BAR ===== */
+.chart-bars {
+  display: flex; align-items: flex-end; gap: 10px;
+  height: 140px;
+  padding: 0 10px;
+  margin: 16px 0;
+}
+.bar-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.bar-col {
+  width: 100%; border-radius: 6px 6px 0 0;
+  transition: height 0.8s cubic-bezier(.17,.67,.83,.67);
+  min-height: 8px;
+}
+.bar-lbl { font-size: 0.75rem; color: var(--muted); text-align: center; }
+.bar-val { font-size: 0.8rem; font-weight: 700; color: var(--white); }
+
+/* ===== CONFETTI ===== */
+.confetti-bit {
+  position: fixed;
+  width: 8px; height: 10px;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 999;
+  animation: confettiFall 3s ease-in forwards;
+}
+@keyframes confettiFall {
+  0% { transform: translateY(-60px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+
+/* ===== NOTIFICATION ===== */
+#notif {
+  position: fixed;
+  bottom: 30px; left: 30px;
+  background: linear-gradient(135deg, #1E293B, #263348);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 22px;
+  display: flex; align-items: center; gap: 12px;
+  z-index: 500;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+  transform: translateY(100px); opacity: 0;
+  transition: all 0.4s cubic-bezier(.17,.67,.83,.67);
+  max-width: 300px;
+}
+#notif.show { transform: translateY(0); opacity: 1; }
+#notif .notif-icon { font-size: 1.8rem; }
+#notif h4 { font-size: 0.9rem; font-weight: 700; color: var(--yellow); }
+#notif p { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(100%); }
+  #sidebar.open { transform: translateX(0); }
+  #main { margin-right: 0; }
+  #menuToggle { display: flex; align-items: center; justify-content: center; }
+  .content-section { padding: 20px 20px 60px; }
+  #hero { padding: 70px 20px 30px; }
+  .quiz-options { grid-template-columns: 1fr; }
+  .hero-stats { gap: 14px; }
+}
 </style>
 </head>
 <body>
 
-<!-- Stars Background -->
-<div class="stars-bg" id="starsBg"></div>
+<!-- Galaxy -->
+<div id="galaxy"></div>
 
-<!-- Header -->
-<header>
-  <span class="mascot">🐍</span>
-  <h1>بايثون والذكاء الاصطناعي للأطفال</h1>
-  <p>تعلّم البرمجة بطريقة ممتعة وسهلة! ✨</p>
-  <span class="badge">🎨 تصميم: هجار نايلة</span>
-</header>
+<!-- Mobile Toggle -->
+<button id="menuToggle" onclick="toggleMenu()">☰</button>
 
-<!-- Tabs -->
-<div class="tabs">
-  <button class="tab-btn active" data-tab="intro" onclick="switchTab('intro')">
-    🏠 البداية
-  </button>
-  <button class="tab-btn" data-tab="python" onclick="switchTab('python')">
-    🐍 بايثون
-  </button>
-  <button class="tab-btn" data-tab="ai" onclick="switchTab('ai')">
-    🤖 الذكاء الاصطناعي
-  </button>
-  <button class="tab-btn" data-tab="quiz" onclick="switchTab('quiz')">
-    🧠 اختبار ممتع
-  </button>
+<!-- Notification -->
+<div id="notif">
+  <span class="notif-icon" id="notifIcon">⭐</span>
+  <div>
+    <h4 id="notifTitle">أحسنت!</h4>
+    <p id="notifText">لقد أكملت درساً جديداً</p>
+  </div>
 </div>
 
-<main>
-  <!-- ======= INTRO ======= -->
-  <div class="section active" id="intro">
-
-    <div class="card pink">
-      <span class="card-emoji">👋</span>
-      <h2>مرحباً يا صغيري الرائع!</h2>
-      <p>هل تريد أن تصبح مبرمجاً ذكياً؟ هنا ستتعلم كيف تتحدث مع الحاسوب وتجعله يفعل ما تريد! 🌟</p>
-      <div class="tip-box" style="margin-top:16px;">
-        <span class="tip-icon">💡</span>
-        <p>البرمجة مثل إعطاء الحاسوب وصفة طبخ — تخبره خطوة بخطوة ماذا يفعل!</p>
-      </div>
-    </div>
-
-    <div class="card orange">
-      <span class="card-emoji">🏆</span>
-      <h2>مستوياتنا الثلاثة</h2>
-      <p>اختر مستواك وابدأ الرحلة!</p>
-      <div class="levels" style="margin-top:14px;">
-        <div class="level beginner" onclick="switchTab('python'); showMsg('ممتاز! لنبدأ من الأساسيات 🌱')">🌱 مبتدئ</div>
-        <div class="level medium" onclick="switchTab('python'); showMsg('رائع! أنت في المستوى المتوسط 🔥')">🔥 متوسط</div>
-        <div class="level pro" onclick="switchTab('ai'); showMsg('واو! أنت محترف 🚀')">🚀 محترف</div>
-      </div>
-      <div id="levelMsg" style="margin-top:12px; font-weight:700; color:var(--purple); display:none;"></div>
-    </div>
-
-    <div class="card mint">
-      <span class="card-emoji">🌍</span>
-      <h2>ماذا ستتعلم اليوم؟</h2>
-      <p>
-        ⭐ كيف تكتب أول كود بايثون<br>
-        ⭐ ما هو الذكاء الاصطناعي وكيف يتعلم<br>
-        ⭐ كيف تصنع حاسبة ولعبة صغيرة<br>
-        ⭐ اختبار ممتع لتجربة ما تعلمته!
-      </p>
-      <button class="run-btn" onclick="switchTab('python')">
-        🚀 هيا نبدأ!
-      </button>
-    </div>
-
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-logo">
+    <span class="rocket">🚀</span>
+    <h2>أكاديمية النجوم</h2>
+    <span>بايثون والذكاء الاصطناعي</span>
   </div>
 
-  <!-- ======= PYTHON ======= -->
-  <div class="section" id="python">
-
-    <div class="card orange">
-      <div class="card-tag">📚 درس 1</div>
-      <span class="card-emoji" style="margin-top:24px;">👋</span>
-      <h2>مرحباً أيها العالم!</h2>
-      <p>أول شيء نتعلمه هو كيف نجعل الحاسوب يقول كلاماً!</p>
-      <div class="code-box">
-        <span class="cm"># هذا أول كود بايثون لك!</span><br>
-        <span class="fn">print</span>(<span class="str">"مرحباً يا عالم!"</span>)<br>
-        <span class="fn">print</span>(<span class="str">"أنا أحب البرمجة 🐍"</span>)
-      </div>
-      <button class="run-btn" onclick="runCode('out1', ['🖥️ مرحباً يا عالم!', '🖥️ أنا أحب البرمجة 🐍'])">
-        ▶ شغّل الكود!
-      </button>
-      <div class="output-box" id="out1"></div>
-    </div>
-
-    <div class="card pink">
-      <div class="card-tag">📚 درس 2</div>
-      <span class="card-emoji" style="margin-top:24px;">🔢</span>
-      <h2>الأرقام والحساب</h2>
-      <p>بايثون آلة حاسبة رائعة! اكتب اسمك وعمرك لنجرب:</p>
-      <div class="input-area">
-        <input class="kid-input" id="kidName" type="text" placeholder="اكتب اسمك هنا...">
-        <input class="kid-input" id="kidAge" type="number" placeholder="عمرك..." min="4" max="18">
-      </div>
-      <div class="code-box">
-        <span class="kw">name</span> = <span class="str">"[اسمك]"</span><br>
-        <span class="kw">age</span> = <span class="num">[عمرك]</span><br>
-        <span class="fn">print</span>(<span class="str">"مرحباً"</span>, name)<br>
-        <span class="fn">print</span>(<span class="str">"عمرك:"</span>, age, <span class="str">"سنة"</span>)<br>
-        <span class="fn">print</span>(<span class="str">"بعد 10 سنوات ستكون عمرك:"</span>, age + <span class="num">10</span>)
-      </div>
-      <button class="run-btn" onclick="runPersonalized()">
-        ▶ شغّل بياناتي!
-      </button>
-      <div class="output-box" id="out2"></div>
-    </div>
-
-    <div class="card purple">
-      <div class="card-tag">📚 درس 3</div>
-      <span class="card-emoji" style="margin-top:24px;">🔁</span>
-      <h2>التكرار — قوة الكود!</h2>
-      <p>بدل ما تكتب كلمة 10 مرات، خلّ الحاسوب يكررها!</p>
-      <div class="code-box">
-        <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">print</span>(<span class="str">"⭐ أنا مبرمج رائع!"</span>)
-      </div>
-      <button class="run-btn" onclick="runLoop()">
-        ▶ كرّر معي!
-      </button>
-      <div class="output-box" id="out3"></div>
-    </div>
-
-    <div class="card mint">
-      <div class="card-tag">📚 درس 4</div>
-      <span class="card-emoji" style="margin-top:24px;">🎮</span>
-      <h2>آلة الحساب الممتعة</h2>
-      <p>أدخل عددين واختر العملية!</p>
-      <div class="input-area">
-        <input class="kid-input" id="num1" type="number" placeholder="العدد الأول" style="border-color:var(--mint)">
-        <input class="kid-input" id="num2" type="number" placeholder="العدد الثاني" style="border-color:var(--mint)">
-      </div>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;">
-        <button class="run-btn" style="background:linear-gradient(135deg,#6BCBCB,#A78BFA)" onclick="calc('+')">➕ جمع</button>
-        <button class="run-btn" style="background:linear-gradient(135deg,#FF6B9D,#FF9A3C)" onclick="calc('-')">➖ طرح</button>
-        <button class="run-btn" style="background:linear-gradient(135deg,#FFD93D,#FF9A3C)" onclick="calc('*')">✖️ ضرب</button>
-        <button class="run-btn" style="background:linear-gradient(135deg,#A78BFA,#6BCBCB)" onclick="calc('/')">➗ قسمة</button>
-      </div>
-      <div class="output-box" id="out4"></div>
-    </div>
-
+  <div class="progress-sidebar">
+    <h4>تقدمك العام</h4>
+    <div class="prog-bar"><div class="prog-fill" id="globalProg" style="width:0%"></div></div>
+    <div class="prog-text" id="globalProgText">0 / 24 درس مكتمل</div>
   </div>
 
-  <!-- ======= AI ======= -->
-  <div class="section" id="ai">
+  <div class="nav-section-title">🏠 البداية</div>
+  <div class="nav-item active" onclick="nav('home')"><span class="nav-icon">🏠</span> الصفحة الرئيسية</div>
 
-    <div class="card purple">
-      <span class="card-emoji">🤖</span>
-      <h2>ما هو الذكاء الاصطناعي؟</h2>
-      <p>الذكاء الاصطناعي هو جعل الحاسوب يفكر مثل الإنسان! يتعلم من الأمثلة ويتحسن مع الوقت، تماماً مثلك عندما تتعلم في المدرسة! 🏫</p>
-      <div class="ai-demo">
-        <span class="ai-brain">🧠</span>
-        <p style="font-weight:700; color: #4C1D95;">الحاسوب يرى آلاف الصور ليتعلم التمييز بينها!</p>
-      </div>
+  <div class="nav-section-title">🐍 بايثون — الأساسيات</div>
+  <div class="nav-item" onclick="nav('py1')"><span class="nav-icon">👋</span> مرحباً يا عالم! <span class="nav-badge">ابدأ</span></div>
+  <div class="nav-item" onclick="nav('py2')"><span class="nav-icon">📦</span> المتغيرات والبيانات</div>
+  <div class="nav-item" onclick="nav('py3')"><span class="nav-icon">🔢</span> العمليات الحسابية</div>
+  <div class="nav-item" onclick="nav('py4')"><span class="nav-icon">❓</span> الشروط if/else</div>
+  <div class="nav-item" onclick="nav('py5')"><span class="nav-icon">🔁</span> الحلقات for & while</div>
+  <div class="nav-item" onclick="nav('py6')"><span class="nav-icon">📋</span> القوائم والمصفوفات</div>
+  <div class="nav-item" onclick="nav('py7')"><span class="nav-icon">🗂️</span> القواميس</div>
+  <div class="nav-item" onclick="nav('py8')"><span class="nav-icon">⚙️</span> الدوال (Functions)</div>
+
+  <div class="nav-section-title">🧠 بايثون — متقدم</div>
+  <div class="nav-item" onclick="nav('py9')"><span class="nav-icon">🏗️</span> البرمجة الكائنية OOP <span class="nav-badge hard">متقدم</span></div>
+  <div class="nav-item" onclick="nav('py10')"><span class="nav-icon">📁</span> الملفات والبيانات</div>
+
+  <div class="nav-section-title">🤖 الذكاء الاصطناعي</div>
+  <div class="nav-item" onclick="nav('ai1')"><span class="nav-icon">🤖</span> ما هو الذكاء الاصطناعي؟</div>
+  <div class="nav-item" onclick="nav('ai2')"><span class="nav-icon">📊</span> تعلم الآلة ML</div>
+  <div class="nav-item" onclick="nav('ai3')"><span class="nav-icon">🧠</span> الشبكات العصبية</div>
+  <div class="nav-item" onclick="nav('ai4')"><span class="nav-icon">📈</span> تصنيف البيانات</div>
+
+  <div class="nav-section-title">🎤 التعرف على الصوت</div>
+  <div class="nav-item" onclick="nav('voice1')"><span class="nav-icon">🎤</span> كيف يسمع الحاسوب <span class="nav-badge new">جديد</span></div>
+  <div class="nav-item" onclick="nav('voice2')"><span class="nav-icon">🗣️</span> تجربة التعرف الصوتي</div>
+  <div class="nav-item" onclick="nav('voice3')"><span class="nav-icon">🔊</span> تحويل النص لصوت</div>
+
+  <div class="nav-section-title">📷 التعرف على الصور</div>
+  <div class="nav-item" onclick="nav('img1')"><span class="nav-icon">👁️</span> كيف يرى الحاسوب <span class="nav-badge new">جديد</span></div>
+  <div class="nav-item" onclick="nav('img2')"><span class="nav-icon">📷</span> تحليل الصور المباشر</div>
+  <div class="nav-item" onclick="nav('img3')"><span class="nav-icon">😊</span> التعرف على المشاعر</div>
+
+  <div class="nav-section-title">🏆 التقييم</div>
+  <div class="nav-item" onclick="nav('quiz')"><span class="nav-icon">🧩</span> اختبار شامل</div>
+  <div class="nav-item" onclick="nav('cert')"><span class="nav-icon">🏅</span> شهادتي</div>
+</nav>
+
+<!-- MAIN -->
+<div id="main">
+
+<!-- ======== HOME ======== -->
+<div class="content-section active" id="sec-home">
+  <div id="hero">
+    <div class="hero-emoji-row">
+      <span style="--d:2s">🐍</span>
+      <span style="--d:2.4s">🤖</span>
+      <span style="--d:1.8s">🎤</span>
+      <span style="--d:2.8s">📷</span>
+      <span style="--d:2.2s">🚀</span>
+      <span style="--d:1.6s">⭐</span>
     </div>
-
-    <div class="card pink">
-      <div class="card-tag">🤖 تجربة AI</div>
-      <span class="card-emoji" style="margin-top:24px;">😊</span>
-      <h2>كيف يتعرف AI على المشاعر؟</h2>
-      <p>اختر وجهاً تعبيرياً وسيحاول الذكاء الاصطناعي تخمين مشاعرك!</p>
-      <div style="display:flex; flex-wrap:wrap; gap:12px; margin:16px 0; justify-content:center;">
-        <button onclick="detectEmotion('😊','سعيد')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😊</button>
-        <button onclick="detectEmotion('😢','حزين')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😢</button>
-        <button onclick="detectEmotion('😡','غاضب')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😡</button>
-        <button onclick="detectEmotion('😮','متفاجئ')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😮</button>
-        <button onclick="detectEmotion('🤩','متحمس')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">🤩</button>
-        <button onclick="detectEmotion('😴','نعسان')" style="font-size:2.5rem; background:none; border:3px solid #eee; border-radius:16px; padding:10px 16px; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">😴</button>
-      </div>
-      <div class="output-box" id="emotionOut"></div>
+    <h1>أكاديمية النجوم<br>للبرمجة والذكاء الاصطناعي</h1>
+    <p>رحلتك إلى عالم البرمجة تبدأ هنا! تعلم بايثون، الذكاء الاصطناعي، التعرف على الصوت والصور — خطوة بخطوة بأسلوب ممتع وتفاعلي باللغة العربية 🌟</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="val">24</div><div class="lbl">درس شامل</div></div>
+      <div class="hero-stat"><div class="val">100+</div><div class="lbl">تمرين تفاعلي</div></div>
+      <div class="hero-stat"><div class="val">3</div><div class="lbl">مستويات</div></div>
+      <div class="hero-stat"><div class="val">🌍</div><div class="lbl">باللغة العربية</div></div>
     </div>
-
-    <div class="card orange">
-      <span class="card-emoji">🌡️</span>
-      <h2>تصنيف الأشياء — مثل AI!</h2>
-      <p>الذكاء الاصطناعي يصنّف الأشياء. هيا نصنّف حيوانات!</p>
-      <div style="display:flex; flex-wrap:wrap; gap:10px; margin:16px 0; justify-content:center;">
-        <button onclick="classify('🐶 كلب','حيوان أليف 🏠','يحب اللعب والدغدغة!')" style="font-size:2rem; background:#FFF7ED; border:3px solid var(--orange); border-radius:16px; padding:10px 18px; cursor:pointer; font-family:Tajawal; font-weight:700; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">🐶 كلب</button>
-        <button onclick="classify('🦁 أسد','حيوان بري 🌿','ملك الغابة!')" style="font-size:2rem; background:#ECFDF5; border:3px solid var(--mint); border-radius:16px; padding:10px 18px; cursor:pointer; font-family:Tajawal; font-weight:700; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">🦁 أسد</button>
-        <button onclick="classify('🐠 سمكة','حيوان بحري 🌊','تعيش في الماء!')" style="font-size:2rem; background:#EFF6FF; border:3px solid var(--purple); border-radius:16px; padding:10px 18px; cursor:pointer; font-family:Tajawal; font-weight:700; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">🐠 سمكة</button>
-        <button onclick="classify('🦅 نسر','حيوان طائر ✈️','يطير في السماء!')" style="font-size:2rem; background:#FFF5F9; border:3px solid var(--pink); border-radius:16px; padding:10px 18px; cursor:pointer; font-family:Tajawal; font-weight:700; transition:all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">🦅 نسر</button>
-      </div>
-      <div class="output-box" id="classifyOut"></div>
-    </div>
-
-    <div class="card mint">
-      <span class="card-emoji">🎯</span>
-      <h2>كيف يتعلم الذكاء الاصطناعي؟</h2>
-      <div class="code-box">
-        <span class="cm"># AI يتعلم من الأمثلة</span><br>
-        <span class="kw">data</span> = [<br>
-        &nbsp;&nbsp;(<span class="str">"قطة"</span>, <span class="str">"حيوان أليف"</span>),<br>
-        &nbsp;&nbsp;(<span class="str">"نمر"</span>, <span class="str">"حيوان بري"</span>),<br>
-        &nbsp;&nbsp;(<span class="str">"دلفين"</span>, <span class="str">"حيوان بحري"</span>)<br>
-        ]<br>
-        <span class="cm"># AI يتعلم ثم يتوقع!</span><br>
-        <span class="kw">model</span>.<span class="fn">learn</span>(data)<br>
-        <span class="kw">model</span>.<span class="fn">predict</span>(<span class="str">"أسد"</span>) <span class="cm"># → حيوان بري</span>
-      </div>
-      <div class="tip-box">
-        <span class="tip-icon">🧠</span>
-        <p>كلما أعطيت AI بيانات أكثر، كلما أصبح أذكى وأدق في تنبؤاته!</p>
-      </div>
-    </div>
-
+    <button class="btn-run btn-pink" onclick="nav('py1')" style="font-size:1rem; padding:14px 32px;">
+      🚀 ابدأ رحلة البرمجة!
+    </button>
   </div>
 
-  <!-- ======= QUIZ ======= -->
-  <div class="section" id="quiz">
-
-    <div id="quizContainer">
-      <div class="card yellow">
-        <span class="card-emoji">🧠</span>
-        <h2>اختبار المعرفة!</h2>
-        <p>5 أسئلة ممتعة لترى كم تعلمت. هيا نبدأ! 💪</p>
-        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-        <p id="progressText" style="font-size:0.9rem; color:#888; margin-top:6px;">السؤال 0 من 5</p>
-        <button class="run-btn" onclick="startQuiz()" id="startBtn">
-          🚀 ابدأ الاختبار!
-        </button>
+  <div style="padding: 0 40px 60px;">
+    <div class="concept-grid">
+      <div class="concept-card" onclick="nav('py1')" style="cursor:pointer;">
+        <span class="cc-icon">🐍</span>
+        <h4 style="color:var(--green)">بايثون الأساسيات</h4>
+        <p>من الصفر حتى الاحتراف — متغيرات، حلقات، دوال</p>
       </div>
-
-      <div class="quiz-q" id="q0">
-        <h3>1️⃣ ماذا تفعل دالة print() في بايثون؟</h3>
-        <div class="options">
-          <button class="opt-btn" onclick="answer(this,true)">🖥️ تعرض نصاً على الشاشة</button>
-          <button class="opt-btn" onclick="answer(this,false)">🖨️ تطبع على الورق</button>
-          <button class="opt-btn" onclick="answer(this,false)">❌ تحذف الكود</button>
-          <button class="opt-btn" onclick="answer(this,false)">💾 تحفظ الملف</button>
-        </div>
+      <div class="concept-card" onclick="nav('ai1')" style="cursor:pointer;">
+        <span class="cc-icon">🤖</span>
+        <h4 style="color:var(--cyan)">تعلم الآلة</h4>
+        <p>كيف يتعلم الحاسوب ويتخذ القرارات ذكياً</p>
       </div>
-
-      <div class="quiz-q" id="q1">
-        <h3>2️⃣ ماذا يخزّن المتغير في بايثون؟</h3>
-        <div class="options">
-          <button class="opt-btn" onclick="answer(this,false)">🎮 ألعاب فقط</button>
-          <button class="opt-btn" onclick="answer(this,true)">📦 أي نوع من البيانات</button>
-          <button class="opt-btn" onclick="answer(this,false)">🖼️ صور فقط</button>
-          <button class="opt-btn" onclick="answer(this,false)">🔊 أصوات فقط</button>
-        </div>
+      <div class="concept-card" onclick="nav('ai3')" style="cursor:pointer;">
+        <span class="cc-icon">🧠</span>
+        <h4 style="color:var(--purple)">الشبكات العصبية</h4>
+        <p>محاكاة الدماغ البشري في الحاسوب</p>
       </div>
-
-      <div class="quiz-q" id="q2">
-        <h3>3️⃣ ما الذي تفعله حلقة for في بايثون؟</h3>
-        <div class="options">
-          <button class="opt-btn" onclick="answer(this,false)">🛑 توقف البرنامج</button>
-          <button class="opt-btn" onclick="answer(this,false)">🔒 تغلق الكود</button>
-          <button class="opt-btn" onclick="answer(this,true)">🔁 تكرر الأوامر</button>
-          <button class="opt-btn" onclick="answer(this,false)">🗑️ تمسح البيانات</button>
-        </div>
+      <div class="concept-card" onclick="nav('voice2')" style="cursor:pointer;">
+        <span class="cc-icon">🎤</span>
+        <h4 style="color:var(--pink)">التعرف الصوتي</h4>
+        <p>تحدث مع الحاسوب ويفهمك بالعربية!</p>
       </div>
-
-      <div class="quiz-q" id="q3">
-        <h3>4️⃣ كيف يتعلم الذكاء الاصطناعي؟</h3>
-        <div class="options">
-          <button class="opt-btn" onclick="answer(this,false)">📺 يشاهد التلفاز</button>
-          <button class="opt-btn" onclick="answer(this,true)">📊 من الكثير من البيانات</button>
-          <button class="opt-btn" onclick="answer(this,false)">😴 ينام ويحلم</button>
-          <button class="opt-btn" onclick="answer(this,false)">🎲 بالصدفة فقط</button>
-        </div>
+      <div class="concept-card" onclick="nav('img2')" style="cursor:pointer;">
+        <span class="cc-icon">📷</span>
+        <h4 style="color:var(--orange)">رؤية الحاسوب</h4>
+        <p>اجعل الحاسوب يرى ويفهم الصور</p>
       </div>
-
-      <div class="quiz-q" id="q4">
-        <h3>5️⃣ ما اسم لغة البرمجة التي تعلمناها؟</h3>
-        <div class="options">
-          <button class="opt-btn" onclick="answer(this,false)">🐱 قطة</button>
-          <button class="opt-btn" onclick="answer(this,false)">🐉 تنين</button>
-          <button class="opt-btn" onclick="answer(this,true)">🐍 بايثون</button>
-          <button class="opt-btn" onclick="answer(this,false)">🦊 ثعلب</button>
-        </div>
-      </div>
-
-      <div class="score-box" id="scoreBox">
-        <span class="big-emoji" id="scoreEmoji">🏆</span>
-        <h2 id="scoreTitle">عظيم!</h2>
-        <p id="scoreText">لقد أجبت على الأسئلة بشكل ممتاز!</p>
-        <div style="margin-top:20px; font-size:2rem; font-weight:900; color:var(--purple)" id="scoreNum"></div>
-        <button class="run-btn" onclick="resetQuiz()" style="margin-top:20px;">
-          🔄 العب مرة أخرى!
-        </button>
+      <div class="concept-card" onclick="nav('quiz')" style="cursor:pointer;">
+        <span class="cc-icon">🏆</span>
+        <h4 style="color:var(--yellow)">اختبار ومسابقة</h4>
+        <p>اختبر معلوماتك واحصل على شهادتك!</p>
       </div>
     </div>
   </div>
-</main>
+</div>
 
-<footer>
-  <p>🌟 صُنع بحب للأطفال العرب | تصميم: <strong>هجار نايلة</strong> 💖</p>
-  <p style="margin-top:6px;">🐍 تعلم البرمجة، اصنع المستقبل! 🚀</p>
-</footer>
+<!-- ======== PY1: Hello World ======== -->
+<div class="content-section" id="sec-py1">
+  <div class="section-header">
+    <span class="section-icon">👋</span>
+    <div><h2>مرحباً يا عالم!</h2><p>درسك الأول — اجعل الحاسوب يتكلم</p></div>
+    <span class="level-tag beginner">مبتدئ</span>
+  </div>
+
+  <div class="lesson-card pink">
+    <div class="lesson-num">01</div>
+    <h3>ما هو بايثون؟</h3>
+    <p>بايثون هي لغة برمجة شهيرة جداً تُستخدم في كل شيء — من مواقع الإنترنت حتى الذكاء الاصطناعي! اسمها مأخوذ من برنامج كوميدي وليس من الثعبان! 😄</p>
+    <div class="concept-grid" style="margin-top:16px;">
+      <div class="concept-card"><span class="cc-icon">🌐</span><h4>مواقع الويب</h4><p>Instagram, YouTube يستخدمان بايثون</p></div>
+      <div class="concept-card"><span class="cc-icon">🤖</span><h4>الذكاء الاصطناعي</h4><p>ChatGPT مبني على بايثون</p></div>
+      <div class="concept-card"><span class="cc-icon">🔬</span><h4>العلوم</h4><p>علماء الفضاء يكتبون بايثون</p></div>
+      <div class="concept-card"><span class="cc-icon">🎮</span><h4>الألعاب</h4><p>بعض الألعاب مبرمجة ببايثون</p></div>
+    </div>
+  </div>
+
+  <div class="lesson-card cyan">
+    <div class="lesson-num">02</div>
+    <h3>أول أمر: print()</h3>
+    <p>دالة <code style="color:var(--yellow)">print()</code> تأمر الحاسوب بعرض نص على الشاشة. هذا أبسط أمر في بايثون!</p>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">hello.py</span></div>
+      <div class="code-area"><span class="cm"># هذا تعليق — الحاسوب يتجاهله
+# علامة # تعني "هذا شرح للإنسان فقط"</span>
+
+<span class="fn">print</span>(<span class="str">"مرحباً يا عالم!"</span>)
+<span class="fn">print</span>(<span class="str">"أنا أتعلم بايثون اليوم 🐍"</span>)
+<span class="fn">print</span>(<span class="str">"اسمي:"</span>, <span class="str">"بطل المستقبل"</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🎮 جرب بنفسك!</h4>
+      <div class="input-row">
+        <input class="py-input" id="p1name" placeholder="اكتب اسمك...">
+        <input class="py-input" id="p1age" type="number" placeholder="عمرك..." min="1" max="100">
+      </div>
+      <button class="btn-run btn-pink" onclick="runPy1()">▶ شغّل الكود</button>
+      <div class="output-terminal" id="out-py1"></div>
+    </div>
+    <div class="tip"><span class="tip-icon">💡</span><p><strong>تذكر:</strong> النص دائماً يكون بين علامات اقتباس <code>"هكذا"</code> — وإلا سيظن الحاسوب أنك تقصد اسم متغير!</p></div>
+  </div>
+
+  <div class="lesson-card yellow">
+    <div class="lesson-num">03</div>
+    <h3>أنواع البيانات الأساسية</h3>
+    <div class="data-table-wrap">
+    <table class="data-table">
+      <tr><th>النوع</th><th>مثال</th><th>الاستخدام</th></tr>
+      <tr><td style="color:var(--green)">str (نص)</td><td><code>"مرحباً"</code></td><td>الأسماء، الجمل</td></tr>
+      <tr><td style="color:var(--purple)">int (عدد صحيح)</td><td><code>42</code></td><td>العمر، العدد</td></tr>
+      <tr><td style="color:var(--cyan)">float (عدد عشري)</td><td><code>3.14</code></td><td>الأوزان، الأسعار</td></tr>
+      <tr><td style="color:var(--pink)">bool (صح/خطأ)</td><td><code>True / False</code></td><td>الشروط</td></tr>
+    </table>
+    </div>
+    <div class="code-editor" style="margin-top:14px;">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">types.py</span></div>
+      <div class="code-area"><span class="fn">print</span>(<span class="fn">type</span>(<span class="str">"مرحباً"</span>))   <span class="cm"># &lt;class 'str'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="num">42</span>))        <span class="cm"># &lt;class 'int'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="num">3.14</span>))      <span class="cm"># &lt;class 'float'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="kw">True</span>))      <span class="cm"># &lt;class 'bool'&gt;</span></div>
+    </div>
+  </div>
+
+  <div class="quiz-container">
+    <div class="quiz-q-text">🧩 سؤال سريع: ما الذي تفعله دالة print() ؟</div>
+    <div class="quiz-options" id="quiz-py1">
+      <button class="q-opt" onclick="quizAns(this,'quiz-py1',false)">❌ تطبع على الورق</button>
+      <button class="q-opt" onclick="quizAns(this,'quiz-py1',true)">✅ تعرض نصاً على الشاشة</button>
+      <button class="q-opt" onclick="quizAns(this,'quiz-py1',false)">❌ تحذف البيانات</button>
+      <button class="q-opt" onclick="quizAns(this,'quiz-py1',false)">❌ تحفظ الملف</button>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py1','py2','مرحباً يا عالم!')">التالي: المتغيرات ←</button>
+</div>
+
+<!-- ======== PY2: Variables ======== -->
+<div class="content-section" id="sec-py2">
+  <div class="section-header">
+    <span class="section-icon">📦</span>
+    <div><h2>المتغيرات والبيانات</h2><p>صناديق لتخزين المعلومات</p></div>
+    <span class="level-tag beginner">مبتدئ</span>
+  </div>
+  <div class="lesson-card cyan">
+    <div class="lesson-num">01</div>
+    <h3>ما هو المتغير؟</h3>
+    <p>المتغير مثل صندوق يضع فيه اسماً ويخزن فيه قيمة. يمكنك تغيير ما بداخله في أي وقت!</p>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">variables.py</span></div>
+      <div class="code-area"><span class="cm"># نخزن معلومات في متغيرات</span>
+name = <span class="str">"سارة"</span>          <span class="cm"># متغير نصي</span>
+age = <span class="num">12</span>              <span class="cm"># متغير رقمي</span>
+height = <span class="num">1.55</span>         <span class="cm"># متغير عشري</span>
+is_student = <span class="kw">True</span>     <span class="cm"># متغير منطقي</span>
+
+<span class="fn">print</span>(<span class="str">"الاسم:"</span>, name)
+<span class="fn">print</span>(<span class="str">"العمر:"</span>, age)
+<span class="fn">print</span>(<span class="str">"الطول:"</span>, height, <span class="str">"متر"</span>)
+<span class="fn">print</span>(<span class="str">"طالبة؟"</span>, is_student)
+
+<span class="cm"># يمكنك تغيير قيمة المتغير</span>
+age = age + <span class="num">1</span>
+<span class="fn">print</span>(<span class="str">"بعد عيد الميلاد:"</span>, age)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>📦 اصنع متغيراتك!</h4>
+      <div class="input-row">
+        <input class="py-input" id="v2name" placeholder="اسمك...">
+        <input class="py-input" id="v2city" placeholder="مدينتك...">
+        <input class="py-input" id="v2fav" placeholder="رياضتك المفضلة...">
+      </div>
+      <button class="btn-run btn-cyan" onclick="runPy2()">▶ أنشئ متغيراتي!</button>
+      <div class="output-terminal" id="out-py2"></div>
+    </div>
+  </div>
+
+  <div class="lesson-card purple">
+    <div class="lesson-num">02</div>
+    <h3>تحويل أنواع البيانات</h3>
+    <p>أحياناً نحتاج تحويل النوع — مثلاً من نص إلى رقم!</p>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">convert.py</span></div>
+      <div class="code-area">num_text = <span class="str">"42"</span>        <span class="cm"># هذا نص وليس رقماً!</span>
+num_int = <span class="fn">int</span>(num_text)   <span class="cm"># تحويل إلى عدد صحيح</span>
+
+price = <span class="num">19.99</span>
+price_int = <span class="fn">int</span>(price)    <span class="cm"># 19 (يحذف الكسور)</span>
+price_str = <span class="fn">str</span>(price)    <span class="cm"># "19.99" (نص)</span>
+
+<span class="fn">print</span>(num_int + <span class="num">8</span>)         <span class="cm"># 50 ✅</span>
+<span class="fn">print</span>(<span class="str">"السعر: "</span> + price_str) <span class="cm"># "السعر: 19.99" ✅</span></div>
+    </div>
+    <div class="tip"><span class="tip-icon">⚠️</span><p><strong>انتبه:</strong> <code>int("مرحبا")</code> سيعطي خطأ! يمكنك تحويل الأرقام النصية فقط مثل <code>"42"</code></p></div>
+  </div>
+
+  <div class="lesson-card green">
+    <div class="lesson-num">03</div>
+    <h3>العمليات على النصوص (String Methods)</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">strings.py</span></div>
+      <div class="code-area">name = <span class="str">"أحمد محمد"</span>
+<span class="fn">print</span>(name.<span class="fn">upper</span>())        <span class="cm"># أحمد محمد (بالحروف الكبيرة)</span>
+<span class="fn">print</span>(name.<span class="fn">lower</span>())        <span class="cm"># أحمد محمد (بالحروف الصغيرة)</span>
+<span class="fn">print</span>(<span class="fn">len</span>(name))            <span class="cm"># 10 (عدد الحروف)</span>
+<span class="fn">print</span>(name.<span class="fn">replace</span>(<span class="str">"أحمد"</span>, <span class="str">"علي"</span>)) <span class="cm"># علي محمد</span>
+
+<span class="cm"># ضم النصوص</span>
+first = <span class="str">"مرحباً"</span>
+second = <span class="str">"يا صديقي"</span>
+<span class="fn">print</span>(first + <span class="str">" "</span> + second)   <span class="cm"># مرحباً يا صديقي</span>
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">"الاسم: {name} والطول: {len(name)}"</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🔤 جرب عمليات النصوص</h4>
+      <div class="input-row">
+        <input class="py-input" id="v2str" placeholder="اكتب جملة...">
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn-run btn-sm btn-pink" onclick="strOp('upper')">🔠 UPPER</button>
+        <button class="btn-run btn-sm btn-cyan" onclick="strOp('lower')">🔡 lower</button>
+        <button class="btn-run btn-sm btn-yellow" onclick="strOp('len')">📏 الطول</button>
+        <button class="btn-run btn-sm btn-green" onclick="strOp('reverse')">🔄 عكس</button>
+        <button class="btn-run btn-sm btn-purple" onclick="strOp('repeat')">✖️ تكرار</button>
+      </div>
+      <div class="output-terminal" id="out-str"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py2','py3','المتغيرات')">التالي: العمليات الحسابية ←</button>
+</div>
+
+<!-- ======== PY3: Math ======== -->
+<div class="content-section" id="sec-py3">
+  <div class="section-header">
+    <span class="section-icon">🔢</span>
+    <div><h2>العمليات الحسابية</h2><p>بايثون آلة حاسبة عملاقة</p></div>
+    <span class="level-tag beginner">مبتدئ</span>
+  </div>
+  <div class="lesson-card orange">
+    <div class="lesson-num">01</div>
+    <h3>العمليات الأساسية</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">math.py</span></div>
+      <div class="code-area">a = <span class="num">15</span>
+b = <span class="num">4</span>
+
+<span class="fn">print</span>(a + b)   <span class="cm"># 19 — الجمع</span>
+<span class="fn">print</span>(a - b)   <span class="cm"># 11 — الطرح</span>
+<span class="fn">print</span>(a * b)   <span class="cm"># 60 — الضرب</span>
+<span class="fn">print</span>(a / b)   <span class="cm"># 3.75 — القسمة</span>
+<span class="fn">print</span>(a <span class="op">//</span> b)  <span class="cm"># 3 — قسمة صحيحة (بدون كسور)</span>
+<span class="fn">print</span>(a <span class="op">%</span> b)   <span class="cm"># 3 — باقي القسمة</span>
+<span class="fn">print</span>(a <span class="op">**</span> b)  <span class="cm"># 50625 — الأس (15^4)</span></div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🧮 آلة الحاسبة التفاعلية</h4>
+      <div class="input-row">
+        <input class="py-input" id="m1" type="number" placeholder="العدد الأول" value="10">
+        <input class="py-input" id="m2" type="number" placeholder="العدد الثاني" value="3">
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn-run btn-sm btn-pink" onclick="doMath('+')">➕ جمع</button>
+        <button class="btn-run btn-sm btn-cyan" onclick="doMath('-')">➖ طرح</button>
+        <button class="btn-run btn-sm btn-yellow" onclick="doMath('*')">✖️ ضرب</button>
+        <button class="btn-run btn-sm btn-green" onclick="doMath('/')">➗ قسمة</button>
+        <button class="btn-run btn-sm btn-purple" onclick="doMath('%')">🔢 باقي</button>
+        <button class="btn-run btn-sm btn-orange" onclick="doMath('**')">⬆️ أس</button>
+      </div>
+      <div class="output-terminal" id="out-math"></div>
+    </div>
+  </div>
+  <div class="lesson-card purple">
+    <div class="lesson-num">02</div>
+    <h3>مكتبة math — رياضيات متقدمة</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">advanced_math.py</span></div>
+      <div class="code-area"><span class="kw">import</span> math
+
+<span class="fn">print</span>(math.<span class="fn">sqrt</span>(<span class="num">144</span>))   <span class="cm"># 12.0 — الجذر التربيعي</span>
+<span class="fn">print</span>(math.<span class="fn">pi</span>)           <span class="cm"># 3.14159... — باي</span>
+<span class="fn">print</span>(math.<span class="fn">floor</span>(<span class="num">3.9</span>))   <span class="cm"># 3 — التقريب للأسفل</span>
+<span class="fn">print</span>(math.<span class="fn">ceil</span>(<span class="num">3.1</span>))    <span class="cm"># 4 — التقريب للأعلى</span>
+<span class="fn">print</span>(math.<span class="fn">abs</span>(-<span class="num">5</span>))      <span class="cm"># 5 — القيمة المطلقة</span>
+
+<span class="cm"># مثال عملي: حساب دائرة</span>
+radius = <span class="num">7</span>
+area = math.pi * radius ** <span class="num">2</span>
+<span class="fn">print</span>(<span class="fn">f</span><span class="str">f"مساحة الدائرة: {area:.2f}"</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>📐 احسب مساحة الدائرة</h4>
+      <div class="input-row">
+        <input class="py-input" id="circleR" type="number" placeholder="نصف القطر..." value="5">
+      </div>
+      <button class="btn-run btn-purple" onclick="calcCircle()">📐 احسب!</button>
+      <div class="output-terminal" id="out-circle"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py3','py4','العمليات الحسابية')">التالي: الشروط ←</button>
+</div>
+
+<!-- ======== PY4: Conditions ======== -->
+<div class="content-section" id="sec-py4">
+  <div class="section-header">
+    <span class="section-icon">❓</span>
+    <div><h2>الشروط if / elif / else</h2><p>اجعل الكود يتخذ قرارات!</p></div>
+    <span class="level-tag beginner">مبتدئ</span>
+  </div>
+  <div class="lesson-card pink">
+    <div class="lesson-num">01</div>
+    <h3>مبدأ الشروط</h3>
+    <p>الشرط مثل السؤال: "إذا كان كذا، افعل كذا"</p>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">conditions.py</span></div>
+      <div class="code-area">age = <span class="num">14</span>
+
+<span class="kw">if</span> age >= <span class="num">18</span>:
+    <span class="fn">print</span>(<span class="str">"أنت بالغ ✅"</span>)
+<span class="kw">elif</span> age >= <span class="num">13</span>:
+    <span class="fn">print</span>(<span class="str">"أنت مراهق 🌙"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"أنت طفل 🧒"</span>)
+
+<span class="cm"># عمليات المقارنة:</span>
+<span class="cm"># ==  يساوي    !=  لا يساوي</span>
+<span class="cm"># >   أكبر     <   أصغر</span>
+<span class="cm"># >=  أكبر أو يساوي   <=  أصغر أو يساوي</span>
+
+score = <span class="num">85</span>
+grade = <span class="str">"ممتاز"</span> <span class="kw">if</span> score >= <span class="num">90</span> <span class="kw">else</span> <span class="str">"جيد"</span> <span class="kw">if</span> score >= <span class="num">70</span> <span class="kw">else</span> <span class="str">"راسب"</span>
+<span class="fn">print</span>(<span class="str">"تقديرك:"</span>, grade)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🎯 تحقق من درجتك</h4>
+      <div class="input-row">
+        <input class="py-input" id="scoreIn" type="number" placeholder="درجتك (0-100)..." min="0" max="100">
+      </div>
+      <button class="btn-run btn-pink" onclick="checkGrade()">✅ تحقق!</button>
+      <div class="output-terminal" id="out-grade"></div>
+    </div>
+  </div>
+  <div class="lesson-card yellow">
+    <div class="lesson-num">02</div>
+    <h3>العوامل المنطقية and / or / not</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">logic.py</span></div>
+      <div class="code-area">age = <span class="num">15</span>
+has_ticket = <span class="kw">True</span>
+
+<span class="kw">if</span> age >= <span class="num">12</span> <span class="kw">and</span> has_ticket:
+    <span class="fn">print</span>(<span class="str">"تفضل! مرحباً في الحفل 🎵"</span>)
+
+sunny = <span class="kw">False</span>
+weekend = <span class="kw">True</span>
+<span class="kw">if</span> sunny <span class="kw">or</span> weekend:
+    <span class="fn">print</span>(<span class="str">"يوم رائع للخروج! ☀️"</span>)
+
+raining = <span class="kw">True</span>
+<span class="kw">if</span> <span class="kw">not</span> raining:
+    <span class="fn">print</span>(<span class="str">"اخرج بدون مظلة!"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="str">"خذ المظلة معك! ☂️"</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>⛅ هل تخرج اليوم؟</h4>
+      <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:12px;">
+        <label style="display:flex;gap:8px;align-items:center;color:var(--muted);font-size:0.9rem;cursor:pointer;">
+          <input type="checkbox" id="chkSun" style="width:18px;height:18px;accent-color:var(--yellow)"> ☀️ طقس مشمس
+        </label>
+        <label style="display:flex;gap:8px;align-items:center;color:var(--muted);font-size:0.9rem;cursor:pointer;">
+          <input type="checkbox" id="chkWknd" style="width:18px;height:18px;accent-color:var(--cyan)"> 📅 يوم عطلة
+        </label>
+        <label style="display:flex;gap:8px;align-items:center;color:var(--muted);font-size:0.9rem;cursor:pointer;">
+          <input type="checkbox" id="chkHW" style="width:18px;height:18px;accent-color:var(--pink)"> 📚 واجب منزلي
+        </label>
+      </div>
+      <button class="btn-run btn-yellow" onclick="checkGo()">🤔 هل أخرج؟</button>
+      <div class="output-terminal" id="out-go"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py4','py5','الشروط')">التالي: الحلقات ←</button>
+</div>
+
+<!-- ======== PY5: Loops ======== -->
+<div class="content-section" id="sec-py5">
+  <div class="section-header">
+    <span class="section-icon">🔁</span>
+    <div><h2>الحلقات — for & while</h2><p>كرر الأوامر بدون ملل!</p></div>
+    <span class="level-tag beginner">مبتدئ</span>
+  </div>
+  <div class="lesson-card green">
+    <div class="lesson-num">01</div>
+    <h3>حلقة for</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">for_loop.py</span></div>
+      <div class="code-area"><span class="cm"># العد من 1 إلى 5</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):
+    <span class="fn">print</span>(<span class="str">f"🌟 العدد {i}"</span>)
+
+<span class="cm"># المرور على قائمة</span>
+fruits = [<span class="str">"تفاح"</span>, <span class="str">"موز"</span>, <span class="str">"برتقال"</span>, <span class="str">"عنب"</span>]
+<span class="kw">for</span> fruit <span class="kw">in</span> fruits:
+    <span class="fn">print</span>(<span class="str">f"🍎 الفاكهة: {fruit}"</span>)
+
+<span class="cm"># جدول الضرب!</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>):
+    <span class="fn">print</span>(<span class="str">f"5 × {i} = {5*i}"</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🔢 جدول الضرب التفاعلي</h4>
+      <div class="input-row">
+        <input class="py-input" id="multNum" type="number" placeholder="أي رقم؟ (1-12)" min="1" max="12" value="7">
+      </div>
+      <button class="btn-run btn-green" onclick="multTable()">✖️ اعرض الجدول!</button>
+      <div class="output-terminal" id="out-mult"></div>
+    </div>
+  </div>
+  <div class="lesson-card cyan">
+    <div class="lesson-num">02</div>
+    <h3>حلقة while</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">while_loop.py</span></div>
+      <div class="code-area">count = <span class="num">0</span>
+<span class="kw">while</span> count < <span class="num">5</span>:
+    <span class="fn">print</span>(<span class="str">f"العداد: {count}"</span>)
+    count += <span class="num">1</span>   <span class="cm"># count = count + 1</span>
+
+<span class="cm"># مثال: لعبة التخمين</span>
+secret = <span class="num">7</span>
+guess = <span class="num">0</span>
+attempts = <span class="num">0</span>
+<span class="kw">while</span> guess != secret:
+    guess += <span class="num">1</span>
+    attempts += <span class="num">1</span>
+<span class="fn">print</span>(<span class="str">f"وجدته! استغرق {attempts} محاولة"</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🎮 لعبة التخمين!</h4>
+      <div id="guessGame">
+        <p style="color:var(--muted);margin-bottom:12px;">الحاسوب اختار رقماً بين 1 و 20. حاول تخمينه!</p>
+        <div class="input-row">
+          <input class="py-input" id="guessIn" type="number" placeholder="تخمينك..." min="1" max="20">
+          <button class="btn-run btn-cyan" onclick="playGuess()">🤔 خمّن!</button>
+        </div>
+        <div class="output-terminal" id="out-guess"></div>
+        <button class="btn-run btn-sm btn-purple" onclick="resetGuess()" style="margin-top:8px;">🔄 لعبة جديدة</button>
+      </div>
+    </div>
+  </div>
+  <div class="lesson-card purple">
+    <div class="lesson-num">03</div>
+    <h3>break و continue</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">break_continue.py</span></div>
+      <div class="code-area"><span class="cm"># break — يوقف الحلقة</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
+    <span class="kw">if</span> i == <span class="num">5</span>:
+        <span class="kw">break</span>     <span class="cm"># يخرج من الحلقة</span>
+    <span class="fn">print</span>(i)   <span class="cm"># يطبع 0,1,2,3,4 فقط</span>
+
+<span class="cm"># continue — يتخطى التكرار الحالي</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">10</span>):
+    <span class="kw">if</span> i % <span class="num">2</span> == <span class="num">0</span>:
+        <span class="kw">continue</span>  <span class="cm"># يتخطى الأرقام الزوجية</span>
+    <span class="fn">print</span>(i)   <span class="cm"># يطبع 1,3,5,7,9 فقط</span></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py5','py6','الحلقات')">التالي: القوائم ←</button>
+</div>
+
+<!-- ======== PY6: Lists ======== -->
+<div class="content-section" id="sec-py6">
+  <div class="section-header">
+    <span class="section-icon">📋</span>
+    <div><h2>القوائم — Lists</h2><p>تخزين مجموعات من البيانات</p></div>
+    <span class="level-tag beginner">مبتدئ</span>
+  </div>
+  <div class="lesson-card orange">
+    <div class="lesson-num">01</div>
+    <h3>إنشاء القوائم والوصول للعناصر</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">lists.py</span></div>
+      <div class="code-area">fruits = [<span class="str">"تفاح"</span>, <span class="str">"موز"</span>, <span class="str">"عنب"</span>, <span class="str">"مانجو"</span>]
+
+<span class="cm"># الوصول بالمؤشر (يبدأ من 0)</span>
+<span class="fn">print</span>(fruits[<span class="num">0</span>])    <span class="cm"># تفاح (الأول)</span>
+<span class="fn">print</span>(fruits[-<span class="num">1</span>])   <span class="cm"># مانجو (الأخير)</span>
+<span class="fn">print</span>(fruits[<span class="num">1</span>:<span class="num">3</span>])  <span class="cm"># [موز, عنب]</span>
+
+<span class="cm"># إضافة وحذف</span>
+fruits.<span class="fn">append</span>(<span class="str">"برتقال"</span>)    <span class="cm"># إضافة في النهاية</span>
+fruits.<span class="fn">insert</span>(<span class="num">0</span>, <span class="str">"كيوي"</span>)   <span class="cm"># إضافة في البداية</span>
+fruits.<span class="fn">remove</span>(<span class="str">"موز"</span>)       <span class="cm"># حذف عنصر</span>
+
+<span class="fn">print</span>(<span class="fn">len</span>(fruits))           <span class="cm"># عدد العناصر</span>
+<span class="fn">print</span>(fruits.<span class="fn">sort</span>())        <span class="cm"># ترتيب</span></div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🛒 قائمة التسوق التفاعلية</h4>
+      <div id="shopList" style="margin-bottom:12px;">
+        <div id="listItems" style="display:flex;flex-wrap:wrap;gap:8px;min-height:36px;margin-bottom:12px;"></div>
+        <div class="input-row">
+          <input class="py-input" id="shopItem" placeholder="أضف عنصراً...">
+          <button class="btn-run btn-sm btn-orange" onclick="addShopItem()">➕ أضف</button>
+          <button class="btn-run btn-sm btn-pink" onclick="clearShop()">🗑️ امسح الكل</button>
+        </div>
+      </div>
+      <div class="output-terminal" id="out-shop"></div>
+    </div>
+  </div>
+  <div class="lesson-card pink">
+    <div class="lesson-num">02</div>
+    <h3>عمليات القوائم المتقدمة</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">list_ops.py</span></div>
+      <div class="code-area">nums = [<span class="num">5</span>, <span class="num">2</span>, <span class="num">8</span>, <span class="num">1</span>, <span class="num">9</span>, <span class="num">3</span>]
+
+<span class="fn">print</span>(<span class="fn">sum</span>(nums))    <span class="cm"># 28 — المجموع</span>
+<span class="fn">print</span>(<span class="fn">max</span>(nums))    <span class="cm"># 9  — الأكبر</span>
+<span class="fn">print</span>(<span class="fn">min</span>(nums))    <span class="cm"># 1  — الأصغر</span>
+<span class="fn">print</span>(<span class="fn">sorted</span>(nums)) <span class="cm"># مرتبة تصاعدياً</span>
+
+<span class="cm"># List Comprehension — طريقة رائعة!</span>
+squares = [x**<span class="num">2</span> <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)]
+<span class="fn">print</span>(squares)  <span class="cm"># [1, 4, 9, 16, 25]</span>
+
+evens = [x <span class="kw">for</span> x <span class="kw">in</span> nums <span class="kw">if</span> x % <span class="num">2</span> == <span class="num">0</span>]
+<span class="fn">print</span>(evens)    <span class="cm"># [2, 8] — الأرقام الزوجية</span></div>
+    </div>
+    <div class="interactive-zone">
+      <h4>📊 تحليل الأرقام</h4>
+      <div class="input-row">
+        <input class="py-input" id="numsIn" placeholder="أدخل أرقاماً مفصولة بفاصلة مثل: 5,3,8,1">
+      </div>
+      <button class="btn-run btn-pink" onclick="analyzeNums()">📊 حلّل!</button>
+      <div class="output-terminal" id="out-nums"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py6','py7','القوائم')">التالي: القواميس ←</button>
+</div>
+
+<!-- ======== PY7: Dictionaries ======== -->
+<div class="content-section" id="sec-py7">
+  <div class="section-header">
+    <span class="section-icon">🗂️</span>
+    <div><h2>القواميس — Dictionaries</h2><p>بيانات بمفاتيح وقيم</p></div>
+    <span class="level-tag intermediate">متوسط</span>
+  </div>
+  <div class="lesson-card purple">
+    <div class="lesson-num">01</div>
+    <h3>إنشاء القواميس والوصول للبيانات</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">dicts.py</span></div>
+      <div class="code-area">student = {
+    <span class="str">"name"</span>: <span class="str">"علي"</span>,
+    <span class="str">"age"</span>: <span class="num">14</span>,
+    <span class="str">"grade"</span>: <span class="str">"ممتاز"</span>,
+    <span class="str">"subjects"</span>: [<span class="str">"رياضيات"</span>, <span class="str">"علوم"</span>, <span class="str">"لغة"</span>]
+}
+
+<span class="fn">print</span>(student[<span class="str">"name"</span>])         <span class="cm"># علي</span>
+<span class="fn">print</span>(student.<span class="fn">get</span>(<span class="str">"age"</span>))      <span class="cm"># 14</span>
+
+<span class="cm"># إضافة وتعديل</span>
+student[<span class="str">"score"</span>] = <span class="num">95</span>          <span class="cm"># إضافة مفتاح جديد</span>
+student[<span class="str">"age"</span>] = <span class="num">15</span>            <span class="cm"># تعديل قيمة</span>
+
+<span class="cm"># المرور على القاموس</span>
+<span class="kw">for</span> key, value <span class="kw">in</span> student.<span class="fn">items</span>():
+    <span class="fn">print</span>(<span class="str">f"{key}: {value}"</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>👤 أنشئ ملفك الشخصي</h4>
+      <div class="input-row">
+        <input class="py-input" id="dName" placeholder="اسمك">
+        <input class="py-input" id="dAge" type="number" placeholder="عمرك">
+      </div>
+      <div class="input-row">
+        <input class="py-input" id="dCity" placeholder="مدينتك">
+        <input class="py-input" id="dHobby" placeholder="هوايتك">
+      </div>
+      <button class="btn-run btn-purple" onclick="buildProfile()">👤 أنشئ ملفي!</button>
+      <div class="output-terminal" id="out-dict"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py7','py8','القواميس')">التالي: الدوال ←</button>
+</div>
+
+<!-- ======== PY8: Functions ======== -->
+<div class="content-section" id="sec-py8">
+  <div class="section-header">
+    <span class="section-icon">⚙️</span>
+    <div><h2>الدوال — Functions</h2><p>أكواد معاد استخدامها</p></div>
+    <span class="level-tag intermediate">متوسط</span>
+  </div>
+  <div class="lesson-card cyan">
+    <div class="lesson-num">01</div>
+    <h3>تعريف الدوال</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">functions.py</span></div>
+      <div class="code-area"><span class="kw">def</span> <span class="fn">greet</span>(name, emoji=<span class="str">"👋"</span>):
+    <span class="str">"""دالة للترحيب بالأشخاص"""</span>
+    message = <span class="str">f"{emoji} مرحباً يا {name}!"</span>
+    <span class="kw">return</span> message
+
+<span class="fn">print</span>(<span class="fn">greet</span>(<span class="str">"سارة"</span>))
+<span class="fn">print</span>(<span class="fn">greet</span>(<span class="str">"أحمد"</span>, <span class="str">"🌟"</span>))
+
+<span class="kw">def</span> <span class="fn">calculate_bmi</span>(weight, height):
+    <span class="str">"""حساب مؤشر كتلة الجسم"""</span>
+    bmi = weight / (height ** <span class="num">2</span>)
+    <span class="kw">if</span> bmi < <span class="num">18.5</span>:
+        status = <span class="str">"نحيف"</span>
+    <span class="kw">elif</span> bmi < <span class="num">25</span>:
+        status = <span class="str">"طبيعي ✅"</span>
+    <span class="kw">else</span>:
+        status = <span class="str">"زيادة في الوزن"</span>
+    <span class="kw">return</span> bmi, status
+
+bmi, s = <span class="fn">calculate_bmi</span>(<span class="num">60</span>, <span class="num">1.70</span>)
+<span class="fn">print</span>(<span class="str">f"BMI: {bmi:.1f} — {s}"</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>⚖️ احسب BMI خاصتك</h4>
+      <div class="input-row">
+        <input class="py-input" id="bmiW" type="number" placeholder="الوزن (كيلو)" value="60">
+        <input class="py-input" id="bmiH" type="number" placeholder="الطول (سم)" value="170">
+      </div>
+      <button class="btn-run btn-cyan" onclick="calcBMI()">⚖️ احسب!</button>
+      <div class="output-terminal" id="out-bmi"></div>
+    </div>
+  </div>
+  <div class="lesson-card green">
+    <div class="lesson-num">02</div>
+    <h3>دوال Lambda والدوال المدمجة</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">lambda.py</span></div>
+      <div class="code-area"><span class="cm"># Lambda — دوال صغيرة في سطر واحد</span>
+square = <span class="kw">lambda</span> x: x ** <span class="num">2</span>
+add = <span class="kw">lambda</span> a, b: a + b
+
+<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">5</span>))      <span class="cm"># 25</span>
+<span class="fn">print</span>(<span class="fn">add</span>(<span class="num">3</span>, <span class="num">7</span>))     <span class="cm"># 10</span>
+
+<span class="cm"># map و filter</span>
+nums = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+doubled = <span class="fn">list</span>(<span class="fn">map</span>(<span class="kw">lambda</span> x: x*<span class="num">2</span>, nums))
+<span class="fn">print</span>(doubled)   <span class="cm"># [2, 4, 6, 8, 10]</span>
+
+evens = <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">lambda</span> x: x%<span class="num">2</span>==<span class="num">0</span>, nums))
+<span class="fn">print</span>(evens)     <span class="cm"># [2, 4]</span></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py8','py9','الدوال')">التالي: البرمجة الكائنية ←</button>
+</div>
+
+<!-- ======== PY9: OOP ======== -->
+<div class="content-section" id="sec-py9">
+  <div class="section-header">
+    <span class="section-icon">🏗️</span>
+    <div><h2>البرمجة الكائنية — OOP</h2><p>صنّف الأشياء مثل العالم الحقيقي</p></div>
+    <span class="level-tag advanced">متقدم</span>
+  </div>
+  <div class="lesson-card pink">
+    <div class="lesson-num">01</div>
+    <h3>الكلاسات والكائنات</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">oop.py</span></div>
+      <div class="code-area"><span class="kw">class</span> <span class="cls">Animal</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, sound, emoji):
+        self.name = name
+        self.sound = sound
+        self.emoji = emoji
+        self.energy = <span class="num">100</span>
+
+    <span class="kw">def</span> <span class="fn">speak</span>(self):
+        <span class="fn">print</span>(<span class="str">f"{self.emoji} {self.name} يقول: {self.sound}!"</span>)
+
+    <span class="kw">def</span> <span class="fn">eat</span>(self, food):
+        self.energy += <span class="num">10</span>
+        <span class="fn">print</span>(<span class="str">f"{self.name} يأكل {food} 😋 طاقة: {self.energy}"</span>)
+
+<span class="cm"># إنشاء كائنات</span>
+cat = <span class="cls">Animal</span>(<span class="str">"قطة"</span>, <span class="str">"مياو"</span>, <span class="str">"🐱"</span>)
+dog = <span class="cls">Animal</span>(<span class="str">"كلب"</span>, <span class="str">"هاو"</span>, <span class="str">"🐶"</span>)
+
+cat.<span class="fn">speak</span>()
+dog.<span class="fn">eat</span>(<span class="str">"عظمة"</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🐾 أنشئ حيوانك!</h4>
+      <div class="input-row">
+        <input class="py-input" id="aniName" placeholder="اسم الحيوان...">
+        <input class="py-input" id="aniSound" placeholder="صوته...">
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+        <button class="btn-run btn-sm btn-pink" onclick="animalDo('speak')">🗣️ تكلم</button>
+        <button class="btn-run btn-sm btn-orange" onclick="animalDo('eat')">🍖 أطعم</button>
+        <button class="btn-run btn-sm btn-cyan" onclick="animalDo('sleep')">😴 نوّم</button>
+        <button class="btn-run btn-sm btn-yellow" onclick="animalDo('play')">🎾 العب</button>
+      </div>
+      <div class="output-terminal" id="out-oop"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py9','ai1','البرمجة الكائنية')">التالي: الذكاء الاصطناعي ←</button>
+</div>
+
+<!-- ======== PY10: Files ======== -->
+<div class="content-section" id="sec-py10">
+  <div class="section-header">
+    <span class="section-icon">📁</span>
+    <div><h2>الملفات والبيانات</h2><p>تخزين البيانات بصفة دائمة</p></div>
+    <span class="level-tag intermediate">متوسط</span>
+  </div>
+  <div class="lesson-card orange">
+    <div class="lesson-num">01</div>
+    <h3>قراءة وكتابة الملفات</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">files.py</span></div>
+      <div class="code-area"><span class="cm"># كتابة ملف</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"notes.txt"</span>, <span class="str">"w"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+    f.<span class="fn">write</span>(<span class="str">"أنا أتعلم بايثون!\n"</span>)
+    f.<span class="fn">write</span>(<span class="str">"البرمجة رائعة 🚀\n"</span>)
+
+<span class="cm"># قراءة ملف</span>
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"notes.txt"</span>, <span class="str">"r"</span>, encoding=<span class="str">"utf-8"</span>) <span class="kw">as</span> f:
+    content = f.<span class="fn">read</span>()
+    <span class="fn">print</span>(content)
+
+<span class="cm"># JSON — تخزين بيانات منظمة</span>
+<span class="kw">import</span> json
+data = {<span class="str">"name"</span>: <span class="str">"علي"</span>, <span class="str">"score"</span>: <span class="num">95</span>}
+<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"data.json"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
+    json.<span class="fn">dump</span>(data, f)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>📝 محرر الملاحظات</h4>
+      <textarea class="py-input" id="noteArea" rows="4" placeholder="اكتب ملاحظاتك هنا..." style="width:100%;resize:vertical;font-family:Tajawal;"></textarea>
+      <div style="display:flex;gap:10px;margin-top:10px;">
+        <button class="btn-run btn-sm btn-orange" onclick="saveNote()">💾 احفظ</button>
+        <button class="btn-run btn-sm btn-cyan" onclick="readNote()">📖 اقرأ</button>
+        <button class="btn-run btn-sm btn-pink" onclick="clearNote()">🗑️ امسح</button>
+      </div>
+      <div class="output-terminal" id="out-file"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('py10','ai1','الملفات')">التالي: الذكاء الاصطناعي ←</button>
+</div>
+
+<!-- ======== AI1: What is AI ======== -->
+<div class="content-section" id="sec-ai1">
+  <div class="section-header">
+    <span class="section-icon">🤖</span>
+    <div><h2>ما هو الذكاء الاصطناعي؟</h2><p>تعلم أساسيات AI</p></div>
+    <span class="level-tag beginner">مبتدئ</span>
+  </div>
+  <div class="lesson-card purple">
+    <div class="lesson-num">01</div>
+    <h3>تعريف الذكاء الاصطناعي</h3>
+    <p>الذكاء الاصطناعي (AI) هو فرع من علوم الحاسوب يجعل الآلات تفكر وتتصرف مثل البشر — أو أحياناً أذكى منهم!</p>
+    <div class="concept-grid" style="margin-top:16px;">
+      <div class="concept-card"><span class="cc-icon">🗣️</span><h4 style="color:var(--pink)">معالجة اللغة</h4><p>ChatGPT، Siri، مساعد جوجل</p></div>
+      <div class="concept-card"><span class="cc-icon">👁️</span><h4 style="color:var(--cyan)">رؤية الحاسوب</h4><p>التعرف على الوجوه، قيادة السيارات</p></div>
+      <div class="concept-card"><span class="cc-icon">🎮</span><h4 style="color:var(--green)">الألعاب</h4><p>AlphaGo تغلب على أبطال العالم</p></div>
+      <div class="concept-card"><span class="cc-icon">🏥</span><h4 style="color:var(--orange)">الطب</h4><p>تشخيص الأمراض من الصور</p></div>
+      <div class="concept-card"><span class="cc-icon">🚗</span><h4 style="color:var(--purple)">السيارات</h4><p>Tesla تقود نفسها بالذكاء الاصطناعي</p></div>
+      <div class="concept-card"><span class="cc-icon">🎨</span><h4 style="color:var(--yellow)">الفن</h4><p>رسم صور، كتابة قصص، تلحين موسيقى</p></div>
+    </div>
+  </div>
+  <div class="lesson-card cyan">
+    <div class="lesson-num">02</div>
+    <h3>أنواع الذكاء الاصطناعي</h3>
+    <div class="steps-list">
+      <div class="step-item">
+        <div class="step-num done">1</div>
+        <div class="step-content"><h4>🤖 الذكاء الضيق (ANI)</h4><p>متخصص في مهمة واحدة فقط. مثل: مرشح البريد المزعج، نظام التوصيات في YouTube. هذا ما لدينا اليوم!</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num active">2</div>
+        <div class="step-content"><h4>🧠 الذكاء العام (AGI)</h4><p>ذكاء يفكر مثل الإنسان في أي مجال. لم يتحقق بعد! يعمل العلماء عليه.</p></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num todo">3</div>
+        <div class="step-content"><h4>🚀 الذكاء الفائق (ASI)</h4><p>أذكى من كل البشر مجتمعين. المستقبل البعيد!</p></div>
+      </div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('ai1','ai2','مفهوم الذكاء الاصطناعي')">التالي: تعلم الآلة ←</button>
+</div>
+
+<!-- ======== AI2: ML ======== -->
+<div class="content-section" id="sec-ai2">
+  <div class="section-header">
+    <span class="section-icon">📊</span>
+    <div><h2>تعلم الآلة — Machine Learning</h2><p>كيف يتعلم الحاسوب من البيانات</p></div>
+    <span class="level-tag intermediate">متوسط</span>
+  </div>
+  <div class="lesson-card green">
+    <div class="lesson-num">01</div>
+    <h3>كيف يتعلم الحاسوب؟</h3>
+    <p>بدل أن تكتب قواعد صريحة، تُعطي الحاسوب أمثلة وهو يكتشف القواعد بنفسه!</p>
+    <div class="interactive-zone">
+      <h4>🎓 لعبة التصنيف — علّم الآلة!</h4>
+      <p style="color:var(--muted);font-size:0.85rem;margin-bottom:14px;">انقر على الأمثلة لتصنيفها — الحاسوب سيتعلم من اختياراتك!</p>
+      <div id="mlGame" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;"></div>
+      <div class="output-terminal" id="out-ml"></div>
+      <button class="btn-run btn-sm btn-green" onclick="resetML()" style="margin-top:8px;">🔄 إعادة</button>
+    </div>
+  </div>
+  <div class="lesson-card orange">
+    <div class="lesson-num">02</div>
+    <h3>أنواع تعلم الآلة</h3>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <span class="cc-icon">📚</span>
+        <h4 style="color:var(--cyan)">التعلم بإشراف</h4>
+        <p>نُعطي الحاسوب بيانات مُعلَّمة — له الإجابات الصحيحة</p>
+      </div>
+      <div class="concept-card">
+        <span class="cc-icon">🔍</span>
+        <h4 style="color:var(--green)">التعلم غير المُشرَف</h4>
+        <p>الحاسوب يكتشف الأنماط بنفسه بدون إجابات</p>
+      </div>
+      <div class="concept-card">
+        <span class="cc-icon">🎮</span>
+        <h4 style="color:var(--orange)">التعلم بالمكافأة</h4>
+        <p>الحاسوب يتعلم من التجربة والخطأ — مثل تعلم الألعاب</p>
+      </div>
+    </div>
+  </div>
+  <div class="lesson-card purple">
+    <div class="lesson-num">03</div>
+    <h3>مثال عملي بالكود</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">ml_example.py</span></div>
+      <div class="code-area"><span class="kw">from</span> sklearn.<span class="fn">neighbors</span> <span class="kw">import</span> KNeighborsClassifier
+
+<span class="cm"># بيانات التدريب: [الطول, الوزن] → النوع</span>
+X_train = [[<span class="num">1.8</span>, <span class="num">80</span>], [<span class="num">1.6</span>, <span class="num">60</span>], [<span class="num">1.75</span>, <span class="num">75</span>], [<span class="num">1.55</span>, <span class="num">50</span>]]
+y_train = [<span class="str">"ذكر"</span>, <span class="str">"أنثى"</span>, <span class="str">"ذكر"</span>, <span class="str">"أنثى"</span>]
+
+<span class="cm"># تدريب النموذج</span>
+model = KNeighborsClassifier(n_neighbors=<span class="num">3</span>)
+model.<span class="fn">fit</span>(X_train, y_train)
+
+<span class="cm"># التنبؤ بشخص جديد</span>
+new_person = [[<span class="num">1.70</span>, <span class="num">70</span>]]
+prediction = model.<span class="fn">predict</span>(new_person)
+<span class="fn">print</span>(<span class="str">f"التنبؤ: {prediction[0]}"</span>)</div>
+    </div>
+    <div class="tip"><span class="tip-icon">💡</span><p><strong>sklearn</strong> هي مكتبة بايثون مشهورة جداً لتعلم الآلة — تحتوي على عشرات الخوارزميات الجاهزة!</p></div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('ai2','ai3','تعلم الآلة')">التالي: الشبكات العصبية ←</button>
+</div>
+
+<!-- ======== AI3: Neural Networks ======== -->
+<div class="content-section" id="sec-ai3">
+  <div class="section-header">
+    <span class="section-icon">🧠</span>
+    <div><h2>الشبكات العصبية</h2><p>محاكاة الدماغ البشري</p></div>
+    <span class="level-tag advanced">متقدم</span>
+  </div>
+  <div class="lesson-card pink">
+    <div class="lesson-num">01</div>
+    <h3>الخلية العصبية الاصطناعية</h3>
+    <p>مثل خلايا الدماغ — تأخذ مدخلات، تحسبها، وتُنتج مخرجاً!</p>
+    <div class="nn-canvas-wrap">
+      <canvas id="nnCanvas" width="600" height="300"></canvas>
+    </div>
+    <button class="btn-run btn-pink" onclick="animateNN()">🧠 حرّك الشبكة!</button>
+    <div class="info-box" style="margin-top:14px;"><span class="tip-icon">🔵</span><p><strong>طبقة الإدخال:</strong> تأخذ البيانات الخام (صورة، صوت، نص) — <strong>الطبقة المخفية:</strong> تعالج وتكتشف الأنماط — <strong>طبقة الإخراج:</strong> تعطي الإجابة</p></div>
+  </div>
+  <div class="lesson-card cyan">
+    <div class="lesson-num">02</div>
+    <h3>كيف تتعلم الشبكة؟</h3>
+    <div class="steps-list">
+      <div class="step-item"><div class="step-num done">1</div><div class="step-content"><h4>التمرير للأمام (Forward Pass)</h4><p>البيانات تمر من اليسار لليمين عبر الشبكة لتنتج تنبؤاً</p></div></div>
+      <div class="step-item"><div class="step-num done">2</div><div class="step-content"><h4>حساب الخطأ (Loss)</h4><p>نقارن التنبؤ بالإجابة الصحيحة ونحسب الفرق</p></div></div>
+      <div class="step-item"><div class="step-num active">3</div><div class="step-content"><h4>التمرير للخلف (Backpropagation)</h4><p>الخطأ يُرسل للخلف لتعديل الأوزان</p></div></div>
+      <div class="step-item"><div class="step-num todo">4</div><div class="step-content"><h4>تكرار آلاف المرات</h4><p>كلما تكرر التدريب، كلما تحسّن النموذج!</p></div></div>
+    </div>
+  </div>
+  <div class="lesson-card yellow">
+    <div class="lesson-num">03</div>
+    <h3>كود Keras — الشبكة العصبية في 10 أسطر!</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">neural_net.py</span></div>
+      <div class="code-area"><span class="kw">from</span> tensorflow <span class="kw">import</span> keras
+
+<span class="cm"># بناء الشبكة</span>
+model = keras.<span class="cls">Sequential</span>([
+    keras.layers.<span class="cls">Dense</span>(<span class="num">128</span>, activation=<span class="str">'relu'</span>, input_shape=(<span class="num">784</span>,)),
+    keras.layers.<span class="cls">Dense</span>(<span class="num">64</span>, activation=<span class="str">'relu'</span>),
+    keras.layers.<span class="cls">Dense</span>(<span class="num">10</span>, activation=<span class="str">'softmax'</span>)
+])
+
+<span class="cm"># تجهيز النموذج</span>
+model.<span class="fn">compile</span>(optimizer=<span class="str">'adam'</span>,
+              loss=<span class="str">'categorical_crossentropy'</span>,
+              metrics=[<span class="str">'accuracy'</span>])
+
+<span class="cm"># التدريب</span>
+model.<span class="fn">fit</span>(X_train, y_train, epochs=<span class="num">10</span>)</div>
+    </div>
+  </div>
+  <div class="interactive-zone">
+    <h4>🧪 شاهد الشبكة تتعلم!</h4>
+    <p style="color:var(--muted);font-size:0.85rem;margin-bottom:12px;">انقر لمحاكاة دورة تدريب واحدة</p>
+    <button class="btn-run btn-purple" onclick="trainStep()">🏋️ تدريب خطوة واحدة</button>
+    <button class="btn-run btn-sm btn-orange" onclick="resetTrain()" style="margin-right:8px;">🔄 إعادة</button>
+    <div class="output-terminal" id="out-nn"></div>
+    <div id="epochBars" class="chart-bars" style="margin-top:14px;height:100px;"></div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('ai3','ai4','الشبكات العصبية')">التالي: تصنيف البيانات ←</button>
+</div>
+
+<!-- ======== AI4: Classification ======== -->
+<div class="content-section" id="sec-ai4">
+  <div class="section-header">
+    <span class="section-icon">📈</span>
+    <div><h2>تصنيف البيانات</h2><p>التعرف على الأنماط والتنبؤ</p></div>
+    <span class="level-tag intermediate">متوسط</span>
+  </div>
+  <div class="lesson-card orange">
+    <div class="lesson-num">01</div>
+    <h3>مصنّف الفاكهة الذكي 🍎</h3>
+    <p>أعطِ الحاسوب خصائص فاكهة وسيخمن ما هي!</p>
+    <div class="interactive-zone">
+      <h4>🍎 صف الفاكهة</h4>
+      <div class="input-row">
+        <select class="py-input" id="frColor">
+          <option value="">اللون...</option>
+          <option value="أحمر">🔴 أحمر</option>
+          <option value="أصفر">🟡 أصفر</option>
+          <option value="أخضر">🟢 أخضر</option>
+          <option value="بنفسجي">🟣 بنفسجي</option>
+          <option value="برتقالي">🟠 برتقالي</option>
+        </select>
+        <select class="py-input" id="frTaste">
+          <option value="">الطعم...</option>
+          <option value="حلو">🍯 حلو</option>
+          <option value="حامض">🍋 حامض</option>
+          <option value="مُر">😬 مُر</option>
+        </select>
+        <select class="py-input" id="frSize">
+          <option value="">الحجم...</option>
+          <option value="صغير">🔵 صغير</option>
+          <option value="متوسط">⭕ متوسط</option>
+          <option value="كبير">🔴 كبير</option>
+        </select>
+      </div>
+      <button class="btn-run btn-orange" onclick="classifyFruit()">🤖 صنّف!</button>
+      <div class="output-terminal" id="out-fruit"></div>
+    </div>
+  </div>
+  <div class="lesson-card pink">
+    <div class="lesson-num">02</div>
+    <h3>محلل المشاعر النصي</h3>
+    <div class="interactive-zone">
+      <h4>💬 اكتب جملة وسأحلل مشاعرها</h4>
+      <div class="input-row">
+        <input class="py-input" id="sentText" placeholder="اكتب جملة بالعربية...">
+      </div>
+      <button class="btn-run btn-pink" onclick="analyzeSentiment()">😊 حلّل المشاعر</button>
+      <div class="output-terminal" id="out-sent"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('ai4','voice1','تصنيف البيانات')">التالي: التعرف الصوتي ←</button>
+</div>
+
+<!-- ======== VOICE1: Theory ======== -->
+<div class="content-section" id="sec-voice1">
+  <div class="section-header">
+    <span class="section-icon">🎤</span>
+    <div><h2>كيف يسمع الحاسوب؟</h2><p>علم التعرف على الكلام</p></div>
+    <span class="level-tag intermediate">متوسط</span>
+  </div>
+  <div class="lesson-card cyan">
+    <div class="lesson-num">01</div>
+    <h3>من الصوت إلى النص</h3>
+    <div class="steps-list">
+      <div class="step-item"><div class="step-num done">1</div><div class="step-content"><h4>🎤 التقاط الصوت</h4><p>الميكروفون يحول الموجات الصوتية إلى إشارات رقمية</p></div></div>
+      <div class="step-item"><div class="step-num done">2</div><div class="step-content"><h4>🌊 تحليل الموجات</h4><p>تحليل الترددات والنبرات في الصوت (تحويل فورييه)</p></div></div>
+      <div class="step-item"><div class="step-num done">3</div><div class="step-content"><h4>🧠 الشبكة العصبية</h4><p>نموذج AI مُدرَّب على ملايين الأصوات يُحدد الكلمات</p></div></div>
+      <div class="step-item"><div class="step-num active">4</div><div class="step-content"><h4>📝 النص الناتج</h4><p>الكلمات المُتعرَّف عليها تُرسل كنص للتطبيق</p></div></div>
+    </div>
+  </div>
+  <div class="lesson-card purple">
+    <div class="lesson-num">02</div>
+    <h3>مكتبات التعرف على الكلام</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">speech.py</span></div>
+      <div class="code-area"><span class="kw">import</span> speech_recognition <span class="kw">as</span> sr
+
+recognizer = sr.<span class="cls">Recognizer</span>()
+
+<span class="cm"># الاستماع من الميكروفون</span>
+<span class="kw">with</span> sr.<span class="cls">Microphone</span>() <span class="kw">as</span> source:
+    <span class="fn">print</span>(<span class="str">"تكلم الآن... 🎤"</span>)
+    audio = recognizer.<span class="fn">listen</span>(source)
+
+<span class="kw">try</span>:
+    text = recognizer.<span class="fn">recognize_google</span>(
+        audio,
+        language=<span class="str">"ar-SA"</span>   <span class="cm"># العربية!</span>
+    )
+    <span class="fn">print</span>(<span class="str">f"قلت: {text}"</span>)
+<span class="kw">except</span>:
+    <span class="fn">print</span>(<span class="str">"لم أفهم ما قلته 😅"</span>)</div>
+    </div>
+    <div class="tip"><span class="tip-icon">💡</span><p><strong>Google Speech API</strong> تدعم أكثر من 100 لغة بما فيها العربية! وهناك أيضاً OpenAI Whisper للتعرف على الكلام بدقة عالية.</p></div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('voice1','voice2','نظرية التعرف الصوتي')">التالي: التجربة الصوتية ←</button>
+</div>
+
+<!-- ======== VOICE2: Live ======== -->
+<div class="content-section" id="sec-voice2">
+  <div class="section-header">
+    <span class="section-icon">🗣️</span>
+    <div><h2>التعرف الصوتي المباشر</h2><p>تكلم والحاسوب يفهمك!</p></div>
+    <span class="level-tag advanced">متقدم</span>
+  </div>
+  <div class="lesson-card pink">
+    <div class="lesson-num">01</div>
+    <h3>جرب التعرف على الكلام الآن!</h3>
+    <div class="interactive-zone">
+      <h4>🎤 تحدث إلى الحاسوب</h4>
+      <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">اضغط على الميكروفون وابدأ التحدث. المتصفح سيعمل على تحويل كلامك إلى نص!</p>
+      <div class="mic-circle" id="micBtn" onclick="toggleMic()">🎤</div>
+      <p id="micStatus" style="text-align:center;color:var(--muted);margin-top:12px;font-size:0.85rem;">اضغط للبدء</p>
+      <div class="voice-viz" id="voiceViz">
+        <div class="voice-bar" style="--d:0.3s;--h:20px"></div>
+        <div class="voice-bar" style="--d:0.5s;--h:40px"></div>
+        <div class="voice-bar" style="--d:0.4s;--h:30px"></div>
+        <div class="voice-bar" style="--d:0.6s;--h:50px"></div>
+        <div class="voice-bar" style="--d:0.35s;--h:25px"></div>
+        <div class="voice-bar" style="--d:0.55s;--h:45px"></div>
+        <div class="voice-bar" style="--d:0.45s;--h:35px"></div>
+        <div class="voice-bar" style="--d:0.5s;--h:20px"></div>
+        <div class="voice-bar" style="--d:0.3s;--h:40px"></div>
+        <div class="voice-bar" style="--d:0.6s;--h:30px"></div>
+      </div>
+      <div class="output-terminal" id="out-voice" style="display:block;min-height:80px;">
+        <span class="out-info">سيظهر نص كلامك هنا...</span>
+      </div>
+    </div>
+  </div>
+  <div class="lesson-card cyan">
+    <div class="lesson-num">02</div>
+    <h3>الأوامر الصوتية المخصصة</h3>
+    <div class="interactive-zone">
+      <h4>🎮 الأوامر الصوتية للألعاب</h4>
+      <p style="color:var(--muted);font-size:0.85rem;margin-bottom:12px;">جرب هذه الأوامر بالصوت: "افتح بايثون"، "ما الوقت"، "احسب"، "أهلاً"</p>
+      <button class="btn-run btn-cyan" onclick="startCommands()">🎤 ابدأ الأوامر</button>
+      <div class="output-terminal" id="out-cmds" style="display:block;min-height:60px;"><span class="out-info">في انتظار أمر صوتي...</span></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('voice2','voice3','التعرف الصوتي')">التالي: تحويل النص لصوت ←</button>
+</div>
+
+<!-- ======== VOICE3: TTS ======== -->
+<div class="content-section" id="sec-voice3">
+  <div class="section-header">
+    <span class="section-icon">🔊</span>
+    <div><h2>تحويل النص إلى صوت</h2><p>اجعل الحاسوب يتكلم!</p></div>
+    <span class="level-tag intermediate">متوسط</span>
+  </div>
+  <div class="lesson-card yellow">
+    <div class="lesson-num">01</div>
+    <h3>Text-to-Speech في بايثون</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">tts.py</span></div>
+      <div class="code-area"><span class="kw">import</span> pyttsx3
+
+engine = pyttsx3.<span class="fn">init</span>()
+
+<span class="cm"># إعداد الصوت</span>
+engine.<span class="fn">setProperty</span>(<span class="str">'rate'</span>, <span class="num">150</span>)    <span class="cm"># سرعة الكلام</span>
+engine.<span class="fn">setProperty</span>(<span class="str">'volume'</span>, <span class="num">0.9</span>)  <span class="cm"># مستوى الصوت</span>
+
+<span class="cm"># قائمة الأصوات المتاحة</span>
+voices = engine.<span class="fn">getProperty</span>(<span class="str">'voices'</span>)
+engine.<span class="fn">setProperty</span>(<span class="str">'voice'</span>, voices[<span class="num">0</span>].id)
+
+<span class="cm"># التحدث</span>
+engine.<span class="fn">say</span>(<span class="str">"مرحباً! أنا حاسوب يتكلم بالعربية!"</span>)
+engine.<span class="fn">runAndWait</span>()</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🔊 اجعل الحاسوب يتكلم الآن!</h4>
+      <div class="input-row">
+        <input class="py-input" id="ttsText" placeholder="اكتب ما تريد سماعه..." value="مرحباً أنا حاسوب ذكي!">
+      </div>
+      <div class="input-row">
+        <select class="py-input" id="ttsLang">
+          <option value="ar">🇸🇦 العربية</option>
+          <option value="en">🇬🇧 الإنجليزية</option>
+          <option value="fr">🇫🇷 الفرنسية</option>
+        </select>
+        <input class="py-input" id="ttsRate" type="range" min="0.5" max="2" step="0.1" value="1" style="padding:10px;">
+      </div>
+      <button class="btn-run btn-yellow" onclick="speakText()">🔊 تكلّم!</button>
+      <div class="output-terminal" id="out-tts"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('voice3','img1','تحويل النص لصوت')">التالي: رؤية الحاسوب ←</button>
+</div>
+
+<!-- ======== IMG1: Theory ======== -->
+<div class="content-section" id="sec-img1">
+  <div class="section-header">
+    <span class="section-icon">👁️</span>
+    <div><h2>كيف يرى الحاسوب؟</h2><p>علم رؤية الحاسوب</p></div>
+    <span class="level-tag intermediate">متوسط</span>
+  </div>
+  <div class="lesson-card cyan">
+    <div class="lesson-num">01</div>
+    <h3>الصورة عند الحاسوب</h3>
+    <p>الحاسوب يرى الصورة كمصفوفة من الأرقام! كل بكسل = رقم بين 0 و 255</p>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">image_basics.py</span></div>
+      <div class="code-area"><span class="kw">import</span> cv2
+<span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># تحميل صورة</span>
+img = cv2.<span class="fn">imread</span>(<span class="str">'photo.jpg'</span>)
+<span class="fn">print</span>(img.shape)  <span class="cm"># (480, 640, 3) → الأبعاد</span>
+
+<span class="cm"># كل بكسل = [أزرق, أخضر, أحمر]</span>
+pixel = img[<span class="num">100</span>, <span class="num">200</span>]  <span class="cm"># البكسل في السطر 100 العمود 200</span>
+<span class="fn">print</span>(<span class="str">f"قيمة البكسل: {pixel}"</span>)
+
+<span class="cm"># تحويل إلى رمادي</span>
+gray = cv2.<span class="fn">cvtColor</span>(img, cv2.COLOR_BGR2GRAY)
+
+<span class="cm"># اكتشاف الحواف</span>
+edges = cv2.<span class="fn">Canny</span>(gray, <span class="num">100</span>, <span class="num">200</span>)</div>
+    </div>
+    <div class="interactive-zone">
+      <h4>🎨 شاهد البكسلات!</h4>
+      <canvas id="pixelCanvas" width="300" height="150" style="border-radius:10px;margin-bottom:12px;display:block;margin:0 auto 12px;"></canvas>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button class="btn-run btn-sm btn-cyan" onclick="drawPixels('color')">🌈 ملوّن</button>
+        <button class="btn-run btn-sm btn-purple" onclick="drawPixels('gray')">⬛ رمادي</button>
+        <button class="btn-run btn-sm btn-pink" onclick="drawPixels('edge')">🔲 حواف</button>
+        <button class="btn-run btn-sm btn-yellow" onclick="drawPixels('noise')">📡 ضوضاء</button>
+      </div>
+    </div>
+  </div>
+  <div class="lesson-card orange">
+    <div class="lesson-num">02</div>
+    <h3>CNN — الشبكات العصبية الالتفافية</h3>
+    <div class="steps-list">
+      <div class="step-item"><div class="step-num done">1</div><div class="step-content"><h4>طبقة Convolution</h4><p>تكتشف الخصائص البسيطة: حواف، خطوط، منحنيات</p></div></div>
+      <div class="step-item"><div class="step-num done">2</div><div class="step-content"><h4>طبقة Pooling</h4><p>تُصغّر الصورة وتحافظ على أهم المعلومات</p></div></div>
+      <div class="step-item"><div class="step-num done">3</div><div class="step-content"><h4>Flatten</h4><p>تحويل المصفوفة إلى مُتجه أحادي البُعد</p></div></div>
+      <div class="step-item"><div class="step-num active">4</div><div class="step-content"><h4>Fully Connected</h4><p>الشبكة الكاملة تُصنّف الصورة</p></div></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('img1','img2','رؤية الحاسوب')">التالي: تحليل الصور ←</button>
+</div>
+
+<!-- ======== IMG2: Live Detection ======== -->
+<div class="content-section" id="sec-img2">
+  <div class="section-header">
+    <span class="section-icon">📷</span>
+    <div><h2>تحليل الصور المباشر</h2><p>ارفع صورة وسيحللها الذكاء الاصطناعي</p></div>
+    <span class="level-tag advanced">متقدم</span>
+  </div>
+  <div class="lesson-card green">
+    <div class="lesson-num">01</div>
+    <h3>ارفع صورة للتحليل</h3>
+    <div class="interactive-zone">
+      <h4>📸 ارفع صورتك</h4>
+      <div class="img-drop" id="imgDrop">
+        <input type="file" accept="image/*" onchange="analyzeImage(event)">
+        <p style="font-size:2rem;margin-bottom:8px;">📁</p>
+        <p style="color:var(--muted)">انقر أو اسحب صورة هنا</p>
+        <p style="font-size:0.8rem;color:var(--muted);margin-top:6px;">JPG, PNG, GIF</p>
+      </div>
+      <div id="imgPreviewWrap" style="display:none;text-align:center;margin-top:16px;">
+        <img id="imgPreview" class="img-preview">
+        <div id="detectionResult"></div>
+      </div>
+    </div>
+  </div>
+  <div class="lesson-card purple">
+    <div class="lesson-num">02</div>
+    <h3>تحليل صور الكاميرا المباشرة</h3>
+    <div class="interactive-zone">
+      <h4>🎥 الكاميرا المباشرة</h4>
+      <video id="camVideo" style="width:100%;border-radius:12px;display:none;" autoplay></video>
+      <canvas id="camCanvas" style="width:100%;border-radius:12px;display:none;"></canvas>
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+        <button class="btn-run btn-green" onclick="startCamera()">📷 افتح الكاميرا</button>
+        <button class="btn-run btn-pink" onclick="capturePhoto()">📸 التقط صورة</button>
+        <button class="btn-run btn-cyan" onclick="stopCamera()">⏹️ أوقف</button>
+      </div>
+      <div class="output-terminal" id="out-cam"></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('img2','img3','تحليل الصور')">التالي: التعرف على المشاعر ←</button>
+</div>
+
+<!-- ======== IMG3: Emotion ======== -->
+<div class="content-section" id="sec-img3">
+  <div class="section-header">
+    <span class="section-icon">😊</span>
+    <div><h2>التعرف على المشاعر</h2><p>قراءة تعابير الوجه بالذكاء الاصطناعي</p></div>
+    <span class="level-tag advanced">متقدم</span>
+  </div>
+  <div class="lesson-card pink">
+    <div class="lesson-num">01</div>
+    <h3>كيف يقرأ AI مشاعرك؟</h3>
+    <div class="steps-list">
+      <div class="step-item"><div class="step-num done">1</div><div class="step-content"><h4>🔍 اكتشاف الوجه</h4><p>الخوارزمية تجد موضع الوجه في الصورة (Haar Cascades)</p></div></div>
+      <div class="step-item"><div class="step-num done">2</div><div class="step-content"><h4>📍 نقاط الوجه الـ68</h4><p>تحديد 68 نقطة أساسية (العيون، الأنف، الفم، الحواجب)</p></div></div>
+      <div class="step-item"><div class="step-num done">3</div><div class="step-content"><h4>🧠 الشبكة العصبية</h4><p>تحليل المسافات والزوايا بين النقاط</p></div></div>
+      <div class="step-item"><div class="step-num active">4</div><div class="step-content"><h4>😊 التصنيف</h4><p>تحديد المشاعر: سعيد، حزين، غاضب، متفاجئ، خائف...</p></div></div>
+    </div>
+  </div>
+  <div class="lesson-card cyan">
+    <div class="lesson-num">02</div>
+    <h3>جرّب التعرف على المشاعر!</h3>
+    <div class="interactive-zone">
+      <h4>😊 اصنع تعبيراً وسأقرأه!</h4>
+      <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">اختر تعبيراً من أدناه وسيحلله الذكاء الاصطناعي</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:16px;">
+        <button onclick="readEmotion('😊','سعيد',95)" style="font-size:3rem;background:none;border:2px solid var(--border);border-radius:16px;padding:10px 16px;cursor:pointer;transition:all 0.2s;color:white;" onmouseover="this.style.borderColor='var(--yellow)';this.style.transform='scale(1.15)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='scale(1)'">😊</button>
+        <button onclick="readEmotion('😢','حزين',88)" style="font-size:3rem;background:none;border:2px solid var(--border);border-radius:16px;padding:10px 16px;cursor:pointer;transition:all 0.2s;color:white;" onmouseover="this.style.borderColor='var(--cyan)';this.style.transform='scale(1.15)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='scale(1)'">😢</button>
+        <button onclick="readEmotion('😡','غاضب',92)" style="font-size:3rem;background:none;border:2px solid var(--border);border-radius:16px;padding:10px 16px;cursor:pointer;transition:all 0.2s;color:white;" onmouseover="this.style.borderColor='var(--red)';this.style.transform='scale(1.15)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='scale(1)'">😡</button>
+        <button onclick="readEmotion('😮','متفاجئ',91)" style="font-size:3rem;background:none;border:2px solid var(--border);border-radius:16px;padding:10px 16px;cursor:pointer;transition:all 0.2s;color:white;" onmouseover="this.style.borderColor='var(--purple)';this.style.transform='scale(1.15)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='scale(1)'">😮</button>
+        <button onclick="readEmotion('🤩','متحمس',94)" style="font-size:3rem;background:none;border:2px solid var(--border);border-radius:16px;padding:10px 16px;cursor:pointer;transition:all 0.2s;color:white;" onmouseover="this.style.borderColor='var(--orange)';this.style.transform='scale(1.15)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='scale(1)'">🤩</button>
+        <button onclick="readEmotion('😴','نعسان',87)" style="font-size:3rem;background:none;border:2px solid var(--border);border-radius:16px;padding:10px 16px;cursor:pointer;transition:all 0.2s;color:white;" onmouseover="this.style.borderColor='var(--muted)';this.style.transform='scale(1.15)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='scale(1)'">😴</button>
+        <button onclick="readEmotion('😰','خائف',90)" style="font-size:3rem;background:none;border:2px solid var(--border);border-radius:16px;padding:10px 16px;cursor:pointer;transition:all 0.2s;color:white;" onmouseover="this.style.borderColor='var(--pink)';this.style.transform='scale(1.15)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='scale(1)'">😰</button>
+        <button onclick="readEmotion('😌','هادئ',89)" style="font-size:3rem;background:none;border:2px solid var(--border);border-radius:16px;padding:10px 16px;cursor:pointer;transition:all 0.2s;color:white;" onmouseover="this.style.borderColor='var(--green)';this.style.transform='scale(1.15)'" onmouseout="this.style.borderColor='var(--border)';this.style.transform='scale(1)'">😌</button>
+      </div>
+      <div class="output-terminal" id="out-emotion" style="display:block;min-height:60px;"><span class="out-info">انقر على تعبير لتحليله...</span></div>
+    </div>
+  </div>
+  <div class="lesson-card orange">
+    <div class="lesson-num">03</div>
+    <h3>كود التعرف على المشاعر</h3>
+    <div class="code-editor">
+      <div class="editor-header"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div><span class="editor-title">emotion_detect.py</span></div>
+      <div class="code-area"><span class="kw">from</span> deepface <span class="kw">import</span> DeepFace
+<span class="kw">import</span> cv2
+
+cap = cv2.<span class="cls">VideoCapture</span>(<span class="num">0</span>)
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    ret, frame = cap.<span class="fn">read</span>()
+
+    <span class="kw">try</span>:
+        result = DeepFace.<span class="fn">analyze</span>(
+            frame,
+            actions=[<span class="str">'emotion'</span>],
+            enforce_detection=<span class="kw">False</span>
+        )
+        emotion = result[<span class="num">0</span>][<span class="str">'dominant_emotion'</span>]
+        confidence = result[<span class="num">0</span>][<span class="str">'emotion'</span>][emotion]
+
+        cv2.<span class="fn">putText</span>(frame, <span class="str">f"{emotion}: {confidence:.1f}%"</span>,
+                   (<span class="num">30</span>, <span class="num">50</span>), cv2.FONT_HERSHEY_SIMPLEX,
+                   <span class="num">1</span>, (<span class="num">0</span>, <span class="num">255</span>, <span class="num">0</span>), <span class="num">2</span>)
+    <span class="kw">except</span>:
+        <span class="kw">pass</span>
+
+    cv2.<span class="fn">imshow</span>(<span class="str">'Emotion Detection'</span>, frame)
+    <span class="kw">if</span> cv2.<span class="fn">waitKey</span>(<span class="num">1</span>) == <span class="fn">ord</span>(<span class="str">'q'</span>):
+        <span class="kw">break</span></div>
+    </div>
+  </div>
+  <button class="btn-run btn-green" onclick="completeLesson('img3','quiz','التعرف على المشاعر')">التالي: الاختبار الشامل ←</button>
+</div>
+
+<!-- ======== QUIZ ======== -->
+<div class="content-section" id="sec-quiz">
+  <div class="section-header">
+    <span class="section-icon">🧩</span>
+    <div><h2>الاختبار الشامل</h2><p>اختبر كل ما تعلمته!</p></div>
+    <span class="level-tag advanced">متقدم</span>
+  </div>
+  <div id="quizWrap">
+    <div class="lesson-card yellow" style="text-align:center;">
+      <span style="font-size:4rem;display:block;margin-bottom:16px;">🏆</span>
+      <h3 style="font-size:1.5rem;margin-bottom:10px;">اختبار الأكاديمية الشامل</h3>
+      <p style="color:var(--muted);margin-bottom:20px;">20 سؤالاً في بايثون والذكاء الاصطناعي والتعرف على الصوت والصور</p>
+      <div class="prog-bar" style="max-width:400px;margin:0 auto 12px;height:10px;"><div class="prog-fill" id="qProg" style="width:0%"></div></div>
+      <p id="qProgTxt" style="color:var(--muted);font-size:0.85rem;margin-bottom:20px;">السؤال 0 من 20</p>
+      <button class="btn-run btn-pink" id="startQuizBtn" onclick="startBigQuiz()" style="font-size:1rem;padding:14px 32px;">🚀 ابدأ الاختبار!</button>
+    </div>
+    <div id="bigQuizQ" style="display:none;"></div>
+    <div id="bigQuizResult" style="display:none;" class="lesson-card cyan" style="text-align:center;padding:40px;"></div>
+  </div>
+</div>
+
+<!-- ======== CERT ======== -->
+<div class="content-section" id="sec-cert">
+  <div class="section-header">
+    <span class="section-icon">🏅</span>
+    <div><h2>شهادتك المميزة</h2><p>أنت تستحق هذا!</p></div>
+  </div>
+  <div style="background:linear-gradient(135deg,#1E293B,#263348);border:2px solid var(--yellow);border-radius:24px;padding:50px;text-align:center;max-width:650px;margin:0 auto;position:relative;overflow:hidden;" id="certCard">
+    <div style="position:absolute;top:-20px;right:-20px;font-size:5rem;opacity:0.1;">⭐</div>
+    <div style="position:absolute;bottom:-20px;left:-20px;font-size:5rem;opacity:0.1;">🚀</div>
+    <div style="font-size:3rem;margin-bottom:16px;">🏅</div>
+    <p style="color:var(--yellow);font-size:0.9rem;letter-spacing:2px;margin-bottom:8px;">أكاديمية النجوم للبرمجة</p>
+    <h2 style="font-size:2rem;background:linear-gradient(135deg,var(--yellow),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;">شهادة إتمام الدورة</h2>
+    <p style="color:var(--muted);margin-bottom:20px;">هذه الشهادة تُمنح لـ</p>
+    <input class="py-input" id="certName" placeholder="اكتب اسمك هنا..." style="text-align:center;font-size:1.3rem;font-weight:700;max-width:300px;margin:0 auto 20px;display:block;background:rgba(252,211,77,0.06);border-color:var(--yellow);">
+    <p style="color:var(--muted);font-size:0.9rem;line-height:1.8;">
+      لإتمامه بنجاح دورة بايثون والذكاء الاصطناعي الشاملة<br>
+      تشمل: البرمجة الأساسية، تعلم الآلة، الشبكات العصبية<br>
+      والتعرف على الصوت والصور
+    </p>
+    <div style="margin:24px 0;display:flex;justify-content:center;gap:30px;flex-wrap:wrap;">
+      <div style="text-align:center;"><div style="font-size:1.5rem;">🐍</div><div style="font-size:0.75rem;color:var(--muted);">بايثون</div></div>
+      <div style="text-align:center;"><div style="font-size:1.5rem;">🤖</div><div style="font-size:0.75rem;color:var(--muted);">الذكاء الاصطناعي</div></div>
+      <div style="text-align:center;"><div style="font-size:1.5rem;">🎤</div><div style="font-size:0.75rem;color:var(--muted);">التعرف الصوتي</div></div>
+      <div style="text-align:center;"><div style="font-size:1.5rem;">📷</div><div style="font-size:0.75rem;color:var(--muted);">رؤية الحاسوب</div></div>
+    </div>
+    <p style="color:var(--yellow);font-size:0.8rem;">تصميم: هجار نايلة ❤️ | <span id="certDate"></span></p>
+  </div>
+  <div style="text-align:center;margin-top:20px;">
+    <button class="btn-run btn-yellow" onclick="printCert()" style="font-size:1rem;padding:14px 32px;">🖨️ اطبع شهادتك!</button>
+    <button class="btn-run btn-pink" onclick="celebrateCert()" style="font-size:1rem;padding:14px 32px;">🎉 احتفل!</button>
+  </div>
+</div>
+
+</div><!-- end main -->
 
 <script>
-// ===== STARS =====
-const starsBg = document.getElementById('starsBg');
-const starItems = ['⭐','🌟','✨','💫','🎀','🌸','🍭','🎈','🌈','🦋'];
-for (let i = 0; i < 20; i++) {
-  const s = document.createElement('div');
-  s.className = 'star';
-  s.textContent = starItems[Math.floor(Math.random() * starItems.length)];
-  s.style.left = Math.random() * 100 + 'vw';
-  s.style.top = Math.random() * 100 + 'vh';
-  s.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
-  s.style.animationDelay = Math.random() * 6 + 's';
-  s.style.animationDuration = (4 + Math.random() * 4) + 's';
-  starsBg.appendChild(s);
+// ===== GALAXY =====
+const galaxy = document.getElementById('galaxy');
+for(let i=0;i<150;i++){
+  const s=document.createElement('div'); s.className='star-dot';
+  const sz=Math.random()*2.5+0.5;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;animation-delay:${Math.random()*6}s`;
+  galaxy.appendChild(s);
 }
+['#FF6B9D','#22D3EE','#A78BFA','#FCD34D'].forEach((c,i)=>{
+  const n=document.createElement('div'); n.className='nebula';
+  n.style.cssText=`width:${400+i*100}px;height:${300+i*80}px;background:${c};left:${i*25}%;top:${i*20}%;animation-delay:${i*2}s`;
+  galaxy.appendChild(n);
+});
 
-// ===== TABS =====
-function switchTab(tab) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(tab).classList.add('active');
-  document.querySelector('[data-tab="'+tab+'"]').classList.add('active');
+// ===== NAV =====
+let completedLessons=new Set();
+function nav(id){
+  document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id)?.classList.add('active');
+  document.querySelector(`[onclick="nav('${id}')"]`)?.classList.add('active');
+  if(window.innerWidth<=768) document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo(0,0);
+  if(id==='ai3') setTimeout(drawNN,300);
+  if(id==='img1') setTimeout(()=>drawPixels('color'),300);
 }
-
-// ===== CODE RUNNERS =====
-function runCode(outId, lines) {
-  const box = document.getElementById(outId);
-  box.style.display = 'block';
-  box.innerHTML = '';
-  lines.forEach((line, i) => {
-    setTimeout(() => {
-      box.innerHTML += line + '<br>';
-    }, i * 400);
-  });
+function toggleMenu(){
+  document.getElementById('sidebar').classList.toggle('open');
 }
-
-function runPersonalized() {
-  const name = document.getElementById('kidName').value.trim() || 'صديقي';
-  const age = parseInt(document.getElementById('kidAge').value) || 10;
-  const box = document.getElementById('out2');
-  box.style.display = 'block';
-  const lines = [
-    '🖥️ مرحباً ' + name + '!',
-    '🖥️ عمرك: ' + age + ' سنة',
-    '🖥️ بعد 10 سنوات ستكون عمرك: ' + (age + 10) + ' سنة 🎂',
-    '🖥️ أنت رائع يا ' + name + '! 🌟'
-  ];
-  box.innerHTML = '';
-  lines.forEach((line, i) => setTimeout(() => box.innerHTML += line + '<br>', i * 400));
+function completeLesson(cur,next,name){
+  completedLessons.add(cur);
+  const pct=Math.round((completedLessons.size/24)*100);
+  document.getElementById('globalProg').style.width=pct+'%';
+  document.getElementById('globalProgText').textContent=`${completedLessons.size} / 24 درس مكتمل`;
+  showNotif('⭐','أحسنت!',`أتممت درس: ${name}`);
   confetti();
+  setTimeout(()=>nav(next),600);
 }
 
-function runLoop() {
-  const box = document.getElementById('out3');
-  box.style.display = 'block';
-  box.innerHTML = '';
-  const msgs = ['⭐ أنا مبرمج رائع!','⭐ أنا مبرمج رائع!','⭐ أنا مبرمج رائع!','⭐ أنا مبرمج رائع!','⭐ أنا مبرمج رائع!'];
-  msgs.forEach((m, i) => setTimeout(() => box.innerHTML += m + '<br>', i * 300));
-}
-
-function calc(op) {
-  const n1 = parseFloat(document.getElementById('num1').value);
-  const n2 = parseFloat(document.getElementById('num2').value);
-  const box = document.getElementById('out4');
-  if (isNaN(n1) || isNaN(n2)) { box.style.display='block'; box.textContent = '⚠️ من فضلك أدخل عددين!'; return; }
-  let res, sym;
-  if (op === '+') { res = n1 + n2; sym = '+'; }
-  else if (op === '-') { res = n1 - n2; sym = '-'; }
-  else if (op === '*') { res = n1 * n2; sym = '×'; }
-  else { if (n2 === 0) { box.style.display='block'; box.textContent = '⚠️ لا يمكن القسمة على صفر!'; return; } res = (n1 / n2).toFixed(2); sym = '÷'; }
-  box.style.display = 'block';
-  box.innerHTML = `🖥️ ${n1} ${sym} ${n2} = <span style="color:var(--purple); font-size:1.4rem;">${res}</span> 🎉`;
-  confetti();
-}
-
-function detectEmotion(emoji, feeling) {
-  const box = document.getElementById('emotionOut');
-  box.style.display = 'block';
-  box.innerHTML = '⏳ الذكاء الاصطناعي يحلل...';
-  setTimeout(() => {
-    box.innerHTML = `🤖 الذكاء الاصطناعي يرى: ${emoji}<br>🎯 النتيجة: أنت تبدو <strong>${feeling}</strong>! 💡<br>دقة التنبؤ: ${85 + Math.floor(Math.random()*14)}%`;
-    confetti();
-  }, 1200);
-}
-
-function classify(animal, category, fact) {
-  const box = document.getElementById('classifyOut');
-  box.style.display = 'block';
-  box.innerHTML = '🤖 الذكاء الاصطناعي يفكر...';
-  setTimeout(() => {
-    box.innerHTML = `🔍 ${animal} → <strong>${category}</strong><br>💡 ${fact}<br>✅ التصنيف صحيح بنسبة 98%!`;
-    confetti();
-  }, 1000);
-}
-
-// ===== LEVEL MSG =====
-function showMsg(msg) {
-  const el = document.getElementById('levelMsg');
-  el.style.display = 'block';
-  el.textContent = msg;
-}
-
-// ===== QUIZ =====
-let quizStarted = false, currentQ = 0, score = 0, answered = false;
-
-function startQuiz() {
-  document.getElementById('startBtn').style.display = 'none';
-  quizStarted = true;
-  showQ(0);
-}
-
-function showQ(idx) {
-  document.querySelectorAll('.quiz-q').forEach(q => q.classList.remove('active'));
-  const el = document.getElementById('q' + idx);
-  if (el) el.classList.add('active');
-  answered = false;
-  document.getElementById('progressFill').style.width = (idx / 5 * 100) + '%';
-  document.getElementById('progressText').textContent = `السؤال ${idx} من 5`;
-}
-
-function answer(btn, correct) {
-  if (!quizStarted || answered) return;
-  answered = true;
-  if (correct) { btn.classList.add('correct'); score++; confetti(); }
-  else { btn.classList.add('wrong'); }
-  currentQ++;
-  setTimeout(() => {
-    if (currentQ >= 5) { showScore(); } else { showQ(currentQ); }
-  }, 1000);
-}
-
-function showScore() {
-  document.querySelectorAll('.quiz-q').forEach(q => q.classList.remove('active'));
-  document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('progressText').textContent = 'اكتمل الاختبار!';
-  const box = document.getElementById('scoreBox');
-  box.style.display = 'block';
-  const emojis = ['😅','😊','🌟','🏆','🚀'];
-  const titles = ['حاول مرة أخرى!','أحسنت!','ممتاز!','رائع جداً!','أسطوري!'];
-  document.getElementById('scoreEmoji').textContent = emojis[score];
-  document.getElementById('scoreTitle').textContent = titles[score];
-  document.getElementById('scoreNum').textContent = score + ' / 5 ⭐';
-  document.getElementById('scoreText').textContent = score >= 4 ? '🎉 أنت نجم البرمجة!' : score >= 2 ? '👍 تعلمت الكثير اليوم!' : '📚 راجع الدروس وحاول مجدداً!';
-  if (score >= 4) { setTimeout(confetti, 100); setTimeout(confetti, 600); setTimeout(confetti, 1200); }
-}
-
-function resetQuiz() {
-  currentQ = 0; score = 0; quizStarted = false; answered = false;
-  document.getElementById('scoreBox').style.display = 'none';
-  document.querySelectorAll('.quiz-q').forEach(q => q.classList.remove('active'));
-  document.querySelectorAll('.opt-btn').forEach(b => { b.classList.remove('correct','wrong'); });
-  document.getElementById('progressFill').style.width = '0%';
-  document.getElementById('progressText').textContent = 'السؤال 0 من 5';
-  document.getElementById('startBtn').style.display = 'inline-flex';
+// ===== NOTIF =====
+function showNotif(icon,title,text){
+  document.getElementById('notifIcon').textContent=icon;
+  document.getElementById('notifTitle').textContent=title;
+  document.getElementById('notifText').textContent=text;
+  const n=document.getElementById('notif');
+  n.classList.add('show');
+  setTimeout(()=>n.classList.remove('show'),3500);
 }
 
 // ===== CONFETTI =====
-function confetti() {
-  const colors = ['#FF6B9D','#FFD93D','#6BCBCB','#A78BFA','#FF9A3C','#6EE7B7'];
-  for (let i = 0; i < 30; i++) {
-    const piece = document.createElement('div');
-    piece.className = 'confetti-piece';
-    piece.style.left = Math.random() * 100 + 'vw';
-    piece.style.top = '-20px';
-    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-    piece.style.transform = `rotate(${Math.random() * 360}deg)`;
-    piece.style.animationDuration = (2 + Math.random() * 2) + 's';
-    piece.style.animationDelay = Math.random() * 0.5 + 's';
-    document.body.appendChild(piece);
-    setTimeout(() => piece.remove(), 4000);
+function confetti(){
+  const colors=['#F472B6','#FCD34D','#22D3EE','#A78BFA','#FB923C','#34D399'];
+  for(let i=0;i<40;i++){
+    const p=document.createElement('div'); p.className='confetti-bit';
+    p.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*6)]};transform:rotate(${Math.random()*360}deg);animation-duration:${2+Math.random()*2}s;animation-delay:${Math.random()*0.5}s`;
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),4000);
   }
 }
+
+// ===== QUIZ HELPER =====
+function quizAns(btn,qid,correct){
+  const btns=document.getElementById(qid).querySelectorAll('.q-opt');
+  btns.forEach(b=>b.disabled=true);
+  btn.classList.add(correct?'correct':'wrong');
+  if(!correct) btns.forEach(b=>{if(b.textContent.startsWith('✅'))b.classList.add('correct');});
+  if(correct){confetti();showNotif('✅','إجابة صحيحة!','أحسنت يا بطل');}
+  else showNotif('❌','إجابة خاطئة','لا بأس، حاول مرة أخرى!');
+}
+
+// ===== OUTPUT HELPERS =====
+function showOutput(id,lines,type=''){
+  const el=document.getElementById(id);
+  el.style.display='block'; el.innerHTML='';
+  lines.forEach((l,i)=>setTimeout(()=>{
+    const sp=document.createElement('span'); sp.className='out-line '+(type?'out-'+type:'');
+    sp.textContent=l; el.appendChild(sp); el.appendChild(document.createElement('br'));
+  },i*250));
+}
+
+// ===== PY1 =====
+function runPy1(){
+  const n=document.getElementById('p1name').value||'صديقي';
+  const a=parseInt(document.getElementById('p1age').value)||10;
+  showOutput('out-py1',[
+    `>>> print("مرحباً يا عالم!")`,
+    `مرحباً يا عالم!`,
+    `>>> print("اسمي:", "${n}")`,
+    `اسمي: ${n}`,
+    `>>> print("عمري:", ${a}, "سنة")`,
+    `عمري: ${a} سنة`,
+    `>>> print("أنا مبرمج المستقبل! 🌟")`,
+    `أنا مبرمج المستقبل! 🌟`
+  ]);
+  confetti();
+}
+
+// ===== PY2 =====
+function runPy2(){
+  const n=document.getElementById('v2name').value||'صديقي';
+  const c=document.getElementById('v2city').value||'المدينة';
+  const h=document.getElementById('v2fav').value||'البرمجة';
+  showOutput('out-py2',[
+    `name = "${n}"`, `city = "${c}"`, `hobby = "${h}"`,
+    ``,
+    `>>> print(f"مرحباً يا {n}!")`,
+    `مرحباً يا ${n}!`,
+    `>>> print(f"تسكن في: {c}")`,
+    `تسكن في: ${c}`,
+    `>>> print(f"هوايتك: {h}")`,
+    `هوايتك: ${h}`,
+    `>>> print("طول اسمك:", len("${n}"), "حرفاً")`,
+    `طول اسمك: ${n.length} حرفاً ✅`
+  ]);
+}
+
+// ===== STR OPS =====
+function strOp(op){
+  const s=document.getElementById('v2str').value||'مرحباً بايثون';
+  let r='';
+  if(op==='upper') r=`"${s}".upper() → "${s.toUpperCase()}"`;
+  else if(op==='lower') r=`"${s}".lower() → "${s.toLowerCase()}"`;
+  else if(op==='len') r=`len("${s}") → ${s.length} حرف`;
+  else if(op==='reverse') r=`عكس: "${[...s].reverse().join('')}"`;
+  else if(op==='repeat') r=`"${s}" * 3 → "${s}${s}${s}"`;
+  showOutput('out-str',[r]);
+}
+
+// ===== MATH =====
+function doMath(op){
+  const a=parseFloat(document.getElementById('m1').value)||0;
+  const b=parseFloat(document.getElementById('m2').value)||0;
+  let res,sym;
+  if(op==='+'){res=a+b;sym='+';}
+  else if(op==='-'){res=a-b;sym='-';}
+  else if(op==='*'){res=a*b;sym='×';}
+  else if(op==='/'){if(b===0){showOutput('out-math',['⚠️ لا يمكن القسمة على صفر!'],'error');return;}res=(a/b).toFixed(4);sym='÷';}
+  else if(op==='%'){res=a%b;sym='mod';}
+  else if(op==='**'){res=Math.pow(a,b).toFixed(2);sym='^';}
+  showOutput('out-math',[
+    `>>> ${a} ${sym} ${b}`,
+    `= ${res} ✅`
+  ]);
+  confetti();
+}
+function calcCircle(){
+  const r=parseFloat(document.getElementById('circleR').value)||5;
+  const area=(Math.PI*r*r).toFixed(4);
+  const perim=(2*Math.PI*r).toFixed(4);
+  showOutput('out-circle',[
+    `>>> import math`,
+    `>>> r = ${r}`,
+    `>>> area = math.pi * r**2`,
+    `المساحة = ${area} وحدة مربعة`,
+    `>>> perim = 2 * math.pi * r`,
+    `المحيط = ${perim} وحدة ✅`
+  ]);
+}
+
+// ===== PY4 =====
+function checkGrade(){
+  const s=parseInt(document.getElementById('scoreIn').value)||0;
+  let g,e;
+  if(s>=90){g='ممتاز';e='🌟🌟🌟';}
+  else if(s>=80){g='جيد جداً';e='🌟🌟';}
+  else if(s>=70){g='جيد';e='🌟';}
+  else if(s>=60){g='مقبول';e='✅';}
+  else{g='راسب';e='❌';}
+  showOutput('out-grade',[
+    `>>> score = ${s}`,
+    `>>> grade = check(score)`,
+    `التقدير: ${g} ${e}`,
+    s<60?'حاول أكثر في المرة القادمة 💪':'أحسنت! استمر هكذا! 🎉'
+  ],s<60?'warn':'');
+  if(s>=70) confetti();
+}
+function checkGo(){
+  const sun=document.getElementById('chkSun').checked;
+  const wk=document.getElementById('chkWknd').checked;
+  const hw=document.getElementById('chkHW').checked;
+  let msg=[];
+  msg.push(`sunny = ${sun} | weekend = ${wk} | homework = ${hw}`);
+  if(hw) msg.push('⚠️ عندك واجب منزلي! أكمله أولاً 📚');
+  else if(sun||wk) msg.push(`✅ ${sun?'الطقس جميل! ':''}${wk?'يوم عطلة! ':''}اخرج واستمتع! ☀️`);
+  else msg.push('🏠 يوم عمل وطقس سيئ — ابقَ في البيت وتعلم بايثون!');
+  showOutput('out-go',msg);
+}
+
+// ===== PY5 =====
+function multTable(){
+  const n=parseInt(document.getElementById('multNum').value)||7;
+  const lines=[`>>> جدول الضرب للعدد ${n}:`,`${'─'.repeat(20)}`];
+  for(let i=1;i<=10;i++) lines.push(`${n} × ${i.toString().padStart(2)} = ${(n*i).toString().padStart(3)}`);
+  showOutput('out-mult',lines);
+}
+
+let secretNum=Math.floor(Math.random()*20)+1, guessCount=0;
+function playGuess(){
+  const g=parseInt(document.getElementById('guessIn').value);
+  if(isNaN(g)||g<1||g>20){showOutput('out-guess',['⚠️ اكتب رقماً بين 1 و 20'],'warn');return;}
+  guessCount++;
+  if(g===secretNum){
+    showOutput('out-guess',[`🎉 أحسنت! الرقم هو ${secretNum}!`,`استغرقت ${guessCount} محاولة ${guessCount<=5?'🏆 ممتاز!':guessCount<=10?'👍 جيد!':'💪 حاول أكثر!'}`]);
+    confetti();
+  } else {
+    const hint=g<secretNum?'أعلى ⬆️':'أقل ⬇️';
+    showOutput('out-guess',[`المحاولة ${guessCount}: قلت ${g}`,`الرقم ${hint} من ${g}!`,`حاول مجدداً...`],'warn');
+  }
+}
+function resetGuess(){secretNum=Math.floor(Math.random()*20)+1;guessCount=0;document.getElementById('guessIn').value='';document.getElementById('out-guess').style.display='none';}
+
+// ===== PY6 =====
+let shopItems=[];
+function addShopItem(){
+  const v=document.getElementById('shopItem').value.trim();
+  if(!v) return;
+  shopItems.push(v);
+  document.getElementById('shopItem').value='';
+  renderShop();
+}
+function renderShop(){
+  const c=document.getElementById('listItems');
+  c.innerHTML=shopItems.map((it,i)=>`<span style="background:rgba(244,114,182,0.15);border:1px solid var(--pink);border-radius:20px;padding:4px 12px;font-size:0.85rem;cursor:pointer;color:var(--pink);" onclick="removeShopItem(${i})">${it} ✕</span>`).join('');
+  showOutput('out-shop',[
+    `>>> shopping_list = ${JSON.stringify(shopItems)}`,
+    `عدد العناصر: ${shopItems.length}`,
+    shopItems.length>0?`آخر عنصر: "${shopItems[shopItems.length-1]}"`:''
+  ]);
+}
+function removeShopItem(i){shopItems.splice(i,1);renderShop();}
+function clearShop(){shopItems=[];document.getElementById('listItems').innerHTML='';document.getElementById('out-shop').style.display='none';}
+
+function analyzeNums(){
+  const raw=document.getElementById('numsIn').value;
+  const nums=raw.split(',').map(n=>parseFloat(n.trim())).filter(n=>!isNaN(n));
+  if(!nums.length){showOutput('out-nums',['⚠️ أدخل أرقاماً صحيحة'],'warn');return;}
+  const sorted=[...nums].sort((a,b)=>a-b);
+  showOutput('out-nums',[
+    `القائمة: [${nums.join(', ')}]`,
+    `المجموع (sum): ${nums.reduce((a,b)=>a+b,0)}`,
+    `المتوسط: ${(nums.reduce((a,b)=>a+b,0)/nums.length).toFixed(2)}`,
+    `الأكبر (max): ${Math.max(...nums)}`,
+    `الأصغر (min): ${Math.min(...nums)}`,
+    `مرتبة: [${sorted.join(', ')}]`,
+    `عدد العناصر: ${nums.length}`
+  ]);
+}
+
+// ===== PY7 =====
+function buildProfile(){
+  const n=document.getElementById('dName').value||'صديقي';
+  const a=document.getElementById('dAge').value||'?';
+  const c=document.getElementById('dCity').value||'مدينة ما';
+  const h=document.getElementById('dHobby').value||'البرمجة';
+  showOutput('out-dict',[
+    `profile = {`,
+    `  "name": "${n}",`,
+    `  "age": ${a},`,
+    `  "city": "${c}",`,
+    `  "hobby": "${h}"`,
+    `}`,
+    ``,
+    `👤 الاسم: ${n}`,
+    `🎂 العمر: ${a} سنة`,
+    `🏙️ المدينة: ${c}`,
+    `🎯 الهواية: ${h}`
+  ]);
+}
+
+// ===== PY8 =====
+function calcBMI(){
+  const w=parseFloat(document.getElementById('bmiW').value)||60;
+  const h=parseFloat(document.getElementById('bmiH').value)/100||1.70;
+  const bmi=w/(h*h);
+  let s='';
+  if(bmi<18.5) s='نحيف — تحتاج أكل أكثر 🥗';
+  else if(bmi<25) s='طبيعي — صحتك ممتازة ✅';
+  else if(bmi<30) s='وزن زائد — تمرن أكثر 🏃';
+  else s='سمنة — استشر طبيباً 👨‍⚕️';
+  showOutput('out-bmi',[
+    `>>> weight = ${w} كيلو`,
+    `>>> height = ${(h*100).toFixed(0)} سم`,
+    `>>> bmi = weight / (height**2)`,
+    `BMI = ${bmi.toFixed(1)}`,
+    `الحالة: ${s}`
+  ],bmi>=18.5&&bmi<25?'':'warn');
+}
+
+// ===== PY9 OOP =====
+let animalEnergy=100;
+function animalDo(action){
+  const n=document.getElementById('aniName').value||'الحيوان';
+  const snd=document.getElementById('aniSound').value||'...';
+  let msg='';
+  if(action==='speak'){msg=`🗣️ ${n} يقول: "${snd}!"`;showOutput('out-oop',[`class Animal:`,`    def speak(self):`,`        print(f"{self.name} يقول: {self.sound}")`,``,msg]);}
+  else if(action==='eat'){animalEnergy+=10;msg=`😋 ${n} يأكل بشهية!`;showOutput('out-oop',[`>>> ${n.toLowerCase()}.eat("طعام")`,msg,`الطاقة: ${animalEnergy} (+10) 🔋`]);}
+  else if(action==='sleep'){animalEnergy+=30;msg=`😴 ${n} ينام...`;showOutput('out-oop',[`>>> ${n.toLowerCase()}.sleep()`,msg,`الطاقة: ${animalEnergy} (+30) 🔋`]);}
+  else if(action==='play'){animalEnergy-=20;msg=`🎾 ${n} يلعب!`;showOutput('out-oop',[`>>> ${n.toLowerCase()}.play()`,msg,`الطاقة: ${animalEnergy} (-20) 🔋`]);}
+}
+
+// ===== PY10 Files =====
+let savedNote='';
+function saveNote(){savedNote=document.getElementById('noteArea').value;showOutput('out-file',[`>>> with open("note.txt","w") as f:`,`...     f.write(notes)`,`✅ تم حفظ ${savedNote.length} حرف!`,`الملف: note.txt`]);}
+function readNote(){if(!savedNote){showOutput('out-file',['⚠️ لا توجد ملاحظات محفوظة'],'warn');return;}showOutput('out-file',[`>>> with open("note.txt","r") as f:`,`...     content = f.read()`,`المحتوى:`,savedNote]);}
+function clearNote(){savedNote='';document.getElementById('noteArea').value='';document.getElementById('out-file').style.display='none';}
+
+// ===== AI2 ML GAME =====
+const mlAnimals=[
+  {e:'🐕',name:'كلب',type:'حيوان أليف'},
+  {e:'🦁',name:'أسد',type:'حيوان بري'},
+  {e:'🐠',name:'سمكة',type:'حيوان بحري'},
+  {e:'🐱',name:'قطة',type:'حيوان أليف'},
+  {e:'🐘',name:'فيل',type:'حيوان بري'},
+  {e:'🐟',name:'سمك',type:'حيوان بحري'},
+  {e:'🐰',name:'أرنب',type:'حيوان أليف'},
+  {e:'🐯',name:'نمر',type:'حيوان بري'},
+];
+let mlData={};
+function initML(){
+  const c=document.getElementById('mlGame');
+  c.innerHTML=mlAnimals.map((a,i)=>`<button onclick="classifyML(${i})" style="font-size:2rem;background:rgba(255,255,255,0.04);border:2px solid var(--border);border-radius:14px;padding:12px 16px;cursor:pointer;color:white;font-family:Tajawal;font-size:1rem;transition:all 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">${a.e} ${a.name}</button>`).join('');
+}
+function classifyML(i){
+  const a=mlAnimals[i];
+  mlData[a.name]=a.type;
+  showOutput('out-ml',[
+    `✅ تعلّم AI: "${a.name}" → "${a.type}"`,
+    `البيانات المتعلمة: ${Object.keys(mlData).length} حيوان`,
+    Object.entries(mlData).map(([k,v])=>`  ${k}: ${v}`).join('\n')
+  ]);
+}
+function resetML(){mlData={};initML();document.getElementById('out-ml').style.display='none';}
+initML();
+
+// ===== AI3 Neural Network =====
+let nnAnimated=false;
+function drawNN(){
+  const canvas=document.getElementById('nnCanvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  const layers=[[4],[6,6],[3]];
+  const flat=[[3],[5,5,4],[3]];
+  const nodes=[
+    [{x:80,y:60},{x:80,y:120},{x:80,y:180},{x:80,y:240}],
+    [{x:220,y:60},{x:220,y:100},{x:220,y:140},{x:220,y:180},{x:220,y:220},{x:220,y:260}],
+    [{x:360,y:80},{x:360,y:150},{x:360,y:220}],
+    [{x:500,y:100},{x:500,y:150},{x:500,y:200}]
+  ];
+  const colors=['#22D3EE','#A78BFA','#F472B6','#34D399'];
+  const labels=['إدخال','مخفية 1','مخفية 2','إخراج'];
+  // draw connections
+  for(let l=0;l<nodes.length-1;l++){
+    nodes[l].forEach(n=>{
+      nodes[l+1].forEach(m=>{
+        ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(m.x,m.y);
+        ctx.strokeStyle='rgba(255,255,255,0.05)'; ctx.lineWidth=1; ctx.stroke();
+      });
+    });
+  }
+  // draw nodes
+  nodes.forEach((layer,li)=>{
+    layer.forEach((n,ni)=>{
+      ctx.beginPath(); ctx.arc(n.x,n.y,18,0,Math.PI*2);
+      const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,18);
+      g.addColorStop(0,colors[li]); g.addColorStop(1,colors[li]+'44');
+      ctx.fillStyle=g; ctx.fill();
+      ctx.strokeStyle=colors[li]; ctx.lineWidth=2; ctx.stroke();
+    });
+    ctx.fillStyle=colors[li]; ctx.font='bold 12px Tajawal'; ctx.textAlign='center';
+    ctx.fillText(labels[li],nodes[li][Math.floor(nodes[li].length/2)].x, H-10);
+  });
+}
+function animateNN(){
+  drawNN();
+  const canvas=document.getElementById('nnCanvas');
+  const ctx=canvas.getContext('2d');
+  const colors=['#22D3EE','#A78BFA','#F472B6','#34D399'];
+  const allNodes=[
+    [{x:80,y:60},{x:80,y:120},{x:80,y:180},{x:80,y:240}],
+    [{x:220,y:60},{x:220,y:100},{x:220,y:140},{x:220,y:180},{x:220,y:220},{x:220,y:260}],
+    [{x:360,y:80},{x:360,y:150},{x:360,y:220}],
+    [{x:500,y:100},{x:500,y:150},{x:500,y:200}]
+  ];
+  let step=0;
+  const int=setInterval(()=>{
+    drawNN();
+    if(step<allNodes.length){
+      allNodes[step].forEach(n=>{
+        ctx.beginPath(); ctx.arc(n.x,n.y,22,0,Math.PI*2);
+        ctx.fillStyle=colors[step]+'88'; ctx.fill();
+      });
+      step++;
+    } else { clearInterval(int); }
+  },400);
+}
+
+// ===== AI3 Training =====
+let epochData=[],curEpoch=0;
+function trainStep(){
+  curEpoch++;
+  const acc=Math.min(0.99,0.4+curEpoch*0.06+Math.random()*0.04);
+  const loss=Math.max(0.01,0.9-curEpoch*0.08+Math.random()*0.03);
+  epochData.push({acc,loss});
+  showOutput('out-nn',[
+    `Epoch ${curEpoch}/10`,
+    `الدقة (Accuracy): ${(acc*100).toFixed(1)}%`,
+    `الخطأ (Loss): ${loss.toFixed(4)}`,
+    curEpoch>=10?`✅ التدريب اكتمل! الدقة النهائية: ${(acc*100).toFixed(1)}%`:''
+  ]);
+  renderEpochBars();
+  if(curEpoch>=10) confetti();
+}
+function renderEpochBars(){
+  const c=document.getElementById('epochBars');
+  c.innerHTML=epochData.map((d,i)=>`
+    <div class="bar-item">
+      <span class="bar-val">${(d.acc*100).toFixed(0)}%</span>
+      <div class="bar-col" style="height:${d.acc*100}px;background:linear-gradient(to top,var(--pink),var(--cyan));"></div>
+      <span class="bar-lbl">E${i+1}</span>
+    </div>`).join('');
+}
+function resetTrain(){curEpoch=0;epochData=[];document.getElementById('out-nn').style.display='none';document.getElementById('epochBars').innerHTML='';}
+
+// ===== AI4 =====
+function classifyFruit(){
+  const col=document.getElementById('frColor').value||'أحمر';
+  const taste=document.getElementById('frTaste').value||'حلو';
+  const size=document.getElementById('frSize').value||'متوسط';
+  const fruits={
+    'أحمر-حلو-متوسط':'🍎 تفاح',
+    'أحمر-حلو-كبير':'🍅 طماطم',
+    'أصفر-حلو-كبير':'🍌 موز',
+    'أصفر-حامض-متوسط':'🍋 ليمون',
+    'أخضر-حلو-كبير':'🍉 بطيخ',
+    'أخضر-حلو-متوسط':'🥝 كيوي',
+    'بنفسجي-حلو-صغير':'🍇 عنب',
+    'برتقالي-حلو-متوسط':'🍊 برتقال',
+  };
+  const key=`${col}-${taste}-${size}`;
+  const result=fruits[key]||'🤔 فاكهة غير معروفة';
+  const conf=75+Math.floor(Math.random()*23);
+  showOutput('out-fruit',[
+    `>>> model.predict([${col}, ${taste}, ${size}])`,
+    `التصنيف: ${result}`,
+    `الثقة: ${conf}%`,
+    `وقت التنبؤ: ${(Math.random()*10+2).toFixed(1)}ms ⚡`
+  ]);
+}
+
+function analyzeSentiment(){
+  const t=document.getElementById('sentText').value;
+  if(!t){showOutput('out-sent',['⚠️ اكتب جملة أولاً'],'warn');return;}
+  const pos=['رائع','ممتاز','أحبك','سعيد','جميل','مبهج','حلو','شكراً','أفضل'];
+  const neg=['سيء','أكره','حزين','مرعب','مزعج','ضعيف','فاشل','كارثة'];
+  const pScore=pos.filter(w=>t.includes(w)).length;
+  const nScore=neg.filter(w=>t.includes(w)).length;
+  let emotion,icon,conf;
+  if(pScore>nScore){emotion='إيجابية 😊';icon='🟢';conf=70+pScore*10;}
+  else if(nScore>pScore){emotion='سلبية 😢';icon='🔴';conf=70+nScore*10;}
+  else{emotion='محايدة 😐';icon='🟡';conf=60+Math.floor(Math.random()*20);}
+  conf=Math.min(99,conf);
+  showOutput('out-sent',[
+    `النص: "${t}"`,
+    `${icon} المشاعر: ${emotion}`,
+    `الثقة: ${conf}%`,
+    `كلمات إيجابية وُجدت: ${pScore}`,
+    `كلمات سلبية وُجدت: ${nScore}`
+  ]);
+}
+
+// ===== VOICE =====
+let recognition=null, isListening=false;
+function toggleMic(){
+  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){
+    showOutput('out-voice',['❌ متصفحك لا يدعم التعرف الصوتي','جرب Google Chrome!'],'error');
+    return;
+  }
+  if(isListening){ stopMic(); return; }
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recognition=new SR();
+  recognition.lang='ar-SA'; recognition.continuous=true; recognition.interimResults=true;
+  recognition.onstart=()=>{
+    isListening=true;
+    document.getElementById('micBtn').classList.add('listening');
+    document.getElementById('micStatus').textContent='🔴 يستمع...';
+    document.querySelectorAll('.voice-bar').forEach(b=>b.classList.add('active'));
+    showOutput('out-voice',['🎤 أبدأ الاستماع...'],'info');
+  };
+  recognition.onresult=e=>{
+    let final='',interim='';
+    for(let r of e.results){if(r.isFinal)final+=r[0].transcript;else interim+=r[0].transcript;}
+    const el=document.getElementById('out-voice');
+    el.style.display='block';
+    el.innerHTML=`<span class="out-info">🎤 قلت: ${final||interim}</span>`;
+    if(final) el.innerHTML+=`<br><span>✅ النص المُعتمد: "${final}"</span><br><span class="out-warn">عدد الكلمات: ${final.split(' ').length}</span>`;
+  };
+  recognition.onerror=()=>{ stopMic(); showOutput('out-voice',['❌ حدث خطأ في الميكروفون'],'error'); };
+  recognition.onend=()=>stopMic();
+  recognition.start();
+}
+function stopMic(){
+  isListening=false;
+  recognition?.stop();
+  document.getElementById('micBtn').classList.remove('listening');
+  document.getElementById('micStatus').textContent='اضغط للبدء';
+  document.querySelectorAll('.voice-bar').forEach(b=>b.classList.remove('active'));
+}
+
+function startCommands(){
+  if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){
+    showOutput('out-cmds',['❌ جرب Google Chrome!'],'error'); return;
+  }
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const r=new SR(); r.lang='ar-SA'; r.continuous=false;
+  r.onresult=e=>{
+    const cmd=e.results[0][0].transcript;
+    let resp='';
+    if(cmd.includes('وقت')||cmd.includes('الساعة')) resp=`⏰ الوقت الآن: ${new Date().toLocaleTimeString('ar')}`;
+    else if(cmd.includes('بايثون')) resp='🐍 Python هي لغة برمجة رائعة!';
+    else if(cmd.includes('احسب')) resp='🧮 حسناً، ماذا تريد أن أحسب؟';
+    else if(cmd.includes('أهلاً')||cmd.includes('مرحباً')) resp='👋 أهلاً وسهلاً! كيف حالك اليوم؟';
+    else if(cmd.includes('اسمك')) resp='🤖 أنا مساعدك الذكي في أكاديمية النجوم!';
+    else resp=`🤔 قلت: "${cmd}" — لم أفهم الأمر!`;
+    showOutput('out-cmds',[`قلت: "${cmd}"`,resp]);
+  };
+  r.start();
+  showOutput('out-cmds',['🎤 اسمعك... قل أمراً!'],'info');
+}
+
+// ===== TTS =====
+function speakText(){
+  const txt=document.getElementById('ttsText').value||'مرحباً';
+  const rate=parseFloat(document.getElementById('ttsRate').value)||1;
+  if('speechSynthesis' in window){
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang=document.getElementById('ttsLang').value+'-SA';
+    u.rate=rate;
+    window.speechSynthesis.speak(u);
+    showOutput('out-tts',[
+      `>>> engine.say("${txt}")`,
+      `>>> engine.runAndWait()`,
+      `🔊 يتكلم الآن...`,
+      `السرعة: ${rate}x | اللغة: ${document.getElementById('ttsLang').value}`
+    ]);
+  } else {
+    showOutput('out-tts',['❌ متصفحك لا يدعم تحويل النص لصوت'],'error');
+  }
+}
+
+// ===== IMAGE DETECTION =====
+function analyzeImage(event){
+  const file=event.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    document.getElementById('imgPreview').src=e.target.result;
+    document.getElementById('imgPreviewWrap').style.display='block';
+    document.getElementById('detectionResult').innerHTML='<p style="color:var(--cyan);margin-top:12px;">🤖 AI يحلل الصورة...</p>';
+    setTimeout(()=>{
+      const labels=[
+        {name:'شخص',conf:Math.floor(Math.random()*20+78),color:'var(--pink)'},
+        {name:'منظر طبيعي',conf:Math.floor(Math.random()*20+60),color:'var(--green)'},
+        {name:'كائن حي',conf:Math.floor(Math.random()*30+50),color:'var(--cyan)'},
+        {name:'بناء',conf:Math.floor(Math.random()*40+30),color:'var(--purple)'},
+        {name:'سيارة',conf:Math.floor(Math.random()*30+20),color:'var(--orange)'},
+      ].sort((a,b)=>b.conf-a.conf);
+      let html='<div class="detect-labels">';
+      labels.slice(0,3).forEach(l=>{
+        html+=`<span class="det-label" style="background:${l.color}22;border:1px solid ${l.color};color:${l.color}">${l.name} ${l.conf}%</span>`;
+      });
+      html+='</div>';
+      html+=`<p style="color:var(--muted);font-size:0.8rem;margin-top:10px;">⏱️ وقت التحليل: ${(Math.random()*200+50).toFixed(0)}ms</p>`;
+      document.getElementById('detectionResult').innerHTML=html;
+    },1800);
+  };
+  reader.readAsDataURL(file);
+}
+
+// ===== CAMERA =====
+let videoStream=null;
+async function startCamera(){
+  try{
+    videoStream=await navigator.mediaDevices.getUserMedia({video:true});
+    const v=document.getElementById('camVideo'); v.srcObject=videoStream; v.style.display='block';
+    showOutput('out-cam',['📷 الكاميرا تعمل...','🤖 AI يحلل الصورة في الوقت الفعلي...'],'info');
+    setInterval(()=>{if(videoStream){
+      const things=['وجه بشري','يد','قلم','كتاب','هاتف','كوب'];
+      showOutput('out-cam',[`🔍 وجد AI: ${things[Math.floor(Math.random()*things.length)]} (${70+Math.floor(Math.random()*28)}%)`]);
+    }},3000);
+  } catch(e){showOutput('out-cam',['❌ لا يمكن الوصول للكاميرا'],'error');}
+}
+function capturePhoto(){
+  const v=document.getElementById('camVideo');
+  const c=document.getElementById('camCanvas');
+  c.style.display='block'; c.width=v.videoWidth||320; c.height=v.videoHeight||240;
+  c.getContext('2d').drawImage(v,0,0);
+  showOutput('out-cam',['📸 تم التقاط الصورة!','🤖 AI يحلل...'],'info');
+}
+function stopCamera(){
+  videoStream?.getTracks().forEach(t=>t.stop());
+  videoStream=null;
+  document.getElementById('camVideo').style.display='none';
+  document.getElementById('camCanvas').style.display='none';
+}
+
+// ===== EMOTION =====
+function readEmotion(emoji,feeling,conf){
+  const el=document.getElementById('out-emotion');
+  el.style.display='block';
+  el.innerHTML='<span class="out-info">⏳ AI يحلل 68 نقطة على الوجه...</span>';
+  setTimeout(()=>{
+    const details={
+      'سعيد':'زوايا الفم مرفوعة، العيون ضيقة قليلاً، الحواجب مرتاحة',
+      'حزين':'زوايا الفم منخفضة، الحواجب مرفوعة في المنتصف',
+      'غاضب':'الحواجب منخفضة ومتقاربة، الشفاه مضمومة',
+      'متفاجئ':'العيون مفتوحة جداً، الحواجب مرفوعة، الفم مفتوح',
+      'متحمس':'عيون لامعة، ابتسامة واسعة، حواجب مرفوعة',
+      'نعسان':'الجفون مغلقة جزئياً، الحواجب منخفضة',
+      'خائف':'عيون مفتوحة، حواجب مرفوعة، فم مفتوح قليلاً',
+      'هادئ':'ملامح مسترخية، ابتسامة خفيفة'
+    };
+    el.innerHTML=`
+      <span class="out-line">${emoji} الوجه المُحلَّل</span><br>
+      <span class="out-line">🎯 المشاعر: <strong style="color:var(--yellow)">${feeling}</strong></span><br>
+      <span class="out-line">📊 الثقة: ${conf}%</span><br>
+      <span class="out-line out-info">🔬 ${details[feeling]||'تحليل الملامح الوجهية'}</span>
+    `;
+    confetti();
+  },1400);
+}
+
+// ===== PIXEL CANVAS =====
+function drawPixels(mode){
+  const c=document.getElementById('pixelCanvas');
+  const ctx=c.getContext('2d');
+  const W=c.width, H=c.height;
+  for(let x=0;x<W;x+=8){
+    for(let y=0;y<H;y+=8){
+      let r,g,b;
+      if(mode==='color'){r=Math.random()*255;g=Math.random()*255;b=Math.random()*255;}
+      else if(mode==='gray'){const v=Math.random()*255;r=g=b=v;}
+      else if(mode==='edge'){const v=Math.random()>0.85?255:0;r=g=b=v;}
+      else{r=Math.random()*50;g=Math.random()*200;b=Math.random()*50;}
+      ctx.fillStyle=`rgb(${r},${g},${b})`;
+      ctx.fillRect(x,y,8,8);
+    }
+  }
+}
+
+// ===== BIG QUIZ =====
+const bigQuestions=[
+  {q:'ما الذي تفعله دالة print() في بايثون؟',opts:['تطبع على الورق','تعرض نصاً على الشاشة ✅','تحذف الكود','تحفظ الملف'],ans:1},
+  {q:'ما رمز الأس في بايثون؟',opts:['^ (كاريت)','** (نجمتان) ✅','// (خطان)','% (بالمئة)'],ans:1},
+  {q:'ما نوع البيانات "True"؟',opts:['str (نص)','int (رقم)','bool (منطقي) ✅','float (عشري)'],ans:2},
+  {q:'كيف تُضيف عنصراً في نهاية قائمة؟',opts:['list.add()','list.append() ✅','list.push()','list.insert()'],ans:1},
+  {q:'ما الكلمة المفتاحية لتعريف دالة؟',opts:['function','func','def ✅','define'],ans:2},
+  {q:'ماذا يفعل "break" في حلقة؟',opts:['يُبطئ الحلقة','يُوقف الحلقة نهائياً ✅','يُكرر الحلقة','يُعيد قيمة'],ans:1},
+  {q:'ما هو الذكاء الاصطناعي الضيق ANI؟',opts:['أذكى من الإنسان بكثير','ذكاء متخصص في مهمة واحدة ✅','لم يُصنع بعد','يتعلم كل شيء'],ans:1},
+  {q:'ما هي sklearn؟',opts:['لعبة حاسوب','مكتبة تعلم الآلة في بايثون ✅','نظام تشغيل','لغة برمجة جديدة'],ans:1},
+  {q:'في الشبكة العصبية، ما وظيفة Backpropagation؟',opts:['حفظ البيانات','تسريع الكود','إرسال الخطأ للخلف لتعديل الأوزان ✅','رسم المخطط'],ans:2},
+  {q:'كيف يرى الحاسوب الصورة؟',opts:['يراها مثل الإنسان','كمصفوفة من الأرقام (0-255) ✅','كملف PDF','كنص عادي'],ans:1},
+  {q:'ما هي CNN؟',opts:['قناة تلفزيونية','شبكة عصبية التفافية لتحليل الصور ✅','نوع من القواميس','لغة برمجة'],ans:1},
+  {q:'ما هو len() في بايثون؟',opts:['يحسب طول النص أو القائمة ✅','يحول الأرقام لنص','يرتب القائمة','يحذف عناصر'],ans:0},
+  {q:'ما هو التعلم بالمكافأة Reinforcement Learning؟',opts:['التعلم من كتاب','التعلم من البيانات المُعلَّمة','التعلم بالتجربة والخطأ ✅','التعلم دون بيانات'],ans:2},
+  {q:'ما هي DeepFace؟',opts:['شبكة تواصل اجتماعي','مكتبة للتعرف على الوجوه ✅','نوع من الكيك','خوارزمية الجذر'],ans:1},
+  {q:'ما هو تحويل فورييه في معالجة الصوت؟',opts:['تحويل النص لصور','تحليل الترددات في الإشارة الصوتية ✅','رسم الموجات فقط','ضغط الملفات'],ans:1},
+  {q:'ما الكود الصحيح للقاموس؟',opts:['d = [key: val]','d = {key: val} ✅','d = (key, val)','d = <key: val>'],ans:1},
+  {q:'كيف تُرجع قيمة من دالة؟',opts:['send','output','return ✅','give'],ans:2},
+  {q:'ما هو OOP؟',opts:['أسلوب تنظيم الكود بالكلاسات والكائنات ✅','نوع من الحلقات','مكتبة رياضية','بروتوكول إنترنت'],ans:0},
+  {q:'ما وظيفة SpeechRecognition في بايثون؟',opts:['رسم مخططات','تحويل الكلام إلى نص ✅','تشغيل الموسيقى','إرسال رسائل'],ans:1},
+  {q:'ما هي TensorFlow/Keras؟',opts:['لعبة فيديو','محرر نصوص','إطار عمل للذكاء الاصطناعي والشبكات العصبية ✅','قاعدة بيانات'],ans:2},
+];
+let qIdx=0,qScore=0,quizActive=false;
+function startBigQuiz(){
+  qIdx=0;qScore=0;quizActive=true;
+  document.getElementById('startQuizBtn').style.display='none';
+  showBigQ();
+}
+function showBigQ(){
+  const q=bigQuestions[qIdx];
+  document.getElementById('qProg').style.width=`${(qIdx/20)*100}%`;
+  document.getElementById('qProgTxt').textContent=`السؤال ${qIdx+1} من 20`;
+  const el=document.getElementById('bigQuizQ');
+  el.style.display='block';
+  el.innerHTML=`
+    <div class="quiz-container">
+      <div class="quiz-q-text">${qIdx+1}️⃣ ${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((o,i)=>`<button class="q-opt" onclick="bigAnswer(${i})">${o.replace(' ✅','')}</button>`).join('')}
+      </div>
+    </div>`;
+}
+function bigAnswer(i){
+  const q=bigQuestions[qIdx];
+  const btns=document.querySelectorAll('#bigQuizQ .q-opt');
+  btns.forEach(b=>b.disabled=true);
+  btns[i].classList.add(i===q.ans?'correct':'wrong');
+  if(i!==q.ans) btns[q.ans].classList.add('correct');
+  if(i===q.ans){qScore++;confetti();}
+  setTimeout(()=>{
+    qIdx++;
+    if(qIdx>=bigQuestions.length) showBigResult();
+    else showBigQ();
+  },1000);
+}
+function showBigResult(){
+  document.getElementById('bigQuizQ').style.display='none';
+  document.getElementById('qProg').style.width='100%';
+  document.getElementById('qProgTxt').textContent='اكتمل الاختبار!';
+  const pct=Math.round(qScore/bigQuestions.length*100);
+  let msg='',em='';
+  if(pct>=90){msg='أنت عبقري! 🧠 مستوى الاحتراف';em='🏆';}
+  else if(pct>=70){msg='ممتاز! أنت على الطريق الصحيح 🌟';em='🌟';}
+  else if(pct>=50){msg='جيد! راجع الدروس وحاول مجدداً 💪';em='😊';}
+  else{msg='لا بأس! المحاولة هي الأساس 📚';em='💡';}
+  const r=document.getElementById('bigQuizResult');
+  r.style.display='block';
+  r.innerHTML=`
+    <div style="text-align:center;padding:30px;">
+      <div style="font-size:5rem;margin-bottom:16px;">${em}</div>
+      <h2 style="font-size:2rem;margin-bottom:8px;">${msg}</h2>
+      <p style="color:var(--muted);margin-bottom:20px;">النتيجة: ${qScore} من ${bigQuestions.length} سؤال</p>
+      <div style="font-size:3rem;font-weight:900;background:linear-gradient(135deg,var(--yellow),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">${pct}%</div>
+      <button class="btn-run btn-pink" onclick="location.reload()" style="margin-top:20px;">🔄 ابدأ من جديد</button>
+      <button class="btn-run btn-yellow" onclick="nav('cert')" style="margin-top:20px;">🏅 احصل على شهادتك!</button>
+    </div>`;
+  if(pct>=70){setTimeout(confetti,100);setTimeout(confetti,700);}
+}
+
+// ===== CERT =====
+document.getElementById('certDate').textContent=new Date().toLocaleDateString('ar-SA');
+function printCert(){
+  const name=document.getElementById('certName').value||'البطل المجهول';
+  showNotif('🖨️','جاري الطباعة!',`شهادة ${name}`);
+  window.print();
+}
+function celebrateCert(){confetti();setTimeout(confetti,500);setTimeout(confetti,1000);showNotif('🎉','مبارك!','أنت بطل البرمجة العربية!');}
 </script>
 </body>
 </html>
