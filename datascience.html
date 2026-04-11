@@ -20,6 +20,7 @@
     --accent4: #ffc857;
     --accent5: #f97316;
     --accent6: #22d3ee;
+    --accent7: #a78bfa;
     --glow1: rgba(124,92,252,0.15);
     --glow2: rgba(0,212,168,0.12);
   }
@@ -213,6 +214,7 @@
   .course-card-header.c2 { background: linear-gradient(135deg, #0a1f1a, #0f1830); }
   .course-card-header.c3 { background: linear-gradient(135deg, #1f1200, #0f1820); }
   .course-card-header.c4 { background: linear-gradient(135deg, #001f22, #0a1025); }
+  .course-card-header.c5 { background: linear-gradient(135deg, #1a0f2e, #100e2a); }
 
   .course-icon {
     font-size: 2.4em;
@@ -233,6 +235,7 @@
   .c2 .course-tag { background: rgba(0,212,168,0.15); color: var(--accent2); border: 1px solid rgba(0,212,168,0.25); }
   .c3 .course-tag { background: rgba(249,115,22,0.15); color: var(--accent5); border: 1px solid rgba(249,115,22,0.3); }
   .c4 .course-tag { background: rgba(34,211,238,0.12); color: var(--accent6); border: 1px solid rgba(34,211,238,0.25); }
+  .c5 .course-tag { background: rgba(167,139,250,0.18); color: var(--accent7); border: 1px solid rgba(167,139,250,0.3); }
 
   .course-card-header h2 {
     font-family: 'Syne', sans-serif;
@@ -275,6 +278,7 @@
   .c2-num { background: rgba(0,212,168,0.15); color: var(--accent2); }
   .c3-num { background: rgba(249,115,22,0.15); color: var(--accent5); }
   .c4-num { background: rgba(34,211,238,0.12); color: var(--accent6); }
+  .c5-num { background: rgba(167,139,250,0.18); color: var(--accent7); }
 
   .course-actions { display: flex; gap: 10px; }
 
@@ -296,6 +300,8 @@
   .btn-p3:hover { background: #ea6c0a; transform: scale(1.02); }
   .btn-p4 { background: var(--accent6); color: #0a0a0f; }
   .btn-p4:hover { background: #06b6d4; transform: scale(1.02); }
+  .btn-p5 { background: var(--accent7); color: #0a0a0f; }
+  .btn-p5:hover { background: #9270e8; transform: scale(1.02); }
 
   .btn-outline {
     padding: 11px 18px;
@@ -369,6 +375,7 @@
   .rs-icon.v4 { background: rgba(255,200,87,0.15); }
   .rs-icon.v5 { background: rgba(249,115,22,0.15); }
   .rs-icon.v6 { background: rgba(34,211,238,0.12); }
+  .rs-icon.v7 { background: rgba(167,139,250,0.18); }
 
   .rs-header h3 {
     font-family: 'Syne', sans-serif;
@@ -417,6 +424,7 @@
   }
 
   .concept-item .ci-title.orange { color: var(--accent5); }
+  .concept-item .ci-title.violet { color: var(--accent7); }
 
   .concept-item p { font-size: 0.88em; line-height: 1.5; }
 
@@ -438,6 +446,57 @@
   .cm { color: #4a4a6a; font-style: italic; }
   .num { color: #fb923c; }
 
+  /* ML Lifecycle diagram */
+  .ml-lifecycle {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-top: 18px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .ml-step {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    min-width: 110px;
+    flex-shrink: 0;
+  }
+
+  .ml-step .ms-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65em;
+    color: var(--accent7);
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .ml-step .ms-label {
+    font-size: 0.82em;
+    font-weight: 500;
+    color: var(--text);
+    display: block;
+  }
+
+  .ml-step .ms-sub {
+    font-size: 0.72em;
+    color: var(--muted);
+    display: block;
+    margin-top: 2px;
+  }
+
+  .ml-arrow {
+    font-size: 1.2em;
+    color: var(--accent7);
+    opacity: 0.6;
+    padding: 0 4px;
+    flex-shrink: 0;
+  }
+
+  /* Quiz styles */
   .quiz-header {
     text-align: center;
     margin-bottom: 40px;
@@ -885,6 +944,8 @@
     .projects-grid { grid-template-columns: 1fr; }
     .concept-grid { grid-template-columns: 1fr; }
     .tabs-bar { padding: 0 20px 24px; }
+    .ml-lifecycle { gap: 4px; }
+    .ml-arrow { display: none; }
   }
 </style>
 </head>
@@ -904,9 +965,9 @@
   <h1>Data <span class="hl">Sciences</span></h1>
   <p>Explore course summaries, real-world projects with Kaggle datasets, and test your knowledge with interactive quizzes.</p>
   <div class="hero-stats">
-    <div><strong>4</strong> Courses</div>
+    <div><strong>5</strong> Courses</div>
     <div><strong>5</strong> Projects</div>
-    <div><strong>40</strong> Quiz Questions</div>
+    <div><strong>50</strong> Quiz Questions</div>
   </div>
 </div>
 
@@ -1011,6 +1072,29 @@
         </div>
       </div>
 
+      <!-- COURSE 5 — NEW -->
+      <div class="course-card" onclick="openResume(5)">
+        <div class="course-card-header c5">
+          <span class="course-icon">🤖</span>
+          <div class="course-tag">Course 05</div>
+          <h2>Artificial Intelligence & Machine Learning</h2>
+          <p>Discover AI, ML, and Deep Learning. Understand supervised vs unsupervised learning, regression, classification, and the full ML lifecycle.</p>
+        </div>
+        <div class="course-card-body">
+          <ul class="lesson-list">
+            <li><span class="lesson-num c5-num">1</span> AI, ML & Deep Learning — The Big Picture</li>
+            <li><span class="lesson-num c5-num">2</span> Supervised Learning: Regression & Classification</li>
+            <li><span class="lesson-num c5-num">3</span> Unsupervised Learning & Clustering</li>
+            <li><span class="lesson-num c5-num">4</span> Key ML Components (Dataset, Model, Cost Function)</li>
+            <li><span class="lesson-num c5-num">5</span> The ML Lifecycle — How a Model Learns</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-primary btn-p5" onclick="event.stopPropagation(); openResume(5)">📖 View Summary</button>
+            <button class="btn-outline" onclick="event.stopPropagation(); goQuiz(4)">🎯 Take Quiz</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1053,6 +1137,10 @@
         </div>
         <div class="qs-btn" id="qsb3" onclick="selectQuizSet(3)">
           <div class="qsb-title">📈 Matplotlib</div>
+          <div class="qsb-meta">10 questions · multiple choice</div>
+        </div>
+        <div class="qs-btn" id="qsb4" onclick="selectQuizSet(4)">
+          <div class="qsb-title">🤖 AI & Machine Learning</div>
           <div class="qsb-meta">10 questions · multiple choice</div>
         </div>
       </div>
@@ -1422,7 +1510,6 @@ function renderProjects() {
 }
 
 function switchProjectTab(projectId, tab, btn) {
-  // Deactivate all tabs in this card
   const card = btn.closest('.project-card');
   card.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
   card.querySelectorAll('.project-tab-content').forEach(c => c.classList.remove('active'));
@@ -1477,6 +1564,75 @@ const resumes = {
       { icon: '🥧', variant: 'v4', title: 'Pie Chart — Parts of a Whole', content: `A <strong>pie chart</strong> shows how a whole is divided into parts — it always adds up to 100%.<br><br>Example — How you spend your day:<br>Sleep: 35% &nbsp;|&nbsp; School: 25% &nbsp;|&nbsp; Study: 15% &nbsp;|&nbsp; Hobbies: 15% &nbsp;|&nbsp; Other: 10%<br><br>Use <strong>autopct='%1.1f%%'</strong> to automatically display percentage labels on each slice.`, code: `labels = [<span class="str">'Sleep'</span>, <span class="str">'School'</span>, <span class="str">'Study'</span>, <span class="str">'Hobbies'</span>, <span class="str">'Other'</span>]\nsizes  = [<span class="num">35</span>, <span class="num">25</span>, <span class="num">15</span>, <span class="num">15</span>, <span class="num">10</span>]\n\nplt.<span class="fn">pie</span>(sizes, labels=labels,\n        autopct=<span class="str">'%1.1f%%'</span>, startangle=<span class="num">90</span>)\nplt.<span class="fn">title</span>(<span class="str">'How I Spend My Day'</span>)\nplt.<span class="fn">show</span>()`, concepts: [{ title: 'plt.pie()', body: 'Creates a pie chart from a list of sizes' },{ title: 'autopct', body: 'Automatically labels each slice with its percentage' },{ title: 'startangle', body: 'Rotates the starting position of the first slice' },{ title: 'When to use', body: 'Showing percentages that add up to 100%' }] },
       { icon: '✨', variant: 'v3', title: 'Scatter Plot — Finding Connections', content: `A <strong>scatter plot</strong> helps you see if two things are related — does one variable affect another?<br><br>Real-life examples:<br>• Study hours vs test scores — More study = Better score?<br>• Sleep hours vs energy level — More sleep = More energy?<br><br>Each dot represents one data point. If the dots form a rising diagonal pattern, the two things are <strong>positively correlated</strong>.`, code: `<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt\n<span class="kw">import</span> numpy <span class="kw">as</span> np\n\nnp.random.<span class="fn">seed</span>(<span class="num">42</span>)\nstudy = np.random.<span class="fn">rand</span>(<span class="num">30</span>) * <span class="num">6</span>\nscores = study * <span class="num">12</span> + np.random.<span class="fn">rand</span>(<span class="num">30</span>) * <span class="num">20</span>\n\nplt.<span class="fn">scatter</span>(study, scores, color=<span class="str">'red'</span>, s=<span class="num">80</span>)\nplt.<span class="fn">title</span>(<span class="str">'Study Hours vs Test Score'</span>)\nplt.<span class="fn">xlabel</span>(<span class="str">'Study Hours'</span>)\nplt.<span class="fn">ylabel</span>(<span class="str">'Score (%)'</span>)\nplt.<span class="fn">show</span>()`, concepts: [{ title: 'plt.scatter()', body: 'Creates a scatter plot with individual points' },{ title: 's=80', body: 'Controls the size of the dots' },{ title: 'Correlation', body: 'Rising dots = positive relationship between variables' },{ title: 'When to use', body: 'Checking if two variables are related' }] }
     ]
+  },
+  5: {
+    icon: '🤖', tag: 'Course 05', title: 'Artificial Intelligence & Machine Learning',
+    color: 'c5', desc: 'Understand the landscape of AI, ML, and Deep Learning — plus how machine learning models are built, trained, and evaluated.',
+    sections: [
+      {
+        icon: '🧠', variant: 'v7', title: 'AI, ML & Deep Learning — The Big Picture',
+        content: `Three terms you will always hear together — here is what they actually mean:<br><br>
+          <strong>Artificial Intelligence (AI)</strong> is the broad field of making computers perform tasks that normally require human intelligence — like reasoning, understanding language, and making decisions.<br><br>
+          <strong>Machine Learning (ML)</strong> is a <em>subset</em> of AI. Instead of being explicitly programmed with rules, the system <strong>learns from data</strong> and improves automatically through experience.<br><br>
+          <strong>Deep Learning (DL)</strong> is a specialized area within ML that uses <strong>neural networks with many layers</strong> to learn complex patterns — especially powerful for images, audio, and language.`,
+        concepts: [
+          { title: '🤖 AI', body: 'Broad field: machines simulating human intelligence' },
+          { title: '📊 ML', body: 'Subset of AI: systems that learn from data' },
+          { title: '🧬 Deep Learning', body: 'Subset of ML: multi-layer neural networks' },
+          { title: '🔁 Key idea', body: 'The system improves automatically through experience' }
+        ]
+      },
+      {
+        icon: '🏷️', variant: 'v1', title: 'Supervised Learning',
+        content: `<strong>Supervised Learning</strong> means the model learns from <strong>labeled data</strong> — each input comes with its correct output already known. The model learns to map inputs to outputs.<br><br>
+          Think of it like learning with an answer key: you study examples with known answers, and over time you learn the pattern.<br><br>
+          Supervised learning has two main types based on what you are predicting:`,
+        concepts: [
+          { title: '📈 Regression', body: 'Output is a continuous number. Example: predicting salary or temperature.' },
+          { title: '🏷 Classification', body: 'Output is a category. Example: spam detection, disease prediction.' },
+          { title: 'Labeled data', body: 'Training data that includes both input and the correct answer' },
+          { title: 'Examples', body: 'House price prediction (regression), email spam filter (classification)' }
+        ]
+      },
+      {
+        icon: '🔍', variant: 'v2', title: 'Unsupervised Learning',
+        content: `<strong>Unsupervised Learning</strong> means learning from <strong>unlabeled data</strong> — there are no correct answers provided. The model must discover hidden structures or patterns on its own.<br><br>
+          Think of it like sorting a pile of mixed objects without being told the categories — the algorithm finds natural groupings by itself.<br><br>
+          The most common use case is <strong>clustering</strong>: grouping similar data points together. For example, grouping customers by shopping behavior without pre-defined groups.`,
+        concepts: [
+          { title: 'No labels', body: 'The data has inputs only — no correct answers given' },
+          { title: '🔵 Clustering', body: 'Grouping similar data points together automatically' },
+          { title: 'Example', body: 'Grouping customers into segments by purchase habits' },
+          { title: 'vs Supervised', body: 'No answer key — the model finds patterns freely' }
+        ]
+      },
+      {
+        icon: '⚙️', variant: 'v4', title: 'Key ML Components',
+        content: `Every Machine Learning system is built from the same four core components. Understanding these is essential before writing any ML code:<br><br>
+          <strong>1. Dataset</strong> — The collection of data used to train the model. Quality and size of data directly determines how well the model can learn.<br><br>
+          <strong>2. Model</strong> — A mathematical function that takes inputs and produces predictions. The model starts with random parameters and improves over training.<br><br>
+          <strong>3. Cost Function (Loss Function)</strong> — Measures how wrong the model's predictions are compared to the real values. A lower cost = a better model.<br><br>
+          <strong>4. Learning Algorithm</strong> — Updates the model's parameters to minimize the cost function. The most common is <em>Gradient Descent</em>.`,
+        concepts: [
+          { title: 'Dataset', body: 'Collection of training examples (inputs + labels)' },
+          { title: 'Model', body: 'Mathematical function making predictions' },
+          { title: 'Cost Function', body: 'Measures prediction error — we want to minimize this' },
+          { title: 'Learning Algorithm', body: 'Updates model parameters to reduce the error' }
+        ]
+      },
+      {
+        icon: '🔄', variant: 'v7', title: 'The ML Lifecycle — How a Model Learns',
+        content: `The ML lifecycle is a loop — the model keeps repeating these steps until it becomes accurate enough. This is called <strong>training</strong>.<br><br>
+          Each pass through the data is called an <strong>epoch</strong>. After many epochs, the model's predictions get closer and closer to the real values.`,
+        lifecycle: true,
+        concepts: [
+          { title: '1️⃣ Input Data', body: 'Raw data is provided to the system' },
+          { title: '2️⃣ Model', body: 'Processes the data and makes predictions' },
+          { title: '3️⃣ Error (Cost)', body: 'Compares predicted vs actual values' },
+          { title: '4️⃣ Update', body: 'Learning algorithm adjusts model parameters' }
+        ]
+      }
+    ]
   }
 };
 
@@ -1529,6 +1685,19 @@ const quizData = [
     { q: "In plt.plot(x, y, marker='o'), what does marker='o' do?", opts: ["Changes the line color to orange", "Makes the line dashed", "Adds circle markers at each data point on the line", "Sets the opacity of the chart"], ans: 2, exp: "marker='o' adds a circular dot at each data point on the line chart, making individual values easier to see." },
     { q: "What function saves a chart as an image file instead of displaying it?", opts: ["plt.show()", "plt.export()", "plt.savefig()", "plt.save()"], ans: 2, exp: "plt.savefig('filename.png') saves the current chart as an image file. You call it instead of (or before) plt.show()." },
     { q: "What is the difference between plt.bar() and plt.barh()?", opts: ["plt.bar() is for numbers, plt.barh() is for categories", "plt.bar() creates vertical bars, plt.barh() creates horizontal bars", "plt.bar() uses one color, plt.barh() uses multiple colors", "There is no difference"], ans: 1, exp: "plt.bar() makes vertical bars (y-axis shows values), while plt.barh() makes horizontal bars (x-axis shows values). Same data, different orientation." }
+  ],
+  // Course 5 — AI & Machine Learning
+  [
+    { q: "What is Artificial Intelligence (AI)?", opts: ["A Python library for data analysis", "The field of making computers perform tasks that require human intelligence", "A type of database management system", "A hardware component that speeds up calculations"], ans: 1, exp: "AI is the broad field of computer science focused on creating systems that can reason, learn, and make decisions — tasks that normally require human intelligence." },
+    { q: "What is Machine Learning (ML)?", opts: ["A system that is programmed with exact rules for every situation", "A subset of AI where systems learn from data and improve through experience", "A visualization tool for data scientists", "A method to clean and process CSV files"], ans: 1, exp: "ML is a subset of AI where the system learns patterns from data automatically — without being explicitly programmed for each rule." },
+    { q: "How does Deep Learning relate to Machine Learning?", opts: ["Deep Learning is a completely separate field from ML", "Deep Learning is a subset of ML using neural networks with many layers", "Deep Learning only works with text data", "Deep Learning is older and simpler than regular ML"], ans: 1, exp: "Deep Learning is a specialized area within Machine Learning that uses multi-layer neural networks to learn complex patterns, especially from images, audio, and language." },
+    { q: "What is Supervised Learning?", opts: ["Learning from data with no correct answers provided", "Learning from labeled data where inputs and correct outputs are both known", "Learning by grouping similar items together without labels", "Learning by trial and error without any data"], ans: 1, exp: "Supervised learning uses labeled data — each input has a known correct output. The model learns to map inputs to outputs, like studying with an answer key." },
+    { q: "Predicting tomorrow's temperature (a number) is an example of:", opts: ["Classification", "Clustering", "Regression", "Deep Learning exclusively"], ans: 2, exp: "Regression is used when the output is a continuous numerical value — like temperature, salary, or house price. Classification is for categories." },
+    { q: "Detecting whether an email is spam or not spam is an example of:", opts: ["Regression", "Clustering", "Classification", "Unsupervised Learning"], ans: 2, exp: "Spam detection outputs a category (spam / not spam) — making it a Classification problem. Classification is for categorical outputs." },
+    { q: "What is Unsupervised Learning?", opts: ["Learning from labeled data with known correct answers", "Learning from unlabeled data to find hidden patterns or groups", "A type of supervised learning for image recognition", "A method that requires human supervision at every step"], ans: 1, exp: "Unsupervised learning uses unlabeled data — the model discovers hidden structures or groupings by itself, with no correct answers provided." },
+    { q: "In the ML lifecycle, what does the Cost Function measure?", opts: ["How fast the model trains on data", "The number of layers in the neural network", "The difference between predicted values and real values", "The size of the training dataset"], ans: 2, exp: "The Cost Function (also called Loss Function) measures how wrong the model's predictions are. Minimizing this error is the goal of training." },
+    { q: "What is the role of the Learning Algorithm in ML?", opts: ["It collects and cleans the training data", "It updates the model's parameters to reduce prediction error", "It visualizes the model's performance as a chart", "It defines the structure of the dataset"], ans: 1, exp: "The Learning Algorithm (such as Gradient Descent) adjusts the model's internal parameters after each prediction to reduce the cost function." },
+    { q: "What happens during the ML training loop?", opts: ["The dataset is deleted and recreated each epoch", "The model makes predictions, measures error, and updates itself repeatedly until accurate", "A human manually corrects each prediction", "The model only trains once and then stops"], ans: 1, exp: "Training is a loop: input data → model predicts → error is calculated → model updates. This repeats many times (epochs) until the model becomes accurate." }
   ]
 ];
 
@@ -1606,6 +1775,20 @@ function openResume(id) {
           <div class="rs-content">
             <p>${sec.content}</p>`;
     if (sec.code) html += `<div class="code-snippet"><pre>${sec.code}</pre></div>`;
+    if (sec.lifecycle) {
+      html += `<div class="ml-lifecycle">
+        <div class="ml-step"><span class="ms-num">Step 1</span><span class="ms-label">Input Data</span><span class="ms-sub">Raw training data</span></div>
+        <span class="ml-arrow">→</span>
+        <div class="ml-step"><span class="ms-num">Step 2</span><span class="ms-label">Model</span><span class="ms-sub">Makes predictions</span></div>
+        <span class="ml-arrow">→</span>
+        <div class="ml-step"><span class="ms-num">Step 3</span><span class="ms-label">Prediction</span><span class="ms-sub">Output / result</span></div>
+        <span class="ml-arrow">→</span>
+        <div class="ml-step"><span class="ms-num">Step 4</span><span class="ms-label">Cost Function</span><span class="ms-sub">Measures error</span></div>
+        <span class="ml-arrow">→</span>
+        <div class="ml-step"><span class="ms-num">Step 5</span><span class="ms-label">Update</span><span class="ms-sub">Improve model</span></div>
+        <span class="ml-arrow" style="transform:rotate(180deg); opacity:0.4;">↩</span>
+      </div>`;
+    }
     if (sec.concepts && sec.concepts.length) {
       html += `<div class="concept-grid">`;
       sec.concepts.forEach(c => { html += `<div class="concept-item"><div class="ci-title">${c.title}</div><p>${c.body}</p></div>`; });
