@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Variables — Hadjar Naila</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0B0E1A;
+    --surface: #131729;
+    --surface2: #1C2138;
+    --accent: #7C6FE0;
+    --accent2: #4ECDC4;
+    --accent3: #FF6B6B;
+    --gold: #F7C948;
+    --text: #EEF0FF;
+    --muted: #8890B5;
+    --border: rgba(124,111,224,0.25);
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'Lora', serif;
+    --font-code: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+
+  /* STARFIELD */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 25%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 10%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 20% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 45%, rgba(255,255,255,0.4) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* GLOW ORBS */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.18;
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 12s ease-in-out infinite alternate;
+  }
+  .orb1 { width: 500px; height: 500px; background: var(--accent); top: -100px; left: -150px; }
+  .orb2 { width: 400px; height: 400px; background: var(--accent2); bottom: 0; right: -100px; animation-delay: -6s; }
+  .orb3 { width: 300px; height: 300px; background: var(--accent3); top: 40%; left: 60%; animation-delay: -3s; }
+
+  @keyframes drift {
+    from { transform: translate(0,0); }
+    to   { transform: translate(30px, -30px); }
+  }
+
+  /* LAYOUT */
+  .wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 2rem; }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 6rem 0 4rem;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(124,111,224,0.15);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-family: var(--font-code);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: '●'; font-size: 8px; color: var(--accent2); }
+
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .byline {
+    font-family: var(--font-code);
+    font-size: 13px;
+    color: var(--accent2);
+    letter-spacing: 0.08em;
+    animation: fadeUp 0.9s 0.3s ease both;
+  }
+
+  .scroll-hint {
+    margin-top: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-code);
+    font-size: 12px;
+    color: var(--muted);
+    animation: fadeUp 1s 0.5s ease both;
+  }
+  .scroll-hint .line { width: 40px; height: 1px; background: var(--muted); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-label {
+    font-family: var(--font-code);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--font-head);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+  .section-title span { color: var(--accent2); }
+
+  section { padding: 5rem 0; }
+
+  /* ─── WHAT IS A VARIABLE ─── */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+  }
+  @media(max-width: 640px) { .intro-grid { grid-template-columns: 1fr; } }
+
+  .intro-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .intro-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+
+  .intro-card .icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  .intro-card h3 {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+  .intro-card p { font-size: 0.93rem; color: var(--muted); line-height: 1.6; }
+
+  /* ─── CODE BLOCKS ─── */
+  .code-wrap {
+    background: #0d1117;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 2rem 0;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .code-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.25rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .d1 { background: #FF5F57; }
+  .d2 { background: #FFBD2E; }
+  .d3 { background: #28C840; }
+  .code-filename {
+    margin-left: 8px;
+    font-family: var(--font-code);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  pre {
+    padding: 1.5rem 1.75rem;
+    overflow-x: auto;
+    font-family: var(--font-code);
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+  .kw  { color: #FF79C6; }
+  .str { color: #F1FA8C; }
+  .num { color: #BD93F9; }
+  .fn  { color: #50FA7B; }
+  .cm  { color: #6272A4; font-style: italic; }
+  .var { color: #8BE9FD; }
+  .op  { color: #FF79C6; }
+
+  /* ─── TYPES TABLE ─── */
+  .types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .type-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .type-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .type-card.int::before    { background: var(--accent); }
+  .type-card.float::before  { background: var(--accent2); }
+  .type-card.str::before    { background: var(--gold); }
+  .type-card.bool::before   { background: var(--accent3); }
+  .type-card:hover { transform: translateY(-4px); }
+
+  .type-name {
+    font-family: var(--font-code);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .type-card.int   .type-name  { color: var(--accent); }
+  .type-card.float .type-name  { color: var(--accent2); }
+  .type-card.str   .type-name  { color: var(--gold); }
+  .type-card.bool  .type-name  { color: var(--accent3); }
+
+  .type-example {
+    font-family: var(--font-code);
+    font-size: 1rem;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .type-desc { font-size: 0.85rem; color: var(--muted); }
+
+  /* ─── RULES LIST ─── */
+  .rules-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+  .rules-list li {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    transition: border-color 0.3s;
+  }
+  .rules-list li:hover { border-color: var(--accent2); }
+  .rule-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .rule-ok  { background: rgba(78,205,196,0.15); color: var(--accent2); }
+  .rule-no  { background: rgba(255,107,107,0.15); color: var(--accent3); }
+
+  .rule-text strong {
+    display: block;
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+  .rule-text span { font-size: 0.88rem; color: var(--muted); }
+  code.inline {
+    background: rgba(124,111,224,0.2);
+    border-radius: 6px;
+    padding: 1px 7px;
+    font-family: var(--font-code);
+    font-size: 0.85em;
+    color: var(--accent);
+  }
+
+  /* ─── TIP BOX ─── */
+  .tip {
+    background: rgba(78,205,196,0.08);
+    border: 1px solid rgba(78,205,196,0.3);
+    border-radius: 14px;
+    padding: 1.5rem 1.75rem;
+    margin: 2rem 0;
+    display: flex;
+    gap: 1rem;
+  }
+  .tip-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .tip-body strong { display: block; font-family: var(--font-head); color: var(--accent2); margin-bottom: 0.4rem; }
+  .tip-body p { font-size: 0.9rem; color: var(--muted); }
+
+  /* ─── QUIZ ─── */
+  .quiz-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+  .quiz-q {
+    font-family: var(--font-head);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--text);
+  }
+  .quiz-opts { display: flex; flex-direction: column; gap: 0.75rem; }
+  .quiz-opt {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1.25rem;
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text);
+    text-align: left;
+  }
+  .quiz-opt:hover { border-color: var(--accent); background: rgba(124,111,224,0.1); }
+  .quiz-opt.correct { border-color: var(--accent2); background: rgba(78,205,196,0.1); color: var(--accent2); }
+  .quiz-opt.wrong   { border-color: var(--accent3); background: rgba(255,107,107,0.1); color: var(--accent3); }
+  .quiz-feedback { margin-top: 1rem; font-size: 0.9rem; min-height: 1.5rem; transition: opacity 0.3s; }
+
+  /* ─── COURSES NAV ─── */
+  .courses-section { padding: 5rem 0 7rem; }
+
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .course-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem 1.5rem;
+    position: relative;
+    transition: all 0.3s;
+    overflow: hidden;
+    text-decoration: none;
+  }
+
+  .course-card.active {
+    border-color: var(--accent);
+    background: rgba(124,111,224,0.1);
+  }
+
+  .course-card.locked {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  .course-card:not(.locked):not(.active):hover {
+    border-color: rgba(124,111,224,0.5);
+    transform: translateY(-3px);
+  }
+
+  .course-num {
+    font-family: var(--font-code);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .course-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .course-title {
+    font-family: var(--font-head);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .course-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .active-badge {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: var(--accent);
+    color: white;
+    font-family: var(--font-code);
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.08em;
+  }
+
+  .lock-icon {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    color: var(--muted);
+    font-size: 1rem;
+    opacity: 0.6;
+  }
+
+  /* ─── BLUR OVERLAY for locked ─── */
+  .course-card.locked .course-desc {
+    filter: blur(4px);
+    user-select: none;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0;
+    text-align: center;
+    font-family: var(--font-code);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  footer span { color: var(--accent2); }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 100px;
+    margin-bottom: 3rem;
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- HERO -->
+<div class="wrapper">
+  <div class="hero">
+    <div class="hero-badge">Python for Beginners — Lesson 01</div>
+    <h1>Python<br><em>Variables</em></h1>
+    <p class="hero-sub">Learn how to store, name, and work with data in Python. This is where every journey begins.</p>
+    <div class="byline">✦ A course by Hadjar Naila</div>
+    <div class="scroll-hint"><div class="line"></div> scroll to start learning</div>
+  </div>
+
+  <!-- WHAT IS A VARIABLE -->
+  <section>
+    <div class="reveal">
+      <div class="section-label">01 — Concept</div>
+      <h2 class="section-title">What is a <span>variable</span>?</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="reveal" style="transition-delay:0.1s">
+      <div class="intro-grid">
+        <div class="intro-card">
+          <div class="icon">📦</div>
+          <h3>A storage box</h3>
+          <p>A variable is like a labelled box. You give it a name, and inside it you store a value — a number, a word, anything.</p>
+        </div>
+        <div class="intro-card">
+          <div class="icon">🔁</div>
+          <h3>Reusable & changeable</h3>
+          <p>Unlike a constant, a variable's value can change over time. That's why it's called <em>variable</em> — it can vary.</p>
+        </div>
+        <div class="intro-card">
+          <div class="icon">🏷️</div>
+          <h3>Named by you</h3>
+          <p>You choose the name. Good names like <code class="inline">student_age</code> make your code easy to read and understand.</p>
+        </div>
+        <div class="intro-card">
+          <div class="icon">⚡</div>
+          <h3>Instant in Python</h3>
+          <p>Python creates variables the moment you assign a value. No need to declare types — Python figures it out.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- First code example -->
+    <div class="reveal" style="transition-delay:0.15s">
+      <div class="code-wrap">
+        <div class="code-header">
+          <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+          <span class="code-filename">hello_variables.py</span>
+        </div>
+        <pre><span class="cm"># Creating your first variable</span>
+<span class="var">name</span> <span class="op">=</span> <span class="str">"Naila"</span>           <span class="cm"># a text variable</span>
+<span class="var">age</span>  <span class="op">=</span> <span class="num">20</span>              <span class="cm"># a number variable</span>
+<span class="var">gpa</span>  <span class="op">=</span> <span class="num">3.85</span>            <span class="cm"># a decimal number</span>
+<span class="var">is_student</span> <span class="op">=</span> <span class="kw">True</span>     <span class="cm"># a True/False value</span>
+
+<span class="cm"># Using the variables</span>
+<span class="fn">print</span>(<span class="var">name</span>)            <span class="cm"># Output: Naila</span>
+<span class="fn">print</span>(<span class="var">age</span>)             <span class="cm"># Output: 20</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- DATA TYPES -->
+  <section>
+    <div class="reveal">
+      <div class="section-label">02 — Data Types</div>
+      <h2 class="section-title">Types of <span>variables</span></h2>
+      <div class="divider"></div>
+      <p style="color:var(--muted); margin-bottom: 2rem; max-width: 560px;">Every variable has a type depending on what it holds. Python has four common types you'll use every day:</p>
+    </div>
+
+    <div class="types-grid reveal" style="transition-delay:0.1s">
+      <div class="type-card int">
+        <div class="type-name">int</div>
+        <div class="type-example">age = 21</div>
+        <div class="type-desc">Whole numbers, positive or negative. No decimals.</div>
+      </div>
+      <div class="type-card float">
+        <div class="type-name">float</div>
+        <div class="type-example">pi = 3.14</div>
+        <div class="type-desc">Decimal numbers. Used for measurements, prices, etc.</div>
+      </div>
+      <div class="type-card str">
+        <div class="type-name">str</div>
+        <div class="type-example">city = "Algiers"</div>
+        <div class="type-desc">Text. Always wrapped in quotes — single or double.</div>
+      </div>
+      <div class="type-card bool">
+        <div class="type-name">bool</div>
+        <div class="type-example">done = True</div>
+        <div class="type-desc">Only two values: <code class="inline">True</code> or <code class="inline">False</code>.</div>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:0.2s">
+      <div class="code-wrap">
+        <div class="code-header">
+          <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+          <span class="code-filename">types_demo.py</span>
+        </div>
+        <pre><span class="cm"># Check the type of any variable with type()</span>
+<span class="var">score</span> <span class="op">=</span> <span class="num">95</span>
+<span class="var">price</span> <span class="op">=</span> <span class="num">19.99</span>
+<span class="var">city</span>  <span class="op">=</span> <span class="str">"Ouargla"</span>
+<span class="var">pass_</span> <span class="op">=</span> <span class="kw">True</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">score</span>))   <span class="cm"># &lt;class 'int'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">price</span>))   <span class="cm"># &lt;class 'float'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">city</span>))    <span class="cm"># &lt;class 'str'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="var">pass_</span>))   <span class="cm"># &lt;class 'bool'&gt;</span></pre>
+      </div>
+
+      <div class="tip">
+        <div class="tip-icon">💡</div>
+        <div class="tip-body">
+          <strong>Python is dynamically typed</strong>
+          <p>You never have to write <code class="inline">int age = 20</code> like in some other languages. Python reads the value and figures out the type automatically. This makes code faster to write.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAMING RULES -->
+  <section>
+    <div class="reveal">
+      <div class="section-label">03 — Naming Rules</div>
+      <h2 class="section-title">How to <span>name</span> a variable</h2>
+      <div class="divider"></div>
+    </div>
+
+    <ul class="rules-list reveal" style="transition-delay:0.1s">
+      <li>
+        <div class="rule-icon rule-ok">✓</div>
+        <div class="rule-text">
+          <strong>Start with a letter or underscore</strong>
+          <span>Valid: <code class="inline">name</code>, <code class="inline">_score</code>, <code class="inline">my_var</code> — Never start with a number.</span>
+        </div>
+      </li>
+      <li>
+        <div class="rule-icon rule-ok">✓</div>
+        <div class="rule-text">
+          <strong>Only letters, numbers, and underscores</strong>
+          <span>Valid: <code class="inline">student_name</code>, <code class="inline">value2</code> — No spaces or symbols like <code class="inline">!</code>, <code class="inline">@</code>, <code class="inline">-</code>.</span>
+        </div>
+      </li>
+      <li>
+        <div class="rule-icon rule-ok">✓</div>
+        <div class="rule-text">
+          <strong>Use snake_case for readability</strong>
+          <span>Python style: <code class="inline">first_name</code> not <code class="inline">FirstName</code> or <code class="inline">firstname</code>.</span>
+        </div>
+      </li>
+      <li>
+        <div class="rule-icon rule-no">✗</div>
+        <div class="rule-text">
+          <strong>Avoid Python keywords</strong>
+          <span>Words like <code class="inline">if</code>, <code class="inline">for</code>, <code class="inline">class</code>, <code class="inline">True</code> are reserved — you can't use them as names.</span>
+        </div>
+      </li>
+      <li>
+        <div class="rule-icon rule-no">✗</div>
+        <div class="rule-text">
+          <strong>Case matters!</strong>
+          <span><code class="inline">Age</code>, <code class="inline">age</code>, and <code class="inline">AGE</code> are three different variables in Python.</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="reveal" style="transition-delay:0.2s">
+      <div class="code-wrap">
+        <div class="code-header">
+          <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+          <span class="code-filename">naming.py</span>
+        </div>
+        <pre><span class="cm"># ✓ Valid variable names</span>
+<span class="var">student_name</span> <span class="op">=</span> <span class="str">"Hadjar"</span>
+<span class="var">_count</span>       <span class="op">=</span> <span class="num">0</span>
+<span class="var">level2</span>       <span class="op">=</span> <span class="str">"intermediate"</span>
+
+<span class="cm"># ✗ Invalid names (these cause errors)</span>
+<span class="cm"># 2cool = "no"      → starts with number</span>
+<span class="cm"># my-var = 5        → hyphen not allowed</span>
+<span class="cm"># class = "Python"  → reserved keyword</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- MULTIPLE ASSIGNMENT -->
+  <section>
+    <div class="reveal">
+      <div class="section-label">04 — Pro Tips</div>
+      <h2 class="section-title">Multiple <span>assignment</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="reveal" style="transition-delay:0.1s">
+      <p style="color:var(--muted); margin-bottom:1.5rem;">Python lets you assign variables in clever ways. These are shortcuts every Python programmer uses:</p>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+          <span class="code-filename">multi_assign.py</span>
+        </div>
+        <pre><span class="cm"># Assign the same value to multiple variables</span>
+<span class="var">x</span> <span class="op">=</span> <span class="var">y</span> <span class="op">=</span> <span class="var">z</span> <span class="op">=</span> <span class="num">0</span>
+
+<span class="cm"># Assign different values in one line</span>
+<span class="var">first</span>, <span class="var">last</span>, <span class="var">grade</span> <span class="op">=</span> <span class="str">"Hadjar"</span>, <span class="str">"Naila"</span>, <span class="str">"A"</span>
+
+<span class="cm"># Swap two variables (Python magic!)</span>
+<span class="var">a</span>, <span class="var">b</span> <span class="op">=</span> <span class="num">10</span>, <span class="num">20</span>
+<span class="var">a</span>, <span class="var">b</span> <span class="op">=</span> <span class="var">b</span>, <span class="var">a</span>   <span class="cm"># now a=20, b=10</span>
+
+<span class="fn">print</span>(<span class="var">first</span>, <span class="var">last</span>)   <span class="cm"># Hadjar Naila</span>
+<span class="fn">print</span>(<span class="var">a</span>, <span class="var">b</span>)          <span class="cm"># 20 10</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- MINI QUIZ -->
+  <section>
+    <div class="reveal">
+      <div class="section-label">05 — Test Yourself</div>
+      <h2 class="section-title">Quick <span>Quiz</span></h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="reveal" style="transition-delay:0.1s">
+      <div class="quiz-card" id="q1">
+        <div class="quiz-q">❓ Which of these is a valid Python variable name?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="answer(this,'wrong')">2myVar</button>
+          <button class="quiz-opt" onclick="answer(this,'correct')">my_var2</button>
+          <button class="quiz-opt" onclick="answer(this,'wrong')">my-var</button>
+          <button class="quiz-opt" onclick="answer(this,'wrong')">class</button>
+        </div>
+        <div class="quiz-feedback" id="fb1"></div>
+      </div>
+
+      <div class="quiz-card" id="q2" style="margin-top: 1.5rem;">
+        <div class="quiz-q">❓ What type is <code class="inline">price = 9.99</code>?</div>
+        <div class="quiz-opts">
+          <button class="quiz-opt" onclick="answer2(this,'wrong')">int</button>
+          <button class="quiz-opt" onclick="answer2(this,'correct')">float</button>
+          <button class="quiz-opt" onclick="answer2(this,'wrong')">str</button>
+          <button class="quiz-opt" onclick="answer2(this,'wrong')">bool</button>
+        </div>
+        <div class="quiz-feedback" id="fb2"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- COURSES NAVIGATION -->
+<div style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 5rem 0;">
+  <div class="wrapper">
+    <div class="reveal">
+      <div class="section-label">Course Roadmap</div>
+      <h2 class="section-title">Keep <span>learning</span></h2>
+      <div class="divider"></div>
+      <p style="color:var(--muted); margin-bottom:2.5rem; max-width:500px;">You've completed Lesson 1! The remaining lessons are coming. Stay curious, keep coding.</p>
+    </div>
+
+    <div class="courses-grid reveal" style="transition-delay:0.1s">
+
+      <div class="course-card active">
+        <div class="active-badge">CURRENT</div>
+        <div class="course-num">01</div>
+        <div class="course-icon">📦</div>
+        <div class="course-title">Variables</div>
+        <div class="course-desc">Storing and naming data in Python. The foundation of everything.</div>
+      </div>
+
+      <div class="course-card locked">
+        <div class="lock-icon">🔒</div>
+        <div class="course-num">02</div>
+        <div class="course-icon">🔁</div>
+        <div class="course-title">Loops</div>
+        <div class="course-desc">Repeat actions with for and while loops. Automate everything.</div>
+      </div>
+
+      <div class="course-card locked">
+        <div class="lock-icon">🔒</div>
+        <div class="course-num">03</div>
+        <div class="course-icon">⚙️</div>
+        <div class="course-title">Functions</div>
+        <div class="course-desc">Group code into reusable blocks. Write once, use everywhere.</div>
+      </div>
+
+      <div class="course-card locked">
+        <div class="lock-icon">🔒</div>
+        <div class="course-num">04</div>
+        <div class="course-icon">🌿</div>
+        <div class="course-title">Conditions</div>
+        <div class="course-desc">Make decisions with if, elif, and else. Control the flow.</div>
+      </div>
+
+      <div class="course-card locked">
+        <div class="lock-icon">🔒</div>
+        <div class="course-num">05</div>
+        <div class="course-icon">📋</div>
+        <div class="course-title">Lists</div>
+        <div class="course-desc">Store many values in one variable. Sort, search, and slice.</div>
+      </div>
+
+      <div class="course-card locked">
+        <div class="lock-icon">🔒</div>
+        <div class="course-num">06</div>
+        <div class="course-icon">🗂️</div>
+        <div class="course-title">Dictionaries</div>
+        <div class="course-desc">Key-value pairs. Like a real dictionary, but for data.</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="wrapper">
+  <footer>
+    Crafted with 💜 by <span>Hadjar Naila</span> · Python Beginner Series
+  </footer>
+</div>
+
+<script>
+  function answer(btn, result) {
+    const opts = btn.closest('.quiz-opts').querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = true; o.style.pointerEvents='none'; });
+    btn.classList.add(result);
+    const fb = document.getElementById('fb1');
+    if(result === 'correct') {
+      fb.style.color = 'var(--accent2)';
+      fb.textContent = '✓ Correct! my_var2 follows all the rules: starts with a letter, uses only letters, numbers, and underscores.';
+    } else {
+      fb.style.color = 'var(--accent3)';
+      fb.textContent = '✗ Not quite. Remember: no leading digits, no hyphens, no reserved keywords.';
+    }
+  }
+
+  function answer2(btn, result) {
+    const opts = btn.closest('.quiz-opts').querySelectorAll('.quiz-opt');
+    opts.forEach(o => { o.disabled = true; o.style.pointerEvents='none'; });
+    btn.classList.add(result);
+    const fb = document.getElementById('fb2');
+    if(result === 'correct') {
+      fb.style.color = 'var(--accent2)';
+      fb.textContent = '✓ Correct! 9.99 has a decimal point, so Python assigns the float type.';
+    } else {
+      fb.style.color = 'var(--accent3)';
+      fb.textContent = '✗ Try again! Any number with a decimal point is a float in Python.';
+    }
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
