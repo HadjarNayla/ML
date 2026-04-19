@@ -23,6 +23,7 @@
     --accent7: #a78bfa;
     --accent8: #f472b6;
     --accent9: #34d399;
+    --accent10: #818cf8;
     --glow1: rgba(124,92,252,0.15);
     --glow2: rgba(0,212,168,0.12);
   }
@@ -219,6 +220,7 @@
   .course-card-header.c5 { background: linear-gradient(135deg, #1a0f2e, #100e2a); }
   .course-card-header.c6 { background: linear-gradient(135deg, #2a0a1a, #0f1028); }
   .course-card-header.c7 { background: linear-gradient(135deg, #002a12, #0a1828); }
+  .course-card-header.c8 { background: linear-gradient(135deg, #0d0a2a, #101428); }
 
   .course-icon {
     font-size: 2.4em;
@@ -242,6 +244,7 @@
   .c5 .course-tag { background: rgba(167,139,250,0.18); color: var(--accent7); border: 1px solid rgba(167,139,250,0.3); }
   .c6 .course-tag { background: rgba(244,114,182,0.18); color: var(--accent8); border: 1px solid rgba(244,114,182,0.3); }
   .c7 .course-tag { background: rgba(52,211,153,0.15); color: var(--accent9); border: 1px solid rgba(52,211,153,0.25); }
+  .c8 .course-tag { background: rgba(129,140,248,0.18); color: var(--accent10); border: 1px solid rgba(129,140,248,0.3); }
 
   .course-card-header h2 {
     font-family: 'Syne', sans-serif;
@@ -287,6 +290,7 @@
   .c5-num { background: rgba(167,139,250,0.18); color: var(--accent7); }
   .c6-num { background: rgba(244,114,182,0.18); color: var(--accent8); }
   .c7-num { background: rgba(52,211,153,0.15); color: var(--accent9); }
+  .c8-num { background: rgba(129,140,248,0.15); color: var(--accent10); }
 
   .course-actions { display: flex; gap: 10px; }
 
@@ -314,6 +318,8 @@
   .btn-p6:hover { background: #e879a8; transform: scale(1.02); }
   .btn-p7 { background: var(--accent9); color: #0a0a0f; }
   .btn-p7:hover { background: #10b97a; transform: scale(1.02); }
+  .btn-p8 { background: var(--accent10); color: #0a0a0f; }
+  .btn-p8:hover { background: #6366f1; color: white; transform: scale(1.02); }
 
   .btn-outline {
     padding: 11px 18px;
@@ -390,6 +396,7 @@
   .rs-icon.v7 { background: rgba(167,139,250,0.18); }
   .rs-icon.v8 { background: rgba(244,114,182,0.18); }
   .rs-icon.v9 { background: rgba(52,211,153,0.15); }
+  .rs-icon.v10 { background: rgba(129,140,248,0.18); }
 
   .rs-header h3 {
     font-family: 'Syne', sans-serif;
@@ -441,6 +448,7 @@
   .concept-item .ci-title.violet { color: var(--accent7); }
   .concept-item .ci-title.pink { color: var(--accent8); }
   .concept-item .ci-title.green { color: var(--accent9); }
+  .concept-item .ci-title.indigo { color: var(--accent10); }
 
   .concept-item p { font-size: 0.88em; line-height: 1.5; }
 
@@ -462,7 +470,6 @@
   .cm { color: #4a4a6a; font-style: italic; }
   .num { color: #fb923c; }
 
-  /* Model comparison table */
   .model-table {
     width: 100%;
     border-collapse: collapse;
@@ -482,6 +489,7 @@
   }
 
   .model-table th.green-h { color: var(--accent9); }
+  .model-table th.indigo-h { color: var(--accent10); }
 
   .model-table td {
     padding: 9px 14px;
@@ -518,7 +526,6 @@
   .badge.violet { background: rgba(167,139,250,0.15); color: var(--accent7); border: 1px solid rgba(167,139,250,0.3); }
   .badge.cyan { background: rgba(34,211,238,0.12); color: var(--accent6); border: 1px solid rgba(34,211,238,0.25); }
 
-  /* ML Lifecycle diagram */
   .ml-lifecycle {
     display: flex;
     align-items: center;
@@ -568,7 +575,18 @@
     flex-shrink: 0;
   }
 
-  /* Quiz styles */
+  /* Pipeline steps for Course 8 */
+  .pipe-grid { display: flex; flex-direction: column; gap: 0; margin-top: 14px; }
+  .pipe-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .pipe-num-badge {
+    min-width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(129,140,248,0.15); color: var(--accent10);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72em; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+  }
+  .pipe-text { color: var(--muted); font-size: 0.88em; line-height: 1.55; }
+  .pipe-text strong { color: var(--text); }
+
   .quiz-header {
     text-align: center;
     margin-bottom: 40px;
@@ -776,7 +794,6 @@
   }
   .retry-btn:hover { border-color: rgba(255,255,255,0.2); }
 
-  /* ======= PROJECTS STYLES ======= */
   .projects-header {
     text-align: center;
     margin-bottom: 48px;
@@ -1037,9 +1054,9 @@
   <h1>Data <span class="hl">Sciences</span></h1>
   <p>Explore course summaries, real-world projects with Kaggle datasets, and test your knowledge with interactive quizzes.</p>
   <div class="hero-stats">
-    <div><strong>7</strong> Courses</div>
+    <div><strong>8</strong> Courses</div>
     <div><strong>5</strong> Projects</div>
-    <div><strong>70</strong> Quiz Questions</div>
+    <div><strong>80</strong> Quiz Questions</div>
   </div>
 </div>
 
@@ -1166,7 +1183,6 @@
         </div>
       </div>
 
-      <!-- COURSE 6 — CLASSIFICATION -->
       <div class="course-card" onclick="openResume(6)">
         <div class="course-card-header c6">
           <span class="course-icon">🏷️</span>
@@ -1189,7 +1205,6 @@
         </div>
       </div>
 
-      <!-- COURSE 7 — REGRESSION -->
       <div class="course-card" onclick="openResume(7)">
         <div class="course-card-header c7">
           <span class="course-icon">📉</span>
@@ -1208,6 +1223,29 @@
           <div class="course-actions">
             <button class="btn-primary btn-p7" onclick="event.stopPropagation(); openResume(7)">📖 View Summary</button>
             <button class="btn-outline" onclick="event.stopPropagation(); goQuiz(6)">🎯 Take Quiz</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ COURSE 8 — NEW ══ -->
+      <div class="course-card" onclick="openResume(8)">
+        <div class="course-card-header c8">
+          <span class="course-icon">🔵</span>
+          <div class="course-tag">Course 08</div>
+          <h2>Unsupervised Learning & DS Project Pipeline</h2>
+          <p>Discover K-Means clustering and TF-IDF text weighting, then master the complete 12-step Data Science project pipeline.</p>
+        </div>
+        <div class="course-card-body">
+          <ul class="lesson-list">
+            <li><span class="lesson-num c8-num">1</span> Unsupervised vs Supervised Learning</li>
+            <li><span class="lesson-num c8-num">2</span> K-Means Clustering — How It Works</li>
+            <li><span class="lesson-num c8-num">3</span> TF-IDF — Text Feature Extraction</li>
+            <li><span class="lesson-num c8-num">4</span> DS Project Pipeline (Steps 1–6)</li>
+            <li><span class="lesson-num c8-num">5</span> DS Project Pipeline (Steps 7–12)</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-primary btn-p8" onclick="event.stopPropagation(); openResume(8)">📖 View Summary</button>
+            <button class="btn-outline" onclick="event.stopPropagation(); goQuiz(7)">🎯 Take Quiz</button>
           </div>
         </div>
       </div>
@@ -1265,6 +1303,10 @@
         </div>
         <div class="qs-btn" id="qsb6" onclick="selectQuizSet(6)">
           <div class="qsb-title">📉 Regression Models</div>
+          <div class="qsb-meta">10 questions · multiple choice</div>
+        </div>
+        <div class="qs-btn" id="qsb7" onclick="selectQuizSet(7)">
+          <div class="qsb-title">🔵 Unsupervised Learning & Pipeline</div>
           <div class="qsb-meta">10 questions · multiple choice</div>
         </div>
       </div>
@@ -1551,289 +1593,126 @@ const resumes = {
       { icon: '🔄', variant: 'v7', title: 'The ML Lifecycle', content: `The ML lifecycle is a loop — the model repeats these steps until accurate. Each pass is called an <strong>epoch</strong>.`, lifecycle: true, concepts: [{ title: '1️⃣ Input Data', body: 'Raw data is provided to the system' },{ title: '2️⃣ Model', body: 'Processes the data and makes predictions' },{ title: '3️⃣ Error (Cost)', body: 'Compares predicted vs actual values' },{ title: '4️⃣ Update', body: 'Learning algorithm adjusts model parameters' }] }
     ]
   },
-
   6: {
     icon: '🏷️', tag: 'Course 06', title: 'Classification Models — Complete Guide',
     desc: 'A comprehensive deep-dive into every major classification algorithm with intuition, code, use cases, and evaluation metrics.',
     sections: [
-      {
-        icon: '🎯', variant: 'v8', title: 'What is Classification?',
-        content: `<strong>Classification</strong> is a supervised learning task where the model predicts a <strong>discrete category (label)</strong> for a given input.<br><br>
-          <strong>Binary Classification:</strong> Only 2 possible outputs — Yes/No, Spam/Not Spam, Fraud/Legitimate.<br>
-          <strong>Multi-class Classification:</strong> More than 2 outputs — e.g. classifying a flower as Setosa, Versicolor, or Virginica.<br>
-          <strong>Multi-label Classification:</strong> An input can belong to multiple classes at once — e.g. a news article tagged as both "Sports" and "Technology".`,
-        concepts: [
-          { title: 'Binary', body: 'Two classes only: 0 or 1, Yes or No' },
-          { title: 'Multi-class', body: 'Three or more mutually exclusive classes' },
-          { title: 'Multi-label', body: 'Multiple classes can be true simultaneously' },
-          { title: 'Output', body: 'A discrete label, not a continuous number' }
-        ]
-      },
-      {
-        icon: '📐', variant: 'v8', title: 'Logistic Regression',
-        content: `Despite its name, <strong>Logistic Regression</strong> is a classification algorithm — not regression. It predicts the <strong>probability</strong> that an input belongs to a class.<br><br>
-          The core is the <strong>Sigmoid function σ(z)</strong> which squashes any number into a value between 0 and 1:<br>
-          σ(z) = 1 / (1 + e^−z)<br><br>
-          If the probability is ≥ 0.5 → predict class 1. If &lt; 0.5 → predict class 0.`,
-        code: `<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LogisticRegression\n<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split\n\nX_train, X_test, y_train, y_test = <span class="fn">train_test_split</span>(X, y, test_size=<span class="num">0.2</span>)\n\nmodel = <span class="fn">LogisticRegression</span>()\nmodel.<span class="fn">fit</span>(X_train, y_train)\n\naccuracy = model.<span class="fn">score</span>(X_test, y_test)\n<span class="fn">print</span>(<span class="str">f"Accuracy: {accuracy:.2f}"</span>)`,
-        concepts: [
-          { title: 'Sigmoid σ(z)', body: 'Maps any number to probability between 0 and 1' },
-          { title: 'Threshold', body: 'Default: predict class 1 if P ≥ 0.5' },
-          { title: 'Best for', body: 'Binary classification, linearly separable data' },
-          { title: 'Strength', body: 'Fast, interpretable, works well on simple problems' }
-        ]
-      },
-      {
-        icon: '🔵', variant: 'v8', title: 'K-Nearest Neighbors (KNN)',
-        content: `<strong>KNN</strong> is a simple, intuitive algorithm: to classify a new point, find the <strong>K closest points</strong> in the training data and take a majority vote.<br><br>
-          <em>Example:</em> K=3 — the 3 nearest neighbors are 2 cats and 1 dog → predict "cat".<br><br>
-          <strong>Choosing K:</strong> Small K (e.g. 1) = very sensitive to noise. Large K = smoother but may miss patterns. K is typically odd to avoid ties.`,
-        code: `<span class="kw">from</span> sklearn.neighbors <span class="kw">import</span> KNeighborsClassifier\n\nknn = <span class="fn">KNeighborsClassifier</span>(n_neighbors=<span class="num">5</span>)\nknn.<span class="fn">fit</span>(X_train, y_train)\n\npredictions = knn.<span class="fn">predict</span>(X_test)\n<span class="cm"># Tip: always scale features before using KNN</span>\n<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler\nX_scaled = <span class="fn">StandardScaler</span>().<span class="fn">fit_transform</span>(X)`,
-        concepts: [
-          { title: 'K parameter', body: 'Number of neighbors to vote — typically 3, 5, or 7' },
-          { title: 'Distance metric', body: 'Euclidean distance by default (straight-line distance)' },
-          { title: 'Feature scaling', body: 'REQUIRED — always normalize features before KNN' },
-          { title: 'Best for', body: 'Small datasets, multi-class, non-linear boundaries' }
-        ]
-      },
-      {
-        icon: '🌳', variant: 'v8', title: 'Decision Tree',
-        content: `A <strong>Decision Tree</strong> makes predictions by asking a series of yes/no questions about the features, like a flowchart.<br><br>
-          At each node, the algorithm picks the feature that best splits the data (measured by <strong>Gini Impurity</strong> or <strong>Information Gain</strong>). The tree keeps splitting until it reaches a leaf node with the final prediction.<br><br>
-          <strong>Weakness:</strong> Decision trees easily overfit — they memorize training data perfectly but perform poorly on new data. Solution: use Random Forest.`,
-        code: `<span class="kw">from</span> sklearn.tree <span class="kw">import</span> DecisionTreeClassifier\n\ntree = <span class="fn">DecisionTreeClassifier</span>(max_depth=<span class="num">5</span>, criterion=<span class="str">'gini'</span>)\ntree.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="cm"># Visualize the tree</span>\n<span class="kw">from</span> sklearn.tree <span class="kw">import</span> plot_tree\n<span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt\n<span class="fn">plot_tree</span>(tree, feature_names=feature_names, class_names=class_names, filled=<span class="kw">True</span>)\nplt.<span class="fn">show</span>()`,
-        concepts: [
-          { title: 'Gini Impurity', body: 'Measures how mixed the classes are at each node' },
-          { title: 'Information Gain', body: 'How much a split reduces uncertainty (entropy)' },
-          { title: 'max_depth', body: 'Limits tree depth to prevent overfitting' },
-          { title: 'Overfitting', body: 'Trees memorize training data — limit depth or use ensemble' }
-        ]
-      },
-      {
-        icon: '🌲', variant: 'v8', title: 'Random Forest',
-        content: `<strong>Random Forest</strong> builds <strong>many Decision Trees</strong> (e.g. 100 or 500) on random subsets of the data, then combines their predictions by majority vote.<br><br>
-          This technique is called <strong>Bagging (Bootstrap Aggregating)</strong> — it reduces overfitting dramatically and gives much better accuracy than a single tree.<br><br>
-          Random Forest also provides <strong>feature importance</strong> — you can see which features contribute most to predictions.`,
-        code: `<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier\n\nrf = <span class="fn">RandomForestClassifier</span>(n_estimators=<span class="num">100</span>, random_state=<span class="num">42</span>)\nrf.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="cm"># Feature importance</span>\nimportances = rf.feature_importances_\n<span class="fn">print</span>(<span class="str">"Most important features:"</span>, importances)`,
-        concepts: [
-          { title: 'n_estimators', body: 'Number of trees in the forest (100–500 typical)' },
-          { title: 'Bagging', body: 'Each tree trains on a random subset of the data' },
-          { title: 'Majority vote', body: 'Final prediction = most common class across all trees' },
-          { title: 'Feature importance', body: 'Shows which features matter most for predictions' }
-        ]
-      },
-      {
-        icon: '📏', variant: 'v8', title: 'Support Vector Machine (SVM)',
-        content: `<strong>SVM</strong> finds the <strong>optimal hyperplane</strong> (decision boundary) that maximally separates two classes. The goal is to maximize the <strong>margin</strong> — the distance between the boundary and the nearest data points (called support vectors).<br><br>
-          For non-linearly separable data, SVM uses the <strong>kernel trick</strong> to project data into higher dimensions where it becomes separable.<br><br>
-          Common kernels: <strong>linear, RBF (Radial Basis Function), polynomial</strong>.`,
-        code: `<span class="kw">from</span> sklearn.svm <span class="kw">import</span> SVC\n\n<span class="cm"># Linear kernel for simple problems</span>\nsvm_linear = <span class="fn">SVC</span>(kernel=<span class="str">'linear'</span>, C=<span class="num">1.0</span>)\n\n<span class="cm"># RBF kernel for complex, non-linear problems</span>\nsvm_rbf = <span class="fn">SVC</span>(kernel=<span class="str">'rbf'</span>, C=<span class="num">1.0</span>, gamma=<span class="str">'scale'</span>)\nsvm_rbf.<span class="fn">fit</span>(X_train, y_train)`,
-        concepts: [
-          { title: 'Hyperplane', body: 'Decision boundary that separates classes' },
-          { title: 'Margin', body: 'Distance from boundary to nearest points — maximize this' },
-          { title: 'Kernel trick', body: 'Maps data to higher dimensions for non-linear separation' },
-          { title: 'C parameter', body: 'Controls trade-off between margin size and misclassifications' }
-        ]
-      },
-      {
-        icon: '📊', variant: 'v8', title: 'Naive Bayes',
-        content: `<strong>Naive Bayes</strong> applies <strong>Bayes' Theorem</strong> to predict the class that is most probable given the input features. It's called "naive" because it assumes all features are <strong>independent</strong> — which is rarely true but still works surprisingly well.<br><br>
-          <strong>Bayes' Theorem:</strong> P(Class | Features) ∝ P(Features | Class) × P(Class)<br><br>
-          Types: <strong>Gaussian</strong> (for continuous data), <strong>Multinomial</strong> (for text/counts), <strong>Bernoulli</strong> (for binary features).`,
-        code: `<span class="kw">from</span> sklearn.naive_bayes <span class="kw">import</span> GaussianNB, MultinomialNB\n\n<span class="cm"># For continuous features (e.g. age, height)</span>\ngnb = <span class="fn">GaussianNB</span>()\ngnb.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="cm"># For text classification (word counts)</span>\nmnb = <span class="fn">MultinomialNB</span>()\nmnb.<span class="fn">fit</span>(X_train_text, y_train)`,
-        concepts: [
-          { title: 'Bayes Theorem', body: 'Updates probability based on evidence' },
-          { title: 'Naive assumption', body: 'Features are assumed independent of each other' },
-          { title: 'GaussianNB', body: 'For continuous numerical features' },
-          { title: 'MultinomialNB', body: 'Best for text classification (word counts)' }
-        ]
-      },
-      {
-        icon: '🚀', variant: 'v8', title: 'Gradient Boosting (XGBoost, LightGBM)',
-        content: `<strong>Gradient Boosting</strong> builds trees <strong>sequentially</strong> — each new tree corrects the errors of the previous one. Unlike Random Forest (parallel trees), boosting is an additive process.<br><br>
-          <strong>XGBoost</strong> and <strong>LightGBM</strong> are optimized implementations of gradient boosting that are extremely fast and often win Kaggle competitions.<br><br>
-          The key parameter is the <strong>learning rate</strong> — how much each tree corrects the previous errors.`,
-        code: `<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> GradientBoostingClassifier\n\ngb = <span class="fn">GradientBoostingClassifier</span>(\n    n_estimators=<span class="num">100</span>,\n    learning_rate=<span class="num">0.1</span>,\n    max_depth=<span class="num">3</span>\n)\ngb.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="cm"># Or use XGBoost directly:</span>\n<span class="cm"># import xgboost as xgb</span>`,
-        concepts: [
-          { title: 'Sequential', body: 'Each tree fixes errors of previous trees' },
-          { title: 'learning_rate', body: 'Step size for each correction — lower = more careful' },
-          { title: 'XGBoost', body: 'Extreme Gradient Boosting — extremely fast and accurate' },
-          { title: 'LightGBM', body: 'Microsoft\'s fast gradient boosting for large datasets' }
-        ]
-      },
-      {
-        icon: '📏', variant: 'v8', title: 'Classification Evaluation Metrics',
-        content: `<strong>Accuracy alone is not enough</strong> — especially for imbalanced datasets. Here are the essential metrics:<br><br>
-          <strong>Accuracy</strong> = Correct predictions / Total predictions<br>
-          <strong>Precision</strong> = True Positives / (True Positives + False Positives) — "Of all predicted positives, how many are actually positive?"<br>
-          <strong>Recall</strong> = True Positives / (True Positives + False Negatives) — "Of all actual positives, how many did we catch?"<br>
-          <strong>F1-Score</strong> = Harmonic mean of Precision and Recall<br>
-          <strong>ROC-AUC</strong> = Area under the ROC curve — measures separability`,
-        code: `<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report, confusion_matrix\n\n<span class="fn">print</span>(<span class="fn">classification_report</span>(y_test, y_pred))\n<span class="fn">print</span>(<span class="fn">confusion_matrix</span>(y_test, y_pred))\n\n<span class="cm"># For imbalanced data, use F1 or AUC</span>\n<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> roc_auc_score\nauc = <span class="fn">roc_auc_score</span>(y_test, y_pred_proba)`,
-        concepts: [
-          { title: 'Accuracy', body: 'Overall correctness — misleading for imbalanced data' },
-          { title: 'Precision', body: '"When we predict positive, how often are we right?"' },
-          { title: 'Recall', body: '"Of all real positives, how many did we detect?"' },
-          { title: 'F1-Score', body: 'Balanced metric combining precision and recall' }
-        ]
-      },
-      {
-        icon: '📋', variant: 'v8', title: 'Model Comparison Summary',
-        content: `A quick reference of when to use each classification algorithm:`,
-        table: [
-          { model: 'Logistic Regression', best: 'Binary, linear data, fast baseline', weakness: 'Cannot handle non-linear patterns', complexity: 'Low' },
-          { model: 'KNN', best: 'Small datasets, multi-class', weakness: 'Slow on large data, needs scaling', complexity: 'Low' },
-          { model: 'Decision Tree', best: 'Interpretable, non-linear', weakness: 'Overfits easily', complexity: 'Medium' },
-          { model: 'Random Forest', best: 'General purpose, high accuracy', weakness: 'Slower, less interpretable', complexity: 'Medium' },
-          { model: 'SVM', best: 'High-dimensional, clear margins', weakness: 'Slow on large data, needs scaling', complexity: 'High' },
-          { model: 'Naive Bayes', best: 'Text classification, spam', weakness: 'Assumes feature independence', complexity: 'Low' },
-          { model: 'Gradient Boosting', best: 'Best accuracy, tabular data', weakness: 'Slow to train, many hyperparams', complexity: 'High' },
-        ],
-        concepts: []
-      }
+      { icon: '🎯', variant: 'v8', title: 'What is Classification?', content: `<strong>Classification</strong> is a supervised learning task where the model predicts a <strong>discrete category (label)</strong> for a given input.<br><br><strong>Binary Classification:</strong> Only 2 possible outputs — Yes/No, Spam/Not Spam, Fraud/Legitimate.<br><strong>Multi-class Classification:</strong> More than 2 outputs — e.g. classifying a flower as Setosa, Versicolor, or Virginica.<br><strong>Multi-label Classification:</strong> An input can belong to multiple classes at once.`, concepts: [{ title: 'Binary', body: 'Two classes only: 0 or 1, Yes or No' },{ title: 'Multi-class', body: 'Three or more mutually exclusive classes' },{ title: 'Multi-label', body: 'Multiple classes can be true simultaneously' },{ title: 'Output', body: 'A discrete label, not a continuous number' }] },
+      { icon: '📐', variant: 'v8', title: 'Logistic Regression', content: `Despite its name, <strong>Logistic Regression</strong> is a classification algorithm. It uses the <strong>Sigmoid function σ(z) = 1 / (1 + e^−z)</strong> to predict probability between 0 and 1. If P ≥ 0.5 → class 1, else class 0.`, code: `<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LogisticRegression\nmodel = <span class="fn">LogisticRegression</span>()\nmodel.<span class="fn">fit</span>(X_train, y_train)\naccuracy = model.<span class="fn">score</span>(X_test, y_test)`, concepts: [{ title: 'Sigmoid σ(z)', body: 'Maps any number to probability between 0 and 1' },{ title: 'Threshold', body: 'Default: predict class 1 if P ≥ 0.5' },{ title: 'Best for', body: 'Binary classification, linearly separable data' },{ title: 'Strength', body: 'Fast, interpretable, works well on simple problems' }] },
+      { icon: '🔵', variant: 'v8', title: 'K-Nearest Neighbors (KNN)', content: `<strong>KNN</strong> classifies a new point by finding the <strong>K closest points</strong> in training data and taking a majority vote. Always scale features before using KNN.`, code: `<span class="kw">from</span> sklearn.neighbors <span class="kw">import</span> KNeighborsClassifier\nknn = <span class="fn">KNeighborsClassifier</span>(n_neighbors=<span class="num">5</span>)\nknn.<span class="fn">fit</span>(X_train, y_train)`, concepts: [{ title: 'K parameter', body: 'Number of neighbors to vote — typically 3, 5, or 7' },{ title: 'Distance metric', body: 'Euclidean distance by default' },{ title: 'Feature scaling', body: 'REQUIRED — always normalize features before KNN' },{ title: 'Best for', body: 'Small datasets, multi-class, non-linear boundaries' }] },
+      { icon: '🌳', variant: 'v8', title: 'Decision Tree & Random Forest', content: `A <strong>Decision Tree</strong> asks yes/no questions (using Gini Impurity) to classify data. <strong>Random Forest</strong> builds many trees on random subsets (Bagging) and combines by majority vote — much more accurate.`, code: `<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier\nrf = <span class="fn">RandomForestClassifier</span>(n_estimators=<span class="num">100</span>)\nrf.<span class="fn">fit</span>(X_train, y_train)`, concepts: [{ title: 'Gini Impurity', body: 'Measures how mixed the classes are at each node' },{ title: 'Bagging', body: 'Each tree trains on a random subset of the data' },{ title: 'Majority vote', body: 'Final prediction = most common class across all trees' },{ title: 'Overfitting', body: 'Trees memorize training data — use max_depth or ensemble' }] },
+      { icon: '📏', variant: 'v8', title: 'SVM, Naive Bayes & Gradient Boosting', content: `<strong>SVM</strong> finds the optimal hyperplane with maximum margin between classes using the kernel trick.<br><br><strong>Naive Bayes</strong> applies Bayes' Theorem assuming feature independence — great for text classification.<br><br><strong>Gradient Boosting / XGBoost</strong> builds trees sequentially, each correcting the previous one's errors.`, concepts: [{ title: 'SVM Margin', body: 'Maximize distance from boundary to nearest points' },{ title: 'Naive Bayes', body: 'Assumes feature independence — great for spam/text' },{ title: 'XGBoost', body: 'Sequential trees — corrects errors of previous ones' },{ title: 'F1 / ROC-AUC', body: 'Use these metrics on imbalanced datasets' }] }
     ]
   },
-
   7: {
     icon: '📉', tag: 'Course 07', title: 'Regression Models — Complete Guide',
     desc: 'A comprehensive deep-dive into every major regression algorithm with intuition, code, use cases, and evaluation metrics.',
     sections: [
+      { icon: '📈', variant: 'v9', title: 'What is Regression?', content: `<strong>Regression</strong> predicts a <strong>continuous numerical value</strong>. Unlike classification (labels), regression outputs a number like price, temperature, or salary.`, concepts: [{ title: 'Output type', body: 'A continuous number, not a category' },{ title: 'Examples', body: 'House price, salary, stock price, temperature' },{ title: 'vs Classification', body: 'Regression = number; Classification = label' },{ title: 'Goal', body: 'Minimize the difference between predicted and actual values' }] },
+      { icon: '📐', variant: 'v9', title: 'Simple & Multiple Linear Regression', content: `<strong>Simple:</strong> ŷ = w·X + b — one feature.<br><strong>Multiple:</strong> ŷ = w₁X₁ + w₂X₂ + ... + b — many features.<br><br>The model minimizes <strong>MSE</strong> (Mean Squared Error).`, code: `<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression\nmodel = <span class="fn">LinearRegression</span>()\nmodel.<span class="fn">fit</span>(X_train, y_train)\ny_pred = model.<span class="fn">predict</span>(X_test)`, concepts: [{ title: 'ŷ = w·X + b', body: 'The equation of the regression line' },{ title: 'w (slope)', body: 'How much y changes per unit increase in X' },{ title: 'b (intercept)', body: 'Value of y when X = 0' },{ title: 'MSE', body: 'Loss function: average of squared prediction errors' }] },
+      { icon: '〰️', variant: 'v9', title: 'Polynomial, Ridge & Lasso', content: `<strong>Polynomial:</strong> fits a curve using X², X³ — for non-linear patterns.<br><strong>Ridge (L2):</strong> shrinks all weights toward zero — prevents overfitting.<br><strong>Lasso (L1):</strong> can zero out weights — automatic feature selection.`, code: `<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> Ridge, Lasso\nridge = <span class="fn">Ridge</span>(alpha=<span class="num">1.0</span>).<span class="fn">fit</span>(X_train, y_train)\nlasso = <span class="fn">Lasso</span>(alpha=<span class="num">0.1</span>).<span class="fn">fit</span>(X_train, y_train)`, concepts: [{ title: 'Polynomial', body: 'Models curves — add X², X³ as features' },{ title: 'Ridge (L2)', body: 'Shrinks all coefficients — no feature removed' },{ title: 'Lasso (L1)', body: 'Can make coefficients exactly zero — feature selection' },{ title: 'ElasticNet', body: 'Mix of Ridge and Lasso — best of both' }] },
+      { icon: '🌳', variant: 'v9', title: 'Tree-Based & SVR', content: `<strong>Decision Tree / Random Forest Regressor:</strong> predicts the mean value of training samples in each leaf. <strong>SVR</strong> fits a line within an ε-tube — points inside are not penalized.`, concepts: [{ title: 'Leaf prediction', body: 'Predicts the mean value of samples in that leaf' },{ title: 'ε-tube (SVR)', body: 'Tolerance zone — predictions inside not penalized' },{ title: 'Random Forest', body: 'Averages predictions across all trees' },{ title: 'Scaling (SVR)', body: 'Always scale features before using SVR' }] },
+      { icon: '📏', variant: 'v9', title: 'Evaluation Metrics', content: `<strong>MAE</strong> — average absolute error, easy to interpret.<br><strong>RMSE</strong> — root mean squared error, penalizes large errors.<br><strong>R²</strong> — proportion of variance explained: 1.0 = perfect, 0 = predicts mean, negative = worse than mean.`, code: `<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> mean_absolute_error, r2_score\nmae = <span class="fn">mean_absolute_error</span>(y_test, y_pred)\nr2  = <span class="fn">r2_score</span>(y_test, y_pred)`, concepts: [{ title: 'MAE', body: 'Average absolute error — in same units as target' },{ title: 'RMSE', body: 'Punishes large errors more — most common metric' },{ title: 'R²', body: 'How much variance the model explains — 1.0 is perfect' },{ title: 'R² < 0', body: 'Model performs worse than just predicting the mean' }] }
+    ]
+  },
+
+  /* ══════════════════════════
+     COURSE 8 — NEW
+  ══════════════════════════ */
+  8: {
+    icon: '🔵', tag: 'Course 08', title: 'Unsupervised Learning & DS Project Pipeline',
+    desc: 'Discover how machines find hidden patterns without labels. Master K-Means clustering, TF-IDF text weighting, and the full 12-step Data Science project workflow.',
+    sections: [
       {
-        icon: '📈', variant: 'v9', title: 'What is Regression?',
-        content: `<strong>Regression</strong> is a supervised learning task where the model predicts a <strong>continuous numerical value</strong> for a given input.<br><br>
-          Unlike classification (which predicts a category), regression predicts a number — e.g. "How much will this house sell for?" or "What will tomorrow's temperature be?"<br><br>
-          <strong>Key difference from Classification:</strong><br>
-          Classification → discrete label (cat/dog, spam/not spam)<br>
-          Regression → continuous number (price, temperature, salary)`,
+        icon: '🔀', variant: 'v10', title: 'Supervised vs Unsupervised Learning',
+        content: `In <strong>Supervised Learning</strong> the model trains on labeled data (input → known output). In <strong>Unsupervised Learning</strong> there are no labels — the algorithm discovers structure entirely on its own.<br><br>
+          <strong>Supervised examples:</strong> spam detection, house price prediction.<br>
+          <strong>Unsupervised examples:</strong> customer segmentation, topic discovery in text, anomaly detection.`,
         concepts: [
-          { title: 'Output type', body: 'A continuous number, not a category' },
-          { title: 'Examples', body: 'House price, salary, stock price, temperature' },
-          { title: 'vs Classification', body: 'Regression = number; Classification = label' },
-          { title: 'Goal', body: 'Minimize the difference between predicted and actual values' }
+          { title: 'Supervised', body: 'Data has labels (X → Y). Goal: predict output.' },
+          { title: 'Unsupervised', body: 'Data has NO labels. Goal: find hidden structure.' },
+          { title: 'Clustering', body: 'Group similar data points together automatically.' },
+          { title: 'Dim. Reduction', body: 'Compress data into fewer dimensions (PCA, t-SNE).' }
         ]
       },
       {
-        icon: '📐', variant: 'v9', title: 'Simple Linear Regression',
-        content: `<strong>Simple Linear Regression</strong> models the relationship between one input feature (X) and one output (y) as a straight line:<br><br>
-          ŷ = w·X + b<br><br>
-          Where <strong>w</strong> is the slope (weight/coefficient) and <strong>b</strong> is the intercept (bias).<br><br>
-          The algorithm learns w and b by minimizing the <strong>Mean Squared Error (MSE)</strong> — the average of the squared differences between predictions and actual values.`,
-        code: `<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression\n<span class="kw">import</span> numpy <span class="kw">as</span> np\n\nmodel = <span class="fn">LinearRegression</span>()\nmodel.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="fn">print</span>(<span class="str">"Slope (w):"</span>, model.coef_)\n<span class="fn">print</span>(<span class="str">"Intercept (b):"</span>, model.intercept_)\n\ny_pred = model.<span class="fn">predict</span>(X_test)`,
-        concepts: [
-          { title: 'ŷ = w·X + b', body: 'The equation of the regression line' },
-          { title: 'w (slope)', body: 'How much y changes for a 1-unit increase in X' },
-          { title: 'b (intercept)', body: 'Value of y when X = 0' },
-          { title: 'MSE', body: 'Loss function: average of squared prediction errors' }
-        ]
-      },
-      {
-        icon: '🔢', variant: 'v9', title: 'Multiple Linear Regression',
-        content: `<strong>Multiple Linear Regression</strong> extends simple regression to use <strong>multiple input features</strong>:<br><br>
-          ŷ = w₁X₁ + w₂X₂ + w₃X₃ + ... + wₙXₙ + b<br><br>
-          Example: Predicting house price from sqft, bedrooms, bathrooms, and location simultaneously.<br><br>
-          Each feature gets its own weight (coefficient) representing its contribution to the prediction.`,
-        code: `<span class="cm"># Same API — sklearn handles multiple features automatically</span>\nX = df[[<span class="str">'sqft'</span>, <span class="str">'bedrooms'</span>, <span class="str">'bathrooms'</span>, <span class="str">'location'</span>]]\ny = df[<span class="str">'price'</span>]\n\nmodel = <span class="fn">LinearRegression</span>()\nmodel.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="cm"># Each coefficient shows feature importance</span>\n<span class="fn">print</span>(<span class="fn">dict</span>(<span class="fn">zip</span>(X.columns, model.coef_)))`,
-        concepts: [
-          { title: 'Multiple features', body: 'Each feature X₁, X₂... has its own weight w₁, w₂...' },
-          { title: 'Multicollinearity', body: 'Problem when features are highly correlated with each other' },
-          { title: 'Feature scaling', body: 'Helps when features have very different ranges' },
-          { title: 'Best for', body: 'Linear relationships with multiple predictors' }
-        ]
-      },
-      {
-        icon: '〰️', variant: 'v9', title: 'Polynomial Regression',
-        content: `<strong>Polynomial Regression</strong> fits a <strong>curved line</strong> instead of a straight one — useful when the relationship between X and y is non-linear.<br><br>
-          ŷ = w₁X + w₂X² + w₃X³ + b<br><br>
-          The data is still the same — we just add polynomial features (X², X³...) and run linear regression on them.<br><br>
-          <strong>Warning:</strong> High-degree polynomials can easily overfit — the curve perfectly fits training data but fails on new data.`,
-        code: `<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> PolynomialFeatures\n<span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> make_pipeline\n\n<span class="cm"># Create pipeline: add polynomial features → linear regression</span>\npoly_model = <span class="fn">make_pipeline</span>(\n    <span class="fn">PolynomialFeatures</span>(degree=<span class="num">3</span>),\n    <span class="fn">LinearRegression</span>()\n)\npoly_model.<span class="fn">fit</span>(X_train, y_train)`,
-        concepts: [
-          { title: 'Curved fit', body: 'Models non-linear relationships using polynomial features' },
-          { title: 'degree', body: 'Polynomial degree: 2=quadratic, 3=cubic, etc.' },
-          { title: 'Overfitting risk', body: 'High degree polynomials memorize training data' },
-          { title: 'Use when', body: 'Data clearly curves and linear model is not enough' }
-        ]
-      },
-      {
-        icon: '🔒', variant: 'v9', title: 'Ridge & Lasso Regression (Regularization)',
-        content: `Both <strong>Ridge</strong> and <strong>Lasso</strong> are regularized versions of linear regression that <strong>prevent overfitting</strong> by penalizing large coefficients.<br><br>
-          <strong>Ridge (L2):</strong> adds penalty proportional to the square of coefficients → shrinks all weights toward zero but keeps all features.<br><br>
-          <strong>Lasso (L1):</strong> adds penalty proportional to the absolute value of coefficients → can shrink some weights to exactly zero, effectively <strong>removing features</strong>.<br><br>
-          <strong>α (alpha)</strong> controls the strength of regularization.`,
-        code: `<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> Ridge, Lasso, ElasticNet\n\n<span class="cm"># Ridge: keeps all features, shrinks coefficients</span>\nridge = <span class="fn">Ridge</span>(alpha=<span class="num">1.0</span>)\nridge.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="cm"># Lasso: can zero out irrelevant features</span>\nlasso = <span class="fn">Lasso</span>(alpha=<span class="num">0.1</span>)\nlasso.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="cm"># ElasticNet: combines Ridge + Lasso</span>\nenet = <span class="fn">ElasticNet</span>(alpha=<span class="num">0.5</span>, l1_ratio=<span class="num">0.5</span>)`,
-        concepts: [
-          { title: 'Regularization', body: 'Adding a penalty to prevent overfitting and large weights' },
-          { title: 'Ridge (L2)', body: 'Shrinks all coefficients toward zero — no feature removed' },
-          { title: 'Lasso (L1)', body: 'Can make coefficients exactly zero — automatic feature selection' },
-          { title: 'ElasticNet', body: 'Mix of Ridge and Lasso — best of both worlds' }
-        ]
-      },
-      {
-        icon: '🌳', variant: 'v9', title: 'Decision Tree & Random Forest Regressor',
-        content: `The same Decision Tree and Random Forest algorithms used for classification can also perform regression — instead of predicting a category, they predict the <strong>average value</strong> of the training samples in each leaf node.<br><br>
-          <strong>Random Forest Regressor</strong> builds many trees and averages their predictions — much more stable and accurate than a single tree.`,
-        code: `<span class="kw">from</span> sklearn.tree <span class="kw">import</span> DecisionTreeRegressor\n<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestRegressor\n\n<span class="cm"># Decision tree regressor</span>\ntree_reg = <span class="fn">DecisionTreeRegressor</span>(max_depth=<span class="num">5</span>)\ntree_reg.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="cm"># Random forest regressor (more accurate)</span>\nrf_reg = <span class="fn">RandomForestRegressor</span>(n_estimators=<span class="num">100</span>, random_state=<span class="num">42</span>)\nrf_reg.<span class="fn">fit</span>(X_train, y_train)`,
-        concepts: [
-          { title: 'Leaf prediction', body: 'Predicts the mean value of training samples in that leaf' },
-          { title: 'max_depth', body: 'Limits depth to prevent overfitting' },
-          { title: 'Averaging', body: 'Random Forest averages predictions across all trees' },
-          { title: 'Strength', body: 'Handles non-linear relationships and interactions well' }
-        ]
-      },
-      {
-        icon: '📐', variant: 'v9', title: 'Support Vector Regression (SVR)',
-        content: `<strong>SVR</strong> applies the SVM concept to regression. Instead of finding a boundary that separates classes, it finds a line (or curve) within a <strong>tube of width ε (epsilon)</strong> that contains as many data points as possible.<br><br>
-          Points inside the tube are not penalized. Only points outside the tube contribute to the error.<br><br>
-          Like SVM, SVR uses kernels (linear, RBF, polynomial) to handle non-linear relationships.`,
-        code: `<span class="kw">from</span> sklearn.svm <span class="kw">import</span> SVR\n<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler\n<span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> make_pipeline\n\n<span class="cm"># SVR requires feature scaling</span>\nsvr = <span class="fn">make_pipeline</span>(\n    <span class="fn">StandardScaler</span>(),\n    <span class="fn">SVR</span>(kernel=<span class="str">'rbf'</span>, C=<span class="num">100</span>, epsilon=<span class="num">0.1</span>)\n)\nsvr.<span class="fn">fit</span>(X_train, y_train)`,
-        concepts: [
-          { title: 'ε-tube (epsilon)', body: 'Tolerance zone — predictions inside are not penalized' },
-          { title: 'C parameter', body: 'Penalty for points outside the tube — higher = stricter fit' },
-          { title: 'Kernel', body: 'RBF kernel handles non-linear regression well' },
-          { title: 'Scaling', body: 'Always scale features before using SVR' }
-        ]
-      },
-      {
-        icon: '🚀', variant: 'v9', title: 'Gradient Boosting for Regression',
-        content: `<strong>Gradient Boosting Regressor</strong> builds trees sequentially, each one correcting the <strong>residual errors</strong> (the difference between predicted and actual values) of the previous tree.<br><br>
-          <strong>XGBoost</strong> and <strong>LightGBM</strong> are the industry-standard implementations — they dominate tabular data competitions on Kaggle.`,
-        code: `<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> GradientBoostingRegressor\n\ngbr = <span class="fn">GradientBoostingRegressor</span>(\n    n_estimators=<span class="num">200</span>,\n    learning_rate=<span class="num">0.05</span>,\n    max_depth=<span class="num">4</span>,\n    subsample=<span class="num">0.8</span>\n)\ngbr.<span class="fn">fit</span>(X_train, y_train)\n\n<span class="cm"># Or XGBoost:</span>\n<span class="cm"># import xgboost as xgb</span>\n<span class="cm"># model = xgb.XGBRegressor()</span>`,
-        concepts: [
-          { title: 'Residuals', body: 'Each tree corrects the errors (residuals) of the previous' },
-          { title: 'learning_rate', body: 'Lower = slower learning but better generalization' },
-          { title: 'subsample', body: 'Fraction of samples used per tree — reduces overfitting' },
-          { title: 'XGBoost', body: 'The gold standard for tabular regression on Kaggle' }
-        ]
-      },
-      {
-        icon: '📏', variant: 'v9', title: 'Regression Evaluation Metrics',
-        content: `For regression, we measure <strong>how far off</strong> our predictions are from the actual values:<br><br>
-          <strong>MAE (Mean Absolute Error)</strong> — average absolute difference. Easy to interpret in same units as y.<br>
-          <strong>MSE (Mean Squared Error)</strong> — average squared difference. Penalizes large errors more.<br>
-          <strong>RMSE (Root MSE)</strong> — square root of MSE. In the same units as y. Most commonly reported.<br>
-          <strong>R² (R-squared)</strong> — proportion of variance explained. 1.0 = perfect. 0 = predicts the mean. Negative = worse than mean.`,
-        code: `<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> mean_absolute_error, mean_squared_error, r2_score\n<span class="kw">import</span> numpy <span class="kw">as</span> np\n\nmae  = <span class="fn">mean_absolute_error</span>(y_test, y_pred)\nmse  = <span class="fn">mean_squared_error</span>(y_test, y_pred)\nrmse = np.<span class="fn">sqrt</span>(mse)\nr2   = <span class="fn">r2_score</span>(y_test, y_pred)\n\n<span class="fn">print</span>(<span class="str">f"MAE: {mae:.2f} | RMSE: {rmse:.2f} | R²: {r2:.4f}"</span>)`,
-        concepts: [
-          { title: 'MAE', body: 'Average absolute error — in same units as the target' },
-          { title: 'RMSE', body: 'Punishes large errors more — most common metric' },
-          { title: 'R²', body: 'How much variance the model explains — 1.0 is perfect' },
-          { title: 'R² < 0', body: 'Model performs worse than just predicting the mean' }
-        ]
-      },
-      {
-        icon: '📋', variant: 'v9', title: 'Model Comparison Summary',
-        content: `A quick reference of when to use each regression algorithm:`,
-        tableGreen: [
-          { model: 'Linear Regression', best: 'Linear relationships, interpretability', weakness: 'Cannot capture non-linear patterns', complexity: 'Low' },
-          { model: 'Polynomial Regression', best: 'Curved relationships', weakness: 'Overfits with high degree', complexity: 'Low-Med' },
-          { model: 'Ridge', best: 'Many features, prevent overfitting', weakness: 'All features kept (no selection)', complexity: 'Low' },
-          { model: 'Lasso', best: 'Feature selection needed', weakness: 'Can underfit with high alpha', complexity: 'Low' },
-          { model: 'Decision Tree', best: 'Interpretable, non-linear', weakness: 'Overfits without limits', complexity: 'Medium' },
-          { model: 'Random Forest', best: 'General purpose, robust', weakness: 'Slower, less interpretable', complexity: 'Medium' },
-          { model: 'SVR', best: 'Small-medium data, non-linear', weakness: 'Needs scaling, slow on big data', complexity: 'High' },
-          { model: 'Gradient Boosting', best: 'Best accuracy, tabular data', weakness: 'Many hyperparams to tune', complexity: 'High' },
+        icon: '🔵', variant: 'v10', title: 'K-Means Clustering — How It Works',
+        content: `<strong>K-Means</strong> splits data into K groups (clusters) by minimizing the distance between each point and its cluster's center (centroid). K is chosen by you before training.<br><br>
+          <strong>Distance formula (Euclidean):</strong> d = √( (x₂−x₁)² + (y₂−y₁)² )<br><br>
+          <strong>Choosing K — Elbow Method:</strong> Run K-Means for K=1,2,3... plot inertia. The "elbow" where the curve bends is the best K.`,
+        code: `<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> KMeans\n\nkmeans = <span class="fn">KMeans</span>(n_clusters=<span class="num">3</span>, random_state=<span class="num">42</span>)\nkmeans.<span class="fn">fit</span>(X)\n\nlabels = kmeans.labels_           <span class="cm"># cluster for each point</span>\ncentroids = kmeans.cluster_centers_  <span class="cm"># centroid positions</span>\ninertia = kmeans.inertia_         <span class="cm"># total within-cluster distance</span>`,
+        pipelineSteps: [
+          { n: '1', label: 'Choose K', desc: 'Decide how many clusters you want (e.g. K=3).' },
+          { n: '2', label: 'Initialize centroids', desc: 'Randomly place K center points in the data space.' },
+          { n: '3', label: 'Assign each point', desc: 'Every point joins the cluster of its nearest centroid.' },
+          { n: '4', label: 'Recalculate centroids', desc: 'Move each centroid to the mean of its assigned points.' },
+          { n: '5', label: 'Repeat 3–4', desc: 'Iterate until centroids stop moving (convergence).' }
         ],
-        concepts: []
+        concepts: [
+          { title: 'K (hyperparameter)', body: 'Number of clusters — you set this before training.' },
+          { title: 'Centroid', body: 'The center point of each cluster — moves each iteration.' },
+          { title: 'Inertia', body: 'Total within-cluster distance — minimize this.' },
+          { title: 'Real uses', body: 'Customer segmentation, image compression, anomaly detection.' }
+        ]
+      },
+      {
+        icon: '📝', variant: 'v10', title: 'TF-IDF — Text Feature Extraction',
+        content: `<strong>TF-IDF</strong> (Term Frequency–Inverse Document Frequency) converts text into numbers, measuring how important each word is in a document relative to the whole dataset.<br><br>
+          <strong>TF (Term Frequency)</strong> = count of word in doc ÷ total words in doc<br>
+          <strong>IDF (Inverse Document Frequency)</strong> = log( N ÷ df ) — penalizes words that appear in many documents.<br>
+          <strong>TF-IDF = TF × IDF</strong><br><br>
+          "The" → high TF, low IDF → low score (useless common word).<br>
+          "photosynthesis" → moderate TF, high IDF → high score (important specific word).`,
+        code: `<span class="kw">from</span> sklearn.feature_extraction.text <span class="kw">import</span> TfidfVectorizer\n\ndocs = [<span class="str">"the cat sat on the mat"</span>, <span class="str">"photosynthesis in plants"</span>]\n\nvectorizer = <span class="fn">TfidfVectorizer</span>()\nX = vectorizer.<span class="fn">fit_transform</span>(docs)\n\n<span class="cm"># X is now a numeric matrix — ready for ML models</span>\n<span class="fn">print</span>(vectorizer.vocabulary_)   <span class="cm"># word → index</span>\n<span class="fn">print</span>(X.<span class="fn">toarray</span>())              <span class="cm"># TF-IDF scores</span>`,
+        pipelineSteps: [
+          { n: '1', label: 'Tokenize', desc: 'Split each document into individual words (tokens).' },
+          { n: '2', label: 'Count TF', desc: 'For each word in each doc: count ÷ total words.' },
+          { n: '3', label: 'Calculate IDF', desc: 'How many documents contain this word? Penalize common ones.' },
+          { n: '4', label: 'Multiply TF × IDF', desc: 'Get the final importance score per word per document.' },
+          { n: '5', label: 'Build vectors', desc: 'Each document is now a numeric vector for ML models.' }
+        ],
+        concepts: [
+          { title: 'TF', body: 'How often a word appears in THIS document.' },
+          { title: 'IDF', body: 'How rare the word is ACROSS all documents.' },
+          { title: 'TF-IDF', body: 'High score = frequent here AND rare overall.' },
+          { title: 'K-Means + TF-IDF', body: 'Docs → vectors → cluster into topic groups.' }
+        ]
+      },
+      {
+        icon: '🗂️', variant: 'v10', title: 'DS Project Pipeline — Steps 1 to 6',
+        content: `Every professional data science project follows a structured workflow. Steps 1–6 cover the problem definition and data preparation phase:`,
+        pipelineSteps: [
+          { n: '01', label: 'Title', desc: 'Clear, descriptive name — domain + task + goal. E.g. "Customer Churn Prediction Using ML".' },
+          { n: '02', label: 'Problem Statement', desc: 'Define the exact problem: who has it, what is the challenge, what does success look like?' },
+          { n: '03', label: 'Objectives', desc: 'List specific measurable goals: accuracy target, features to find, deployment goal.' },
+          { n: '04', label: 'Data Collection', desc: 'Gather data from SQL, APIs, CSV exports, web scraping. Document source, size, and known biases.' },
+          { n: '05', label: 'Data Understanding (EDA)', desc: 'df.info(), df.describe(), distributions, correlation matrix, outlier detection, class balance check.' },
+          { n: '06', label: 'Data Preprocessing', desc: 'Handle missing values, encode categoricals, scale features, engineer new features, train/test split (80/20).' }
+        ],
+        concepts: [
+          { title: 'EDA tools', body: 'df.info(), df.describe(), histograms, heatmaps, boxplots.' },
+          { title: 'Missing values', body: 'Drop, fill with mean/median, or use KNN imputation.' },
+          { title: 'Encoding', body: 'Label Encoding or One-Hot Encoding for categorical columns.' },
+          { title: 'Scaling', body: 'StandardScaler or MinMaxScaler before distance-based models.' }
+        ]
+      },
+      {
+        icon: '🚀', variant: 'v10', title: 'DS Project Pipeline — Steps 7 to 12',
+        content: `Steps 7–12 cover the modeling and communication phase — where you train, evaluate, and present your results:`,
+        pipelineSteps: [
+          { n: '07', label: 'Model Selection', desc: 'Choose algorithm based on problem type: classification, regression, or clustering. Start simple.' },
+          { n: '08', label: 'Model Training', desc: 'model.fit(X_train, y_train). Use cross-validation (k-fold) and GridSearchCV to tune hyperparameters.' },
+          { n: '09', label: 'Model Evaluation', desc: 'Classification: Accuracy, F1, ROC-AUC. Regression: MAE, RMSE, R². Clustering: Inertia, Silhouette Score.' },
+          { n: '10', label: 'Prediction', desc: 'model.predict(X_new). Save with joblib or pickle. Consider a Flask/FastAPI endpoint.' },
+          { n: '11', label: 'Conclusion', desc: 'Which model performed best and why? Most important features? Did we meet all objectives?' },
+          { n: '12', label: 'Future Work', desc: 'More data, deep learning, production deployment, real-time pipeline, or extend to related problems.' }
+        ],
+        concepts: [
+          { title: 'Cross-validation', body: 'cross_val_score() with k-folds — reliable performance estimate.' },
+          { title: 'Silhouette Score', body: 'Clustering quality: how well-separated are the clusters?' },
+          { title: 'Model saving', body: 'joblib.dump(model, "model.pkl") to save and reload.' },
+          { title: 'Production', body: 'Flask / FastAPI turns your model into a REST API.' }
+        ]
       }
     ]
   }
@@ -1906,31 +1785,44 @@ const quizData = [
     { q: "What is the role of the Learning Algorithm in ML?", opts: ["Collects and cleans training data", "Updates the model's parameters to reduce prediction error", "Visualizes model performance", "Defines the dataset structure"], ans: 1, exp: "The Learning Algorithm (e.g. Gradient Descent) adjusts parameters to reduce the cost function." },
     { q: "What happens during the ML training loop?", opts: ["Dataset deleted and recreated each epoch", "Model predicts, measures error, and updates itself repeatedly until accurate", "A human manually corrects each prediction", "Model only trains once"], ans: 1, exp: "Training loops: input → predict → measure error → update. Repeats many times (epochs)." }
   ],
-  // Course 6 — Classification
+  // Course 6
   [
-    { q: "What is Binary Classification?", opts: ["Predicting a continuous number", "Predicting one of exactly two possible classes", "Grouping data without labels", "Predicting more than 3 classes"], ans: 1, exp: "Binary classification predicts one of two classes — e.g. Yes/No, Spam/Not Spam, Fraud/Legitimate." },
+    { q: "What is Binary Classification?", opts: ["Predicting a continuous number", "Predicting one of exactly two possible classes", "Grouping data without labels", "Predicting more than 3 classes"], ans: 1, exp: "Binary classification predicts one of two classes — e.g. Yes/No, Spam/Not Spam." },
     { q: "What does the Sigmoid function σ(z) output?", opts: ["Any real number from -∞ to +∞", "An integer between 0 and 10", "A value between 0 and 1 (a probability)", "The class label directly"], ans: 2, exp: "The Sigmoid function squashes any input to a value between 0 and 1, representing a probability." },
     { q: "In KNN, what does K=5 mean?", opts: ["There are 5 classes in the dataset", "The model trains for 5 iterations", "The 5 nearest neighbors vote to classify a new point", "The model uses 5 features only"], ans: 2, exp: "K=5 means the algorithm finds the 5 closest training points and takes a majority vote." },
-    { q: "Why is feature scaling REQUIRED before using KNN?", opts: ["KNN only works with integers", "KNN uses distance — large-scale features would dominate", "KNN cannot handle missing values", "Feature scaling speeds up training"], ans: 1, exp: "KNN measures distance between points. Features with larger scales would unfairly dominate the distance calculation." },
-    { q: "What is Gini Impurity in Decision Trees?", opts: ["A measure of tree depth", "A measure of how mixed the classes are at a node", "The accuracy on the training data", "The number of leaves in the tree"], ans: 1, exp: "Gini Impurity measures how mixed (impure) the class labels are at a given node. We want to minimize it." },
-    { q: "What is Bagging in Random Forest?", opts: ["Removing irrelevant features from the dataset", "Training each tree on a random subset of the data", "Combining all features into one", "A method to visualize decision trees"], ans: 1, exp: "Bagging (Bootstrap Aggregating) trains each tree on a random sample — reduces overfitting and variance." },
+    { q: "Why is feature scaling REQUIRED before using KNN?", opts: ["KNN only works with integers", "KNN uses distance — large-scale features would dominate", "KNN cannot handle missing values", "Feature scaling speeds up training"], ans: 1, exp: "KNN measures distance between points. Features with larger scales would unfairly dominate." },
+    { q: "What is Gini Impurity in Decision Trees?", opts: ["A measure of tree depth", "A measure of how mixed the classes are at a node", "The accuracy on the training data", "The number of leaves in the tree"], ans: 1, exp: "Gini Impurity measures how mixed (impure) the class labels are at a given node." },
+    { q: "What is Bagging in Random Forest?", opts: ["Removing irrelevant features", "Training each tree on a random subset of the data", "Combining all features into one", "A method to visualize decision trees"], ans: 1, exp: "Bagging trains each tree on a random sample — reduces overfitting and variance." },
     { q: "In SVM, what are Support Vectors?", opts: ["The features used for prediction", "The class labels in the dataset", "The data points closest to the decision boundary", "The hidden layers of the model"], ans: 2, exp: "Support Vectors are the data points nearest to the hyperplane. The margin is determined by these points." },
     { q: "Naive Bayes is called 'naive' because:", opts: ["It uses a simple neural network", "It assumes all features are independent of each other", "It can only predict one class", "It ignores the training data"], ans: 1, exp: "Naive Bayes assumes features are independent — 'naive' because this is rarely true in reality." },
-    { q: "What is the key difference between Random Forest and Gradient Boosting?", opts: ["Random Forest uses regression, Gradient Boosting uses classification", "Random Forest builds trees in parallel, Gradient Boosting builds them sequentially", "Gradient Boosting always uses more trees", "Random Forest cannot handle large datasets"], ans: 1, exp: "Random Forest builds all trees in parallel (bagging). Gradient Boosting builds trees sequentially, each fixing the previous one's errors." },
-    { q: "When should you use F1-Score instead of Accuracy?", opts: ["When the dataset is perfectly balanced", "When the dataset is imbalanced — one class is much rarer than the other", "When you have more than 5 features", "When training takes too long"], ans: 1, exp: "With imbalanced data, accuracy is misleading (e.g. 99% accuracy just by predicting the majority class). F1-Score balances precision and recall." }
+    { q: "What is the key difference between Random Forest and Gradient Boosting?", opts: ["Random Forest uses regression only", "Random Forest builds trees in parallel, Gradient Boosting builds them sequentially", "Gradient Boosting always uses more trees", "Random Forest cannot handle large datasets"], ans: 1, exp: "Random Forest = parallel trees (bagging). Gradient Boosting = sequential trees, each fixing the previous errors." },
+    { q: "When should you use F1-Score instead of Accuracy?", opts: ["When the dataset is perfectly balanced", "When the dataset is imbalanced — one class is much rarer", "When you have more than 5 features", "When training takes too long"], ans: 1, exp: "With imbalanced data, accuracy is misleading. F1-Score balances precision and recall." }
   ],
-  // Course 7 — Regression
+  // Course 7
   [
     { q: "What type of output does a Regression model predict?", opts: ["A discrete category label", "A continuous numerical value", "A binary yes/no answer", "A ranking from 1 to 10"], ans: 1, exp: "Regression predicts continuous numbers — like price, temperature, salary, or weight." },
-    { q: "In Simple Linear Regression ŷ = w·X + b, what does 'b' represent?", opts: ["The slope of the line", "The number of features", "The intercept — value of y when X = 0", "The learning rate"], ans: 2, exp: "b (bias/intercept) is the value of y when the input X equals zero — where the line crosses the y-axis." },
+    { q: "In Simple Linear Regression ŷ = w·X + b, what does 'b' represent?", opts: ["The slope of the line", "The number of features", "The intercept — value of y when X = 0", "The learning rate"], ans: 2, exp: "b (bias/intercept) is where the line crosses the y-axis — the value of y when X equals zero." },
     { q: "What does MSE (Mean Squared Error) measure?", opts: ["The training speed of the model", "The number of correct predictions", "The average squared difference between predictions and actual values", "The R² score"], ans: 2, exp: "MSE is the average of squared errors — (predicted - actual)². Squaring penalizes large errors more." },
     { q: "What is Polynomial Regression used for?", opts: ["Linear relationships only", "Modeling curved, non-linear relationships", "Classifying data into categories", "Reducing the number of features"], ans: 1, exp: "Polynomial Regression fits a curve by adding features like X², X³ — for non-linear patterns." },
     { q: "What is the key difference between Ridge and Lasso regression?", opts: ["Ridge uses trees, Lasso uses lines", "Ridge can zero out features, Lasso cannot", "Lasso can zero out feature coefficients, Ridge only shrinks them", "They are identical"], ans: 2, exp: "Lasso (L1) can reduce coefficients to exactly zero — removing features. Ridge (L2) shrinks but keeps all features." },
-    { q: "What is R² (R-squared) in regression evaluation?", opts: ["The slope of the regression line", "The percentage of training data used", "The proportion of variance explained by the model — 1.0 is perfect", "The number of iterations until convergence"], ans: 2, exp: "R² measures how much of the variance in y is explained by the model. R²=1.0 is a perfect fit; R²=0 is as good as predicting the mean." },
+    { q: "What is R² (R-squared) in regression evaluation?", opts: ["The slope of the regression line", "The percentage of training data used", "The proportion of variance explained by the model — 1.0 is perfect", "The number of iterations until convergence"], ans: 2, exp: "R² measures how much of the variance in y is explained by the model. R²=1.0 is perfect; R²=0 predicts the mean." },
     { q: "In Random Forest Regressor, what does each leaf node predict?", opts: ["The most common class in that leaf", "The average value of training samples in that leaf", "A random number between 0 and 1", "The gradient of the loss function"], ans: 1, exp: "For regression, each leaf predicts the mean value of the training samples that fall into that leaf." },
     { q: "What is the epsilon (ε) tube in SVR?", opts: ["The number of support vectors", "A tolerance zone where predictions inside are not penalized", "The kernel function type", "The regularization parameter"], ans: 1, exp: "The ε-tube is a margin of tolerance. Predictions within ε of the actual value are not counted as errors." },
     { q: "In Gradient Boosting for regression, what does each new tree correct?", opts: ["The feature importances of the previous tree", "The residual errors (mistakes) of the previous tree", "The hyperparameters of the model", "The number of training samples"], ans: 1, exp: "Each new tree in Gradient Boosting is trained to predict the residual errors of all previous trees." },
-    { q: "What does RMSE stand for and why is it commonly used?", opts: ["Relative Mean Squared Estimate — measures relative error", "Root Mean Squared Error — in the same units as the target variable", "Regularized Mean Sum Error — for regularized models", "Ranked Model Score Evaluation — for ranking models"], ans: 1, exp: "RMSE = √MSE — it's in the same units as y (e.g. dollars, degrees) making it easy to interpret alongside actual values." }
+    { q: "What does RMSE stand for and why is it commonly used?", opts: ["Relative Mean Squared Estimate", "Root Mean Squared Error — in the same units as the target variable", "Regularized Mean Sum Error", "Ranked Model Score Evaluation"], ans: 1, exp: "RMSE = √MSE — it's in the same units as y (e.g. dollars, degrees) making it easy to interpret." }
+  ],
+  // Course 8 — NEW
+  [
+    { q: "What is the key difference between supervised and unsupervised learning?", opts: ["Supervised is faster to train", "Supervised uses labeled data; unsupervised uses unlabeled data to find hidden patterns", "Unsupervised always predicts numbers", "Supervised requires more data"], ans: 1, exp: "Supervised learning needs labels (correct answers). Unsupervised learning discovers structure from unlabeled data on its own." },
+    { q: "In K-Means, what is a centroid?", opts: ["A data point that was misclassified", "The center point of a cluster — moves each iteration toward the cluster average", "The distance between two data points", "The number of clusters K"], ans: 1, exp: "A centroid is the center of a cluster. After each assignment step, it moves to the mean position of all points in its cluster." },
+    { q: "What is the correct order of K-Means steps?", opts: ["Assign → Initialize → Recalculate → Repeat", "Initialize centroids → Assign points → Recalculate centroids → Repeat", "Recalculate → Assign → Initialize → Repeat", "Choose K → Recalculate → Assign → Initialize"], ans: 1, exp: "K-Means: Choose K → Initialize centroids → Assign each point to nearest centroid → Recalculate centroids → Repeat until convergence." },
+    { q: "What does inertia measure in K-Means?", opts: ["The number of iterations until convergence", "Total within-cluster distance — how compact the clusters are", "The accuracy of cluster labels", "The number of centroids"], ans: 1, exp: "Inertia is the total within-cluster distance. Lower inertia = tighter, more compact clusters." },
+    { q: "In TF-IDF, what does IDF penalize?", opts: ["Words that appear rarely in the corpus", "Words that appear in many documents — making them less informative", "Words with fewer than 3 characters", "Words that are not in the vocabulary"], ans: 1, exp: "IDF (Inverse Document Frequency) penalizes words that appear in many documents — like 'the', 'is'. Rare, specific words get higher IDF." },
+    { q: "A word has TF=0.10 and IDF=0.00 (appears in all documents). What is its TF-IDF score?", opts: ["0.10", "1.00", "0.00", "Undefined"], ans: 2, exp: "TF-IDF = TF × IDF = 0.10 × 0.00 = 0.00. Words present in every document are useless for distinguishing documents." },
+    { q: "Which step in the DS Pipeline involves df.describe() and correlation heatmaps?", opts: ["Data Collection", "Model Training", "Data Understanding (EDA)", "Prediction"], ans: 2, exp: "EDA (Exploratory Data Analysis) uses df.describe(), df.info(), histograms, and correlation heatmaps to understand the data." },
+    { q: "What is the purpose of the 'Problem Statement' in a DS project?", opts: ["To select the best machine learning model", "To define exactly who has the problem, what the challenge is, and what success looks like", "To list the Python libraries used", "To describe the model's evaluation metrics"], ans: 1, exp: "The Problem Statement clearly defines who has the problem, the specific challenge, and the measurable criteria for success." },
+    { q: "Which evaluation metric is used for clustering quality?", opts: ["Accuracy Score", "R² Score", "Silhouette Score", "F1-Score"], ans: 2, exp: "The Silhouette Score measures how well-separated clusters are — values close to 1.0 indicate well-defined clusters." },
+    { q: "What is a common use of combining TF-IDF with K-Means?", opts: ["Image classification", "Predicting house prices", "Unsupervised text clustering — grouping documents into topic categories", "Computing model accuracy"], ans: 2, exp: "TF-IDF converts documents into numeric vectors, then K-Means clusters similar documents together — fully unsupervised topic discovery." }
   ]
 ];
 
@@ -2009,6 +1901,14 @@ function openResume(id) {
 
     if (sec.code) html += `<div class="code-snippet"><pre>${sec.code}</pre></div>`;
 
+    if (sec.pipelineSteps) {
+      html += `<div class="pipe-grid">`;
+      sec.pipelineSteps.forEach(s => {
+        html += `<div class="pipe-row"><div class="pipe-num-badge">${s.n}</div><div class="pipe-text"><strong>${s.label}</strong> — ${s.desc}</div></div>`;
+      });
+      html += `</div>`;
+    }
+
     if (sec.lifecycle) {
       html += `<div class="ml-lifecycle">
         <div class="ml-step"><span class="ms-num">Step 1</span><span class="ms-label">Input Data</span><span class="ms-sub">Raw training data</span></div>
@@ -2024,20 +1924,14 @@ function openResume(id) {
     }
 
     if (sec.table) {
-      html += `<table class="model-table">
-        <tr><th>Model</th><th>Best for</th><th>Weakness</th><th>Complexity</th></tr>`;
-      sec.table.forEach(row => {
-        html += `<tr><td>${row.model}</td><td>${row.best}</td><td>${row.weakness}</td><td>${row.complexity}</td></tr>`;
-      });
+      html += `<table class="model-table"><tr><th>Model</th><th>Best for</th><th>Weakness</th><th>Complexity</th></tr>`;
+      sec.table.forEach(row => { html += `<tr><td>${row.model}</td><td>${row.best}</td><td>${row.weakness}</td><td>${row.complexity}</td></tr>`; });
       html += `</table>`;
     }
 
     if (sec.tableGreen) {
-      html += `<table class="model-table">
-        <tr><th class="green-h">Model</th><th class="green-h">Best for</th><th class="green-h">Weakness</th><th class="green-h">Complexity</th></tr>`;
-      sec.tableGreen.forEach(row => {
-        html += `<tr><td>${row.model}</td><td>${row.best}</td><td>${row.weakness}</td><td>${row.complexity}</td></tr>`;
-      });
+      html += `<table class="model-table"><tr><th class="green-h">Model</th><th class="green-h">Best for</th><th class="green-h">Weakness</th><th class="green-h">Complexity</th></tr>`;
+      sec.tableGreen.forEach(row => { html += `<tr><td>${row.model}</td><td>${row.best}</td><td>${row.weakness}</td><td>${row.complexity}</td></tr>`; });
       html += `</table>`;
     }
 
