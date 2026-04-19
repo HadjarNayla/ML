@@ -65,6 +65,49 @@ pre{padding:1.4rem 1.75rem;overflow-x:auto;font-family:var(--fm);font-size:0.88r
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:100px}
+
+/* ═══ CONCEPT: ANATOMY ═══ */
+.anatomy-wrap{background:#0d1117;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:2rem 1.5rem;margin:1.75rem 0;overflow-x:auto}
+.anat-line{font-family:var(--fm);font-size:clamp(1rem,4vw,1.65rem);text-align:center;margin-bottom:2rem;white-space:nowrap;direction:ltr;letter-spacing:.04em}
+.ak{color:#FF79C6;font-weight:700}.av{color:#8BE9FD}.af{color:#50FA7B}.an{color:#BD93F9}.ai{color:#FFB86C;font-weight:700}.ap{color:#F8F8F280}
+.aleg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:.75rem;direction:rtl}
+.aleg-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:.9rem 1rem;display:flex;gap:10px;align-items:flex-start;transition:border-color .3s,transform .3s}
+.aleg-card:hover{border-color:rgba(255,255,255,0.18);transform:translateY(-2px)}
+.aleg-card .adot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.aleg-card strong{display:block;font-size:.9rem;margin-bottom:3px;font-family:var(--fm)}
+.aleg-card p{font-size:.8rem;color:var(--muted);line-height:1.45}
+
+/* ═══ CONCEPT: LOOP ANIMATION ═══ */
+.loop-anim{background:var(--surface);border:1px solid rgba(255,185,108,.15);border-radius:16px;padding:1.75rem;margin:1.75rem 0;text-align:center}
+.loop-head{font-size:.82rem;color:var(--muted);margin-bottom:1.25rem;direction:rtl}
+.loop-track{display:flex;gap:10px;justify-content:center;margin:0 0 1.5rem;flex-wrap:wrap;direction:ltr}
+.lb{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:1.2rem;font-weight:700;border:2px solid rgba(255,255,255,.09);background:rgba(255,255,255,.02);color:#3a3a5a;transition:all .5s cubic-bezier(.34,1.56,.64,1)}
+.lb.active{border-color:var(--accent);background:rgba(255,184,108,.18);color:var(--accent);transform:translateY(-10px);box-shadow:0 12px 32px rgba(255,184,108,.28)}
+.lb.done{border-color:rgba(78,205,196,.45);background:rgba(78,205,196,.09);color:var(--accent2);transform:none}
+.loop-status{font-family:var(--fm);font-size:.95rem;color:var(--muted);min-height:2.2rem;direction:ltr;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
+.lv{color:var(--accent);font-size:1.1rem;font-weight:700}
+.lv2{color:var(--accent2);font-weight:700}
+.loop-btns{display:flex;justify-content:center;gap:.75rem;margin-top:1.25rem}
+.lbtn{background:rgba(255,185,108,.1);border:1px solid rgba(255,185,108,.25);border-radius:8px;padding:7px 22px;color:var(--accent);font-family:var(--fh);font-size:.85rem;cursor:pointer;transition:all .2s}
+.lbtn:hover{background:rgba(255,185,108,.2)}
+
+/* ═══ CONCEPT: NUMBER LINE ═══ */
+.nline-tabs{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;direction:rtl}
+.ntab{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 16px;font-size:.82rem;cursor:pointer;color:var(--muted);transition:all .2s;font-family:var(--fm)}
+.ntab.on{background:rgba(255,185,108,.15);border-color:var(--accent);color:var(--accent)}
+.ntab:hover{border-color:var(--accent2);color:var(--accent2)}
+.nline-box{background:#0d1117;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.5rem;overflow-x:auto}
+.nl-expr{font-family:var(--fm);font-size:.88rem;text-align:center;margin-bottom:1.25rem;direction:ltr;min-height:1.5rem}
+.nl-track{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.nbox{width:46px;height:46px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:.92rem;font-weight:600;border:2px solid rgba(255,255,255,.06);color:#333;background:rgba(255,255,255,.01);transition:all .5s ease}
+.nbox.in{border-color:var(--accent);background:rgba(255,184,108,.15);color:var(--accent);animation:boop .4s ease forwards}
+.nbox.stop{border-color:rgba(255,80,80,.35);color:rgba(255,110,110,.55)}
+.nbox.skip{opacity:.15}
+.nbox.hit{border-color:var(--accent2);background:rgba(78,205,196,.12);color:var(--accent2);animation:boop .4s ease forwards}
+@keyframes boop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.nl-legend{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;font-size:.79rem;color:var(--muted);margin-top:.5rem;direction:rtl}
+.nl-legend span{display:flex;align-items:center;gap:5px}
+.nldot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
 </style>
 </head>
 <body>
@@ -81,6 +124,187 @@ pre{padding:1.4rem 1.75rem;overflow-x:auto;font-family:var(--fm);font-size:0.88r
     <div class="lesson-tag">الدرس الثالث · Lesson 03</div>
     <h1 class="lesson-h1">حلقة <em>for</em></h1>
     <p class="lesson-sub">التكرار الأنيق على نطاقات وعناصر — الأسلوب الـ Pythonic!</p>
+  </div>
+
+  <!-- ══ CONCEPT 01: ANATOMY ══ -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="font-size:1rem;width:44px;height:44px">🔬</div>
+      <div class="step-title">تشريح حلقة <span>for</span> — كل جزء</div>
+    </div>
+    <div class="div"></div>
+    <p class="prose">قبل الأمثلة، دعينا نشرّح سطر <code class="il">for</code> ونفهم معنى كل كلمة فيه بالضبط:</p>
+
+    <div class="anatomy-wrap">
+      <div class="anat-line">
+        <span class="ak">for</span><span class="ap"> </span><span class="av">i</span><span class="ap"> </span><span class="ai">in</span><span class="ap"> </span><span class="af">range</span><span class="ap">(</span><span class="an">1</span><span class="ap">, </span><span class="an">6</span><span class="ap">):</span>
+      </div>
+      <div class="aleg-grid">
+        <div class="aleg-card">
+          <div class="adot" style="background:#FF79C6"></div>
+          <div><strong style="color:#FF79C6">for</strong><p>كلمة Python المحجوزة. تعني "لكل". تُعلم بداية الحلقة.</p></div>
+        </div>
+        <div class="aleg-card">
+          <div class="adot" style="background:#8BE9FD"></div>
+          <div><strong style="color:#8BE9FD">i</strong><p>متغير الحلقة. يأخذ قيمة جديدة تلقائياً كل دورة (1 ثم 2 ثم ...). الاسم اختياري.</p></div>
+        </div>
+        <div class="aleg-card">
+          <div class="adot" style="background:#FFB86C"></div>
+          <div><strong style="color:#FFB86C">in</strong><p>تعني "من". تربط المتغير بمصدر الأرقام أو العناصر.</p></div>
+        </div>
+        <div class="aleg-card">
+          <div class="adot" style="background:#50FA7B"></div>
+          <div><strong style="color:#50FA7B">range(1, 6)</strong><p>دالة تُولّد أرقاماً: 1، 2، 3، 4، 5. هي المصدر الذي ندور عليه.</p></div>
+        </div>
+        <div class="aleg-card">
+          <div class="adot" style="background:#BD93F9"></div>
+          <div><strong style="color:#BD93F9">1, 6</strong><p>معاملات range: ابدأ من 1 وتوقف قبل 6. (الرقم 6 نفسه لا يُنتج).</p></div>
+        </div>
+        <div class="aleg-card">
+          <div class="adot" style="background:#F8F8F2;opacity:0.6"></div>
+          <div><strong>:</strong><p>النقطتان تُخبران Python أن جسم الحلقة يبدأ بالسطر التالي (مع مسافة بادئة).</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CONCEPT 02: i ══ -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="font-family:var(--fm)">i</div>
+      <div class="step-title">ما هو <span>i</span>؟ — متغير الحلقة</div>
+    </div>
+    <div class="div"></div>
+    <p class="prose"><strong>i</strong> هو متغير "السائق" — Python تُغيّر قيمته تلقائياً في كل دورة. أنت لا تكتب <code class="il">i = i + 1</code>، الحلقة تفعل هذا وحدها. شاهد الأنيميشن:</p>
+
+    <div class="loop-anim">
+      <div class="loop-head">تنفيذ: <code style="font-family:var(--fm);color:var(--accent2)">for i in range(1, 6): print(i)</code></div>
+      <div class="loop-track" id="loopTrack">
+        <div class="lb">1</div>
+        <div class="lb">2</div>
+        <div class="lb">3</div>
+        <div class="lb">4</div>
+        <div class="lb">5</div>
+      </div>
+      <div class="loop-status" id="loopStatus"><span style="color:var(--muted)">اضغط تشغيل لرؤية i يتغيّر ▼</span></div>
+      <div class="loop-btns">
+        <button class="lbtn" onclick="loopStart()">▶ تشغيل</button>
+        <button class="lbtn" onclick="loopReset()">↺ إعادة</button>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-ic">💡</div>
+      <div class="tip-body">
+        <strong>اسم المتغير حر تماماً</strong>
+        <p>التقليد هو كتابة <code class="il">i</code> (اختصار index) لكن يمكنك <code class="il">for num in range(5):</code> أو <code class="il">for طالبة in range(5):</code> — Python لا تهتم بالاسم.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CONCEPT 03: range ══ -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="font-family:var(--fm);font-size:.8rem">[ ]</div>
+      <div class="step-title">ما هو <span>range()</span>؟</div>
+    </div>
+    <div class="div"></div>
+    <p class="prose"><code class="il">range()</code> تُولّد سلسلة أرقام بدون تخزينها كلها في الذاكرة — لها ثلاث صيغ:</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="ic">1️⃣</div>
+        <h4>range(stop)</h4>
+        <p>صيغة مختصرة. تبدأ من 0 تلقائياً.<br><code class="il">range(5)</code> → 0, 1, 2, 3, 4</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">2️⃣</div>
+        <h4>range(start, stop)</h4>
+        <p>تحدد البداية والنهاية.<br><code class="il">range(1, 6)</code> → 1, 2, 3, 4, 5</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">3️⃣</div>
+        <h4>range(start, stop, step)</h4>
+        <p>تحدد الخطوة أيضاً.<br><code class="il">range(0, 10, 2)</code> → 0, 2, 4, 6, 8</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">⚠️</div>
+        <h4>stop غير مضمّن!</h4>
+        <p><code class="il">range(1, 6)</code> تنتج 1 حتى 5 فقط. الرقم 6 لا يظهر أبداً — هذا تصميم Python.</p>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top:1.5rem">اضغط على أي صيغة لترى الأرقام المُنتجة على خط الأعداد:</p>
+    <div class="nline-tabs">
+      <button class="ntab on" onclick="showRange(0)" id="rtab0">range(5)</button>
+      <button class="ntab" onclick="showRange(1)" id="rtab1">range(1, 6)</button>
+      <button class="ntab" onclick="showRange(2)" id="rtab2">range(3, 9)</button>
+    </div>
+    <div class="nline-box">
+      <div class="nl-expr" id="nlExpr"></div>
+      <div class="nl-track" id="nlTrack"></div>
+      <div class="nl-legend">
+        <span><span class="nldot" style="background:var(--accent)"></span> مضمّن في range</span>
+        <span><span class="nldot" style="background:rgba(255,80,80,.55)"></span> stop — غير مضمّن</span>
+        <span><span class="nldot" style="background:#222"></span> خارج النطاق</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CONCEPT 04: step ══ -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="font-size:.8rem">↪↪</div>
+      <div class="step-title">ما هو <span>step</span>؟ — الخطوة</div>
+    </div>
+    <div class="div"></div>
+    <p class="prose"><strong>step</strong> هو المعامل الثالث — يُحدد مقدار القفز بين كل رقم والتالي. إذا تركته، الافتراضي <code class="il">1</code> (كل رقم بالترتيب).</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="ic">2️⃣</div>
+        <h4>step=2 (أرقام زوجية)</h4>
+        <p><code class="il">range(0, 10, 2)</code> → 0, 2, 4, 6, 8<br>تقفز كل مرتين</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">3️⃣</div>
+        <h4>step=3</h4>
+        <p><code class="il">range(0, 15, 3)</code> → 0, 3, 6, 9, 12<br>تقفز ثلاث خطوات</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">⬇️</div>
+        <h4>step سالب — تنازلي</h4>
+        <p><code class="il">range(10, 0, -1)</code> → 10, 9, 8, ... 1<br>تعدّ للخلف</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">1️⃣</div>
+        <h4>الافتراضي step=1</h4>
+        <p><code class="il">range(5)</code> = <code class="il">range(0,5,1)</code><br>بدون خطوة → كل رقم بالترتيب</p>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top:1.5rem">شاهد كيف تعمل الخطوة — الأرقام الفاتحة تُؤخذ، المعتمة تُتخطى:</p>
+    <div class="nline-tabs">
+      <button class="ntab on" onclick="showStep(0)" id="stab0">step=2 (زوجي)</button>
+      <button class="ntab" onclick="showStep(1)" id="stab1">step=3</button>
+      <button class="ntab" onclick="showStep(2)" id="stab2">step=-1 (تنازلي)</button>
+    </div>
+    <div class="nline-box">
+      <div class="nl-expr" id="stepExpr"></div>
+      <div class="nl-track" id="stepTrack"></div>
+      <div class="nl-legend">
+        <span><span class="nldot" style="background:var(--accent2)"></span> يُؤخذ (step يطاله)</span>
+        <span><span class="nldot" style="background:#1a1a2e;border:1px solid #333"></span> يُتخطى</span>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-ic">⚠️</div>
+      <div class="tip-body">
+        <strong>step سالب: انتبه لاتجاه start و stop</strong>
+        <p>في العدّ التنازلي <code class="il">start</code> يجب أن يكون <strong>أكبر</strong> من <code class="il">stop</code>. <code class="il">range(10, 0, -1)</code> صحيح — <code class="il">range(0, 10, -1)</code> لا ينتج شيئاً!</p>
+      </div>
+    </div>
   </div>
 
   <!-- STEP 01 -->
@@ -218,5 +442,107 @@ pre{padding:1.4rem 1.75rem;overflow-x:auto;font-family:var(--fm);font-size:0.88r
   </div>
 
 </div>
+<script>
+// ── Loop Animation ─────────────────────────────
+let loopTimer = null, loopStep = -1;
+const loopMsgs = [
+  'i = <span class="lv">1</span> &nbsp;→&nbsp; print(<span class="lv">1</span>)',
+  'i = <span class="lv">2</span> &nbsp;→&nbsp; print(<span class="lv">2</span>)',
+  'i = <span class="lv">3</span> &nbsp;→&nbsp; print(<span class="lv">3</span>)',
+  'i = <span class="lv">4</span> &nbsp;→&nbsp; print(<span class="lv">4</span>)',
+  'i = <span class="lv">5</span> &nbsp;→&nbsp; print(<span class="lv">5</span>)',
+];
+
+function loopReset() {
+  clearInterval(loopTimer);
+  loopStep = -1;
+  document.querySelectorAll('#loopTrack .lb').forEach(b => b.className = 'lb');
+  document.getElementById('loopStatus').innerHTML = '<span style="color:var(--muted)">اضغط تشغيل لرؤية i يتغيّر ▼</span>';
+}
+
+function loopStart() {
+  loopReset();
+  const boxes = document.querySelectorAll('#loopTrack .lb');
+  loopStep = 0;
+  loopTimer = setInterval(() => {
+    if (loopStep > 0) boxes[loopStep - 1].className = 'lb done';
+    if (loopStep < boxes.length) {
+      boxes[loopStep].className = 'lb active';
+      document.getElementById('loopStatus').innerHTML = loopMsgs[loopStep];
+    } else {
+      clearInterval(loopTimer);
+      document.getElementById('loopStatus').innerHTML = '<span class="lv2">✓ انتهت الحلقة — i جرّب كل القيم!</span>';
+    }
+    loopStep++;
+  }, 900);
+}
+
+// ── Range number line ──────────────────────────
+const rangeCfg = [
+  { expr: 'range(<span style="color:#FF79C6">5</span>)', note: '→ يبدأ من 0 تلقائياً: 0, 1, 2, 3, 4', min:0, max:6, start:0, stop:5 },
+  { expr: 'range(<span style="color:#50FA7B">1</span>, <span style="color:#FF79C6">6</span>)', note: '→ من 1 حتى 5 (6 غير مضمّن)', min:0, max:7, start:1, stop:6 },
+  { expr: 'range(<span style="color:#50FA7B">3</span>, <span style="color:#FF79C6">9</span>)', note: '→ من 3 حتى 8 (9 غير مضمّن)', min:0, max:10, start:3, stop:9 },
+];
+let rTimer = null;
+
+function showRange(idx) {
+  clearTimeout(rTimer);
+  document.querySelectorAll('[id^="rtab"]').forEach((t, i) => t.className = 'ntab' + (i === idx ? ' on' : ''));
+  const c = rangeCfg[idx];
+  document.getElementById('nlExpr').innerHTML =
+    `<span style="color:var(--accent2)">${c.expr}</span> <span style="color:var(--muted);font-size:.8rem">${c.note}</span>`;
+  const track = document.getElementById('nlTrack');
+  track.innerHTML = '';
+  const boxes = [];
+  for (let n = c.min; n <= c.max; n++) {
+    const el = document.createElement('div');
+    el.className = 'nbox' + (n === c.stop ? ' stop' : '');
+    el.textContent = n;
+    track.appendChild(el);
+    boxes.push({ el, n });
+  }
+  let i = 0;
+  (function tick() {
+    if (i >= boxes.length) return;
+    const { el, n } = boxes[i++];
+    if (n >= c.start && n < c.stop) el.classList.add('in');
+    rTimer = setTimeout(tick, 160);
+  })();
+}
+
+// ── Step visualization ─────────────────────────
+const stepCfg = [
+  { expr: 'range(<span style="color:#50FA7B">0</span>, <span style="color:#FF79C6">10</span>, <span style="color:#FFB86C">2</span>)', note: '→ أرقام زوجية: 0, 2, 4, 6, 8', nums: [...Array(10).keys()], picked: [0,2,4,6,8] },
+  { expr: 'range(<span style="color:#50FA7B">0</span>, <span style="color:#FF79C6">15</span>, <span style="color:#FFB86C">3</span>)', note: '→ 0, 3, 6, 9, 12', nums: [...Array(15).keys()], picked: [0,3,6,9,12] },
+  { expr: 'range(<span style="color:#50FA7B">10</span>, <span style="color:#FF79C6">0</span>, <span style="color:#FFB86C">-1</span>)', note: '→ تنازلي: 10, 9, 8, ..., 1', nums: [...Array(11).keys()], picked: [1,2,3,4,5,6,7,8,9,10] },
+];
+let sTimer = null;
+
+function showStep(idx) {
+  clearTimeout(sTimer);
+  document.querySelectorAll('[id^="stab"]').forEach((t, i) => t.className = 'ntab' + (i === idx ? ' on' : ''));
+  const c = stepCfg[idx];
+  document.getElementById('stepExpr').innerHTML =
+    `<span style="color:var(--accent2)">${c.expr}</span> <span style="color:var(--muted);font-size:.8rem">${c.note}</span>`;
+  const track = document.getElementById('stepTrack');
+  track.innerHTML = '';
+  const boxes = c.nums.map(n => {
+    const el = document.createElement('div');
+    el.className = 'nbox';
+    el.textContent = n;
+    track.appendChild(el);
+    return { el, n };
+  });
+  let i = 0;
+  (function tick() {
+    if (i >= boxes.length) return;
+    const { el, n } = boxes[i++];
+    el.classList.add(c.picked.includes(n) ? 'hit' : 'skip');
+    sTimer = setTimeout(tick, 120);
+  })();
+}
+
+document.addEventListener('DOMContentLoaded', () => { showRange(0); showStep(0); });
+</script>
 </body>
 </html>
