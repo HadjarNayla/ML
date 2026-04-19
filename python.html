@@ -3,47 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>حلقة for — Python</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<title>تعلّم Python مع نائلة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#07090F;--surface:#0F1220;--surface2:#171C30;--border:rgba(255,185,108,0.2);
-  --accent:#FFB86C;--accent2:#4ECDC4;--gold:#F7C948;
-  --text:#EEF0FF;--muted:#8890B5;
-  --fh:'Tajawal',sans-serif;--fm:'DM Mono',monospace;
+  --bg:#07090F;
+  --surface:#0F1220;
+  --surface2:#171C30;
+  --border:rgba(120,100,255,0.2);
+  --accent:#7C6FE0;
+  --accent2:#4ECDC4;
+  --accent3:#FF6B6B;
+  --gold:#F7C948;
+  --green:#52D68A;
+  --text:#EEF0FF;
+  --muted:#8890B5;
+  --fh:'Tajawal',sans-serif;
+  --fm:'DM Mono',monospace;
 }
-body{background:var(--bg);color:var(--text);font-family:var(--fh);font-size:17px;line-height:1.75;overflow-x:hidden}
-.orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:0.12;pointer-events:none;z-index:0;animation:drift 14s ease-in-out infinite alternate}
-.o1{width:500px;height:500px;background:#FFB86C;top:-150px;right:-150px}
-.o2{width:400px;height:400px;background:#4ECDC4;bottom:-100px;left:-100px;animation-delay:-7s}
-@keyframes drift{from{transform:translate(0,0)}to{transform:translate(20px,-20px)}}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--fh);font-size:17px;line-height:1.75;overflow-x:hidden;min-height:100vh}
 
-.lesson-nav{position:sticky;top:0;z-index:50;background:rgba(7,9,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,185,108,0.15);padding:1rem 2rem;display:flex;align-items:center;justify-content:center}
-.nav-title{font-weight:800;font-size:1rem;color:var(--accent)}
+.orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:0.15;pointer-events:none;z-index:0;animation:drift 14s ease-in-out infinite alternate}
+.o1{width:600px;height:600px;background:#7C6FE0;top:-200px;right:-200px}
+.o2{width:450px;height:450px;background:#4ECDC4;bottom:-100px;left:-100px;animation-delay:-7s}
+.o3{width:300px;height:300px;background:#FF6B6B;top:50%;left:50%;animation-delay:-3s}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(25px,-25px)}}
 
-.lesson-body{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:3rem 2rem 6rem}
+/* ════════════════════ LANDING ════════════════════ */
+#landing{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:4rem 1.5rem 6rem}
 
-.lesson-hero{text-align:center;padding:4rem 0 3rem;border-bottom:1px solid rgba(255,185,108,0.15);margin-bottom:3.5rem}
-.lesson-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,185,108,0.1);border:1px solid rgba(255,185,108,0.3);border-radius:100px;padding:6px 20px;font-size:12px;color:var(--accent);font-weight:700;letter-spacing:0.08em;margin-bottom:1.5rem}
-.lesson-h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;line-height:1.05;margin-bottom:1rem}
-.lesson-h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lang-toggle{
+  position:fixed;top:1.5rem;left:1.5rem;
+  display:flex;gap:0;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:100px;
+  overflow:hidden;
+  z-index:100;
+}
+.lang-btn{
+  padding:7px 18px;
+  font-family:var(--fh);
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  border:none;
+  background:transparent;
+  color:var(--muted);
+  transition:all 0.25s;
+}
+.lang-btn.active{background:var(--accent);color:#fff}
+
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(124,111,224,0.12);
+  border:1px solid rgba(124,111,224,0.3);
+  border-radius:100px;padding:7px 22px;
+  font-size:13px;font-weight:500;color:var(--accent);
+  letter-spacing:0.04em;margin-bottom:2.5rem;
+  animation:fadeUp 0.6s ease both;
+}
+.hero-badge::before{content:'✦';color:var(--accent2)}
+
+.hero-title{
+  font-size:clamp(2.8rem,8vw,6rem);
+  font-weight:900;line-height:1.05;
+  text-align:center;margin-bottom:1.25rem;
+  animation:fadeUp 0.7s 0.1s ease both;
+  letter-spacing:-0.02em;
+}
+.hero-title em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-sub{
+  color:var(--muted);text-align:center;max-width:540px;
+  margin-bottom:0.75rem;animation:fadeUp 0.8s 0.15s ease both;
+}
+.byline{
+  font-size:13px;color:var(--accent2);font-weight:700;
+  letter-spacing:0.08em;margin-bottom:4rem;
+  animation:fadeUp 0.9s 0.2s ease both;
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+.courses-label{
+  font-size:12px;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;margin-bottom:1rem;
+  text-align:center;
+}
+.courses-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:1.25rem;width:100%;max-width:900px;
+}
+.course-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:2rem 1.75rem;
+  position:relative;overflow:hidden;
+  transition:all 0.3s;cursor:pointer;
+  text-align:right;
+}
+.course-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 60%,rgba(124,111,224,0.05));
+  pointer-events:none;
+}
+.course-card.unlocked:hover{
+  border-color:var(--accent);
+  transform:translateY(-6px);
+  box-shadow:0 20px 50px rgba(124,111,224,0.2);
+}
+.course-card.active-course{
+  border-color:var(--accent2);
+  background:rgba(78,205,196,0.07);
+}
+.course-card.locked{opacity:0.45;cursor:default}
+.course-card.locked .c-desc{filter:blur(5px);user-select:none}
+
+.c-num{font-family:var(--fm);font-size:11px;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.75rem}
+.c-icon{font-size:2.2rem;margin-bottom:0.75rem}
+.c-title{font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:0.5rem}
+.c-desc{font-size:0.85rem;color:var(--muted);line-height:1.55}
+.c-badge{
+  position:absolute;top:1.1rem;left:1.1rem;
+  background:var(--accent2);color:#000;
+  font-size:10px;font-weight:800;padding:3px 12px;
+  border-radius:100px;letter-spacing:0.06em;
+}
+.c-lock{position:absolute;top:1.1rem;left:1.1rem;color:var(--muted);font-size:1rem}
+
+.start-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:1.1rem;background:var(--accent);color:#fff;
+  border:none;border-radius:100px;padding:10px 22px;
+  font-family:var(--fh);font-size:14px;font-weight:700;
+  cursor:pointer;transition:all 0.25s;letter-spacing:0.03em;
+}
+.start-btn:hover{background:#6358cc;transform:scale(1.04)}
+
+/* ════════════════════ LESSON ════════════════════ */
+#lesson{display:none;position:relative;z-index:1}
+#lesson-cond{display:none;position:relative;z-index:1}
+
+.lesson-nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(7,9,15,0.85);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:1rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.back-btn{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:100px;padding:8px 18px;
+  font-family:var(--fh);font-size:13px;font-weight:700;
+  color:var(--text);cursor:pointer;transition:all 0.2s;
+}
+.back-btn:hover{border-color:var(--accent);color:var(--accent)}
+.nav-title{font-weight:800;font-size:1rem;color:var(--text)}
+.progress-wrap{display:flex;align-items:center;gap:10px}
+.progress-bar-outer{width:120px;height:6px;background:var(--surface2);border-radius:100px;overflow:hidden}
+.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px;transition:width 0.5s ease;width:0%}
+.progress-txt{font-family:var(--fm);font-size:11px;color:var(--muted)}
+
+.lesson-body{max-width:820px;margin:0 auto;padding:3rem 2rem 6rem}
+
+.lesson-hero{
+  text-align:center;padding:4rem 0 3rem;
+  border-bottom:1px solid var(--border);margin-bottom:3.5rem;
+}
+.lesson-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(124,111,224,0.12);border:1px solid rgba(124,111,224,0.3);
+  border-radius:100px;padding:6px 20px;font-size:12px;
+  color:var(--accent);font-weight:700;letter-spacing:0.08em;margin-bottom:1.5rem;
+}
+.lesson-h1{
+  font-size:clamp(2.2rem,6vw,4rem);font-weight:900;
+  line-height:1.05;margin-bottom:1rem;letter-spacing:-0.02em;
+}
+.lesson-h1 em{
+  font-style:normal;
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
 .lesson-sub{color:var(--muted);max-width:480px;margin:0 auto}
 
-.step{margin-bottom:4rem}
-.step-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
-.step-num{width:40px;height:40px;border-radius:12px;background:rgba(255,185,108,0.12);border:1px solid rgba(255,185,108,0.35);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:13px;color:var(--accent);flex-shrink:0}
-.step-title{font-size:1.35rem;font-weight:800}
+.step{margin-bottom:4rem;animation:fadeUp 0.6s ease both;}
+.step-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+.step-num{
+  width:40px;height:40px;border-radius:12px;
+  background:rgba(124,111,224,0.15);
+  border:1px solid rgba(124,111,224,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fm);font-size:13px;font-weight:500;
+  color:var(--accent);flex-shrink:0;
+}
+.step-title{font-size:1.4rem;font-weight:800;color:var(--text)}
 .step-title span{color:var(--accent2)}
 
-.div{width:50px;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:100px;margin-bottom:2rem}
 .prose{color:var(--muted);line-height:1.85;margin-bottom:1.25rem}
-.prose strong{color:var(--text)}
-code.il{background:rgba(255,185,108,0.15);border-radius:5px;padding:1px 7px;font-family:var(--fm);font-size:0.83em;color:var(--accent)}
+.prose strong{color:var(--text);font-weight:700}
 
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
 @media(max-width:600px){.info-grid{grid-template-columns:1fr}}
-.info-card{background:var(--surface);border:1px solid rgba(255,185,108,0.15);border-radius:14px;padding:1.4rem;transition:border-color 0.3s,transform 0.3s}
+.info-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:1.4rem;transition:border-color 0.3s,transform 0.3s;
+}
 .info-card:hover{border-color:var(--accent);transform:translateY(-3px)}
 .info-card .ic{font-size:1.8rem;margin-bottom:0.75rem}
 .info-card h4{font-size:1rem;font-weight:800;margin-bottom:0.4rem}
@@ -57,492 +232,825 @@ code.il{background:rgba(255,185,108,0.15);border-radius:5px;padding:1px 7px;font
 pre{padding:1.4rem 1.75rem;overflow-x:auto;font-family:var(--fm);font-size:0.88rem;line-height:1.8;text-align:left}
 .kw{color:#FF79C6}.str{color:#F1FA8C}.num{color:#BD93F9}.fn{color:#50FA7B}.cm{color:#6272A4;font-style:italic}.vr{color:#8BE9FD}.op{color:#FF79C6}.kw2{color:#FFB86C}
 
+.types-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin:1.5rem 0}
+.type-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;position:relative;overflow:hidden;transition:transform 0.3s}
+.type-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.ti::before{background:var(--accent)}
+.tf::before{background:var(--accent2)}
+.ts::before{background:var(--gold)}
+.tb::before{background:var(--accent3)}
+.type-card:hover{transform:translateY(-4px)}
+.tn{font-family:var(--fm);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem}
+.ti .tn{color:var(--accent)}.tf .tn{color:var(--accent2)}.ts .tn{color:var(--gold)}.tb .tn{color:var(--accent3)}
+.te{font-family:var(--fm);font-size:1rem;font-weight:500;color:var(--text);margin-bottom:0.4rem}
+.td{font-size:0.83rem;color:var(--muted)}
+
+/* CONDITION CARDS */
+.cond-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin:1.5rem 0}
+.cond-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;position:relative;overflow:hidden;transition:transform 0.3s,border-color 0.3s}
+.cond-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.cc-if::before{background:var(--accent)}
+.cc-elif::before{background:var(--gold)}
+.cc-else::before{background:var(--accent2)}
+.cond-card:hover{transform:translateY(-4px);border-color:rgba(120,100,255,0.45)}
+.cc-kw{font-family:var(--fm);font-size:13px;font-weight:700;margin-bottom:0.5rem;display:inline-block;padding:2px 10px;border-radius:6px}
+.cc-if .cc-kw{background:rgba(124,111,224,0.2);color:var(--accent)}
+.cc-elif .cc-kw{background:rgba(247,201,72,0.2);color:var(--gold)}
+.cc-else .cc-kw{background:rgba(78,205,196,0.2);color:var(--accent2)}
+.cc-desc{font-size:0.85rem;color:var(--muted);line-height:1.5;margin-top:0.5rem}
+
+/* OPERATORS */
+.ops-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;margin:1.5rem 0}
+.op-chip{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1rem;display:flex;align-items:center;gap:0.75rem;transition:border-color 0.3s,transform 0.3s}
+.op-chip:hover{border-color:var(--accent2);transform:translateY(-2px)}
+.op-sym{font-family:var(--fm);font-size:1.1rem;color:var(--accent2);font-weight:700;min-width:36px;text-align:center;background:rgba(78,205,196,0.1);padding:3px 6px;border-radius:6px}
+.op-lbl{font-size:0.82rem;color:var(--muted)}
+
+.rules{list-style:none;display:flex;flex-direction:column;gap:0.9rem;margin:1.5rem 0}
+.rules li{display:flex;gap:0.9rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.35rem;transition:border-color 0.3s}
+.rules li:hover{border-color:var(--accent2)}
+.ri{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;margin-top:2px}
+.rok{background:rgba(82,214,138,0.15);color:var(--green)}
+.rno{background:rgba(255,107,107,0.15);color:var(--accent3)}
+.rt strong{display:block;font-size:0.95rem;font-weight:800;color:var(--text);margin-bottom:0.2rem}
+.rt span{font-size:0.85rem;color:var(--muted)}
+code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-family:var(--fm);font-size:0.83em;color:var(--accent)}
+
 .tip{background:rgba(78,205,196,0.07);border:1px solid rgba(78,205,196,0.28);border-radius:14px;padding:1.4rem 1.6rem;margin:1.75rem 0;display:flex;gap:1rem}
 .tip-ic{font-size:1.4rem;flex-shrink:0}
 .tip-body strong{display:block;font-size:1rem;font-weight:800;color:var(--accent2);margin-bottom:0.35rem}
 .tip-body p{font-size:0.88rem;color:var(--muted)}
 
+/* FLOWCHART */
+.flowchart{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.75rem;margin:1.75rem 0;display:flex;flex-direction:column;align-items:center;gap:0}
+.fc-node{border-radius:10px;padding:0.7rem 1.6rem;font-family:var(--fm);font-size:0.85rem;font-weight:500;text-align:center;min-width:200px}
+.fc-start{background:rgba(124,111,224,0.15);border:2px solid var(--accent);color:var(--accent)}
+.fc-diamond{background:rgba(247,201,72,0.1);border:2px solid var(--gold);color:var(--gold);transform:none;border-radius:6px;padding:0.75rem 2rem}
+.fc-yes{background:rgba(82,214,138,0.1);border:2px solid var(--green);color:var(--green)}
+.fc-no{background:rgba(255,107,107,0.1);border:2px solid var(--accent3);color:var(--accent3)}
+.fc-arrow{color:var(--muted);font-size:1.2rem;line-height:1;padding:4px 0;font-family:var(--fm)}
+.fc-row{display:flex;gap:2rem;align-items:flex-start;justify-content:center;width:100%}
+.fc-col{display:flex;flex-direction:column;align-items:center;gap:0}
+.fc-side-lbl{font-size:11px;color:var(--muted);font-family:var(--fm);margin-bottom:4px}
+
+.quiz-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:2rem;margin:2rem 0}
+.quiz-q{font-size:1.05rem;font-weight:800;margin-bottom:1.25rem;color:var(--text)}
+.quiz-opts{display:flex;flex-direction:column;gap:0.75rem}
+.qo{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1.2rem;font-family:var(--fh);font-size:0.9rem;cursor:pointer;transition:all 0.2s;color:var(--text);text-align:right;font-weight:500}
+.qo:hover{border-color:var(--accent);background:rgba(124,111,224,0.1)}
+.qo.correct{border-color:var(--accent2);background:rgba(78,205,196,0.1);color:var(--accent2)}
+.qo.wrong{border-color:var(--accent3);background:rgba(255,107,107,0.1);color:var(--accent3)}
+.qfb{margin-top:1rem;font-size:0.88rem;min-height:1.4rem;font-weight:500}
+
+.congrats{
+  text-align:center;padding:3rem 2rem;
+  background:var(--surface);border:1px solid rgba(78,205,196,0.3);
+  border-radius:20px;margin-top:3rem;
+}
+.congrats .big{font-size:3.5rem;margin-bottom:1rem}
+.congrats h3{font-size:1.5rem;font-weight:900;color:var(--accent2);margin-bottom:0.75rem}
+.congrats p{color:var(--muted);font-size:0.95rem;margin-bottom:1.75rem}
+.congrats-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent2);color:#000;font-weight:800;
+  border:none;border-radius:100px;padding:12px 28px;
+  font-family:var(--fh);font-size:1rem;cursor:pointer;transition:all 0.25s;
+}
+.congrats-btn:hover{opacity:0.85;transform:scale(1.04)}
+
+.div{width:50px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px;margin-bottom:2rem}
+
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:100px}
-
-/* ═══ CONCEPT: ANATOMY ═══ */
-.anatomy-wrap{background:#0d1117;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:2rem 1.5rem;margin:1.75rem 0;overflow-x:auto}
-.anat-line{font-family:var(--fm);font-size:clamp(1rem,4vw,1.65rem);text-align:center;margin-bottom:2rem;white-space:nowrap;direction:ltr;letter-spacing:.04em}
-.ak{color:#FF79C6;font-weight:700}.av{color:#8BE9FD}.af{color:#50FA7B}.an{color:#BD93F9}.ai{color:#FFB86C;font-weight:700}.ap{color:#F8F8F280}
-.aleg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:.75rem;direction:rtl}
-.aleg-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:.9rem 1rem;display:flex;gap:10px;align-items:flex-start;transition:border-color .3s,transform .3s}
-.aleg-card:hover{border-color:rgba(255,255,255,0.18);transform:translateY(-2px)}
-.aleg-card .adot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.aleg-card strong{display:block;font-size:.9rem;margin-bottom:3px;font-family:var(--fm)}
-.aleg-card p{font-size:.8rem;color:var(--muted);line-height:1.45}
-
-/* ═══ CONCEPT: LOOP ANIMATION ═══ */
-.loop-anim{background:var(--surface);border:1px solid rgba(255,185,108,.15);border-radius:16px;padding:1.75rem;margin:1.75rem 0;text-align:center}
-.loop-head{font-size:.82rem;color:var(--muted);margin-bottom:1.25rem;direction:rtl}
-.loop-track{display:flex;gap:10px;justify-content:center;margin:0 0 1.5rem;flex-wrap:wrap;direction:ltr}
-.lb{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:1.2rem;font-weight:700;border:2px solid rgba(255,255,255,.09);background:rgba(255,255,255,.02);color:#3a3a5a;transition:all .5s cubic-bezier(.34,1.56,.64,1)}
-.lb.active{border-color:var(--accent);background:rgba(255,184,108,.18);color:var(--accent);transform:translateY(-10px);box-shadow:0 12px 32px rgba(255,184,108,.28)}
-.lb.done{border-color:rgba(78,205,196,.45);background:rgba(78,205,196,.09);color:var(--accent2);transform:none}
-.loop-status{font-family:var(--fm);font-size:.95rem;color:var(--muted);min-height:2.2rem;direction:ltr;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
-.lv{color:var(--accent);font-size:1.1rem;font-weight:700}
-.lv2{color:var(--accent2);font-weight:700}
-.loop-btns{display:flex;justify-content:center;gap:.75rem;margin-top:1.25rem}
-.lbtn{background:rgba(255,185,108,.1);border:1px solid rgba(255,185,108,.25);border-radius:8px;padding:7px 22px;color:var(--accent);font-family:var(--fh);font-size:.85rem;cursor:pointer;transition:all .2s}
-.lbtn:hover{background:rgba(255,185,108,.2)}
-
-/* ═══ CONCEPT: NUMBER LINE ═══ */
-.nline-tabs{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;direction:rtl}
-.ntab{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 16px;font-size:.82rem;cursor:pointer;color:var(--muted);transition:all .2s;font-family:var(--fm)}
-.ntab.on{background:rgba(255,185,108,.15);border-color:var(--accent);color:var(--accent)}
-.ntab:hover{border-color:var(--accent2);color:var(--accent2)}
-.nline-box{background:#0d1117;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.5rem;overflow-x:auto}
-.nl-expr{font-family:var(--fm);font-size:.88rem;text-align:center;margin-bottom:1.25rem;direction:ltr;min-height:1.5rem}
-.nl-track{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
-.nbox{width:46px;height:46px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:.92rem;font-weight:600;border:2px solid rgba(255,255,255,.06);color:#333;background:rgba(255,255,255,.01);transition:all .5s ease}
-.nbox.in{border-color:var(--accent);background:rgba(255,184,108,.15);color:var(--accent);animation:boop .4s ease forwards}
-.nbox.stop{border-color:rgba(255,80,80,.35);color:rgba(255,110,110,.55)}
-.nbox.skip{opacity:.15}
-.nbox.hit{border-color:var(--accent2);background:rgba(78,205,196,.12);color:var(--accent2);animation:boop .4s ease forwards}
-@keyframes boop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
-.nl-legend{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;font-size:.79rem;color:var(--muted);margin-top:.5rem;direction:rtl}
-.nl-legend span{display:flex;align-items:center;gap:5px}
-.nldot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
 </style>
 </head>
 <body>
+
 <div class="orb o1"></div>
 <div class="orb o2"></div>
+<div class="orb o3"></div>
 
-<div class="lesson-nav">
-  <div class="nav-title">🔂 حلقة for — Python</div>
+<div class="lang-toggle">
+  <button class="lang-btn active" onclick="setLang('ar')">العربية</button>
+  <button class="lang-btn" onclick="setLang('en')">English</button>
 </div>
 
-<div class="lesson-body">
+<!-- ══════════════ LANDING PAGE ══════════════ -->
+<div id="landing">
+  <div class="hero-badge"><span id="badge-txt">منصة تعليمية تفاعلية</span></div>
+  <h1 class="hero-title">
+    <span id="h1a">تعلّم</span> <em>Python</em><br>
+    <span id="h1b">مع نائلة</span>
+  </h1>
+  <p class="hero-sub" id="hero-sub">رحلتك في البرمجة تبدأ هنا. اختار درسك الأول وابدأ الآن!</p>
+  <div class="byline" id="byline">✦ بقلم حجار نائلة</div>
+  <div class="courses-label" id="courses-label">— اختر درسك —</div>
 
-  <div class="lesson-hero">
-    <div class="lesson-tag">الدرس الثالث · Lesson 03</div>
-    <h1 class="lesson-h1">حلقة <em>for</em></h1>
-    <p class="lesson-sub">التكرار الأنيق على نطاقات وعناصر — الأسلوب الـ Pythonic!</p>
-  </div>
-
-  <!-- ══ CONCEPT 01: ANATOMY ══ -->
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num" style="font-size:1rem;width:44px;height:44px">🔬</div>
-      <div class="step-title">تشريح حلقة <span>for</span> — كل جزء</div>
-    </div>
-    <div class="div"></div>
-    <p class="prose">قبل الأمثلة، دعينا نشرّح سطر <code class="il">for</code> ونفهم معنى كل كلمة فيه بالضبط:</p>
-
-    <div class="anatomy-wrap">
-      <div class="anat-line">
-        <span class="ak">for</span><span class="ap"> </span><span class="av">i</span><span class="ap"> </span><span class="ai">in</span><span class="ap"> </span><span class="af">range</span><span class="ap">(</span><span class="an">1</span><span class="ap">, </span><span class="an">6</span><span class="ap">):</span>
-      </div>
-      <div class="aleg-grid">
-        <div class="aleg-card">
-          <div class="adot" style="background:#FF79C6"></div>
-          <div><strong style="color:#FF79C6">for</strong><p>كلمة Python المحجوزة. تعني "لكل". تُعلم بداية الحلقة.</p></div>
-        </div>
-        <div class="aleg-card">
-          <div class="adot" style="background:#8BE9FD"></div>
-          <div><strong style="color:#8BE9FD">i</strong><p>متغير الحلقة. يأخذ قيمة جديدة تلقائياً كل دورة (1 ثم 2 ثم ...). الاسم اختياري.</p></div>
-        </div>
-        <div class="aleg-card">
-          <div class="adot" style="background:#FFB86C"></div>
-          <div><strong style="color:#FFB86C">in</strong><p>تعني "من". تربط المتغير بمصدر الأرقام أو العناصر.</p></div>
-        </div>
-        <div class="aleg-card">
-          <div class="adot" style="background:#50FA7B"></div>
-          <div><strong style="color:#50FA7B">range(1, 6)</strong><p>دالة تُولّد أرقاماً: 1، 2، 3، 4، 5. هي المصدر الذي ندور عليه.</p></div>
-        </div>
-        <div class="aleg-card">
-          <div class="adot" style="background:#BD93F9"></div>
-          <div><strong style="color:#BD93F9">1, 6</strong><p>معاملات range: ابدأ من 1 وتوقف قبل 6. (الرقم 6 نفسه لا يُنتج).</p></div>
-        </div>
-        <div class="aleg-card">
-          <div class="adot" style="background:#F8F8F2;opacity:0.6"></div>
-          <div><strong>:</strong><p>النقطتان تُخبران Python أن جسم الحلقة يبدأ بالسطر التالي (مع مسافة بادئة).</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ CONCEPT 02: i ══ -->
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num" style="font-family:var(--fm)">i</div>
-      <div class="step-title">ما هو <span>i</span>؟ — متغير الحلقة</div>
-    </div>
-    <div class="div"></div>
-    <p class="prose"><strong>i</strong> هو متغير "السائق" — Python تُغيّر قيمته تلقائياً في كل دورة. أنت لا تكتب <code class="il">i = i + 1</code>، الحلقة تفعل هذا وحدها. شاهد الأنيميشن:</p>
-
-    <div class="loop-anim">
-      <div class="loop-head">تنفيذ: <code style="font-family:var(--fm);color:var(--accent2)">for i in range(1, 6): print(i)</code></div>
-      <div class="loop-track" id="loopTrack">
-        <div class="lb">1</div>
-        <div class="lb">2</div>
-        <div class="lb">3</div>
-        <div class="lb">4</div>
-        <div class="lb">5</div>
-      </div>
-      <div class="loop-status" id="loopStatus"><span style="color:var(--muted)">اضغط تشغيل لرؤية i يتغيّر ▼</span></div>
-      <div class="loop-btns">
-        <button class="lbtn" onclick="loopStart()">▶ تشغيل</button>
-        <button class="lbtn" onclick="loopReset()">↺ إعادة</button>
-      </div>
+  <div class="courses-grid">
+    <div class="course-card unlocked" onclick="startLesson('vars')">
+      <div class="c-badge" id="cb1">ابدأ هنا</div>
+      <div class="c-num">01</div>
+      <div class="c-icon">📦</div>
+      <div class="c-title" id="ct1">المتغيرات</div>
+      <div class="c-desc" id="cd1">تخزين البيانات وتسميتها في Python. هذا هو الأساس الذي يُبنى عليه كل شيء.</div>
+      <button class="start-btn" id="sbtn1">▶ ابدأ الدرس</button>
     </div>
 
-    <div class="tip">
-      <div class="tip-ic">💡</div>
-      <div class="tip-body">
-        <strong>اسم المتغير حر تماماً</strong>
-        <p>التقليد هو كتابة <code class="il">i</code> (اختصار index) لكن يمكنك <code class="il">for num in range(5):</code> أو <code class="il">for طالبة in range(5):</code> — Python لا تهتم بالاسم.</p>
-      </div>
+    <div class="course-card locked">
+      <div class="c-lock">🔒</div>
+      <div class="c-num">02</div>
+      <div class="c-icon">🔁</div>
+      <div class="c-title" id="ct2">الحلقات</div>
+      <div class="c-desc" id="cd2">كرّر الأوامر مئة مرة في سطر واحد. قريباً...</div>
+    </div>
+
+    <div class="course-card locked">
+      <div class="c-lock">🔒</div>
+      <div class="c-num">03</div>
+      <div class="c-icon">⚙️</div>
+      <div class="c-title" id="ct3">الدوال</div>
+      <div class="c-desc" id="cd3">اكتب الكود مرة واحدة، استخدمه في كل مكان. قريباً...</div>
+    </div>
+
+    <!-- COURSE 4 — CONDITIONS — UNLOCKED -->
+    <div class="course-card unlocked" onclick="startLesson('cond')" style="border-color:rgba(247,201,72,0.3);background:rgba(247,201,72,0.04)">
+      <div class="c-badge" style="background:var(--gold)" id="cb4">جديد ✦</div>
+      <div class="c-num">04</div>
+      <div class="c-icon">🌿</div>
+      <div class="c-title" id="ct4">الشروط</div>
+      <div class="c-desc" id="cd4">خلّ برنامجك يفكّر ويتخذ قرارات. if، elif، وelse بأسلوب Python الأنيق.</div>
+      <button class="start-btn" id="sbtn4" style="background:var(--gold);color:#000">▶ ابدأ الدرس</button>
+    </div>
+
+    <div class="course-card locked">
+      <div class="c-lock">🔒</div>
+      <div class="c-num">05</div>
+      <div class="c-icon">📋</div>
+      <div class="c-title" id="ct5">القوائم</div>
+      <div class="c-desc" id="cd5">خزّن مئات القيم في متغير واحد. قريباً...</div>
+    </div>
+
+    <div class="course-card locked">
+      <div class="c-lock">🔒</div>
+      <div class="c-num">06</div>
+      <div class="c-icon">🗂️</div>
+      <div class="c-title" id="ct6">القواميس</div>
+      <div class="c-desc" id="cd6">ربط المفاتيح بالقيم. قريباً...</div>
     </div>
   </div>
-
-  <!-- ══ CONCEPT 03: range ══ -->
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num" style="font-family:var(--fm);font-size:.8rem">[ ]</div>
-      <div class="step-title">ما هو <span>range()</span>؟</div>
-    </div>
-    <div class="div"></div>
-    <p class="prose"><code class="il">range()</code> تُولّد سلسلة أرقام بدون تخزينها كلها في الذاكرة — لها ثلاث صيغ:</p>
-
-    <div class="info-grid">
-      <div class="info-card">
-        <div class="ic">1️⃣</div>
-        <h4>range(stop)</h4>
-        <p>صيغة مختصرة. تبدأ من 0 تلقائياً.<br><code class="il">range(5)</code> → 0, 1, 2, 3, 4</p>
-      </div>
-      <div class="info-card">
-        <div class="ic">2️⃣</div>
-        <h4>range(start, stop)</h4>
-        <p>تحدد البداية والنهاية.<br><code class="il">range(1, 6)</code> → 1, 2, 3, 4, 5</p>
-      </div>
-      <div class="info-card">
-        <div class="ic">3️⃣</div>
-        <h4>range(start, stop, step)</h4>
-        <p>تحدد الخطوة أيضاً.<br><code class="il">range(0, 10, 2)</code> → 0, 2, 4, 6, 8</p>
-      </div>
-      <div class="info-card">
-        <div class="ic">⚠️</div>
-        <h4>stop غير مضمّن!</h4>
-        <p><code class="il">range(1, 6)</code> تنتج 1 حتى 5 فقط. الرقم 6 لا يظهر أبداً — هذا تصميم Python.</p>
-      </div>
-    </div>
-
-    <p class="prose" style="margin-top:1.5rem">اضغط على أي صيغة لترى الأرقام المُنتجة على خط الأعداد:</p>
-    <div class="nline-tabs">
-      <button class="ntab on" onclick="showRange(0)" id="rtab0">range(5)</button>
-      <button class="ntab" onclick="showRange(1)" id="rtab1">range(1, 6)</button>
-      <button class="ntab" onclick="showRange(2)" id="rtab2">range(3, 9)</button>
-    </div>
-    <div class="nline-box">
-      <div class="nl-expr" id="nlExpr"></div>
-      <div class="nl-track" id="nlTrack"></div>
-      <div class="nl-legend">
-        <span><span class="nldot" style="background:var(--accent)"></span> مضمّن في range</span>
-        <span><span class="nldot" style="background:rgba(255,80,80,.55)"></span> stop — غير مضمّن</span>
-        <span><span class="nldot" style="background:#222"></span> خارج النطاق</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ CONCEPT 04: step ══ -->
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num" style="font-size:.8rem">↪↪</div>
-      <div class="step-title">ما هو <span>step</span>؟ — الخطوة</div>
-    </div>
-    <div class="div"></div>
-    <p class="prose"><strong>step</strong> هو المعامل الثالث — يُحدد مقدار القفز بين كل رقم والتالي. إذا تركته، الافتراضي <code class="il">1</code> (كل رقم بالترتيب).</p>
-
-    <div class="info-grid">
-      <div class="info-card">
-        <div class="ic">2️⃣</div>
-        <h4>step=2 (أرقام زوجية)</h4>
-        <p><code class="il">range(0, 10, 2)</code> → 0, 2, 4, 6, 8<br>تقفز كل مرتين</p>
-      </div>
-      <div class="info-card">
-        <div class="ic">3️⃣</div>
-        <h4>step=3</h4>
-        <p><code class="il">range(0, 15, 3)</code> → 0, 3, 6, 9, 12<br>تقفز ثلاث خطوات</p>
-      </div>
-      <div class="info-card">
-        <div class="ic">⬇️</div>
-        <h4>step سالب — تنازلي</h4>
-        <p><code class="il">range(10, 0, -1)</code> → 10, 9, 8, ... 1<br>تعدّ للخلف</p>
-      </div>
-      <div class="info-card">
-        <div class="ic">1️⃣</div>
-        <h4>الافتراضي step=1</h4>
-        <p><code class="il">range(5)</code> = <code class="il">range(0,5,1)</code><br>بدون خطوة → كل رقم بالترتيب</p>
-      </div>
-    </div>
-
-    <p class="prose" style="margin-top:1.5rem">شاهد كيف تعمل الخطوة — الأرقام الفاتحة تُؤخذ، المعتمة تُتخطى:</p>
-    <div class="nline-tabs">
-      <button class="ntab on" onclick="showStep(0)" id="stab0">step=2 (زوجي)</button>
-      <button class="ntab" onclick="showStep(1)" id="stab1">step=3</button>
-      <button class="ntab" onclick="showStep(2)" id="stab2">step=-1 (تنازلي)</button>
-    </div>
-    <div class="nline-box">
-      <div class="nl-expr" id="stepExpr"></div>
-      <div class="nl-track" id="stepTrack"></div>
-      <div class="nl-legend">
-        <span><span class="nldot" style="background:var(--accent2)"></span> يُؤخذ (step يطاله)</span>
-        <span><span class="nldot" style="background:#1a1a2e;border:1px solid #333"></span> يُتخطى</span>
-      </div>
-    </div>
-
-    <div class="tip">
-      <div class="tip-ic">⚠️</div>
-      <div class="tip-body">
-        <strong>step سالب: انتبه لاتجاه start و stop</strong>
-        <p>في العدّ التنازلي <code class="il">start</code> يجب أن يكون <strong>أكبر</strong> من <code class="il">stop</code>. <code class="il">range(10, 0, -1)</code> صحيح — <code class="il">range(0, 10, -1)</code> لا ينتج شيئاً!</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 01 -->
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num">01</div>
-      <div class="step-title">ما هي حلقة <span>for؟</span></div>
-    </div>
-    <div class="div"></div>
-    <p class="prose">
-      حلقة <code class="il">for</code> تُكرّر على عناصر متسلسلة — نطاق أرقام، نص، قائمة، وأكثر.
-      هي أكثر أناقةً من <code class="il">while</code> حين تعرفين عدد التكرارات مسبقاً.
-    </p>
-    <div class="info-grid">
-      <div class="info-card"><div class="ic">📏</div><h4>range()</h4><p><code class="il">range(start, stop, step)</code> تُولّد سلسلة أرقام. <code class="il">range(1,11)</code> من 1 إلى 10.</p></div>
-      <div class="info-card"><div class="ic">🔡</div><h4>التكرار على النصوص</h4><p>يمكن التكرار على كل حرف: <code class="il">for c in "Python":</code></p></div>
-      <div class="info-card"><div class="ic">📐</div><h4>خطوة مخصصة (step)</h4><p><code class="il">range(2,21,2)</code> الأزواج. <code class="il">range(10,0,-1)</code> عدّ تنازلي.</p></div>
-      <div class="info-card"><div class="ic">🔗</div><h4>for متداخلة</h4><p>for داخل for لطباعة أنماط أو بناء جداول.</p></div>
-    </div>
-    <div class="code-wrap">
-      <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">for_basics.py</span></div>
-      <pre><span class="cm"># من 1 إلى 10</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span>)
-
-<span class="cm"># الأعداد الزوجية — خطوة 2</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">2</span>, <span class="num">21</span>, <span class="num">2</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span>)   <span class="cm"># 2 4 6 ... 20</span>
-
-<span class="cm"># عدّ تنازلي من 10 إلى 1</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">10</span>, <span class="num">0</span>, <span class="op">-</span><span class="num">1</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span>)   <span class="cm"># 10 9 ... 1</span>
-
-<span class="cm"># التكرار على نص</span>
-<span class="kw">for</span> <span class="vr">c</span> <span class="kw2">in</span> <span class="str">"Python"</span><span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">c</span>)   <span class="cm"># P y t h o n</span></pre>
-    </div>
-  </div>
-
-  <!-- STEP 02 -->
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num">02</div>
-      <div class="step-title">المجموع وجدول <span>الضرب</span></div>
-    </div>
-    <div class="div"></div>
-    <p class="prose">الاستخدامات الأكثر شيوعاً لـ for: حساب مجموع، جدول الضرب، ومربّعات الأرقام.</p>
-    <div class="code-wrap">
-      <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">sum_table.py</span></div>
-      <pre><span class="cm"># مجموع الأرقام من 1 إلى 10</span>
-<span class="vr">total</span> <span class="op">=</span> <span class="num">0</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
-    <span class="vr">total</span> <span class="op">+=</span> <span class="vr">i</span>
-<span class="fn">print</span>(<span class="str">"المجموع:"</span>, <span class="vr">total</span>)   <span class="cm"># 55</span>
-
-<span class="cm"># جدول الضرب</span>
-<span class="vr">n</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي عدداً: "</span>))
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">n</span>, <span class="str">"×"</span>, <span class="vr">i</span>, <span class="str">"="</span>, <span class="vr">n</span> <span class="op">*</span> <span class="vr">i</span>)
-
-<span class="cm"># مربّعات الأرقام من 1 إلى 5</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span>, <span class="str">"² ="</span>, <span class="vr">i</span> <span class="op">**</span> <span class="num">2</span>)  <span class="cm"># 1 4 9 16 25</span></pre>
-    </div>
-  </div>
-
-  <!-- STEP 03 -->
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num">03</div>
-      <div class="step-title">for المتداخلة و<span>الأنماط</span></div>
-    </div>
-    <div class="div"></div>
-    <p class="prose">
-      حلقة for داخل أخرى — تُسمّى <strong>nested loops</strong>.
-      الحلقة الداخلية تُكمل دورتها كاملةً في كل تكرار للخارجية.
-    </p>
-    <div class="code-wrap">
-      <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">nested_for.py</span></div>
-      <pre><span class="cm"># نمط المثلث</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">5</span>)<span class="op">:</span>
-    <span class="kw">for</span> <span class="vr">j</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="vr">i</span> <span class="op">+</span> <span class="num">1</span>)<span class="op">:</span>
-        <span class="fn">print</span>(<span class="vr">j</span>, <span class="vr">end</span><span class="op">=</span><span class="str">" "</span>)
-    <span class="fn">print</span>()
-<span class="cm"># الناتج:</span>
-<span class="cm"># 1</span>
-<span class="cm"># 1 2</span>
-<span class="cm"># 1 2 3</span>
-<span class="cm"># 1 2 3 4</span></pre>
-    </div>
-    <div class="tip">
-      <div class="tip-ic">💡</div>
-      <div class="tip-body">
-        <strong>end=" " في print</strong>
-        <p>بشكل افتراضي print تنتقل لسطر جديد. <code class="il">end=" "</code> تجعلها تطبع مسافة بدلاً من ذلك، مما يُبقي الأرقام في نفس السطر.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 04 -->
-  <div class="step">
-    <div class="step-header">
-      <div class="step-num">04</div>
-      <div class="step-title">العدّ والبحث عن <span>الأكبر</span></div>
-    </div>
-    <div class="div"></div>
-    <p class="prose">مسألتان ستواجهينهما كثيراً: العدّ بشروط داخل الحلقة، وإيجاد القيمة القصوى بدون <code class="il">max()</code>.</p>
-    <div class="code-wrap">
-      <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">count_max.py</span></div>
-      <pre><span class="cm"># عدّ الزوجي والفردي من 1 إلى 100</span>
-<span class="vr">even</span>, <span class="vr">odd</span> <span class="op">=</span> <span class="num">0</span>, <span class="num">0</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">101</span>)<span class="op">:</span>
-    <span class="kw">if</span> <span class="vr">i</span> <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span><span class="op">:</span>
-        <span class="vr">even</span> <span class="op">+=</span> <span class="num">1</span>
-    <span class="kw">else</span><span class="op">:</span>
-        <span class="vr">odd</span> <span class="op">+=</span> <span class="num">1</span>
-<span class="fn">print</span>(<span class="str">"الزوجية:"</span>, <span class="vr">even</span>, <span class="str">"| الفردية:"</span>, <span class="vr">odd</span>)
-
-<span class="cm"># أكبر رقم بين 5 مدخلات (بدون max())</span>
-<span class="vr">largest</span> <span class="op">=</span> <span class="kw">None</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">5</span>)<span class="op">:</span>
-    <span class="vr">num</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">f"الرقم {i+1}: "</span>))
-    <span class="kw">if</span> <span class="vr">largest</span> <span class="kw2">is</span> <span class="kw">None</span> <span class="kw2">or</span> <span class="vr">num</span> <span class="op">&gt;</span> <span class="vr">largest</span><span class="op">:</span>
-        <span class="vr">largest</span> <span class="op">=</span> <span class="vr">num</span>
-<span class="fn">print</span>(<span class="str">"الأكبر:"</span>, <span class="vr">largest</span>)
-
-<span class="cm"># عدّ خانات رقم</span>
-<span class="vr">n</span> <span class="op">=</span> <span class="fn">input</span>(<span class="str">"أدخلي رقماً: "</span>)
-<span class="vr">count</span> <span class="op">=</span> <span class="num">0</span>
-<span class="kw">for</span> <span class="vr">d</span> <span class="kw2">in</span> <span class="vr">n</span><span class="op">:</span>
-    <span class="kw">if</span> <span class="vr">d</span><span class="op">.</span><span class="fn">isdigit</span>()<span class="op">:</span>
-        <span class="vr">count</span> <span class="op">+=</span> <span class="num">1</span>
-<span class="fn">print</span>(<span class="str">"عدد الخانات:"</span>, <span class="vr">count</span>)</pre>
-    </div>
-  </div>
-
 </div>
+
+<!-- ══════════════ VARIABLES LESSON ══════════════ -->
+<div id="lesson">
+  <div class="lesson-nav">
+    <button class="back-btn" onclick="goBack()">
+      <span>←</span> <span id="back-txt">العودة</span>
+    </button>
+    <div class="nav-title" id="nav-title">📦 المتغيرات — Variables</div>
+    <div class="progress-wrap">
+      <div class="progress-bar-outer"><div class="progress-bar-inner" id="pbar"></div></div>
+      <div class="progress-txt" id="ptxt">0%</div>
+    </div>
+  </div>
+  <div class="lesson-body">
+    <div class="lesson-hero">
+      <div class="lesson-tag" id="ltag">الدرس الأول · Lesson 01</div>
+      <h1 class="lesson-h1"><span id="lh1a">المتغيرات في</span> <em>Python</em></h1>
+      <p class="lesson-sub" id="lsub">تعلّمي كيف تخزّني البيانات، تسمّيها، وتستخدمها. هذا هو قلب البرمجة.</p>
+    </div>
+
+    <div class="step" id="step1">
+      <div class="step-header"><div class="step-num">01</div><div class="step-title" id="s1t">ما هو <span>المتغير؟</span></div></div>
+      <div class="div"></div>
+      <p class="prose" id="s1p">المتغير هو كالصندوق المُسمَّى — تضعين فيه قيمة وتستخدمينها لاحقاً. في Python، لا تحتاجين لتحديد النوع مسبقاً، فقط اكتبي الاسم والقيمة!</p>
+      <div class="info-grid">
+        <div class="info-card"><div class="ic">📦</div><h4 id="ic1h">صندوق تخزين</h4><p id="ic1p">المتغير يحفظ القيمة بداخله ويُعطيها اسماً يسهّل استخدامها لاحقاً.</p></div>
+        <div class="info-card"><div class="ic">🔁</div><h4 id="ic2h">قيمة قابلة للتغيير</h4><p id="ic2p">يمكن تغيير قيمة المتغير في أي وقت خلال البرنامج.</p></div>
+        <div class="info-card"><div class="ic">🏷️</div><h4 id="ic3h">اسم تختارينه أنتِ</h4><p id="ic3p">اختاري اسماً واضحاً مثل <code class="il">student_name</code> ليكون الكود مفهوماً.</p></div>
+        <div class="info-card"><div class="ic">⚡</div><h4 id="ic4h">Python ذكي</h4><p id="ic4p">Python يعرف نوع المتغير تلقائياً بمجرد إسناد القيمة إليه.</p></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">hello_variables.py</span></div>
+        <pre><span class="cm"># إنشاء أول متغير لك / Creating your first variable</span>
+<span class="vr">name</span>       <span class="op">=</span> <span class="str">"Naïla"</span>    <span class="cm"># نص / string</span>
+<span class="vr">age</span>        <span class="op">=</span> <span class="num">20</span>         <span class="cm"># رقم صحيح / integer</span>
+<span class="vr">gpa</span>        <span class="op">=</span> <span class="num">3.85</span>       <span class="cm"># رقم عشري / float</span>
+<span class="vr">is_student</span> <span class="op">=</span> <span class="kw">True</span>       <span class="cm"># صح أو خطأ / boolean</span>
+
+<span class="fn">print</span>(<span class="vr">name</span>)   <span class="cm"># Naïla</span>
+<span class="fn">print</span>(<span class="vr">age</span>)    <span class="cm"># 20</span></pre>
+      </div>
+    </div>
+
+    <div class="step" id="step2">
+      <div class="step-header"><div class="step-num">02</div><div class="step-title" id="s2t">أنواع <span>البيانات</span></div></div>
+      <div class="div"></div>
+      <p class="prose" id="s2p">كل متغير له نوع يعتمد على القيمة التي يحملها. في Python، هناك أربعة أنواع أساسية ستستخدمينها دائماً:</p>
+      <div class="types-grid">
+        <div class="type-card ti"><div class="tn">int</div><div class="te">age = 21</div><div class="td" id="td1">أعداد صحيحة، موجبة أو سالبة. بدون فاصلة.</div></div>
+        <div class="type-card tf"><div class="tn">float</div><div class="te">pi = 3.14</div><div class="td" id="td2">أعداد عشرية. للقياسات والأسعار وغيرها.</div></div>
+        <div class="type-card ts"><div class="tn">str</div><div class="te">city = "Algiers"</div><div class="td" id="td3">نصوص. دائماً بين علامتي تنصيص.</div></div>
+        <div class="type-card tb"><div class="tn">bool</div><div class="te">done = True</div><div class="td" id="td4">قيمتان فقط: <code class="il">True</code> أو <code class="il">False</code>.</div></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">types_demo.py</span></div>
+        <pre><span class="vr">score</span> <span class="op">=</span> <span class="num">95</span>
+<span class="vr">price</span> <span class="op">=</span> <span class="num">19.99</span>
+<span class="vr">city</span>  <span class="op">=</span> <span class="str">"Ouargla"</span>
+<span class="vr">passed</span><span class="op">=</span> <span class="kw">True</span>
+
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="vr">score</span>))    <span class="cm"># &lt;class 'int'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="vr">price</span>))    <span class="cm"># &lt;class 'float'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="vr">city</span>))     <span class="cm"># &lt;class 'str'&gt;</span>
+<span class="fn">print</span>(<span class="fn">type</span>(<span class="vr">passed</span>))   <span class="cm"># &lt;class 'bool'&gt;</span></pre>
+      </div>
+      <div class="tip"><div class="tip-ic">💡</div><div class="tip-body"><strong id="tip1h">Python يحدّد النوع تلقائياً</strong><p id="tip1p">لا تحتاجين لكتابة <code class="il">int age = 20</code> كما في لغات أخرى. Python يقرأ القيمة ويحدد النوع بذكاء!</p></div></div>
+    </div>
+
+    <div class="step" id="step3">
+      <div class="step-header"><div class="step-num">03</div><div class="step-title" id="s3t">قواعد <span>التسمية</span></div></div>
+      <div class="div"></div>
+      <p class="prose" id="s3p">اسم المتغير مهم جداً! إليكِ القواعد التي يجب اتباعها في Python:</p>
+      <ul class="rules">
+        <li><div class="ri rok">✓</div><div class="rt"><strong id="r1h">ابدأي بحرف أو شرطة سفلية</strong><span id="r1p">صحيح: <code class="il">name</code>، <code class="il">_score</code>، <code class="il">my_var</code> — لا يجوز البدء برقم.</span></div></li>
+        <li><div class="ri rok">✓</div><div class="rt"><strong id="r2h">حروف وأرقام وشرطة سفلية فقط</strong><span id="r2p">صحيح: <code class="il">student_name</code>، <code class="il">value2</code> — لا مسافات ولا رموز مثل <code class="il">!</code>، <code class="il">-</code>.</span></div></li>
+        <li><div class="ri rok">✓</div><div class="rt"><strong id="r3h">استخدمي snake_case</strong><span id="r3p">الأسلوب المفضّل: <code class="il">first_name</code> وليس <code class="il">FirstName</code>.</span></div></li>
+        <li><div class="ri rno">✗</div><div class="rt"><strong id="r4h">تجنّبي الكلمات المحجوزة</strong><span id="r4p">كلمات مثل <code class="il">if</code>، <code class="il">for</code>، <code class="il">class</code>، <code class="il">True</code> محجوزة ولا يمكن استخدامها كأسماء.</span></div></li>
+        <li><div class="ri rno">✗</div><div class="rt"><strong id="r5h">الأحرف الكبيرة والصغيرة مختلفة!</strong><span id="r5p"><code class="il">Age</code> و<code class="il">age</code> و<code class="il">AGE</code> ثلاثة متغيرات مختلفة تماماً.</span></div></li>
+      </ul>
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">naming.py</span></div>
+        <pre><span class="cm"># ✓ أسماء صحيحة / Valid names</span>
+<span class="vr">student_name</span> <span class="op">=</span> <span class="str">"Hajar"</span>
+<span class="vr">_count</span>       <span class="op">=</span> <span class="num">0</span>
+<span class="vr">level2</span>       <span class="op">=</span> <span class="str">"intermediate"</span>
+
+<span class="cm"># ✗ أسماء خاطئة / Invalid names</span>
+<span class="cm"># 2cool = "no"      → يبدأ برقم</span>
+<span class="cm"># my-var = 5        → يحتوي شرطة عادية</span>
+<span class="cm"># class = "Python"  → كلمة محجوزة</span></pre>
+      </div>
+    </div>
+
+    <div class="step" id="step4">
+      <div class="step-header"><div class="step-num">04</div><div class="step-title" id="s4t">إسناد <span>متعدد</span></div></div>
+      <div class="div"></div>
+      <p class="prose" id="s4p">Python يتيح لكِ إسناد متغيرات متعددة بأساليب ذكية في سطر واحد:</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">multi_assign.py</span></div>
+        <pre><span class="cm"># نفس القيمة لعدة متغيرات / Same value</span>
+<span class="vr">x</span> <span class="op">=</span> <span class="vr">y</span> <span class="op">=</span> <span class="vr">z</span> <span class="op">=</span> <span class="num">0</span>
+
+<span class="cm"># قيم مختلفة في سطر واحد / Multiple values</span>
+<span class="vr">first</span>, <span class="vr">last</span>, <span class="vr">grade</span> <span class="op">=</span> <span class="str">"Hajar"</span>, <span class="str">"Naïla"</span>, <span class="str">"A"</span>
+
+<span class="cm"># تبادل قيمتين بسطر واحد / Swap values</span>
+<span class="vr">a</span>, <span class="vr">b</span> <span class="op">=</span> <span class="num">10</span>, <span class="num">20</span>
+<span class="vr">a</span>, <span class="vr">b</span> <span class="op">=</span> <span class="vr">b</span>, <span class="vr">a</span>   <span class="cm"># الآن: a=20, b=10</span>
+
+<span class="fn">print</span>(<span class="vr">first</span>, <span class="vr">last</span>)   <span class="cm"># Hajar Naïla</span>
+<span class="fn">print</span>(<span class="vr">a</span>, <span class="vr">b</span>)          <span class="cm"># 20 10</span></pre>
+      </div>
+    </div>
+
+    <div class="step" id="step5">
+      <div class="step-header"><div class="step-num">✦</div><div class="step-title" id="s5t">اختبري <span>نفسك</span></div></div>
+      <div class="div"></div>
+
+      <div class="quiz-card" id="q1box">
+        <div class="quiz-q" id="q1q">❓ أيّ من هذه الأسماء صحيح في Python؟</div>
+        <div class="quiz-opts">
+          <button class="qo" onclick="qa(this,'wrong','fb1',0)">2myVar</button>
+          <button class="qo" onclick="qa(this,'correct','fb1',0)">my_var2</button>
+          <button class="qo" onclick="qa(this,'wrong','fb1',0)">my-var</button>
+          <button class="qo" onclick="qa(this,'wrong','fb1',0)">class</button>
+        </div>
+        <div class="qfb" id="fb1"></div>
+      </div>
+
+      <div class="quiz-card" style="margin-top:1.25rem" id="q2box">
+        <div class="quiz-q" id="q2q">❓ ما نوع المتغير <code class="il">price = 9.99</code>؟</div>
+        <div class="quiz-opts">
+          <button class="qo" onclick="qa(this,'wrong','fb2',1)">int</button>
+          <button class="qo" onclick="qa(this,'correct','fb2',1)">float</button>
+          <button class="qo" onclick="qa(this,'wrong','fb2',1)">str</button>
+          <button class="qo" onclick="qa(this,'wrong','fb2',1)">bool</button>
+        </div>
+        <div class="qfb" id="fb2"></div>
+      </div>
+
+      <div class="quiz-card" style="margin-top:1.25rem" id="q3box">
+        <div class="quiz-q" id="q3q">❓ ما الناتج؟ <code class="il">a, b = 5, 10 | a, b = b, a | print(a)</code></div>
+        <div class="quiz-opts">
+          <button class="qo" onclick="qa(this,'wrong','fb3',2)">5</button>
+          <button class="qo" onclick="qa(this,'correct','fb3',2)">10</button>
+          <button class="qo" onclick="qa(this,'wrong','fb3',2)">خطأ في الكود</button>
+          <button class="qo" onclick="qa(this,'wrong','fb3',2)">None</button>
+        </div>
+        <div class="qfb" id="fb3"></div>
+      </div>
+    </div>
+
+    <div class="congrats" id="congrats-box" style="display:none">
+      <div class="big">🎉</div>
+      <h3 id="cong-h">أحسنتِ يا نائلة!</h3>
+      <p id="cong-p">لقد أكملتِ الدرس الأول بنجاح. أنتِ الآن تعرفين كيف تنشئين المتغيرات وتستخدمينها في Python!</p>
+      <button class="congrats-btn" onclick="goBack()" id="cong-btn">← العودة للدروس</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CONDITIONS LESSON ══════════════ -->
+<div id="lesson-cond">
+  <div class="lesson-nav">
+    <button class="back-btn" onclick="goBack()">
+      <span>←</span> <span id="cback-txt">العودة</span>
+    </button>
+    <div class="nav-title" id="cnav-title">🌿 الشروط — Conditions</div>
+    <div class="progress-wrap">
+      <div class="progress-bar-outer"><div class="progress-bar-inner" id="cpbar"></div></div>
+      <div class="progress-txt" id="cptxt">0%</div>
+    </div>
+  </div>
+
+  <div class="lesson-body">
+    <div class="lesson-hero">
+      <div class="lesson-tag" id="cltag">الدرس الرابع · Lesson 04</div>
+      <h1 class="lesson-h1"><span id="clh1a">الشروط في</span> <em>Python</em></h1>
+      <p class="lesson-sub" id="clsub">علّمي برنامجك كيف يفكّر ويتخذ قرارات بناءً على الظروف.</p>
+    </div>
+
+    <!-- STEP 1: ما هي الشروط؟ -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">01</div><div class="step-title" id="cs1t">ما هي <span>الشروط؟</span></div></div>
+      <div class="div"></div>
+      <p class="prose" id="cs1p">الشروط تمنح برنامجك القدرة على اتخاذ القرارات. بدلاً من تنفيذ نفس الأوامر دائماً، يمكنك قول: <strong>«إذا كان كذا، افعل هذا، وإلا افعل ذاك»</strong>. هذا هو منطق <code class="il">if / elif / else</code>.</p>
+
+      <div class="cond-grid">
+        <div class="cond-card cc-if">
+          <div class="cc-kw">if</div>
+          <div class="cc-desc" id="cc1d">الشرط الأساسي. إذا كان صحيحاً، نفّذ الكود بداخله.</div>
+        </div>
+        <div class="cond-card cc-elif">
+          <div class="cc-kw">elif</div>
+          <div class="cc-desc" id="cc2d">شرط إضافي يُختبر إذا فشل الشرط الأول. يمكن تكراره.</div>
+        </div>
+        <div class="cond-card cc-else">
+          <div class="cc-kw">else</div>
+          <div class="cc-desc" id="cc3d">الحالة الافتراضية. تُنفَّذ إذا فشلت جميع الشروط السابقة.</div>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">first_condition.py</span></div>
+        <pre><span class="vr">score</span> <span class="op">=</span> <span class="num">75</span>
+
+<span class="kw">if</span> <span class="vr">score</span> <span class="op">>=</span> <span class="num">90</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"ممتاز! 🌟"</span>)
+<span class="kw">elif</span> <span class="vr">score</span> <span class="op">>=</span> <span class="num">70</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"جيد جداً 👍"</span>)   <span class="cm"># ← هذا سيُطبع</span>
+<span class="kw">elif</span> <span class="vr">score</span> <span class="op">>=</span> <span class="num">50</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"مقبول"</span>)
+<span class="kw">else</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"راجعي الدرس مرة أخرى 📚"</span>)</pre>
+      </div>
+    </div>
+
+    <!-- STEP 2: مشغّلات المقارنة -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">02</div><div class="step-title" id="cs2t">مشغّلات <span>المقارنة</span></div></div>
+      <div class="div"></div>
+      <p class="prose" id="cs2p">داخل الشرط، تحتاجين لمقارنة القيم. إليكِ المشغّلات المتاحة في Python:</p>
+
+      <div class="ops-grid">
+        <div class="op-chip"><span class="op-sym">==</span><span class="op-lbl" id="op1">يساوي</span></div>
+        <div class="op-chip"><span class="op-sym">!=</span><span class="op-lbl" id="op2">لا يساوي</span></div>
+        <div class="op-chip"><span class="op-sym">&gt;</span><span class="op-lbl" id="op3">أكبر من</span></div>
+        <div class="op-chip"><span class="op-sym">&lt;</span><span class="op-lbl" id="op4">أصغر من</span></div>
+        <div class="op-chip"><span class="op-sym">&gt;=</span><span class="op-lbl" id="op5">أكبر أو يساوي</span></div>
+        <div class="op-chip"><span class="op-sym">&lt;=</span><span class="op-lbl" id="op6">أصغر أو يساوي</span></div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">operators.py</span></div>
+        <pre><span class="vr">age</span> <span class="op">=</span> <span class="num">20</span>
+<span class="vr">name</span> <span class="op">=</span> <span class="str">"Naïla"</span>
+
+<span class="fn">print</span>(<span class="vr">age</span> <span class="op">==</span> <span class="num">20</span>)      <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="vr">age</span> <span class="op">!=</span> <span class="num">18</span>)      <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="vr">age</span> <span class="op">></span>  <span class="num">25</span>)      <span class="cm"># False</span>
+<span class="fn">print</span>(<span class="vr">age</span> <span class="op">>=</span> <span class="num">20</span>)      <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="vr">name</span> <span class="op">==</span> <span class="str">"Hajar"</span>) <span class="cm"># False</span></pre>
+      </div>
+
+      <div class="tip">
+        <div class="tip-ic">⚠️</div>
+        <div class="tip-body">
+          <strong id="ctip1h">انتبهي: = vs ==</strong>
+          <p id="ctip1p"><code class="il">=</code> للإسناد (تضعين قيمة في متغير)، أما <code class="il">==</code> للمقارنة (تتحققين من تساوي قيمتين). الخلط بينهما من أكثر الأخطاء شيوعاً!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: and / or / not -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">03</div><div class="step-title" id="cs3t">الشروط <span>المركّبة</span></div></div>
+      <div class="div"></div>
+      <p class="prose" id="cs3p">يمكنك دمج شروط متعددة باستخدام المشغّلات المنطقية <code class="il">and</code>، <code class="il">or</code>، و<code class="il">not</code>:</p>
+
+      <ul class="rules">
+        <li>
+          <div class="ri rok" style="background:rgba(124,111,224,0.15);color:var(--accent)">and</div>
+          <div class="rt"><strong id="cl1h">and — و</strong><span id="cl1p">يعطي True فقط إذا كان <strong>كلا</strong> الشرطين صحيحين. مثال: <code class="il">age &gt;= 18 and has_id == True</code></span></div>
+        </li>
+        <li>
+          <div class="ri rok" style="background:rgba(78,205,196,0.15);color:var(--accent2)">or</div>
+          <div class="rt"><strong id="cl2h">or — أو</strong><span id="cl2p">يعطي True إذا كان <strong>أحد</strong> الشرطين صحيحاً على الأقل. مثال: <code class="il">day == "Sat" or day == "Sun"</code></span></div>
+        </li>
+        <li>
+          <div class="ri rno">not</div>
+          <div class="rt"><strong id="cl3h">not — ليس</strong><span id="cl3p">يعكس قيمة الشرط. مثال: <code class="il">not is_empty</code> — إذا كان الشرط False يصبح True.</span></div>
+        </li>
+      </ul>
+
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">logical.py</span></div>
+        <pre><span class="vr">age</span>    <span class="op">=</span> <span class="num">20</span>
+<span class="vr">has_id</span> <span class="op">=</span> <span class="kw">True</span>
+<span class="vr">day</span>    <span class="op">=</span> <span class="str">"Sat"</span>
+
+<span class="cm"># and: كلا الشرطين يجب أن يكونا صحيحين</span>
+<span class="kw">if</span> <span class="vr">age</span> <span class="op">>=</span> <span class="num">18</span> <span class="kw2">and</span> <span class="vr">has_id</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"مرحباً، ادخلي! ✅"</span>)
+
+<span class="cm"># or: أحد الشرطين يكفي</span>
+<span class="kw">if</span> <span class="vr">day</span> <span class="op">==</span> <span class="str">"Sat"</span> <span class="kw2">or</span> <span class="vr">day</span> <span class="op">==</span> <span class="str">"Sun"</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"عطلة نهاية الأسبوع 🎉"</span>)
+
+<span class="cm"># not: عكس الشرط</span>
+<span class="kw">if</span> <span class="kw2">not</span> <span class="vr">has_id</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"ممنوع الدخول ❌"</span>)</pre>
+      </div>
+    </div>
+
+    <!-- STEP 4: الشرط المضمّن (Ternary) -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">04</div><div class="step-title" id="cs4t">الشرط <span>المختصر</span></div></div>
+      <div class="div"></div>
+      <p class="prose" id="cs4p">Python يتيح كتابة شرط بسيط في سطر واحد أنيق باستخدام صيغة الـ ternary:</p>
+
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">ternary.py</span></div>
+        <pre><span class="vr">score</span> <span class="op">=</span> <span class="num">82</span>
+
+<span class="cm"># الصيغة الطويلة</span>
+<span class="kw">if</span> <span class="vr">score</span> <span class="op">>=</span> <span class="num">50</span><span class="op">:</span>
+    <span class="vr">result</span> <span class="op">=</span> <span class="str">"ناجح"</span>
+<span class="kw">else</span><span class="op">:</span>
+    <span class="vr">result</span> <span class="op">=</span> <span class="str">"راسب"</span>
+
+<span class="cm"># الصيغة المختصرة (ternary) — سطر واحد!</span>
+<span class="vr">result</span> <span class="op">=</span> <span class="str">"ناجح"</span> <span class="kw">if</span> <span class="vr">score</span> <span class="op">>=</span> <span class="num">50</span> <span class="kw">else</span> <span class="str">"راسب"</span>
+
+<span class="fn">print</span>(<span class="vr">result</span>)  <span class="cm"># ناجح</span>
+
+<span class="cm"># مثال آخر / Another example</span>
+<span class="vr">label</span> <span class="op">=</span> <span class="str">"مرتفع"</span> <span class="kw">if</span> <span class="vr">score</span> <span class="op">></span> <span class="num">75</span> <span class="kw">else</span> <span class="str">"منخفض"</span>
+<span class="fn">print</span>(<span class="vr">label</span>)   <span class="cm"># مرتفع</span></pre>
+      </div>
+
+      <div class="tip">
+        <div class="tip-ic">💡</div>
+        <div class="tip-body">
+          <strong id="ctip2h">المسافة البادئة (Indentation) إلزامية!</strong>
+          <p id="ctip2p">في Python، الكود داخل الشرط يجب أن يكون مُبادَراً بـ 4 مسافات أو Tab واحد. هذا ليس اختيارياً — بدونه سيظهر خطأ!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: QUIZ -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">✦</div><div class="step-title" id="cs5t">اختبري <span>نفسك</span></div></div>
+      <div class="div"></div>
+
+      <div class="quiz-card">
+        <div class="quiz-q" id="cq1q">❓ ما الناتج إذا كانت <code class="il">score = 65</code>؟<br><code class="il" style="font-size:0.8em">if score >= 90: print("A") elif score >= 60: print("B") else: print("C")</code></div>
+        <div class="quiz-opts">
+          <button class="qo" onclick="cqa(this,'wrong','cfb1',0)">A</button>
+          <button class="qo" onclick="cqa(this,'correct','cfb1',0)">B</button>
+          <button class="qo" onclick="cqa(this,'wrong','cfb1',0)">C</button>
+          <button class="qo" onclick="cqa(this,'wrong','cfb1',0)">خطأ في الكود</button>
+        </div>
+        <div class="qfb" id="cfb1"></div>
+      </div>
+
+      <div class="quiz-card" style="margin-top:1.25rem">
+        <div class="quiz-q" id="cq2q">❓ ما الفرق بين <code class="il">=</code> و <code class="il">==</code> في Python؟</div>
+        <div class="quiz-opts">
+          <button class="qo" onclick="cqa(this,'wrong','cfb2',1)" id="cq2a">لا فرق بينهما</button>
+          <button class="qo" onclick="cqa(this,'wrong','cfb2',1)" id="cq2b"><code class="il">==</code> للإسناد و<code class="il">=</code> للمقارنة</button>
+          <button class="qo" onclick="cqa(this,'correct','cfb2',1)" id="cq2c"><code class="il">=</code> للإسناد و<code class="il">==</code> للمقارنة</button>
+          <button class="qo" onclick="cqa(this,'wrong','cfb2',1)" id="cq2d">يُستخدمان فقط مع الأرقام</button>
+        </div>
+        <div class="qfb" id="cfb2"></div>
+      </div>
+
+      <div class="quiz-card" style="margin-top:1.25rem">
+        <div class="quiz-q" id="cq3q">❓ ما الناتج؟ <code class="il">x = "مرحبا" if 10 > 5 else "وداعاً"</code></div>
+        <div class="quiz-opts">
+          <button class="qo" onclick="cqa(this,'wrong','cfb3',2)">وداعاً</button>
+          <button class="qo" onclick="cqa(this,'correct','cfb3',2)">مرحبا</button>
+          <button class="qo" onclick="cqa(this,'wrong','cfb3',2)">True</button>
+          <button class="qo" onclick="cqa(this,'wrong','cfb3',2)">خطأ في الكود</button>
+        </div>
+        <div class="qfb" id="cfb3"></div>
+      </div>
+    </div>
+
+    <div class="congrats" id="ccongrats-box" style="display:none">
+      <div class="big">🌿</div>
+      <h3 id="ccong-h">ممتازة يا نائلة!</h3>
+      <p id="ccong-p">أكملتِ درس الشروط بنجاح! الآن برنامجك يستطيع التفكير واتخاذ القرارات مثلكِ تماماً.</p>
+      <button class="congrats-btn" onclick="goBack()" id="ccong-btn" style="background:var(--gold);color:#000">← العودة للدروس</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// ── Loop Animation ─────────────────────────────
-let loopTimer = null, loopStep = -1;
-const loopMsgs = [
-  'i = <span class="lv">1</span> &nbsp;→&nbsp; print(<span class="lv">1</span>)',
-  'i = <span class="lv">2</span> &nbsp;→&nbsp; print(<span class="lv">2</span>)',
-  'i = <span class="lv">3</span> &nbsp;→&nbsp; print(<span class="lv">3</span>)',
-  'i = <span class="lv">4</span> &nbsp;→&nbsp; print(<span class="lv">4</span>)',
-  'i = <span class="lv">5</span> &nbsp;→&nbsp; print(<span class="lv">5</span>)',
-];
-
-function loopReset() {
-  clearInterval(loopTimer);
-  loopStep = -1;
-  document.querySelectorAll('#loopTrack .lb').forEach(b => b.className = 'lb');
-  document.getElementById('loopStatus').innerHTML = '<span style="color:var(--muted)">اضغط تشغيل لرؤية i يتغيّر ▼</span>';
-}
-
-function loopStart() {
-  loopReset();
-  const boxes = document.querySelectorAll('#loopTrack .lb');
-  loopStep = 0;
-  loopTimer = setInterval(() => {
-    if (loopStep > 0) boxes[loopStep - 1].className = 'lb done';
-    if (loopStep < boxes.length) {
-      boxes[loopStep].className = 'lb active';
-      document.getElementById('loopStatus').innerHTML = loopMsgs[loopStep];
-    } else {
-      clearInterval(loopTimer);
-      document.getElementById('loopStatus').innerHTML = '<span class="lv2">✓ انتهت الحلقة — i جرّب كل القيم!</span>';
-    }
-    loopStep++;
-  }, 900);
-}
-
-// ── Range number line ──────────────────────────
-const rangeCfg = [
-  { expr: 'range(<span style="color:#FF79C6">5</span>)', note: '→ يبدأ من 0 تلقائياً: 0, 1, 2, 3, 4', min:0, max:6, start:0, stop:5 },
-  { expr: 'range(<span style="color:#50FA7B">1</span>, <span style="color:#FF79C6">6</span>)', note: '→ من 1 حتى 5 (6 غير مضمّن)', min:0, max:7, start:1, stop:6 },
-  { expr: 'range(<span style="color:#50FA7B">3</span>, <span style="color:#FF79C6">9</span>)', note: '→ من 3 حتى 8 (9 غير مضمّن)', min:0, max:10, start:3, stop:9 },
-];
-let rTimer = null;
-
-function showRange(idx) {
-  clearTimeout(rTimer);
-  document.querySelectorAll('[id^="rtab"]').forEach((t, i) => t.className = 'ntab' + (i === idx ? ' on' : ''));
-  const c = rangeCfg[idx];
-  document.getElementById('nlExpr').innerHTML =
-    `<span style="color:var(--accent2)">${c.expr}</span> <span style="color:var(--muted);font-size:.8rem">${c.note}</span>`;
-  const track = document.getElementById('nlTrack');
-  track.innerHTML = '';
-  const boxes = [];
-  for (let n = c.min; n <= c.max; n++) {
-    const el = document.createElement('div');
-    el.className = 'nbox' + (n === c.stop ? ' stop' : '');
-    el.textContent = n;
-    track.appendChild(el);
-    boxes.push({ el, n });
+const T = {
+  ar: {
+    badge:'منصة تعليمية تفاعلية',h1a:'تعلّم',h1b:'مع نائلة',
+    sub:'رحلتك في البرمجة تبدأ هنا. اختار درسك الأول وابدأ الآن!',
+    byline:'✦ بقلم حجار نائلة',clabel:'— اختر درسك —',
+    cb1:'ابدأ هنا',ct1:'المتغيرات',cd1:'تخزين البيانات وتسميتها في Python. هذا هو الأساس الذي يُبنى عليه كل شيء.',sbtn1:'▶ ابدأ الدرس',
+    ct2:'الحلقات',cd2:'كرّر الأوامر مئة مرة في سطر واحد. قريباً...',
+    ct3:'الدوال',cd3:'اكتب الكود مرة واحدة، استخدمه في كل مكان. قريباً...',
+    cb4:'جديد ✦',ct4:'الشروط',cd4:'خلّ برنامجك يفكّر ويتخذ قرارات. if، elif، وelse بأسلوب Python الأنيق.',sbtn4:'▶ ابدأ الدرس',
+    ct5:'القوائم',cd5:'خزّن مئات القيم في متغير واحد. قريباً...',
+    ct6:'القواميس',cd6:'ربط المفاتيح بالقيم. قريباً...',
+    back:'العودة',ntitle:'📦 المتغيرات — Variables',ltag:'الدرس الأول · Lesson 01',
+    lh1a:'المتغيرات في',lsub:'تعلّمي كيف تخزّني البيانات، تسمّيها، وتستخدمها. هذا هو قلب البرمجة.',
+    s1t:'ما هو <span>المتغير؟</span>',s1p:'المتغير هو كالصندوق المُسمَّى — تضعين فيه قيمة وتستخدمينها لاحقاً. في Python، لا تحتاجين لتحديد النوع مسبقاً، فقط اكتبي الاسم والقيمة!',
+    ic1h:'صندوق تخزين',ic1p:'المتغير يحفظ القيمة بداخله ويُعطيها اسماً يسهّل استخدامها لاحقاً.',
+    ic2h:'قيمة قابلة للتغيير',ic2p:'يمكن تغيير قيمة المتغير في أي وقت خلال البرنامج.',
+    ic3h:'اسم تختارينه أنتِ',ic3p:'اختاري اسماً واضحاً مثل <code class="il">student_name</code> ليكون الكود مفهوماً.',
+    ic4h:'Python ذكي',ic4p:'Python يعرف نوع المتغير تلقائياً بمجرد إسناد القيمة إليه.',
+    s2t:'أنواع <span>البيانات</span>',s2p:'كل متغير له نوع يعتمد على القيمة التي يحملها. في Python، هناك أربعة أنواع أساسية ستستخدمينها دائماً:',
+    td1:'أعداد صحيحة، موجبة أو سالبة. بدون فاصلة.',td2:'أعداد عشرية. للقياسات والأسعار وغيرها.',td3:'نصوص. دائماً بين علامتي تنصيص.',td4:'قيمتان فقط: <code class="il">True</code> أو <code class="il">False</code>.',
+    tip1h:'Python يحدّد النوع تلقائياً',tip1p:'لا تحتاجين لكتابة <code class="il">int age = 20</code> كما في لغات أخرى. Python يقرأ القيمة ويحدد النوع بذكاء!',
+    s3t:'قواعد <span>التسمية</span>',s3p:'اسم المتغير مهم جداً! إليكِ القواعد التي يجب اتباعها في Python:',
+    r1h:'ابدأي بحرف أو شرطة سفلية',r1p:'صحيح: <code class="il">name</code>، <code class="il">_score</code>، <code class="il">my_var</code> — لا يجوز البدء برقم.',
+    r2h:'حروف وأرقام وشرطة سفلية فقط',r2p:'صحيح: <code class="il">student_name</code>، <code class="il">value2</code> — لا مسافات ولا رموز مثل <code class="il">!</code>، <code class="il">-</code>.',
+    r3h:'استخدمي snake_case',r3p:'الأسلوب المفضّل: <code class="il">first_name</code> وليس <code class="il">FirstName</code>.',
+    r4h:'تجنّبي الكلمات المحجوزة',r4p:'كلمات مثل <code class="il">if</code>، <code class="il">for</code>، <code class="il">class</code>، <code class="il">True</code> محجوزة ولا يمكن استخدامها كأسماء.',
+    r5h:'الأحرف الكبيرة والصغيرة مختلفة!',r5p:'<code class="il">Age</code> و<code class="il">age</code> و<code class="il">AGE</code> ثلاثة متغيرات مختلفة تماماً.',
+    s4t:'إسناد <span>متعدد</span>',s4p:'Python يتيح لكِ إسناد متغيرات متعددة بأساليب ذكية في سطر واحد:',
+    s5t:'اختبري <span>نفسك</span>',
+    q1q:'❓ أيّ من هذه الأسماء صحيح في Python؟',
+    q2q:'❓ ما نوع المتغير <code class="il">price = 9.99</code>؟',
+    q3q:'❓ ما الناتج؟ <code class="il">a, b = 5, 10 | a, b = b, a | print(a)</code>',
+    fb_cor1:'✓ ممتاز! my_var2 يتبع جميع القواعد.',fb_wr1:'✗ حاولي مجدداً.',
+    fb_cor2:'✓ صحيح! 9.99 يحتوي فاصلة عشرية، فنوعه float.',fb_wr2:'✗ فكّري مجدداً!',
+    fb_cor3:'✓ رائع! بعد التبادل a=10.',fb_wr3:'✗ تذكّري: a, b = b, a تعطي a قيمة b.',
+    cong_h:'أحسنتِ يا نائلة! 🎉',cong_p:'أكملتِ الدرس الأول بنجاح!',cong_btn:'← العودة للدروس',
+    // CONDITIONS
+    cback:'العودة',cntitle:'🌿 الشروط — Conditions',cltag:'الدرس الرابع · Lesson 04',
+    clh1a:'الشروط في',clsub:'علّمي برنامجك كيف يفكّر ويتخذ قرارات بناءً على الظروف.',
+    cs1t:'ما هي <span>الشروط؟</span>',cs1p:'الشروط تمنح برنامجك القدرة على اتخاذ القرارات. بدلاً من تنفيذ نفس الأوامر دائماً، يمكنك قول: <strong>«إذا كان كذا، افعل هذا، وإلا افعل ذاك»</strong>.',
+    cc1d:'الشرط الأساسي. إذا كان صحيحاً، نفّذ الكود بداخله.',
+    cc2d:'شرط إضافي يُختبر إذا فشل الشرط الأول. يمكن تكراره.',
+    cc3d:'الحالة الافتراضية. تُنفَّذ إذا فشلت جميع الشروط السابقة.',
+    cs2t:'مشغّلات <span>المقارنة</span>',cs2p:'داخل الشرط، تحتاجين لمقارنة القيم. إليكِ المشغّلات المتاحة في Python:',
+    op1:'يساوي',op2:'لا يساوي',op3:'أكبر من',op4:'أصغر من',op5:'أكبر أو يساوي',op6:'أصغر أو يساوي',
+    ctip1h:'انتبهي: = vs ==',ctip1p:'<code class="il">=</code> للإسناد، أما <code class="il">==</code> للمقارنة. الخلط بينهما من أكثر الأخطاء شيوعاً!',
+    cs3t:'الشروط <span>المركّبة</span>',cs3p:'يمكنك دمج شروط متعددة باستخدام <code class="il">and</code>، <code class="il">or</code>، و<code class="il">not</code>:',
+    cl1h:'and — و',cl1p:'يعطي True فقط إذا كان <strong>كلا</strong> الشرطين صحيحين.',
+    cl2h:'or — أو',cl2p:'يعطي True إذا كان <strong>أحد</strong> الشرطين صحيحاً على الأقل.',
+    cl3h:'not — ليس',cl3p:'يعكس قيمة الشرط.',
+    cs4t:'الشرط <span>المختصر</span>',cs4p:'Python يتيح كتابة شرط بسيط في سطر واحد أنيق باستخدام صيغة الـ ternary:',
+    ctip2h:'المسافة البادئة (Indentation) إلزامية!',ctip2p:'في Python، الكود داخل الشرط يجب أن يكون مُبادَراً بـ 4 مسافات أو Tab واحد. هذا ليس اختيارياً!',
+    cs5t:'اختبري <span>نفسك</span>',
+    cq1q:'❓ ما الناتج إذا كانت <code class="il">score = 65</code>؟<br><code class="il" style="font-size:0.8em">if score >= 90: print("A") elif score >= 60: print("B") else: print("C")</code>',
+    cq2q:'❓ ما الفرق بين <code class="il">=</code> و <code class="il">==</code> في Python؟',
+    cq3q:'❓ ما الناتج؟ <code class="il">x = "مرحبا" if 10 > 5 else "وداعاً"</code>',
+    cfb_cor1:'✓ صحيح! score=65 أكبر من 60 لكن أصغر من 90 — إذن elif ينفَّذ وتُطبع B.',
+    cfb_wr1:'✗ حاولي مجدداً. score=65 أكبر من 60 لكن أصغر من 90.',
+    cfb_cor2:'✓ ممتاز! = للإسناد (تعطين قيمة للمتغير)، == للمقارنة (هل القيمتان متساويتان؟).',
+    cfb_wr2:'✗ فكّري مجدداً في الفرق بين الإسناد والمقارنة.',
+    cfb_cor3:'✓ رائع! الشرط 10>5 صحيح (True)، لذا x = "مرحبا".',
+    cfb_wr3:'✗ تذكّري: في التعبير الثلاثي، القيمة الأولى تُختار عند تحقق الشرط.',
+    ccong_h:'ممتازة يا نائلة! 🌿',ccong_p:'أكملتِ درس الشروط بنجاح! الآن برنامجك يستطيع التفكير واتخاذ القرارات.',ccong_btn:'← العودة للدروس',
+  },
+  en: {
+    badge:'Interactive Learning Platform',h1a:'Learn',h1b:'with Naïla',
+    sub:'Your coding journey starts here. Pick your first lesson and begin now!',
+    byline:'✦ By Hajar Naïla',clabel:'— Choose your lesson —',
+    cb1:'Start here',ct1:'Variables',cd1:'Storing and naming data in Python. The foundation of everything.',sbtn1:'▶ Start Lesson',
+    ct2:'Loops',cd2:'Repeat commands a hundred times in one line. Coming soon...',
+    ct3:'Functions',cd3:'Write code once, use it everywhere. Coming soon...',
+    cb4:'New ✦',ct4:'Conditions',cd4:'Make your program think and decide. if, elif, and else — Python style.',sbtn4:'▶ Start Lesson',
+    ct5:'Lists',cd5:'Store hundreds of values in one variable. Coming soon...',
+    ct6:'Dictionaries',cd6:'Link keys to values. Coming soon...',
+    back:'Back',ntitle:'📦 Variables — المتغيرات',ltag:'Lesson 01 · الدرس الأول',
+    lh1a:'Variables in',lsub:'Learn how to store, name, and use data. This is the heart of programming.',
+    s1t:'What is a <span>Variable?</span>',s1p:'A variable is like a labelled box — you put a value in it and use it later. In Python, you don\'t declare types — just write the name and value!',
+    ic1h:'Storage box',ic1p:'A variable holds a value and gives it a name, making it easy to use later.',
+    ic2h:'Changeable value',ic2p:'You can change a variable\'s value at any point in the program.',
+    ic3h:'You name it',ic3p:'Choose a clear name like <code class="il">student_name</code> so your code stays readable.',
+    ic4h:'Python is smart',ic4p:'Python figures out the variable\'s type automatically the moment you assign a value.',
+    s2t:'<span>Data</span> Types',s2p:'Every variable has a type depending on what it holds. Python has four common types you\'ll use every day:',
+    td1:'Whole numbers, positive or negative. No decimals.',td2:'Decimal numbers. Used for measurements, prices, etc.',td3:'Text. Always wrapped in quotes.',td4:'Only two values: <code class="il">True</code> or <code class="il">False</code>.',
+    tip1h:'Python is dynamically typed',tip1p:'You never need to write <code class="il">int age = 20</code> like in other languages. Python reads the value and figures out the type automatically!',
+    s3t:'<span>Naming</span> Rules',s3p:'Naming matters! Here are the rules you must follow in Python:',
+    r1h:'Start with a letter or underscore',r1p:'Valid: <code class="il">name</code>, <code class="il">_score</code>, <code class="il">my_var</code> — Never start with a digit.',
+    r2h:'Only letters, digits, and underscores',r2p:'Valid: <code class="il">student_name</code>, <code class="il">value2</code> — No spaces or symbols like <code class="il">!</code>, <code class="il">-</code>.',
+    r3h:'Use snake_case',r3p:'Preferred style: <code class="il">first_name</code> not <code class="il">FirstName</code>.',
+    r4h:'Avoid reserved keywords',r4p:'Words like <code class="il">if</code>, <code class="il">for</code>, <code class="il">class</code>, <code class="il">True</code> are reserved — you can\'t use them as names.',
+    r5h:'Case matters!',r5p:'<code class="il">Age</code>, <code class="il">age</code>, and <code class="il">AGE</code> are three completely different variables.',
+    s4t:'Multiple <span>Assignment</span>',s4p:'Python lets you assign multiple variables in clever one-liners:',
+    s5t:'Test <span>Yourself</span>',
+    q1q:'❓ Which of these is a valid Python variable name?',
+    q2q:'❓ What is the type of <code class="il">price = 9.99</code>?',
+    q3q:'❓ What is the output? <code class="il">a, b = 5, 10 | a, b = b, a | print(a)</code>',
+    fb_cor1:'✓ Correct! my_var2 follows all the rules.',fb_wr1:'✗ Not quite. Try again!',
+    fb_cor2:'✓ Correct! 9.99 has a decimal point, so it\'s a float.',fb_wr2:'✗ Think again!',
+    fb_cor3:'✓ Great! After the swap a=10.',fb_wr3:'✗ Remember: a, b = b, a swaps the values.',
+    cong_h:'Well done, Naïla! 🎉',cong_p:'You completed Lesson 1 successfully!',cong_btn:'← Back to Lessons',
+    // CONDITIONS
+    cback:'Back',cntitle:'🌿 Conditions — الشروط',cltag:'Lesson 04 · الدرس الرابع',
+    clh1a:'Conditions in',clsub:'Teach your program to think and make decisions based on circumstances.',
+    cs1t:'What are <span>Conditions?</span>',cs1p:'Conditions give your program the ability to make decisions. Instead of always running the same commands, you can say: <strong>"If this is true, do that; otherwise, do this other thing."</strong>',
+    cc1d:'The main condition. If true, execute the code inside.',
+    cc2d:'An extra condition tested when the first one fails. Can be repeated.',
+    cc3d:'The default case. Runs when all previous conditions fail.',
+    cs2t:'Comparison <span>Operators</span>',cs2p:'Inside a condition, you need to compare values. Here are all the operators available in Python:',
+    op1:'equals',op2:'not equal',op3:'greater than',op4:'less than',op5:'greater or equal',op6:'less or equal',
+    ctip1h:'Watch out: = vs ==',ctip1p:'<code class="il">=</code> is for assignment (putting a value in a variable), while <code class="il">==</code> is for comparison (checking if two values are equal). Confusing them is one of the most common mistakes!',
+    cs3t:'<span>Compound</span> Conditions',cs3p:'You can combine multiple conditions using the logical operators <code class="il">and</code>, <code class="il">or</code>, and <code class="il">not</code>:',
+    cl1h:'and',cl1p:'Returns True only if <strong>both</strong> conditions are true.',
+    cl2h:'or',cl2p:'Returns True if <strong>at least one</strong> condition is true.',
+    cl3h:'not',cl3p:'Reverses the condition\'s value.',
+    cs4t:'<span>Shorthand</span> Condition',cs4p:'Python lets you write a simple condition in one elegant line using the ternary expression:',
+    ctip2h:'Indentation is mandatory!',ctip2p:'In Python, the code inside a condition must be indented by 4 spaces or 1 Tab. This is not optional — leaving it out causes an error!',
+    cs5t:'Test <span>Yourself</span>',
+    cq1q:'❓ What is the output if <code class="il">score = 65</code>?<br><code class="il" style="font-size:0.8em">if score >= 90: print("A") elif score >= 60: print("B") else: print("C")</code>',
+    cq2q:'❓ What is the difference between <code class="il">=</code> and <code class="il">==</code> in Python?',
+    cq3q:'❓ What is the output? <code class="il">x = "hello" if 10 > 5 else "bye"</code>',
+    cfb_cor1:'✓ Correct! score=65 is ≥60 but <90, so the elif block runs and prints B.',
+    cfb_wr1:'✗ Not quite. score=65 is ≥60 but <90 — think about which branch matches.',
+    cfb_cor2:'✓ Excellent! = assigns a value to a variable, == checks if two values are equal.',
+    cfb_wr2:'✗ Think again about the difference between assignment and comparison.',
+    cfb_cor3:'✓ Correct! The condition 10>5 is True, so x = "hello".',
+    cfb_wr3:'✗ Remember: in a ternary, the first value is chosen when the condition is True.',
+    ccong_h:'Excellent, Naïla! 🌿',ccong_p:'You completed the Conditions lesson! Your program can now think and make decisions.',ccong_btn:'← Back to Lessons',
   }
-  let i = 0;
-  (function tick() {
-    if (i >= boxes.length) return;
-    const { el, n } = boxes[i++];
-    if (n >= c.start && n < c.stop) el.classList.add('in');
-    rTimer = setTimeout(tick, 160);
-  })();
-}
+};
 
-// ── Step visualization ─────────────────────────
-const stepCfg = [
-  { expr: 'range(<span style="color:#50FA7B">0</span>, <span style="color:#FF79C6">10</span>, <span style="color:#FFB86C">2</span>)', note: '→ أرقام زوجية: 0, 2, 4, 6, 8', nums: [...Array(10).keys()], picked: [0,2,4,6,8] },
-  { expr: 'range(<span style="color:#50FA7B">0</span>, <span style="color:#FF79C6">15</span>, <span style="color:#FFB86C">3</span>)', note: '→ 0, 3, 6, 9, 12', nums: [...Array(15).keys()], picked: [0,3,6,9,12] },
-  { expr: 'range(<span style="color:#50FA7B">10</span>, <span style="color:#FF79C6">0</span>, <span style="color:#FFB86C">-1</span>)', note: '→ تنازلي: 10, 9, 8, ..., 1', nums: [...Array(11).keys()], picked: [1,2,3,4,5,6,7,8,9,10] },
-];
-let sTimer = null;
+let lang = 'ar';
+let quizAnswered = [false,false,false];
+let cQuizAnswered = [false,false,false];
 
-function showStep(idx) {
-  clearTimeout(sTimer);
-  document.querySelectorAll('[id^="stab"]').forEach((t, i) => t.className = 'ntab' + (i === idx ? ' on' : ''));
-  const c = stepCfg[idx];
-  document.getElementById('stepExpr').innerHTML =
-    `<span style="color:var(--accent2)">${c.expr}</span> <span style="color:var(--muted);font-size:.8rem">${c.note}</span>`;
-  const track = document.getElementById('stepTrack');
-  track.innerHTML = '';
-  const boxes = c.nums.map(n => {
-    const el = document.createElement('div');
-    el.className = 'nbox';
-    el.textContent = n;
-    track.appendChild(el);
-    return { el, n };
+function setLang(l){
+  lang=l;
+  ['landing','lesson','lesson-cond'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.dir=l==='ar'?'rtl':'ltr';
   });
-  let i = 0;
-  (function tick() {
-    if (i >= boxes.length) return;
-    const { el, n } = boxes[i++];
-    el.classList.add(c.picked.includes(n) ? 'hit' : 'skip');
-    sTimer = setTimeout(tick, 120);
-  })();
+  document.documentElement.lang=l;
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${l}')"]`).classList.add('active');
+  applyLang();
 }
 
-document.addEventListener('DOMContentLoaded', () => { showRange(0); showStep(0); });
+function applyLang(){
+  const t=T[lang];
+  const map={
+    'badge-txt':'badge','h1a':'h1a','h1b':'h1b','hero-sub':'sub','byline':'byline',
+    'courses-label':'clabel','cb1':'cb1','ct1':'ct1','cd1':'cd1','sbtn1':'sbtn1',
+    'ct2':'ct2','cd2':'cd2','ct3':'ct3','cd3':'cd3',
+    'cb4':'cb4','ct4':'ct4','cd4':'cd4','sbtn4':'sbtn4',
+    'ct5':'ct5','cd5':'cd5','ct6':'ct6','cd6':'cd6',
+    'back-txt':'back','nav-title':'ntitle','ltag':'ltag','lh1a':'lh1a','lsub':'lsub',
+    's1p':'s1p','ic1h':'ic1h','ic1p':'ic1p','ic2h':'ic2h','ic2p':'ic2p',
+    'ic3h':'ic3h','ic3p':'ic3p','ic4h':'ic4h','ic4p':'ic4p',
+    's2p':'s2p','td1':'td1','td2':'td2','td3':'td3','td4':'td4',
+    'tip1h':'tip1h','tip1p':'tip1p','s3p':'s3p',
+    'r1h':'r1h','r1p':'r1p','r2h':'r2h','r2p':'r2p','r3h':'r3h','r3p':'r3p',
+    'r4h':'r4h','r4p':'r4p','r5h':'r5h','r5p':'r5p',
+    's4p':'s4p','q1q':'q1q','q2q':'q2q','q3q':'q3q',
+    'cong-h':'cong_h','cong-p':'cong_p','cong-btn':'cong_btn',
+    // conditions lesson
+    'cback-txt':'cback','cnav-title':'cntitle','cltag':'cltag','clh1a':'clh1a','clsub':'clsub',
+    'cs1p':'cs1p','cc1d':'cc1d','cc2d':'cc2d','cc3d':'cc3d',
+    'cs2p':'cs2p','op1':'op1','op2':'op2','op3':'op3','op4':'op4','op5':'op5','op6':'op6',
+    'ctip1h':'ctip1h','ctip1p':'ctip1p','cs3p':'cs3p',
+    'cl1h':'cl1h','cl1p':'cl1p','cl2h':'cl2h','cl2p':'cl2p','cl3h':'cl3h','cl3p':'cl3p',
+    'cs4p':'cs4p','ctip2h':'ctip2h','ctip2p':'ctip2p',
+    'cq1q':'cq1q','cq2q':'cq2q','cq3q':'cq3q',
+    'ccong-h':'ccong_h','ccong-p':'ccong_p','ccong-btn':'ccong_btn',
+  };
+  const stmap={
+    's1t':'s1t','s2t':'s2t','s3t':'s3t','s4t':'s4t','s5t':'s5t',
+    'cs1t':'cs1t','cs2t':'cs2t','cs3t':'cs3t','cs4t':'cs4t','cs5t':'cs5t',
+  };
+  Object.entries(map).forEach(([id,key])=>{
+    const el=document.getElementById(id);
+    if(el&&t[key]!==undefined) el.innerHTML=t[key];
+  });
+  Object.entries(stmap).forEach(([id,key])=>{
+    const el=document.getElementById(id);
+    if(el&&t[key]) el.innerHTML=t[key];
+  });
+}
+
+function startLesson(type){
+  document.getElementById('landing').style.display='none';
+  if(type==='cond'){
+    document.getElementById('lesson-cond').style.display='block';
+    cQuizAnswered=[false,false,false];
+    updateCProgress();
+  } else {
+    document.getElementById('lesson').style.display='block';
+    quizAnswered=[false,false,false];
+    updateProgress();
+  }
+  window.scrollTo(0,0);
+  applyLang();
+}
+
+function goBack(){
+  document.getElementById('lesson').style.display='none';
+  document.getElementById('lesson-cond').style.display='none';
+  document.getElementById('landing').style.display='flex';
+  window.scrollTo(0,0);
+  // reset vars quiz
+  quizAnswered=[false,false,false];
+  document.getElementById('congrats-box').style.display='none';
+  document.querySelectorAll('#lesson .qo').forEach(b=>{b.classList.remove('correct','wrong');b.disabled=false;b.style.pointerEvents='';});
+  ['fb1','fb2','fb3'].forEach(id=>{document.getElementById(id).textContent='';});
+  // reset cond quiz
+  cQuizAnswered=[false,false,false];
+  document.getElementById('ccongrats-box').style.display='none';
+  document.querySelectorAll('#lesson-cond .qo').forEach(b=>{b.classList.remove('correct','wrong');b.disabled=false;b.style.pointerEvents='';});
+  ['cfb1','cfb2','cfb3'].forEach(id=>{document.getElementById(id).textContent='';});
+  updateProgress();
+  updateCProgress();
+}
+
+function qa(btn,result,fbId,idx){
+  const t=T[lang];
+  btn.closest('.quiz-opts').querySelectorAll('.qo').forEach(o=>{o.disabled=true;o.style.pointerEvents='none'});
+  btn.classList.add(result);
+  quizAnswered[idx]=true;
+  const fb=document.getElementById(fbId);
+  const keys={fb1:{cor:'fb_cor1',wr:'fb_wr1'},fb2:{cor:'fb_cor2',wr:'fb_wr2'},fb3:{cor:'fb_cor3',wr:'fb_wr3'}};
+  fb.style.color=result==='correct'?'var(--accent2)':'var(--accent3)';
+  fb.innerHTML=result==='correct'?t[keys[fbId].cor]:t[keys[fbId].wr];
+  updateProgress();
+  if(quizAnswered.every(Boolean)){
+    setTimeout(()=>{
+      document.getElementById('congrats-box').style.display='block';
+      document.getElementById('congrats-box').scrollIntoView({behavior:'smooth'});
+      applyLang();
+    },600);
+  }
+}
+
+function cqa(btn,result,fbId,idx){
+  const t=T[lang];
+  btn.closest('.quiz-opts').querySelectorAll('.qo').forEach(o=>{o.disabled=true;o.style.pointerEvents='none'});
+  btn.classList.add(result);
+  cQuizAnswered[idx]=true;
+  const fb=document.getElementById(fbId);
+  const keys={cfb1:{cor:'cfb_cor1',wr:'cfb_wr1'},cfb2:{cor:'cfb_cor2',wr:'cfb_wr2'},cfb3:{cor:'cfb_cor3',wr:'cfb_wr3'}};
+  fb.style.color=result==='correct'?'var(--accent2)':'var(--accent3)';
+  fb.innerHTML=result==='correct'?t[keys[fbId].cor]:t[keys[fbId].wr];
+  updateCProgress();
+  if(cQuizAnswered.every(Boolean)){
+    setTimeout(()=>{
+      document.getElementById('ccongrats-box').style.display='block';
+      document.getElementById('ccongrats-box').scrollIntoView({behavior:'smooth'});
+      applyLang();
+    },600);
+  }
+}
+
+function updateProgress(){
+  const done=quizAnswered.filter(Boolean).length;
+  const pct=Math.round((done/3)*100);
+  document.getElementById('pbar').style.width=pct+'%';
+  document.getElementById('ptxt').textContent=pct+'%';
+}
+
+function updateCProgress(){
+  const done=cQuizAnswered.filter(Boolean).length;
+  const pct=Math.round((done/3)*100);
+  document.getElementById('cpbar').style.width=pct+'%';
+  document.getElementById('cptxt').textContent=pct+'%';
+}
+
+applyLang();
 </script>
 </body>
 </html>
