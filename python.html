@@ -4,104 +4,72 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>تعلّم Python مع نائلة</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#07090F;
-  --surface:#0F1220;
-  --surface2:#171C30;
-  --border:rgba(120,100,255,0.2);
-  --accent:#7C6FE0;
-  --accent2:#4ECDC4;
-  --accent3:#FF6B6B;
-  --gold:#F7C948;
-  --green:#52D68A;
-  --pink:#FF79C6;
-  --orange:#FFB86C;
-  --text:#EEF0FF;
-  --muted:#8890B5;
-  --fh:'Tajawal',sans-serif;
-  --fm:'DM Mono',monospace;
+  --bg:#07090F;--surface:#0F1220;--surface2:#171C30;--border:rgba(120,100,255,0.2);
+  --accent:#7C6FE0;--accent2:#4ECDC4;--accent3:#FF6B6B;--gold:#F7C948;
+  --green:#52D68A;--orange:#FFB86C;--text:#EEF0FF;--muted:#8890B5;
+  --fh:'Tajawal',sans-serif;--fm:'DM Mono',monospace;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--fh);font-size:17px;line-height:1.75;overflow-x:hidden;min-height:100vh}
-
 .orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:0.15;pointer-events:none;z-index:0;animation:drift 14s ease-in-out infinite alternate}
 .o1{width:600px;height:600px;background:#7C6FE0;top:-200px;right:-200px}
 .o2{width:450px;height:450px;background:#4ECDC4;bottom:-100px;left:-100px;animation-delay:-7s}
 .o3{width:300px;height:300px;background:#FF6B6B;top:50%;left:50%;animation-delay:-3s}
 @keyframes drift{from{transform:translate(0,0)}to{transform:translate(25px,-25px)}}
 
+/* LANDING */
 #landing{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:4rem 1.5rem 6rem}
-
-.lang-toggle{position:fixed;top:1.5rem;left:1.5rem;display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:100px;overflow:hidden;z-index:100;}
-.lang-btn{padding:7px 18px;font-family:var(--fh);font-size:13px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:all 0.25s;}
-.lang-btn.active{background:var(--accent);color:#fff}
-
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,111,224,0.12);border:1px solid rgba(124,111,224,0.3);border-radius:100px;padding:7px 22px;font-size:13px;font-weight:500;color:var(--accent);letter-spacing:0.04em;margin-bottom:2.5rem;animation:fadeUp 0.6s ease both;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(124,111,224,0.12);border:1px solid rgba(124,111,224,0.3);border-radius:100px;padding:7px 22px;font-size:13px;font-weight:500;color:var(--accent);letter-spacing:0.04em;margin-bottom:2.5rem;animation:fadeUp 0.6s ease both}
 .hero-badge::before{content:'✦';color:var(--accent2)}
-
-.hero-title{font-size:clamp(2.8rem,8vw,6rem);font-weight:900;line-height:1.05;text-align:center;margin-bottom:1.25rem;animation:fadeUp 0.7s 0.1s ease both;letter-spacing:-0.02em;}
-.hero-title em{font-style:normal;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.hero-sub{color:var(--muted);text-align:center;max-width:540px;margin-bottom:0.75rem;animation:fadeUp 0.8s 0.15s ease both;}
-.byline{font-size:13px;color:var(--accent2);font-weight:700;letter-spacing:0.08em;margin-bottom:4rem;animation:fadeUp 0.9s 0.2s ease both;}
-
+.hero-title{font-size:clamp(2.8rem,8vw,6rem);font-weight:900;line-height:1.05;text-align:center;margin-bottom:1.25rem;animation:fadeUp 0.7s 0.1s ease both;letter-spacing:-0.02em}
+.hero-title em{font-style:normal;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--muted);text-align:center;max-width:540px;margin-bottom:0.75rem;animation:fadeUp 0.8s 0.15s ease both}
+.byline{font-size:13px;color:var(--accent2);font-weight:700;letter-spacing:0.08em;margin-bottom:4rem;animation:fadeUp 0.9s 0.2s ease both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-
-.courses-label{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:1rem;text-align:center;}
-.courses-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;width:100%;max-width:1100px;}
-.course-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem 1.75rem;position:relative;overflow:hidden;transition:all 0.3s;cursor:pointer;text-align:right;}
-.course-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 60%,rgba(124,111,224,0.05));pointer-events:none;}
-.course-card.unlocked:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 20px 50px rgba(124,111,224,0.2);}
+.courses-label{font-size:12px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:1rem;text-align:center}
+.courses-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;width:100%;max-width:1100px}
+.course-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem 1.75rem;position:relative;overflow:hidden;transition:all 0.3s;cursor:pointer;text-align:right}
+.course-card.unlocked:hover{border-color:var(--accent);transform:translateY(-6px);box-shadow:0 20px 50px rgba(124,111,224,0.2)}
 .course-card.locked{opacity:0.45;cursor:default}
-.course-card.locked .c-desc{filter:blur(5px);user-select:none}
-
 .c-num{font-family:var(--fm);font-size:11px;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.75rem}
 .c-icon{font-size:2.2rem;margin-bottom:0.75rem}
 .c-title{font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:0.5rem}
 .c-desc{font-size:0.85rem;color:var(--muted);line-height:1.55}
-.c-badge{position:absolute;top:1.1rem;left:1.1rem;background:var(--accent2);color:#000;font-size:10px;font-weight:800;padding:3px 12px;border-radius:100px;letter-spacing:0.06em;}
+.c-badge{position:absolute;top:1.1rem;left:1.1rem;background:var(--accent2);color:#000;font-size:10px;font-weight:800;padding:3px 12px;border-radius:100px;letter-spacing:0.06em}
 .c-lock{position:absolute;top:1.1rem;left:1.1rem;color:var(--muted);font-size:1rem}
-
-.start-btn{display:inline-flex;align-items:center;gap:8px;margin-top:1.1rem;background:var(--accent);color:#fff;border:none;border-radius:100px;padding:10px 22px;font-family:var(--fh);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.03em;}
+.start-btn{display:inline-flex;align-items:center;gap:8px;margin-top:1.1rem;background:var(--accent);color:#fff;border:none;border-radius:100px;padding:10px 22px;font-family:var(--fh);font-size:14px;font-weight:700;cursor:pointer;transition:all 0.25s}
 .start-btn:hover{background:#6358cc;transform:scale(1.04)}
 
 /* LESSON SHARED */
 .lesson-page{display:none;position:relative;z-index:1}
-.lesson-nav{position:sticky;top:0;z-index:50;background:rgba(7,9,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;}
-.back-btn{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:8px 18px;font-family:var(--fh);font-size:13px;font-weight:700;color:var(--text);cursor:pointer;transition:all 0.2s;}
+.lesson-nav{position:sticky;top:0;z-index:50;background:rgba(7,9,15,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.back-btn{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:8px 18px;font-family:var(--fh);font-size:13px;font-weight:700;color:var(--text);cursor:pointer;transition:all 0.2s}
 .back-btn:hover{border-color:var(--accent);color:var(--accent)}
-.nav-title{font-weight:800;font-size:1rem;color:var(--text)}
-.progress-wrap{display:flex;align-items:center;gap:10px}
-.progress-bar-outer{width:120px;height:6px;background:var(--surface2);border-radius:100px;overflow:hidden}
-.progress-bar-inner{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px;transition:width 0.5s ease;width:0%}
-.progress-txt{font-family:var(--fm);font-size:11px;color:var(--muted)}
-
+.nav-title{font-weight:800;font-size:1rem}
 .lesson-body{max-width:820px;margin:0 auto;padding:3rem 2rem 6rem}
-.lesson-hero{text-align:center;padding:4rem 0 3rem;border-bottom:1px solid var(--border);margin-bottom:3.5rem;}
-.lesson-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(124,111,224,0.12);border:1px solid rgba(124,111,224,0.3);border-radius:100px;padding:6px 20px;font-size:12px;color:var(--accent);font-weight:700;letter-spacing:0.08em;margin-bottom:1.5rem;}
-.lesson-h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;line-height:1.05;margin-bottom:1rem;letter-spacing:-0.02em;}
-.lesson-h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.lesson-hero{text-align:center;padding:4rem 0 3rem;border-bottom:1px solid var(--border);margin-bottom:3.5rem}
+.lesson-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(124,111,224,0.12);border:1px solid rgba(124,111,224,0.3);border-radius:100px;padding:6px 20px;font-size:12px;color:var(--accent);font-weight:700;letter-spacing:0.08em;margin-bottom:1.5rem}
+.lesson-h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;line-height:1.05;margin-bottom:1rem;letter-spacing:-0.02em}
+.lesson-h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .lesson-sub{color:var(--muted);max-width:480px;margin:0 auto}
-
-.step{margin-bottom:4rem;animation:fadeUp 0.6s ease both;}
-.step-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
-.step-num{width:40px;height:40px;border-radius:12px;background:rgba(124,111,224,0.15);border:1px solid rgba(124,111,224,0.35);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:13px;font-weight:500;color:var(--accent);flex-shrink:0;}
+.step{margin-bottom:4rem;animation:fadeUp 0.6s ease both}
+.step-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.step-num{width:40px;height:40px;border-radius:12px;background:rgba(124,111,224,0.15);border:1px solid rgba(124,111,224,0.35);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:13px;font-weight:500;color:var(--accent);flex-shrink:0}
 .step-title{font-size:1.4rem;font-weight:800;color:var(--text)}
 .step-title span{color:var(--accent2)}
-
 .prose{color:var(--muted);line-height:1.85;margin-bottom:1.25rem}
-.prose strong{color:var(--text);font-weight:700}
-
+.prose strong{color:var(--text)}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
 @media(max-width:600px){.info-grid{grid-template-columns:1fr}}
-.info-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:border-color 0.3s,transform 0.3s;}
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;transition:border-color 0.3s,transform 0.3s}
 .info-card:hover{border-color:var(--accent);transform:translateY(-3px)}
 .info-card .ic{font-size:1.8rem;margin-bottom:0.75rem}
 .info-card h4{font-size:1rem;font-weight:800;margin-bottom:0.4rem}
 .info-card p{font-size:0.86rem;color:var(--muted);line-height:1.55}
-
 .code-wrap{background:#0d1117;border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;margin:1.75rem 0;direction:ltr}
 .code-hdr{display:flex;align-items:center;gap:8px;padding:0.7rem 1.2rem;background:#161b22;border-bottom:1px solid rgba(255,255,255,0.05)}
 .dot{width:12px;height:12px;border-radius:50%}
@@ -109,69 +77,13 @@ body{background:var(--bg);color:var(--text);font-family:var(--fh);font-size:17px
 .cf{margin-right:auto;font-family:var(--fm);font-size:12px;color:var(--muted)}
 pre{padding:1.4rem 1.75rem;overflow-x:auto;font-family:var(--fm);font-size:0.88rem;line-height:1.8;text-align:left}
 .kw{color:#FF79C6}.str{color:#F1FA8C}.num{color:#BD93F9}.fn{color:#50FA7B}.cm{color:#6272A4;font-style:italic}.vr{color:#8BE9FD}.op{color:#FF79C6}.kw2{color:#FFB86C}
-
 .tip{background:rgba(78,205,196,0.07);border:1px solid rgba(78,205,196,0.28);border-radius:14px;padding:1.4rem 1.6rem;margin:1.75rem 0;display:flex;gap:1rem}
 .tip-ic{font-size:1.4rem;flex-shrink:0}
 .tip-body strong{display:block;font-size:1rem;font-weight:800;color:var(--accent2);margin-bottom:0.35rem}
 .tip-body p{font-size:0.88rem;color:var(--muted)}
-
 .tip-warn{background:rgba(255,107,107,0.07);border:1px solid rgba(255,107,107,0.28);border-radius:14px;padding:1.4rem 1.6rem;margin:1.75rem 0;display:flex;gap:1rem}
 .tip-warn .tip-body strong{color:var(--accent3)}
-
-/* EXERCISE CARDS */
-.ex-list{display:flex;flex-direction:column;gap:1rem;margin:1.5rem 0}
-.ex-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.35rem 1.5rem;transition:border-color 0.3s,transform 0.3s;position:relative;}
-.ex-card:hover{border-color:var(--accent2);transform:translateY(-2px)}
-.ex-num{font-family:var(--fm);font-size:10px;color:var(--accent2);letter-spacing:0.1em;margin-bottom:0.4rem;font-weight:700}
-.ex-title{font-size:1rem;font-weight:800;color:var(--text);margin-bottom:0.35rem}
-.ex-desc{font-size:0.87rem;color:var(--muted);line-height:1.6}
-.ex-desc ul{margin-top:0.4rem;padding-right:1.2rem;list-style:disc}
-.ex-desc ul li{margin-bottom:0.2rem}
 code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-family:var(--fm);font-size:0.83em;color:var(--accent)}
-
-.rules{list-style:none;display:flex;flex-direction:column;gap:0.9rem;margin:1.5rem 0}
-.rules li{display:flex;gap:0.9rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.35rem;transition:border-color 0.3s}
-.rules li:hover{border-color:var(--accent2)}
-.ri{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;margin-top:2px}
-.rok{background:rgba(82,214,138,0.15);color:var(--green)}
-.rno{background:rgba(255,107,107,0.15);color:var(--accent3)}
-.rt strong{display:block;font-size:0.95rem;font-weight:800;color:var(--text);margin-bottom:0.2rem}
-.rt span{font-size:0.85rem;color:var(--muted)}
-
-.quiz-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:2rem;margin:2rem 0}
-.quiz-q{font-size:1.05rem;font-weight:800;margin-bottom:1.25rem;color:var(--text)}
-.quiz-opts{display:flex;flex-direction:column;gap:0.75rem}
-.qo{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1.2rem;font-family:var(--fh);font-size:0.9rem;cursor:pointer;transition:all 0.2s;color:var(--text);text-align:right;font-weight:500}
-.qo:hover{border-color:var(--accent);background:rgba(124,111,224,0.1)}
-.qo.correct{border-color:var(--accent2);background:rgba(78,205,196,0.1);color:var(--accent2)}
-.qo.wrong{border-color:var(--accent3);background:rgba(255,107,107,0.1);color:var(--accent3)}
-.qfb{margin-top:1rem;font-size:0.88rem;min-height:1.4rem;font-weight:500}
-
-.congrats{text-align:center;padding:3rem 2rem;background:var(--surface);border:1px solid rgba(78,205,196,0.3);border-radius:20px;margin-top:3rem;}
-.congrats .big{font-size:3.5rem;margin-bottom:1rem}
-.congrats h3{font-size:1.5rem;font-weight:900;color:var(--accent2);margin-bottom:0.75rem}
-.congrats p{color:var(--muted);font-size:0.95rem;margin-bottom:1.75rem}
-.congrats-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent2);color:#000;font-weight:800;border:none;border-radius:100px;padding:12px 28px;font-family:var(--fh);font-size:1rem;cursor:pointer;transition:all 0.25s;}
-.congrats-btn:hover{opacity:0.85;transform:scale(1.04)}
-.div{width:50px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px;margin-bottom:2rem}
-
-/* CONDITIONS specific */
-.cond-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin:1.5rem 0}
-.cond-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;position:relative;overflow:hidden;transition:transform 0.3s,border-color 0.3s}
-.cond-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.cc-if::before{background:var(--accent)}.cc-elif::before{background:var(--gold)}.cc-else::before{background:var(--accent2)}
-.cond-card:hover{transform:translateY(-4px);border-color:rgba(120,100,255,0.45)}
-.cc-kw{font-family:var(--fm);font-size:13px;font-weight:700;margin-bottom:0.5rem;display:inline-block;padding:2px 10px;border-radius:6px}
-.cc-if .cc-kw{background:rgba(124,111,224,0.2);color:var(--accent)}.cc-elif .cc-kw{background:rgba(247,201,72,0.2);color:var(--gold)}.cc-else .cc-kw{background:rgba(78,205,196,0.2);color:var(--accent2)}
-.cc-desc{font-size:0.85rem;color:var(--muted);line-height:1.5;margin-top:0.5rem}
-
-.ops-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;margin:1.5rem 0}
-.op-chip{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1rem;display:flex;align-items:center;gap:0.75rem;transition:border-color 0.3s,transform 0.3s}
-.op-chip:hover{border-color:var(--accent2);transform:translateY(-2px)}
-.op-sym{font-family:var(--fm);font-size:1.1rem;color:var(--accent2);font-weight:700;min-width:36px;text-align:center;background:rgba(78,205,196,0.1);padding:3px 6px;border-radius:6px}
-.op-lbl{font-size:0.82rem;color:var(--muted)}
-
-/* TYPES */
 .types-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin:1.5rem 0}
 .type-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;position:relative;overflow:hidden;transition:transform 0.3s}
 .type-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
@@ -181,7 +93,27 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
 .ti .tn{color:var(--accent)}.tf .tn{color:var(--accent2)}.ts .tn{color:var(--gold)}.tb .tn{color:var(--accent3)}
 .te{font-family:var(--fm);font-size:1rem;font-weight:500;color:var(--text);margin-bottom:0.4rem}
 .td{font-size:0.83rem;color:var(--muted)}
-
+.rules{list-style:none;display:flex;flex-direction:column;gap:0.9rem;margin:1.5rem 0}
+.rules li{display:flex;gap:0.9rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem 1.35rem;transition:border-color 0.3s}
+.rules li:hover{border-color:var(--accent2)}
+.ri{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;margin-top:2px}
+.rok{background:rgba(82,214,138,0.15);color:var(--green)}.rno{background:rgba(255,107,107,0.15);color:var(--accent3)}
+.rt strong{display:block;font-size:0.95rem;font-weight:800;color:var(--text);margin-bottom:0.2rem}
+.rt span{font-size:0.85rem;color:var(--muted)}
+.cond-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin:1.5rem 0}
+.cond-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;position:relative;overflow:hidden;transition:transform 0.3s,border-color 0.3s}
+.cond-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.cc-if::before{background:var(--accent)}.cc-elif::before{background:var(--gold)}.cc-else::before{background:var(--accent2)}
+.cond-card:hover{transform:translateY(-4px);border-color:rgba(120,100,255,0.45)}
+.cc-kw{font-family:var(--fm);font-size:13px;font-weight:700;margin-bottom:0.5rem;display:inline-block;padding:2px 10px;border-radius:6px}
+.cc-if .cc-kw{background:rgba(124,111,224,0.2);color:var(--accent)}.cc-elif .cc-kw{background:rgba(247,201,72,0.2);color:var(--gold)}.cc-else .cc-kw{background:rgba(78,205,196,0.2);color:var(--accent2)}
+.cc-desc{font-size:0.85rem;color:var(--muted);line-height:1.5;margin-top:0.5rem}
+.ops-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0.75rem;margin:1.5rem 0}
+.op-chip{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:0.85rem 1rem;display:flex;align-items:center;gap:0.75rem;transition:border-color 0.3s,transform 0.3s}
+.op-chip:hover{border-color:var(--accent2);transform:translateY(-2px)}
+.op-sym{font-family:var(--fm);font-size:1.1rem;color:var(--accent2);font-weight:700;min-width:36px;text-align:center;background:rgba(78,205,196,0.1);padding:3px 6px;border-radius:6px}
+.op-lbl{font-size:0.82rem;color:var(--muted)}
+.div{width:50px;height:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:100px;margin-bottom:2rem}
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:100px}
@@ -190,101 +122,89 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
 <body>
 <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div>
 
-<div class="lang-toggle">
-  <button class="lang-btn active" onclick="setLang('ar')">العربية</button>
-  <button class="lang-btn" onclick="setLang('en')">English</button>
-</div>
-
-<!-- ══════ LANDING ══════ -->
+<!-- LANDING -->
 <div id="landing">
-  <div class="hero-badge"><span id="badge-txt">منصة تعليمية تفاعلية</span></div>
-  <h1 class="hero-title"><span id="h1a">تعلّم</span> <em>Python</em><br><span id="h1b">مع نائلة</span></h1>
-  <p class="hero-sub" id="hero-sub">رحلتك في البرمجة تبدأ هنا. اختار درسك الأول وابدأ الآن!</p>
-  <div class="byline" id="byline">✦ بقلم حجار نائلة</div>
-  <div class="courses-label" id="courses-label">— اختر درسك —</div>
-
+  <div class="hero-badge">منصة تعليمية تفاعلية</div>
+  <h1 class="hero-title">تعلّم <em>Python</em><br>مع نائلة</h1>
+  <p class="hero-sub">رحلتك في البرمجة تبدأ هنا. اختار درسك الأول وابدأ الآن!</p>
+  <div class="byline">✦ بقلم حجار نائلة</div>
+  <div class="courses-label">— اختر درسك —</div>
   <div class="courses-grid">
-    <!-- 01 Variables -->
-    <div class="course-card unlocked" onclick="startLesson('vars')">
-      <div class="c-badge" id="cb1">ابدأ هنا</div>
+
+    <div class="course-card unlocked" onclick="go('vars')">
+      <div class="c-badge">ابدأ هنا</div>
       <div class="c-num">01</div><div class="c-icon">📦</div>
-      <div class="c-title" id="ct1">المتغيرات</div>
-      <div class="c-desc" id="cd1">تخزين البيانات وتسميتها في Python. هذا هو الأساس الذي يُبنى عليه كل شيء.</div>
-      <button class="start-btn" id="sbtn1">▶ ابدأ الدرس</button>
+      <div class="c-title">المتغيرات</div>
+      <div class="c-desc">تخزين البيانات وتسميتها في Python.</div>
+      <button class="start-btn">▶ ابدأ الدرس</button>
     </div>
 
-    <!-- 02 While Loop — UNLOCKED -->
-    <div class="course-card unlocked" onclick="startLesson('while')" style="border-color:rgba(82,214,138,0.3);background:rgba(82,214,138,0.04)">
-      <div class="c-badge" style="background:var(--green)" id="cb2">جديد ✦</div>
+    <div class="course-card unlocked" onclick="go('while')" style="border-color:rgba(82,214,138,0.3)">
+      <div class="c-badge" style="background:var(--green)">جديد ✦</div>
       <div class="c-num">02</div><div class="c-icon">🔁</div>
-      <div class="c-title" id="ct2">حلقة while</div>
-      <div class="c-desc" id="cd2">كرّر الأوامر ما دام الشرط صحيحاً. تعلّمي while مع تمارين كاملة.</div>
-      <button class="start-btn" id="sbtn2" style="background:var(--green);color:#000">▶ ابدأ الدرس</button>
+      <div class="c-title">حلقة while</div>
+      <div class="c-desc">كرّر الأوامر ما دام الشرط صحيحاً.</div>
+      <button class="start-btn" style="background:var(--green);color:#000">▶ ابدأ الدرس</button>
     </div>
 
-    <!-- 03 For Loop — UNLOCKED -->
-    <div class="course-card unlocked" onclick="startLesson('for')" style="border-color:rgba(255,185,108,0.3);background:rgba(255,185,108,0.04)">
-      <div class="c-badge" style="background:var(--orange);color:#000" id="cb3">جديد ✦</div>
+    <div class="course-card unlocked" onclick="go('for')" style="border-color:rgba(255,185,108,0.3)">
+      <div class="c-badge" style="background:var(--orange);color:#000">جديد ✦</div>
       <div class="c-num">03</div><div class="c-icon">🔂</div>
-      <div class="c-title" id="ct3">حلقة for</div>
-      <div class="c-desc" id="cd3">تكرار على نطاقات وعناصر بدقة وأناقة. تمارين شاملة تشمل الأنماط والأرقام.</div>
-      <button class="start-btn" id="sbtn3" style="background:var(--orange);color:#000">▶ ابدأ الدرس</button>
+      <div class="c-title">حلقة for</div>
+      <div class="c-desc">تكرار أنيق على نطاقات وعناصر.</div>
+      <button class="start-btn" style="background:var(--orange);color:#000">▶ ابدأ الدرس</button>
     </div>
 
-    <!-- 04 Conditions — UNLOCKED -->
-    <div class="course-card unlocked" onclick="startLesson('cond')" style="border-color:rgba(247,201,72,0.3);background:rgba(247,201,72,0.04)">
-      <div class="c-badge" style="background:var(--gold)" id="cb4">جديد ✦</div>
+    <div class="course-card unlocked" onclick="go('cond')" style="border-color:rgba(247,201,72,0.3)">
+      <div class="c-badge" style="background:var(--gold)">جديد ✦</div>
       <div class="c-num">04</div><div class="c-icon">🌿</div>
-      <div class="c-title" id="ct4">الشروط</div>
-      <div class="c-desc" id="cd4">خلّ برنامجك يفكّر ويتخذ قرارات. if، elif، وelse بأسلوب Python الأنيق.</div>
-      <button class="start-btn" id="sbtn4" style="background:var(--gold);color:#000">▶ ابدأ الدرس</button>
+      <div class="c-title">الشروط</div>
+      <div class="c-desc">if، elif، وelse بأسلوب Python الأنيق.</div>
+      <button class="start-btn" style="background:var(--gold);color:#000">▶ ابدأ الدرس</button>
     </div>
 
-    <!-- 05 Functions locked -->
     <div class="course-card locked">
       <div class="c-lock">🔒</div><div class="c-num">05</div><div class="c-icon">⚙️</div>
-      <div class="c-title" id="ct5">الدوال</div>
-      <div class="c-desc" id="cd5">اكتب الكود مرة واحدة، استخدمه في كل مكان. قريباً...</div>
+      <div class="c-title">الدوال</div><div class="c-desc">قريباً...</div>
     </div>
 
-    <!-- 06 Lists locked -->
     <div class="course-card locked">
       <div class="c-lock">🔒</div><div class="c-num">06</div><div class="c-icon">📋</div>
-      <div class="c-title" id="ct6">القوائم</div>
-      <div class="c-desc" id="cd6">خزّن مئات القيم في متغير واحد. قريباً...</div>
+      <div class="c-title">القوائم</div><div class="c-desc">قريباً...</div>
     </div>
+
   </div>
 </div>
 
-<!-- ══════ VARIABLES LESSON ══════ -->
+<!-- VARIABLES -->
 <div id="lesson-vars" class="lesson-page">
   <div class="lesson-nav">
-    <button class="back-btn" onclick="goBack()"><span>←</span> <span class="lbl-back">العودة</span></button>
-    <div class="nav-title">📦 المتغيرات — Variables</div>
-    <div class="progress-wrap">
-      <div class="progress-bar-outer"><div class="progress-bar-inner" id="pbar-vars"></div></div>
-      <div class="progress-txt" id="ptxt-vars">0%</div>
-    </div>
+    <button class="back-btn" onclick="goBack()">← العودة</button>
+    <div class="nav-title">📦 المتغيرات</div>
   </div>
   <div class="lesson-body">
     <div class="lesson-hero">
       <div class="lesson-tag">الدرس الأول · Lesson 01</div>
-      <h1 class="lesson-h1"><span class="lbl-vars-title">المتغيرات في</span> <em>Python</em></h1>
-      <p class="lesson-sub lbl-vars-sub">تعلّمي كيف تخزّني البيانات، تسمّيها، وتستخدمها. هذا هو قلب البرمجة.</p>
+      <h1 class="lesson-h1">المتغيرات في <em>Python</em></h1>
+      <p class="lesson-sub">تعلّمي كيف تخزّني البيانات، تسمّيها، وتستخدمها.</p>
     </div>
 
     <div class="step">
       <div class="step-header"><div class="step-num">01</div><div class="step-title">ما هو <span>المتغير؟</span></div></div>
       <div class="div"></div>
       <p class="prose">المتغير هو كالصندوق المُسمَّى — تضعين فيه قيمة وتستخدمينها لاحقاً. في Python، لا تحتاجين لتحديد النوع مسبقاً!</p>
-      <div class="code-wrap">
-        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">hello_variables.py</span></div>
-        <pre><span class="vr">name</span>       <span class="op">=</span> <span class="str">"Naïla"</span>
-<span class="vr">age</span>        <span class="op">=</span> <span class="num">20</span>
-<span class="vr">gpa</span>        <span class="op">=</span> <span class="num">3.85</span>
-<span class="vr">is_student</span> <span class="op">=</span> <span class="kw">True</span>
-<span class="fn">print</span>(<span class="vr">name</span>)   <span class="cm"># Naïla</span></pre>
+      <div class="info-grid">
+        <div class="info-card"><div class="ic">📦</div><h4>صندوق تخزين</h4><p>المتغير يحفظ القيمة ويُعطيها اسماً يسهّل استخدامها لاحقاً.</p></div>
+        <div class="info-card"><div class="ic">🔁</div><h4>قيمة قابلة للتغيير</h4><p>يمكن تغيير قيمة المتغير في أي وقت خلال البرنامج.</p></div>
+        <div class="info-card"><div class="ic">🏷️</div><h4>اسم تختارينه أنتِ</h4><p>اختاري اسماً واضحاً مثل <code class="il">student_name</code>.</p></div>
+        <div class="info-card"><div class="ic">⚡</div><h4>Python ذكي</h4><p>Python يعرف نوع المتغير تلقائياً بمجرد إسناد القيمة.</p></div>
       </div>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">variables.py</span></div>
+      <pre><span class="vr">name</span>       <span class="op">=</span> <span class="str">"Naïla"</span>    <span class="cm"># str</span>
+<span class="vr">age</span>        <span class="op">=</span> <span class="num">20</span>         <span class="cm"># int</span>
+<span class="vr">gpa</span>        <span class="op">=</span> <span class="num">3.85</span>       <span class="cm"># float</span>
+<span class="vr">is_student</span> <span class="op">=</span> <span class="kw">True</span>       <span class="cm"># bool</span>
+<span class="fn">print</span>(<span class="vr">name</span>, <span class="vr">age</span>)  <span class="cm"># Naïla 20</span></pre></div>
     </div>
 
     <div class="step">
@@ -302,147 +222,79 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
       <div class="step-header"><div class="step-num">03</div><div class="step-title">قواعد <span>التسمية</span></div></div>
       <div class="div"></div>
       <ul class="rules">
-        <li><div class="ri rok">✓</div><div class="rt"><strong>ابدأي بحرف أو شرطة سفلية</strong><span><code class="il">name</code>، <code class="il">_score</code> — لا يجوز البدء برقم.</span></div></li>
-        <li><div class="ri rok">✓</div><div class="rt"><strong>استخدمي snake_case</strong><span><code class="il">first_name</code> وليس <code class="il">FirstName</code></span></div></li>
+        <li><div class="ri rok">✓</div><div class="rt"><strong>ابدأي بحرف أو شرطة سفلية</strong><span>مثل <code class="il">name</code>، <code class="il">_score</code> — لا يجوز البدء برقم.</span></div></li>
+        <li><div class="ri rok">✓</div><div class="rt"><strong>استخدمي snake_case</strong><span><code class="il">first_name</code> وليس <code class="il">FirstName</code>.</span></div></li>
         <li><div class="ri rno">✗</div><div class="rt"><strong>تجنّبي الكلمات المحجوزة</strong><span><code class="il">if</code>، <code class="il">for</code>، <code class="il">class</code>، <code class="il">True</code> محجوزة.</span></div></li>
         <li><div class="ri rno">✗</div><div class="rt"><strong>الأحرف الكبيرة والصغيرة مختلفة!</strong><span><code class="il">Age</code> و<code class="il">age</code> متغيران مختلفان تماماً.</span></div></li>
       </ul>
     </div>
-
-    <div class="step">
-      <div class="step-header"><div class="step-num">✦</div><div class="step-title">اختبري <span>نفسك</span></div></div>
-      <div class="div"></div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ أيّ من هذه الأسماء صحيح في Python؟</div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','vars',0,'✗ 2myVar يبدأ برقم — غير مسموح.')">2myVar</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','vars',0,'✓ ممتاز! my_var2 يتبع جميع القواعد.')">my_var2</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','vars',0,'✗ my-var يحتوي شرطة عادية — غير مسموح.')">my-var</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','vars',0,'✗ class كلمة محجوزة في Python.')">class</button>
-        </div>
-        <div class="qfb" id="fb-vars-0"></div>
-      </div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ ما نوع المتغير <code class="il">price = 9.99</code>؟</div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','vars',1,'✗ int للأعداد الصحيحة فقط بدون فاصلة.')">int</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','vars',1,'✓ صحيح! 9.99 يحتوي فاصلة عشرية — نوعه float.')">float</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','vars',1,'✗ str للنصوص بين علامتي تنصيص.')">str</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','vars',1,'✗ bool فقط True أو False.')">bool</button>
-        </div>
-        <div class="qfb" id="fb-vars-1"></div>
-      </div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ ما الناتج؟ <code class="il">a, b = 5, 10 → a, b = b, a → print(a)</code></div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','vars',2,'✗ تذكّري: a, b = b, a تُبادل القيمتين.')">5</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','vars',2,'✓ رائع! بعد التبادل a=10.')">10</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','vars',2,'✗ الكود صحيح تماماً في Python.')">خطأ في الكود</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','vars',2,'✗ a تحمل قيمة بعد الإسناد.')">None</button>
-        </div>
-        <div class="qfb" id="fb-vars-2"></div>
-      </div>
-    </div>
-    <div class="congrats" id="congrats-vars" style="display:none">
-      <div class="big">🎉</div>
-      <h3>أحسنتِ يا نائلة!</h3>
-      <p>أكملتِ درس المتغيرات بنجاح!</p>
-      <button class="congrats-btn" onclick="goBack()">← العودة للدروس</button>
-    </div>
   </div>
 </div>
 
-<!-- ══════ WHILE LOOP LESSON ══════ -->
+<!-- WHILE -->
 <div id="lesson-while" class="lesson-page">
   <div class="lesson-nav">
-    <button class="back-btn" onclick="goBack()"><span>←</span> <span class="lbl-back">العودة</span></button>
+    <button class="back-btn" onclick="goBack()">← العودة</button>
     <div class="nav-title">🔁 حلقة while</div>
-    <div class="progress-wrap">
-      <div class="progress-bar-outer"><div class="progress-bar-inner" id="pbar-while"></div></div>
-      <div class="progress-txt" id="ptxt-while">0%</div>
-    </div>
   </div>
   <div class="lesson-body">
     <div class="lesson-hero">
       <div class="lesson-tag" style="color:var(--green);border-color:rgba(82,214,138,0.3);background:rgba(82,214,138,0.08)">الدرس الثاني · Lesson 02</div>
-      <h1 class="lesson-h1"><span style="color:var(--text)">حلقة</span> <em>while</em></h1>
-      <p class="lesson-sub">كرّري كتلة من الكود ما دام الشرط صحيحاً. قوة التكرار في يدكِ!</p>
+      <h1 class="lesson-h1" style="-webkit-text-fill-color:var(--text)">حلقة <em style="background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">while</em></h1>
+      <p class="lesson-sub">كرّري كتلة من الكود ما دام الشرط صحيحاً!</p>
     </div>
 
-    <!-- STEP 1: شرح while -->
     <div class="step">
       <div class="step-header"><div class="step-num" style="color:var(--green);border-color:rgba(82,214,138,0.35);background:rgba(82,214,138,0.1)">01</div><div class="step-title">ما هي حلقة <span>while؟</span></div></div>
       <div class="div" style="background:linear-gradient(90deg,var(--green),var(--accent2))"></div>
-      <p class="prose">حلقة <code class="il">while</code> تُنفّذ كتلة من الكود <strong>مراراً وتكراراً</strong> ما دام الشرط محقّقاً. بمجرد أن يصبح الشرط خاطئاً، تتوقف الحلقة وينتقل البرنامج للسطر التالي.</p>
+      <p class="prose">حلقة <code class="il">while</code> تُنفّذ كتلة من الكود <strong>مراراً وتكراراً</strong> ما دام الشرط محقّقاً.</p>
       <div class="info-grid">
-        <div class="info-card"><div class="ic">♻️</div><h4>التكرار التلقائي</h4><p>لا داعي لكتابة نفس الكود مئة مرة — while تفعل ذلك تلقائياً.</p></div>
-        <div class="info-card"><div class="ic">🚦</div><h4>شرط التوقف</h4><p>يجب أن يكون هناك شرط يصبح خاطئاً في نهاية المطاف، وإلا ستُصبح الحلقة لا نهائية!</p></div>
-        <div class="info-card"><div class="ic">🔢</div><h4>عدّاد (counter)</h4><p>عادةً نستخدم متغيراً يتزايد داخل الحلقة للتحكم في عدد التكرارات.</p></div>
-        <div class="info-card"><div class="ic">⛔</div><h4>break و continue</h4><p><code class="il">break</code> تخرج من الحلقة فوراً، <code class="il">continue</code> تنتقل للتكرار التالي.</p></div>
+        <div class="info-card"><div class="ic">♻️</div><h4>التكرار التلقائي</h4><p>لا داعي لكتابة نفس الكود مئات المرات.</p></div>
+        <div class="info-card"><div class="ic">🚦</div><h4>شرط التوقف</h4><p>يجب أن يصبح الشرط خاطئاً في نهاية المطاف.</p></div>
+        <div class="info-card"><div class="ic">🔢</div><h4>عدّاد (counter)</h4><p>متغير يتزايد داخل الحلقة للتحكم في التكرارات.</p></div>
+        <div class="info-card"><div class="ic">⛔</div><h4>break و continue</h4><p><code class="il">break</code> تخرج فوراً. <code class="il">continue</code> تنتقل للتكرار التالي.</p></div>
       </div>
-      <div class="code-wrap">
-        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">while_basic.py</span></div>
-        <pre><span class="cm"># بنية while الأساسية</span>
-<span class="vr">i</span> <span class="op">=</span> <span class="num">1</span>                  <span class="cm"># تهيئة العدّاد</span>
-<span class="kw">while</span> <span class="vr">i</span> <span class="op">&lt;=</span> <span class="num">5</span><span class="op">:</span>          <span class="cm"># الشرط</span>
-    <span class="fn">print</span>(<span class="vr">i</span>)            <span class="cm"># جسم الحلقة</span>
-    <span class="vr">i</span> <span class="op">+=</span> <span class="num">1</span>             <span class="cm"># تحديث العدّاد (مهم جداً!)</span>
-<span class="cm"># الناتج: 1 2 3 4 5</span></pre>
-      </div>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">while_basic.py</span></div>
+      <pre><span class="vr">i</span> <span class="op">=</span> <span class="num">1</span>
+<span class="kw">while</span> <span class="vr">i</span> <span class="op">&lt;=</span> <span class="num">5</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">i</span>)
+    <span class="vr">i</span> <span class="op">+=</span> <span class="num">1</span>
+<span class="cm"># الناتج: 1  2  3  4  5</span></pre></div>
       <div class="tip-warn">
         <div class="tip-ic">⚠️</div>
-        <div class="tip-body"><strong>تجنّبي الحلقة اللانهائية!</strong><p>إذا نسيتِ تحديث العدّاد (<code class="il">i += 1</code>)، ستستمر الحلقة إلى الأبد وسيتجمّد البرنامج. اضغطي <code class="il">Ctrl+C</code> لإيقافه.</p></div>
+        <div class="tip-body"><strong>تجنّبي الحلقة اللانهائية!</strong><p>إذا نسيتِ تحديث العدّاد سيتجمّد البرنامج. اضغطي <code class="il">Ctrl+C</code> لإيقافه.</p></div>
       </div>
     </div>
 
-    <!-- STEP 2: التمارين الأولى -->
     <div class="step">
-      <div class="step-header"><div class="step-num" style="color:var(--green);border-color:rgba(82,214,138,0.35);background:rgba(82,214,138,0.1)">02</div><div class="step-title">التمرين الأول — <span>خمسة تمارين</span></div></div>
+      <div class="step-header"><div class="step-num" style="color:var(--green);border-color:rgba(82,214,138,0.35);background:rgba(82,214,138,0.1)">02</div><div class="step-title">أنماط <span>شائعة</span></div></div>
       <div class="div" style="background:linear-gradient(90deg,var(--green),var(--accent2))"></div>
-      <p class="prose">طبّقي ما تعلّمتِه في هذه التمارين الخمسة:</p>
-      <div class="ex-list">
-        <div class="ex-card">
-          <div class="ex-num">EX 1.1</div>
-          <div class="ex-title">العدّ من 1 إلى 10</div>
-          <div class="ex-desc">استخدمي حلقة while لطباعة الأعداد من 1 إلى 10.</div>
-        </div>
-        <div class="ex-card">
-          <div class="ex-num">EX 1.2</div>
-          <div class="ex-title">الجمع حتى 0</div>
-          <div class="ex-desc">
-            <ul>
-              <li>اطلبي من المستخدم إدخال أعداد</li>
-              <li>اجمعيها باستمرار</li>
-              <li>توقّفي عند إدخال 0</li>
-              <li>اطبعي المجموع النهائي</li>
-            </ul>
-          </div>
-        </div>
-        <div class="ex-card">
-          <div class="ex-num">EX 1.3</div>
-          <div class="ex-title">الأعداد الزوجية</div>
-          <div class="ex-desc">اطبعي جميع الأعداد الزوجية من 2 إلى 20 باستخدام while.</div>
-        </div>
-        <div class="ex-card">
-          <div class="ex-num">EX 1.4</div>
-          <div class="ex-title">العدّ التنازلي</div>
-          <div class="ex-desc">اطلبي من المستخدم عدداً n، ثم عدّي تنازلياً من n إلى 1.</div>
-        </div>
-        <div class="ex-card">
-          <div class="ex-num">EX 1.5</div>
-          <div class="ex-title">جدول الضرب (while)</div>
-          <div class="ex-desc">اطلبي عدداً n واطبعي جدول ضربه باستخدام while.</div>
-        </div>
-      </div>
-      <div class="code-wrap">
-        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">ex1_solutions_hint.py</span></div>
-        <pre><span class="cm"># EX 1.1 — العدّ من 1 إلى 10</span>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">while_patterns.py</span></div>
+      <pre><span class="cm"># الأعداد الزوجية من 2 إلى 20</span>
+<span class="vr">n</span> <span class="op">=</span> <span class="num">2</span>
+<span class="kw">while</span> <span class="vr">n</span> <span class="op">&lt;=</span> <span class="num">20</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">n</span>)
+    <span class="vr">n</span> <span class="op">+=</span> <span class="num">2</span>
+
+<span class="cm"># العدّ التنازلي</span>
+<span class="vr">n</span> <span class="op">=</span> <span class="num">5</span>
+<span class="kw">while</span> <span class="vr">n</span> <span class="op">&gt;</span> <span class="num">0</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">n</span>)
+    <span class="vr">n</span> <span class="op">-=</span> <span class="num">1</span>
+
+<span class="cm"># جدول الضرب</span>
+<span class="vr">n</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي عدداً: "</span>))
 <span class="vr">i</span> <span class="op">=</span> <span class="num">1</span>
 <span class="kw">while</span> <span class="vr">i</span> <span class="op">&lt;=</span> <span class="num">10</span><span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span>)
-    <span class="vr">i</span> <span class="op">+=</span> <span class="num">1</span>
+    <span class="fn">print</span>(<span class="vr">n</span>, <span class="str">"×"</span>, <span class="vr">i</span>, <span class="str">"="</span>, <span class="vr">n</span> <span class="op">*</span> <span class="vr">i</span>)
+    <span class="vr">i</span> <span class="op">+=</span> <span class="num">1</span></pre></div>
+    </div>
 
-<span class="cm"># EX 1.2 — الجمع حتى 0</span>
+    <div class="step">
+      <div class="step-header"><div class="step-num" style="color:var(--green);border-color:rgba(82,214,138,0.35);background:rgba(82,214,138,0.1)">03</div><div class="step-title">الجمع والإدخال <span>المتكرر</span></div></div>
+      <div class="div" style="background:linear-gradient(90deg,var(--green),var(--accent2))"></div>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">input_loop.py</span></div>
+      <pre><span class="cm"># الجمع حتى إدخال 0</span>
 <span class="vr">total</span> <span class="op">=</span> <span class="num">0</span>
 <span class="vr">num</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي عدداً (0 للتوقف): "</span>))
 <span class="kw">while</span> <span class="vr">num</span> <span class="op">!=</span> <span class="num">0</span><span class="op">:</span>
@@ -450,281 +302,126 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
     <span class="vr">num</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي عدداً (0 للتوقف): "</span>))
 <span class="fn">print</span>(<span class="str">"المجموع:"</span>, <span class="vr">total</span>)
 
-<span class="cm"># EX 1.3 — الأعداد الزوجية</span>
-<span class="vr">n</span> <span class="op">=</span> <span class="num">2</span>
-<span class="kw">while</span> <span class="vr">n</span> <span class="op">&lt;=</span> <span class="num">20</span><span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">n</span>)
-    <span class="vr">n</span> <span class="op">+=</span> <span class="num">2</span></pre>
-      </div>
+<span class="cm"># التحقق من نطاق الإدخال</span>
+<span class="vr">num</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي رقماً بين 1 و10: "</span>))
+<span class="kw">while</span> <span class="vr">num</span> <span class="op">&lt;</span> <span class="num">1</span> <span class="kw2">or</span> <span class="vr">num</span> <span class="op">&gt;</span> <span class="num">10</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"خارج النطاق! حاولي مجدداً."</span>)
+    <span class="vr">num</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي رقماً بين 1 و10: "</span>))
+<span class="fn">print</span>(<span class="str">"ممتاز!"</span>, <span class="vr">num</span>)</pre></div>
     </div>
 
-    <!-- STEP 3: التمارين 2 و3 -->
     <div class="step">
-      <div class="step-header"><div class="step-num" style="color:var(--green);border-color:rgba(82,214,138,0.35);background:rgba(82,214,138,0.1)">03</div><div class="step-title">تمارين <span>متقدمة</span></div></div>
+      <div class="step-header"><div class="step-num" style="color:var(--green);border-color:rgba(82,214,138,0.35);background:rgba(82,214,138,0.1)">04</div><div class="step-title"><code class="il">while True</code> و <span>break</span></div></div>
       <div class="div" style="background:linear-gradient(90deg,var(--green),var(--accent2))"></div>
-      <div class="ex-list">
-        <div class="ex-card" style="border-color:rgba(82,214,138,0.3)">
-          <div class="ex-num">EX 2 — تمرين الرقم السري</div>
-          <div class="ex-title">خمّني! الرقم السري هو 7</div>
-          <div class="ex-desc">
-            <ul>
-              <li>استمرّي في طلب إدخال رقم من المستخدم حتى يخمّن الرقم 7</li>
-              <li>عدّي عدد المحاولات</li>
-              <li>اطبعي عدد المحاولات في النهاية</li>
-            </ul>
-          </div>
-        </div>
-        <div class="ex-card" style="border-color:rgba(82,214,138,0.3)">
-          <div class="ex-num">EX 3 — التحقق من النطاق</div>
-          <div class="ex-title">إدخال بين 1 و10</div>
-          <div class="ex-desc">اطلبي من المستخدم رقماً بين 1 و10. إذا كان خارج النطاق، استمرّي في السؤال حتى يُدخل قيمة صحيحة.</div>
-        </div>
-        <div class="ex-card" style="border-color:rgba(82,214,138,0.3)">
-          <div class="ex-num">EX 4 — عكس الرقم</div>
-          <div class="ex-title">مثال: 120 → 21</div>
-          <div class="ex-desc">اطلبي رقماً وأعيدي ترتيب أرقامه بالمعاكس باستخدام while (بدون تحويل لنص).</div>
-        </div>
-        <div class="ex-card" style="border-color:rgba(82,214,138,0.3)">
-          <div class="ex-num">EX 5 — كلمة المرور</div>
-          <div class="ex-title">قابل للقسمة على 2 و5 معاً</div>
-          <div class="ex-desc">
-            <ul>
-              <li>اطلبي رقماً — كلمة المرور صحيحة فقط إذا كان قابلاً للقسمة على 2 و5 معاً</li>
-              <li>استمرّي في السؤال حتى يُدخل الرقم الصحيح</li>
-              <li>عدّي عدد المحاولات</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="code-wrap">
-        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">ex2_5_hints.py</span></div>
-        <pre><span class="cm"># EX 2 — الرقم السري</span>
-<span class="vr">secret</span> <span class="op">=</span> <span class="num">7</span>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">while_true_break.py</span></div>
+      <pre><span class="vr">secret</span>   <span class="op">=</span> <span class="num">7</span>
 <span class="vr">attempts</span> <span class="op">=</span> <span class="num">0</span>
-<span class="vr">guess</span> <span class="op">=</span> <span class="op">-</span><span class="num">1</span>
-<span class="kw">while</span> <span class="vr">guess</span> <span class="op">!=</span> <span class="vr">secret</span><span class="op">:</span>
+<span class="kw">while</span> <span class="kw">True</span><span class="op">:</span>
     <span class="vr">guess</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"خمّني الرقم: "</span>))
     <span class="vr">attempts</span> <span class="op">+=</span> <span class="num">1</span>
-<span class="fn">print</span>(<span class="str">"صحيح! المحاولات:"</span>, <span class="vr">attempts</span>)
+    <span class="kw">if</span> <span class="vr">guess</span> <span class="op">==</span> <span class="vr">secret</span><span class="op">:</span>
+        <span class="fn">print</span>(<span class="str">"صحيح! المحاولات:"</span>, <span class="vr">attempts</span>)
+        <span class="kw">break</span>
+    <span class="fn">print</span>(<span class="str">"حاولي مجدداً!"</span>)</pre></div>
+      <div class="tip"><div class="tip-ic">💡</div><div class="tip-body"><strong>عامل الباقي %</strong><p><code class="il">n % 2 == 0</code> يتحقق من قابلية القسمة على 2. دمجهما بـ <code class="il">and</code> يتطلب تحقق كليهما.</p></div></div>
+    </div>
 
-<span class="cm"># EX 4 — عكس الرقم</span>
-<span class="vr">n</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي رقماً: "</span>))
+    <div class="step">
+      <div class="step-header"><div class="step-num" style="color:var(--green);border-color:rgba(82,214,138,0.35);background:rgba(82,214,138,0.1)">05</div><div class="step-title">عكس الرقم <span>بـ while</span></div></div>
+      <div class="div" style="background:linear-gradient(90deg,var(--green),var(--accent2))"></div>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">reverse_number.py</span></div>
+      <pre><span class="vr">n</span>   <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي رقماً: "</span>))
 <span class="vr">rev</span> <span class="op">=</span> <span class="num">0</span>
 <span class="kw">while</span> <span class="vr">n</span> <span class="op">&gt;</span> <span class="num">0</span><span class="op">:</span>
     <span class="vr">rev</span> <span class="op">=</span> <span class="vr">rev</span> <span class="op">*</span> <span class="num">10</span> <span class="op">+</span> <span class="vr">n</span> <span class="op">%</span> <span class="num">10</span>
-    <span class="vr">n</span> <span class="op">//=</span> <span class="num">10</span>
+    <span class="vr">n</span>   <span class="op">//=</span> <span class="num">10</span>
 <span class="fn">print</span>(<span class="str">"المعكوس:"</span>, <span class="vr">rev</span>)
-
-<span class="cm"># EX 5 — كلمة المرور</span>
-<span class="vr">attempts</span> <span class="op">=</span> <span class="num">0</span>
-<span class="kw">while</span> <span class="kw">True</span><span class="op">:</span>
-    <span class="vr">num</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي كلمة المرور: "</span>))
-    <span class="vr">attempts</span> <span class="op">+=</span> <span class="num">1</span>
-    <span class="kw">if</span> <span class="vr">num</span> <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span> <span class="kw2">and</span> <span class="vr">num</span> <span class="op">%</span> <span class="num">5</span> <span class="op">==</span> <span class="num">0</span><span class="op">:</span>
-        <span class="kw">break</span>
-<span class="fn">print</span>(<span class="str">"صحيح! المحاولات:"</span>, <span class="vr">attempts</span>)</pre>
-      </div>
-      <div class="tip">
-        <div class="tip-ic">💡</div>
-        <div class="tip-body"><strong>while True مع break</strong><p>أسلوب شائع جداً: ابدئي بحلقة لا نهائية <code class="il">while True</code> واستخدمي <code class="il">break</code> للخروج عند تحقّق الشرط المطلوب.</p></div>
-      </div>
-    </div>
-
-    <!-- QUIZ while -->
-    <div class="step">
-      <div class="step-header"><div class="step-num" style="color:var(--green)">✦</div><div class="step-title">اختبري <span>نفسك</span></div></div>
-      <div class="div" style="background:linear-gradient(90deg,var(--green),var(--accent2))"></div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ كم مرة تُطبع هذه الحلقة؟ <code class="il">i=1 | while i &lt; 4: print(i) | i+=1</code></div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','while',0,'✗ تحقّقي: i=1,2,3 — ثلاث مرات.')">مرتان</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','while',0,'✓ صحيح! i=1, i=2, i=3 → عند i=4 يتوقف الشرط.')">3 مرات</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','while',0,'✗ الشرط i&lt;4 يمنع الوصول لـ 4.')">4 مرات</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','while',0,'✗ الحلقة ليست لانهائية — i+=1 يُحدّث العدّاد.')">لانهائية</button>
-        </div>
-        <div class="qfb" id="fb-while-0"></div>
-      </div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ ما الكلمة المفتاحية للخروج من حلقة while فوراً؟</div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','while',1,'✗ continue تتخطى التكرار الحالي لكنها لا تخرج من الحلقة.')">continue</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','while',1,'✓ ممتاز! break تُنهي الحلقة فوراً.')">break</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','while',1,'✗ stop ليست كلمة مفتاحية في Python.')">stop</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','while',1,'✗ exit() تُنهي البرنامج كاملاً، ليس الحلقة فقط.')">exit</button>
-        </div>
-        <div class="qfb" id="fb-while-1"></div>
-      </div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ ما شرط القسمة على 2 و5 معاً في Python؟</div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','while',2,'✗ or يكتفي بأحد الشرطين. نحتاج كليهما.')">n%2==0 or n%5==0</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','while',2,'✓ صحيح! and يتطلب أن يكون كلا الشرطين صحيحين معاً.')">n%2==0 and n%5==0</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','while',2,'✗ القسمة على 10 وحدها لا تعني القسمة على 2 و5 بشكل مستقل.')">n%10==0</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','while',2,'✗ n/2 و n/5 يُعطيان ناتج القسمة وليس الباقي.')">n/2==0 and n/5==0</button>
-        </div>
-        <div class="qfb" id="fb-while-2"></div>
-      </div>
-    </div>
-
-    <div class="congrats" id="congrats-while" style="display:none;border-color:rgba(82,214,138,0.3)">
-      <div class="big">🔁</div>
-      <h3 style="color:var(--green)">أحسنتِ يا نائلة!</h3>
-      <p>أتقنتِ حلقة while! الآن جرّبي حلّ التمارين بنفسك على جهازك.</p>
-      <button class="congrats-btn" onclick="goBack()" style="background:var(--green)">← العودة للدروس</button>
+<span class="cm"># مثال: 120 → 21</span></pre></div>
     </div>
   </div>
 </div>
 
-<!-- ══════ FOR LOOP LESSON ══════ -->
+<!-- FOR -->
 <div id="lesson-for" class="lesson-page">
   <div class="lesson-nav">
-    <button class="back-btn" onclick="goBack()"><span>←</span> <span class="lbl-back">العودة</span></button>
+    <button class="back-btn" onclick="goBack()">← العودة</button>
     <div class="nav-title">🔂 حلقة for</div>
-    <div class="progress-wrap">
-      <div class="progress-bar-outer"><div class="progress-bar-inner" id="pbar-for"></div></div>
-      <div class="progress-txt" id="ptxt-for">0%</div>
-    </div>
   </div>
   <div class="lesson-body">
     <div class="lesson-hero">
       <div class="lesson-tag" style="color:var(--orange);border-color:rgba(255,185,108,0.3);background:rgba(255,185,108,0.08)">الدرس الثالث · Lesson 03</div>
-      <h1 class="lesson-h1"><span style="color:var(--text)">حلقة</span> <em style="background:linear-gradient(135deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">for</em></h1>
-      <p class="lesson-sub">التكرار على نطاقات وعناصر بدقة وأناقة — الأسلوب الـ Pythonic!</p>
+      <h1 class="lesson-h1" style="-webkit-text-fill-color:var(--text)">حلقة <em style="background:linear-gradient(135deg,var(--orange),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">for</em></h1>
+      <p class="lesson-sub">التكرار الأنيق على نطاقات وعناصر!</p>
     </div>
 
-    <!-- STEP 1 -->
     <div class="step">
       <div class="step-header"><div class="step-num" style="color:var(--orange);border-color:rgba(255,185,108,0.35);background:rgba(255,185,108,0.1)">01</div><div class="step-title">ما هي حلقة <span>for؟</span></div></div>
       <div class="div" style="background:linear-gradient(90deg,var(--orange),var(--gold))"></div>
-      <p class="prose">حلقة <code class="il">for</code> تُكرّر على عناصر متسلسلة — نطاق أرقام، نص، قائمة، وأكثر. هي أكثر أناقةً من while عندما تعرفين عدد التكرارات مسبقاً.</p>
+      <p class="prose">حلقة <code class="il">for</code> تُكرّر على عناصر متسلسلة — نطاق أرقام، نص، قائمة، وأكثر.</p>
       <div class="info-grid">
-        <div class="info-card"><div class="ic">📏</div><h4>range()</h4><p><code class="il">range(start, stop, step)</code> تُولّد سلسلة من الأرقام. <code class="il">range(1,11)</code> من 1 إلى 10.</p></div>
-        <div class="info-card"><div class="ic">🔡</div><h4>التكرار على النصوص</h4><p>يمكنك التكرار على كل حرف في نص: <code class="il">for c in "Python":</code></p></div>
-        <div class="info-card"><div class="ic">📐</div><h4>خطوة مخصصة</h4><p><code class="il">range(0,20,2)</code> تعطي الأزواج فقط. <code class="il">range(10,0,-1)</code> تعدّ تنازلياً.</p></div>
-        <div class="info-card"><div class="ic">🔢</div><h4>enumerate()</h4><p><code class="il">enumerate()</code> تعطيك الفهرس والقيمة معاً في كل تكرار.</p></div>
+        <div class="info-card"><div class="ic">📏</div><h4>range()</h4><p><code class="il">range(start, stop, step)</code> تُولّد سلسلة أرقام.</p></div>
+        <div class="info-card"><div class="ic">🔡</div><h4>التكرار على النصوص</h4><p><code class="il">for c in "Python":</code> يمر على كل حرف.</p></div>
+        <div class="info-card"><div class="ic">📐</div><h4>خطوة مخصصة</h4><p><code class="il">range(2,21,2)</code> للأزواج. <code class="il">range(10,0,-1)</code> تنازلي.</p></div>
+        <div class="info-card"><div class="ic">🔗</div><h4>for متداخلة</h4><p>for داخل for لطباعة أنماط أو جداول.</p></div>
       </div>
-      <div class="code-wrap">
-        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">for_basic.py</span></div>
-        <pre><span class="cm"># range أساسي</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span>)          <span class="cm"># 1 2 3 4 5</span>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">for_basics.py</span></div>
+      <pre><span class="cm"># من 1 إلى 10</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">i</span>)
 
-<span class="cm"># خطوة 2 — الأزواج</span>
+<span class="cm"># الأعداد الزوجية</span>
 <span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">2</span>, <span class="num">21</span>, <span class="num">2</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span>)          <span class="cm"># 2 4 6 ... 20</span>
+    <span class="fn">print</span>(<span class="vr">i</span>)
+
+<span class="cm"># عدّ تنازلي</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">10</span>, <span class="num">0</span>, <span class="op">-</span><span class="num">1</span>)<span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">i</span>)
 
 <span class="cm"># التكرار على نص</span>
 <span class="kw">for</span> <span class="vr">c</span> <span class="kw2">in</span> <span class="str">"Python"</span><span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">c</span>)          <span class="cm"># P y t h o n</span></pre>
-      </div>
+    <span class="fn">print</span>(<span class="vr">c</span>)</pre></div>
     </div>
 
-    <!-- STEP 2: التمارين الأولى -->
     <div class="step">
-      <div class="step-header"><div class="step-num" style="color:var(--orange);border-color:rgba(255,185,108,0.35);background:rgba(255,185,108,0.1)">02</div><div class="step-title">التمرين الأول — <span>خمسة تمارين</span></div></div>
+      <div class="step-header"><div class="step-num" style="color:var(--orange);border-color:rgba(255,185,108,0.35);background:rgba(255,185,108,0.1)">02</div><div class="step-title">المجموع وجدول <span>الضرب</span></div></div>
       <div class="div" style="background:linear-gradient(90deg,var(--orange),var(--gold))"></div>
-      <div class="ex-list">
-        <div class="ex-card">
-          <div class="ex-num">EX 1.1</div>
-          <div class="ex-title">طباعة الأرقام من 1 إلى 10</div>
-          <div class="ex-desc">استخدمي for loop لطباعة الأرقام من 1 إلى 10.</div>
-        </div>
-        <div class="ex-card">
-          <div class="ex-num">EX 1.2</div>
-          <div class="ex-title">مجموع الأرقام من 1 إلى 10</div>
-          <div class="ex-desc">احسبي مجموع الأرقام من 1 إلى 10 باستخدام for.</div>
-        </div>
-        <div class="ex-card">
-          <div class="ex-num">EX 1.3</div>
-          <div class="ex-title">الأعداد الزوجية</div>
-          <div class="ex-desc">اطبعي جميع الأعداد الزوجية من 1 إلى 20.</div>
-        </div>
-        <div class="ex-card">
-          <div class="ex-num">EX 1.4</div>
-          <div class="ex-title">جدول الضرب</div>
-          <div class="ex-desc">اطلبي عدداً n واطبعي جدول ضربه من 1 إلى 10.</div>
-        </div>
-        <div class="ex-card">
-          <div class="ex-num">EX 1.5</div>
-          <div class="ex-title">مربّعات الأرقام</div>
-          <div class="ex-desc">اطبعي مربّع كل عدد من 1 إلى 5: 1, 4, 9, 16, 25</div>
-        </div>
-      </div>
-      <div class="code-wrap">
-        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">ex1_for_solutions.py</span></div>
-        <pre><span class="cm"># EX 1.1 — طباعة 1 إلى 10</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span>)
-
-<span class="cm"># EX 1.2 — مجموع 1 إلى 10</span>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">sum_table.py</span></div>
+      <pre><span class="cm"># مجموع 1 إلى 10</span>
 <span class="vr">total</span> <span class="op">=</span> <span class="num">0</span>
 <span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
     <span class="vr">total</span> <span class="op">+=</span> <span class="vr">i</span>
-<span class="fn">print</span>(<span class="str">"المجموع:"</span>, <span class="vr">total</span>)  <span class="cm"># 55</span>
+<span class="fn">print</span>(<span class="str">"المجموع:"</span>, <span class="vr">total</span>)   <span class="cm"># 55</span>
 
-<span class="cm"># EX 1.3 — الأعداد الزوجية</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">2</span>, <span class="num">21</span>, <span class="num">2</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span>)
-
-<span class="cm"># EX 1.4 — جدول الضرب</span>
+<span class="cm"># جدول الضرب</span>
 <span class="vr">n</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي عدداً: "</span>))
 <span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
     <span class="fn">print</span>(<span class="vr">n</span>, <span class="str">"×"</span>, <span class="vr">i</span>, <span class="str">"="</span>, <span class="vr">n</span> <span class="op">*</span> <span class="vr">i</span>)
 
-<span class="cm"># EX 1.5 — مربّعات الأرقام</span>
+<span class="cm"># مربّعات الأرقام</span>
 <span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)<span class="op">:</span>
-    <span class="fn">print</span>(<span class="vr">i</span> <span class="op">**</span> <span class="num">2</span>)</pre>
-      </div>
+    <span class="fn">print</span>(<span class="vr">i</span>, <span class="str">"² ="</span>, <span class="vr">i</span> <span class="op">**</span> <span class="num">2</span>)</pre></div>
     </div>
 
-    <!-- STEP 3: التمارين 2-5 -->
     <div class="step">
-      <div class="step-header"><div class="step-num" style="color:var(--orange);border-color:rgba(255,185,108,0.35);background:rgba(255,185,108,0.1)">03</div><div class="step-title">تمارين <span>متقدمة</span></div></div>
+      <div class="step-header"><div class="step-num" style="color:var(--orange);border-color:rgba(255,185,108,0.35);background:rgba(255,185,108,0.1)">03</div><div class="step-title">for المتداخلة و<span>الأنماط</span></div></div>
       <div class="div" style="background:linear-gradient(90deg,var(--orange),var(--gold))"></div>
-      <div class="ex-list">
-        <div class="ex-card" style="border-color:rgba(255,185,108,0.3)">
-          <div class="ex-num">EX 2 — نمط المثلث</div>
-          <div class="ex-title">اطبعي هذا النمط باستخدام for</div>
-          <div class="ex-desc">
-            <pre style="background:var(--surface2);padding:0.75rem;border-radius:8px;font-family:var(--fm);font-size:0.9rem;color:var(--accent2);direction:ltr;margin-top:0.5rem">1
-1 2
-1 2 3
-1 2 3 4</pre>
-          </div>
-        </div>
-        <div class="ex-card" style="border-color:rgba(255,185,108,0.3)">
-          <div class="ex-num">EX 3 — عدد الأرقام</div>
-          <div class="ex-title">كم رقماً يحتوي العدد؟</div>
-          <div class="ex-desc">اطلبي رقماً وعدّي كم خانة يحتوي باستخدام for (يُسمح بالتحويل لنص).</div>
-        </div>
-        <div class="ex-card" style="border-color:rgba(255,185,108,0.3)">
-          <div class="ex-num">EX 4 — عدّ الزوجي والفردي</div>
-          <div class="ex-title">من 1 إلى 100</div>
-          <div class="ex-desc">عدّي كم عدداً زوجياً وكم عدداً فردياً في النطاق من 1 إلى 100 واطبعي النتيجتين.</div>
-        </div>
-        <div class="ex-card" style="border-color:rgba(255,185,108,0.3)">
-          <div class="ex-num">EX 5 — أكبر رقم</div>
-          <div class="ex-title">أدخلي 5 أرقام وابحثي عن الأكبر</div>
-          <div class="ex-desc">اطلبي من المستخدم 5 أرقام. استخدمي for لإيجاد الأكبر <strong>دون استخدام max()</strong>.</div>
-        </div>
-      </div>
-      <div class="code-wrap">
-        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">ex2_5_for_solutions.py</span></div>
-        <pre><span class="cm"># EX 2 — نمط المثلث</span>
-<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">5</span>)<span class="op">:</span>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">nested_for.py</span></div>
+      <pre><span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">5</span>)<span class="op">:</span>
     <span class="kw">for</span> <span class="vr">j</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="vr">i</span> <span class="op">+</span> <span class="num">1</span>)<span class="op">:</span>
         <span class="fn">print</span>(<span class="vr">j</span>, <span class="vr">end</span><span class="op">=</span><span class="str">" "</span>)
-    <span class="fn">print</span>()  <span class="cm"># سطر جديد</span>
+    <span class="fn">print</span>()
+<span class="cm"># 1</span>
+<span class="cm"># 1 2</span>
+<span class="cm"># 1 2 3</span>
+<span class="cm"># 1 2 3 4</span></pre></div>
+      <div class="tip"><div class="tip-ic">💡</div><div class="tip-body"><strong>end=" " في print</strong><p><code class="il">end=" "</code> تطبع مسافة بدل السطر الجديد، فتبقى الأرقام في نفس السطر.</p></div></div>
+    </div>
 
-<span class="cm"># EX 3 — عدد الأرقام</span>
-<span class="vr">n</span> <span class="op">=</span> <span class="fn">input</span>(<span class="str">"أدخلي رقماً: "</span>)
-<span class="vr">count</span> <span class="op">=</span> <span class="num">0</span>
-<span class="kw">for</span> <span class="vr">digit</span> <span class="kw2">in</span> <span class="vr">n</span><span class="op">:</span>
-    <span class="kw">if</span> <span class="vr">digit</span><span class="op">.</span><span class="fn">isdigit</span>()<span class="op">:</span>
-        <span class="vr">count</span> <span class="op">+=</span> <span class="num">1</span>
-<span class="fn">print</span>(<span class="str">"عدد الخانات:"</span>, <span class="vr">count</span>)
-
-<span class="cm"># EX 4 — الزوجي والفردي من 1 إلى 100</span>
+    <div class="step">
+      <div class="step-header"><div class="step-num" style="color:var(--orange);border-color:rgba(255,185,108,0.35);background:rgba(255,185,108,0.1)">04</div><div class="step-title">العدّ والبحث عن <span>الأكبر</span></div></div>
+      <div class="div" style="background:linear-gradient(90deg,var(--orange),var(--gold))"></div>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">count_max.py</span></div>
+      <pre><span class="cm"># عدّ الزوجي والفردي</span>
 <span class="vr">even</span>, <span class="vr">odd</span> <span class="op">=</span> <span class="num">0</span>, <span class="num">0</span>
 <span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">101</span>)<span class="op">:</span>
     <span class="kw">if</span> <span class="vr">i</span> <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span><span class="op">:</span>
@@ -733,101 +430,49 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
         <span class="vr">odd</span> <span class="op">+=</span> <span class="num">1</span>
 <span class="fn">print</span>(<span class="str">"الزوجية:"</span>, <span class="vr">even</span>, <span class="str">"| الفردية:"</span>, <span class="vr">odd</span>)
 
-<span class="cm"># EX 5 — أكبر رقم بدون max()</span>
+<span class="cm"># أكبر رقم بدون max()</span>
 <span class="vr">largest</span> <span class="op">=</span> <span class="kw">None</span>
 <span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">5</span>)<span class="op">:</span>
     <span class="vr">num</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">f"الرقم {i+1}: "</span>))
     <span class="kw">if</span> <span class="vr">largest</span> <span class="kw2">is</span> <span class="kw">None</span> <span class="kw2">or</span> <span class="vr">num</span> <span class="op">&gt;</span> <span class="vr">largest</span><span class="op">:</span>
         <span class="vr">largest</span> <span class="op">=</span> <span class="vr">num</span>
-<span class="fn">print</span>(<span class="str">"الأكبر:"</span>, <span class="vr">largest</span>)</pre>
-      </div>
-      <div class="tip">
-        <div class="tip-ic">💡</div>
-        <div class="tip-body"><strong>for متداخلة (Nested loops)</strong><p>في تمرين النمط، استخدمنا for داخل for. الحلقة الداخلية تُكمل دورتها الكاملة في كل تكرار للحلقة الخارجية.</p></div>
-      </div>
-    </div>
-
-    <!-- QUIZ for -->
-    <div class="step">
-      <div class="step-header"><div class="step-num" style="color:var(--orange)">✦</div><div class="step-title">اختبري <span>نفسك</span></div></div>
-      <div class="div" style="background:linear-gradient(90deg,var(--orange),var(--gold))"></div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ ما الناتج؟ <code class="il">for i in range(2, 10, 3): print(i)</code></div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','for',0,'✗ range(2,10,3) تبدأ من 2 وتقفز بـ 3: 2, 5, 8')">2, 4, 6, 8</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','for',0,'✗ range(2,10,3) تبدأ من 2 لا من 3.')">3, 6, 9</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','for',0,'✓ ممتاز! تبدأ من 2، خطوة 3: 2→5→8 ثم 11 خارج النطاق.')">2, 5, 8</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','for',0,'✗ range(2,10,3) لا تصل إلى 10.')">2, 5, 8, 10</button>
-        </div>
-        <div class="qfb" id="fb-for-0"></div>
-      </div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ ما الفرق بين <code class="il">while</code> و <code class="il">for</code>؟</div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','for',1,'✗ كلاهما يمكن أن يكون لانهائياً في حالات معينة.')">while لانهائية وfor لها نهاية دائماً</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','for',1,'✓ صحيح! for مثالية حين تعرفين عدد التكرارات، while حين يعتمد ذلك على شرط.')">for عندما تعرفين العدد، while عندما يعتمد على شرط</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','for',1,'✗ for يمكنها التكرار على أي تسلسل ليس فقط الأرقام.')">for للأرقام فقط وwhile للنصوص</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','for',1,'✗ كلاهما يدعم break و continue.')">while تدعم break وfor لا تدعمها</button>
-        </div>
-        <div class="qfb" id="fb-for-1"></div>
-      </div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ كيف تُعدّين تنازلياً من 10 إلى 1 باستخدام range؟</div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','for',2,'✗ range(10,1) بدون خطوة سالبة لن تعطي شيئاً.')">range(10, 1)</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','for',2,'✗ range(10, 0) تتوقف قبل 0، والخطوة السالبة مفقودة.')">range(10, 0)</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','for',2,'✓ ممتاز! range(10, 0, -1) تبدأ من 10 وتنتهي عند 1 بخطوة -1.')">range(10, 0, -1)</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','for',2,'✗ range(1, 11, -1) لن تعطي نتيجة لأن الاتجاه معاكس.')">range(1, 11, -1)</button>
-        </div>
-        <div class="qfb" id="fb-for-2"></div>
-      </div>
-    </div>
-
-    <div class="congrats" id="congrats-for" style="display:none;border-color:rgba(255,185,108,0.3)">
-      <div class="big">🔂</div>
-      <h3 style="color:var(--orange)">رائعة يا نائلة!</h3>
-      <p>أتقنتِ حلقة for! لا تنسي تطبيق التمارين بنفسك على جهازك.</p>
-      <button class="congrats-btn" onclick="goBack()" style="background:var(--orange);color:#000">← العودة للدروس</button>
+<span class="fn">print</span>(<span class="str">"الأكبر:"</span>, <span class="vr">largest</span>)</pre></div>
     </div>
   </div>
 </div>
 
-<!-- ══════ CONDITIONS LESSON ══════ -->
+<!-- CONDITIONS -->
 <div id="lesson-cond" class="lesson-page">
   <div class="lesson-nav">
-    <button class="back-btn" onclick="goBack()"><span>←</span> <span class="lbl-back">العودة</span></button>
-    <div class="nav-title">🌿 الشروط — Conditions</div>
-    <div class="progress-wrap">
-      <div class="progress-bar-outer"><div class="progress-bar-inner" id="pbar-cond"></div></div>
-      <div class="progress-txt" id="ptxt-cond">0%</div>
-    </div>
+    <button class="back-btn" onclick="goBack()">← العودة</button>
+    <div class="nav-title">🌿 الشروط</div>
   </div>
   <div class="lesson-body">
     <div class="lesson-hero">
       <div class="lesson-tag" style="color:var(--gold);border-color:rgba(247,201,72,0.3);background:rgba(247,201,72,0.08)">الدرس الرابع · Lesson 04</div>
-      <h1 class="lesson-h1"><span style="color:var(--text)">الشروط في</span> <em>Python</em></h1>
-      <p class="lesson-sub">علّمي برنامجك كيف يفكّر ويتخذ قرارات بناءً على الظروف.</p>
+      <h1 class="lesson-h1">الشروط في <em>Python</em></h1>
+      <p class="lesson-sub">علّمي برنامجك كيف يفكّر ويتخذ قرارات.</p>
     </div>
 
     <div class="step">
       <div class="step-header"><div class="step-num">01</div><div class="step-title">ما هي <span>الشروط؟</span></div></div>
       <div class="div"></div>
-      <p class="prose">الشروط تمنح برنامجك القدرة على اتخاذ القرارات. بدلاً من تنفيذ نفس الأوامر دائماً، يمكنك قول: <strong>«إذا كان كذا، افعل هذا، وإلا افعل ذاك»</strong>.</p>
+      <p class="prose">الشروط تمنح برنامجك القدرة على اتخاذ القرارات: <strong>«إذا كان كذا، افعل هذا، وإلا افعل ذاك»</strong>.</p>
       <div class="cond-grid">
-        <div class="cond-card cc-if"><div class="cc-kw">if</div><div class="cc-desc">الشرط الأساسي. إذا كان صحيحاً، نفّذ الكود بداخله.</div></div>
+        <div class="cond-card cc-if"><div class="cc-kw">if</div><div class="cc-desc">الشرط الأساسي. إذا كان صحيحاً نفّذ الكود بداخله.</div></div>
         <div class="cond-card cc-elif"><div class="cc-kw">elif</div><div class="cc-desc">شرط إضافي يُختبر إذا فشل الشرط الأول.</div></div>
-        <div class="cond-card cc-else"><div class="cc-kw">else</div><div class="cc-desc">الحالة الافتراضية إذا فشلت جميع الشروط السابقة.</div></div>
+        <div class="cond-card cc-else"><div class="cc-kw">else</div><div class="cc-desc">الحالة الافتراضية إذا فشلت جميع الشروط.</div></div>
       </div>
-      <div class="code-wrap">
-        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">conditions.py</span></div>
-        <pre><span class="vr">score</span> <span class="op">=</span> <span class="num">75</span>
-<span class="kw">if</span> <span class="vr">score</span> <span class="op">>=</span> <span class="num">90</span><span class="op">:</span>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">conditions.py</span></div>
+      <pre><span class="vr">score</span> <span class="op">=</span> <span class="num">75</span>
+<span class="kw">if</span> <span class="vr">score</span> <span class="op">&gt;=</span> <span class="num">90</span><span class="op">:</span>
     <span class="fn">print</span>(<span class="str">"ممتاز! 🌟"</span>)
-<span class="kw">elif</span> <span class="vr">score</span> <span class="op">>=</span> <span class="num">70</span><span class="op">:</span>
+<span class="kw">elif</span> <span class="vr">score</span> <span class="op">&gt;=</span> <span class="num">70</span><span class="op">:</span>
     <span class="fn">print</span>(<span class="str">"جيد جداً 👍"</span>)   <span class="cm"># ← هذا سيُطبع</span>
+<span class="kw">elif</span> <span class="vr">score</span> <span class="op">&gt;=</span> <span class="num">50</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="str">"مقبول"</span>)
 <span class="kw">else</span><span class="op">:</span>
-    <span class="fn">print</span>(<span class="str">"راجعي الدرس 📚"</span>)</pre>
-      </div>
+    <span class="fn">print</span>(<span class="str">"راجعي الدرس 📚"</span>)</pre></div>
     </div>
 
     <div class="step">
@@ -843,7 +488,7 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
       </div>
       <div class="tip-warn">
         <div class="tip-ic">⚠️</div>
-        <div class="tip-body"><strong>انتبهي: = vs ==</strong><p><code class="il">=</code> للإسناد (تضعين قيمة في متغير)، أما <code class="il">==</code> للمقارنة. الخلط بينهما من أكثر الأخطاء شيوعاً!</p></div>
+        <div class="tip-body"><strong>انتبهي: = vs ==</strong><p><code class="il">=</code> للإسناد، <code class="il">==</code> للمقارنة. الخلط بينهما من أكثر الأخطاء شيوعاً!</p></div>
       </div>
     </div>
 
@@ -858,109 +503,28 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
     </div>
 
     <div class="step">
-      <div class="step-header"><div class="step-num">✦</div><div class="step-title">اختبري <span>نفسك</span></div></div>
+      <div class="step-header"><div class="step-num">04</div><div class="step-title">الشرط <span>المختصر</span></div></div>
       <div class="div"></div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ ما الناتج إذا كانت <code class="il">score = 65</code>؟ <code class="il">if score>=90: "A" elif score>=60: "B" else: "C"</code></div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','cond',0,'✗ score=65 أقل من 90.')">A</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','cond',0,'✓ صحيح! score=65 أكبر من 60 لكن أصغر من 90 — elif ينفَّذ.')">B</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','cond',0,'✗ score=65 أكبر من 60، فلن يصل لـ else.')">C</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','cond',0,'✗ الكود صحيح تماماً.')">خطأ في الكود</button>
-        </div>
-        <div class="qfb" id="fb-cond-0"></div>
-      </div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ ما الفرق بين <code class="il">=</code> و <code class="il">==</code>؟</div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','cond',1,'✗ العكس هو الصحيح.')">== للإسناد و= للمقارنة</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','cond',1,'✓ ممتاز! = يضع قيمة، == يتحقق من تساوي قيمتين.')">= للإسناد و== للمقارنة</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','cond',1,'✗ كلاهما مختلفان تماماً.')">لا فرق بينهما</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','cond',1,'✗ كلاهما يعملان مع النصوص والأرقام.')">يُستخدمان فقط مع الأرقام</button>
-        </div>
-        <div class="qfb" id="fb-cond-1"></div>
-      </div>
-      <div class="quiz-card">
-        <div class="quiz-q">❓ ما الناتج؟ <code class="il">x = "مرحبا" if 10 > 5 else "وداعاً"</code></div>
-        <div class="quiz-opts">
-          <button class="qo" onclick="answerQuiz(this,'wrong','cond',2,'✗ 10>5 صحيح، فتُختار القيمة الأولى.')">وداعاً</button>
-          <button class="qo" onclick="answerQuiz(this,'correct','cond',2,'✓ رائع! الشرط 10>5 صحيح (True) فـ x = مرحبا.')">مرحبا</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','cond',2,'✗ True هو نتيجة الشرط وليس قيمة x.')">True</button>
-          <button class="qo" onclick="answerQuiz(this,'wrong','cond',2,'✗ الكود صحيح تماماً في Python.')">خطأ في الكود</button>
-        </div>
-        <div class="qfb" id="fb-cond-2"></div>
-      </div>
-    </div>
-
-    <div class="congrats" id="congrats-cond" style="display:none">
-      <div class="big">🌿</div>
-      <h3 style="color:var(--gold)">ممتازة يا نائلة!</h3>
-      <p>أكملتِ درس الشروط بنجاح! الآن برنامجك يستطيع التفكير واتخاذ القرارات.</p>
-      <button class="congrats-btn" onclick="goBack()" style="background:var(--gold);color:#000">← العودة للدروس</button>
+      <div class="code-wrap"><div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">ternary.py</span></div>
+      <pre><span class="vr">score</span> <span class="op">=</span> <span class="num">82</span>
+<span class="vr">result</span> <span class="op">=</span> <span class="str">"ناجح"</span> <span class="kw">if</span> <span class="vr">score</span> <span class="op">&gt;=</span> <span class="num">50</span> <span class="kw">else</span> <span class="str">"راسب"</span>
+<span class="fn">print</span>(<span class="vr">result</span>)  <span class="cm"># ناجح</span></pre></div>
+      <div class="tip"><div class="tip-ic">💡</div><div class="tip-body"><strong>المسافة البادئة إلزامية!</strong><p>الكود داخل الشرط يجب أن يكون مُبادَراً بـ 4 مسافات أو Tab واحد.</p></div></div>
     </div>
   </div>
 </div>
 
 <script>
-// State for each lesson's quiz
-const quizState = { vars:[false,false,false], while:[false,false,false], for:[false,false,false], cond:[false,false,false] };
-
-function startLesson(id) {
+function go(id) {
   document.getElementById('landing').style.display = 'none';
   document.querySelectorAll('.lesson-page').forEach(p => p.style.display = 'none');
   document.getElementById('lesson-' + id).style.display = 'block';
   window.scrollTo(0, 0);
 }
-
 function goBack() {
   document.querySelectorAll('.lesson-page').forEach(p => p.style.display = 'none');
   document.getElementById('landing').style.display = 'flex';
-  // reset all quizzes
-  Object.keys(quizState).forEach(lesson => {
-    quizState[lesson] = [false, false, false];
-    for (let i = 0; i < 3; i++) {
-      const fb = document.getElementById(`fb-${lesson}-${i}`);
-      if (fb) fb.textContent = '';
-    }
-    const cong = document.getElementById('congrats-' + lesson);
-    if (cong) cong.style.display = 'none';
-    updateProgress(lesson);
-  });
-  document.querySelectorAll('.qo').forEach(b => { b.classList.remove('correct','wrong'); b.disabled = false; b.style.pointerEvents = ''; });
   window.scrollTo(0, 0);
-}
-
-function answerQuiz(btn, result, lesson, idx, feedback) {
-  btn.closest('.quiz-opts').querySelectorAll('.qo').forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
-  btn.classList.add(result);
-  quizState[lesson][idx] = true;
-  const fb = document.getElementById(`fb-${lesson}-${idx}`);
-  fb.style.color = result === 'correct' ? 'var(--accent2)' : 'var(--accent3)';
-  fb.textContent = feedback;
-  updateProgress(lesson);
-  if (quizState[lesson].every(Boolean)) {
-    setTimeout(() => {
-      const cong = document.getElementById('congrats-' + lesson);
-      cong.style.display = 'block';
-      cong.scrollIntoView({ behavior: 'smooth' });
-    }, 600);
-  }
-}
-
-function updateProgress(lesson) {
-  const done = quizState[lesson].filter(Boolean).length;
-  const pct = Math.round((done / 3) * 100);
-  const bar = document.getElementById('pbar-' + lesson);
-  const txt = document.getElementById('ptxt-' + lesson);
-  if (bar) bar.style.width = pct + '%';
-  if (txt) txt.textContent = pct + '%';
-}
-
-function setLang(l) {
-  document.documentElement.lang = l;
-  document.documentElement.dir = l === 'ar' ? 'rtl' : 'ltr';
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.lang-btn[onclick="setLang('${l}')"]`).classList.add('active');
 }
 </script>
 </body>
