@@ -3,807 +3,546 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>حلقة while في Python</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>حلقة for — Python</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#07090F; --surface:#0F1220; --surface2:#171C30;
-  --accent:#FFB86C; --accent2:#4ECDC4;
-  --gold:#F7C948; --text:#EEF0FF; --muted:#8890B5;
-  --pink:#FF79C6; --green:#50FA7B; --yellow:#F1FA8C;
-  --red:#FF5555; --purple:#BD93F9; --cyan:#8BE9FD;
-  --border:rgba(255,185,108,0.15);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07090F;--surface:#0F1220;--surface2:#171C30;--border:rgba(255,185,108,0.2);
+  --accent:#FFB86C;--accent2:#4ECDC4;--gold:#F7C948;
+  --text:#EEF0FF;--muted:#8890B5;
+  --fh:'Tajawal',sans-serif;--fm:'DM Mono',monospace;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Tajawal',sans-serif;min-height:100vh;overflow-x:hidden}
-.orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:.18;pointer-events:none;z-index:0;animation:drift 14s ease-in-out infinite alternate}
-.orb1{width:420px;height:420px;background:var(--accent);top:-120px;right:-100px}
-.orb2{width:320px;height:320px;background:var(--accent2);bottom:-80px;left:-80px;animation-delay:-7s}
-@keyframes drift{from{transform:translate(0,0)}to{transform:translate(30px,40px)}}
-header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1.4rem 2rem;border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
-.logo{display:flex;align-items:center;gap:.7rem}
-.logo-icon{font-size:1.8rem}
-.logo h1{font-size:1.25rem;font-weight:700;color:var(--accent)}
-.logo span{font-size:.8rem;color:var(--muted)}
-#langBtn{background:rgba(255,185,108,.1);border:1px solid var(--border);color:var(--accent);padding:.45rem 1.1rem;border-radius:20px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.88rem;transition:all .2s}
-#langBtn:hover{background:rgba(255,185,108,.2);border-color:var(--accent)}
-.tab-nav{display:flex;gap:.5rem;padding:1.2rem 2rem .6rem;flex-wrap:wrap;position:relative;z-index:10}
-.ntab{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.45rem 1rem;font-size:.82rem;cursor:pointer;transition:all .2s;color:var(--muted);font-family:'Tajawal',sans-serif;white-space:nowrap}
+body{background:var(--bg);color:var(--text);font-family:var(--fh);font-size:17px;line-height:1.75;overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(100px);opacity:0.12;pointer-events:none;z-index:0;animation:drift 14s ease-in-out infinite alternate}
+.o1{width:500px;height:500px;background:#FFB86C;top:-150px;right:-150px}
+.o2{width:400px;height:400px;background:#4ECDC4;bottom:-100px;left:-100px;animation-delay:-7s}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(20px,-20px)}}
+
+.lesson-nav{position:sticky;top:0;z-index:50;background:rgba(7,9,15,0.88);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,185,108,0.15);padding:1rem 2rem;display:flex;align-items:center;justify-content:center}
+.nav-title{font-weight:800;font-size:1rem;color:var(--accent)}
+
+.lesson-body{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:3rem 2rem 6rem}
+
+.lesson-hero{text-align:center;padding:4rem 0 3rem;border-bottom:1px solid rgba(255,185,108,0.15);margin-bottom:3.5rem}
+.lesson-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,185,108,0.1);border:1px solid rgba(255,185,108,0.3);border-radius:100px;padding:6px 20px;font-size:12px;color:var(--accent);font-weight:700;letter-spacing:0.08em;margin-bottom:1.5rem}
+.lesson-h1{font-size:clamp(2.2rem,6vw,4rem);font-weight:900;line-height:1.05;margin-bottom:1rem}
+.lesson-h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lesson-sub{color:var(--muted);max-width:480px;margin:0 auto}
+
+.step{margin-bottom:4rem}
+.step-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.step-num{width:40px;height:40px;border-radius:12px;background:rgba(255,185,108,0.12);border:1px solid rgba(255,185,108,0.35);display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:13px;color:var(--accent);flex-shrink:0}
+.step-title{font-size:1.35rem;font-weight:800}
+.step-title span{color:var(--accent2)}
+
+.div{width:50px;height:3px;background:linear-gradient(90deg,var(--accent),var(--gold));border-radius:100px;margin-bottom:2rem}
+.prose{color:var(--muted);line-height:1.85;margin-bottom:1.25rem}
+.prose strong{color:var(--text)}
+code.il{background:rgba(255,185,108,0.15);border-radius:5px;padding:1px 7px;font-family:var(--fm);font-size:0.83em;color:var(--accent)}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0}
+@media(max-width:600px){.info-grid{grid-template-columns:1fr}}
+.info-card{background:var(--surface);border:1px solid rgba(255,185,108,0.15);border-radius:14px;padding:1.4rem;transition:border-color 0.3s,transform 0.3s}
+.info-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.info-card .ic{font-size:1.8rem;margin-bottom:0.75rem}
+.info-card h4{font-size:1rem;font-weight:800;margin-bottom:0.4rem}
+.info-card p{font-size:0.86rem;color:var(--muted);line-height:1.55}
+
+.code-wrap{background:#0d1117;border:1px solid rgba(255,255,255,0.07);border-radius:14px;overflow:hidden;margin:1.75rem 0;direction:ltr}
+.code-hdr{display:flex;align-items:center;gap:8px;padding:0.7rem 1.2rem;background:#161b22;border-bottom:1px solid rgba(255,255,255,0.05)}
+.dot{width:12px;height:12px;border-radius:50%}
+.d1{background:#FF5F57}.d2{background:#FFBD2E}.d3{background:#28C840}
+.cf{margin-right:auto;font-family:var(--fm);font-size:12px;color:var(--muted)}
+pre{padding:1.4rem 1.75rem;overflow-x:auto;font-family:var(--fm);font-size:0.88rem;line-height:1.8;text-align:left}
+.kw{color:#FF79C6}.str{color:#F1FA8C}.num{color:#BD93F9}.fn{color:#50FA7B}.cm{color:#6272A4;font-style:italic}.vr{color:#8BE9FD}.op{color:#FF79C6}.kw2{color:#FFB86C}
+
+.tip{background:rgba(78,205,196,0.07);border:1px solid rgba(78,205,196,0.28);border-radius:14px;padding:1.4rem 1.6rem;margin:1.75rem 0;display:flex;gap:1rem}
+.tip-ic{font-size:1.4rem;flex-shrink:0}
+.tip-body strong{display:block;font-size:1rem;font-weight:800;color:var(--accent2);margin-bottom:0.35rem}
+.tip-body p{font-size:0.88rem;color:var(--muted)}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:100px}
+
+/* ═══ CONCEPT: ANATOMY ═══ */
+.anatomy-wrap{background:#0d1117;border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:2rem 1.5rem;margin:1.75rem 0;overflow-x:auto}
+.anat-line{font-family:var(--fm);font-size:clamp(1rem,4vw,1.65rem);text-align:center;margin-bottom:2rem;white-space:nowrap;direction:ltr;letter-spacing:.04em}
+.ak{color:#FF79C6;font-weight:700}.av{color:#8BE9FD}.af{color:#50FA7B}.an{color:#BD93F9}.ai{color:#FFB86C;font-weight:700}.ap{color:#F8F8F280}
+.aleg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:.75rem;direction:rtl}
+.aleg-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:.9rem 1rem;display:flex;gap:10px;align-items:flex-start;transition:border-color .3s,transform .3s}
+.aleg-card:hover{border-color:rgba(255,255,255,0.18);transform:translateY(-2px)}
+.aleg-card .adot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.aleg-card strong{display:block;font-size:.9rem;margin-bottom:3px;font-family:var(--fm)}
+.aleg-card p{font-size:.8rem;color:var(--muted);line-height:1.45}
+
+/* ═══ CONCEPT: LOOP ANIMATION ═══ */
+.loop-anim{background:var(--surface);border:1px solid rgba(255,185,108,.15);border-radius:16px;padding:1.75rem;margin:1.75rem 0;text-align:center}
+.loop-head{font-size:.82rem;color:var(--muted);margin-bottom:1.25rem;direction:rtl}
+.loop-track{display:flex;gap:10px;justify-content:center;margin:0 0 1.5rem;flex-wrap:wrap;direction:ltr}
+.lb{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:1.2rem;font-weight:700;border:2px solid rgba(255,255,255,.09);background:rgba(255,255,255,.02);color:#3a3a5a;transition:all .5s cubic-bezier(.34,1.56,.64,1)}
+.lb.active{border-color:var(--accent);background:rgba(255,184,108,.18);color:var(--accent);transform:translateY(-10px);box-shadow:0 12px 32px rgba(255,184,108,.28)}
+.lb.done{border-color:rgba(78,205,196,.45);background:rgba(78,205,196,.09);color:var(--accent2);transform:none}
+.loop-status{font-family:var(--fm);font-size:.95rem;color:var(--muted);min-height:2.2rem;direction:ltr;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
+.lv{color:var(--accent);font-size:1.1rem;font-weight:700}
+.lv2{color:var(--accent2);font-weight:700}
+.loop-btns{display:flex;justify-content:center;gap:.75rem;margin-top:1.25rem}
+.lbtn{background:rgba(255,185,108,.1);border:1px solid rgba(255,185,108,.25);border-radius:8px;padding:7px 22px;color:var(--accent);font-family:var(--fh);font-size:.85rem;cursor:pointer;transition:all .2s}
+.lbtn:hover{background:rgba(255,185,108,.2)}
+
+/* ═══ CONCEPT: NUMBER LINE ═══ */
+.nline-tabs{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:1rem;direction:rtl}
+.ntab{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:6px 16px;font-size:.82rem;cursor:pointer;color:var(--muted);transition:all .2s;font-family:var(--fm)}
+.ntab.on{background:rgba(255,185,108,.15);border-color:var(--accent);color:var(--accent)}
 .ntab:hover{border-color:var(--accent2);color:var(--accent2)}
-.ntab.on{background:rgba(255,185,108,.15);border-color:var(--accent);color:var(--accent);font-weight:700}
-.panels{position:relative;z-index:5;padding:1.5rem 2rem 3rem;max-width:900px;margin:0 auto}
-.tab-panel{display:none;animation:fadeSlide .35s ease both}
-.tab-panel.active{display:block}
-@keyframes fadeSlide{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.6rem;margin-bottom:1.2rem;transition:border-color .3s}
-.card:hover{border-color:rgba(255,185,108,.35)}
-.card h2{font-size:1.2rem;font-weight:700;margin-bottom:.7rem;color:var(--accent)}
-.card p{color:var(--muted);line-height:1.9;font-size:.95rem}
-.card p+p{margin-top:.55rem}
-pre{background:#0a0c16;border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1.1rem 1.3rem;font-family:'DM Mono',monospace;font-size:.88rem;line-height:1.85;overflow-x:auto;margin:.8rem 0;white-space:pre-wrap}
-.kw{color:var(--pink)} .fn{color:var(--green)} .str{color:var(--yellow)}
-.cm{color:var(--muted);font-style:italic} .nb{color:var(--cyan)} .num{color:var(--purple)}
-.hl-init{background:rgba(80,250,123,.1);border-radius:4px;padding:1px 2px;transition:outline .3s}
-.hl-cond{background:rgba(255,121,198,.1);border-radius:4px;padding:1px 2px;transition:outline .3s}
-.hl-body{background:rgba(139,233,253,.1);border-radius:4px;padding:1px 2px;transition:outline .3s}
-.parts{display:flex;gap:.7rem;flex-wrap:wrap;margin:.8rem 0}
-.part-pill{padding:.3rem .85rem;border-radius:20px;font-size:.78rem;font-weight:600;cursor:pointer;transition:transform .2s,box-shadow .2s;user-select:none}
-.part-pill:hover{transform:translateY(-2px)}
-.p-init{background:rgba(80,250,123,.15);border:1px solid var(--green);color:var(--green)}
-.p-cond{background:rgba(255,121,198,.15);border:1px solid var(--pink);color:var(--pink)}
-.p-body{background:rgba(139,233,253,.15);border:1px solid var(--cyan);color:var(--cyan)}
-.anim-box{background:var(--surface2);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:1.2rem;margin:.8rem 0;min-height:80px;display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap}
-.var-badge{background:#1a1f35;border:1px solid var(--accent2);border-radius:8px;padding:.45rem .9rem;font-family:'DM Mono',monospace;font-size:1rem;color:var(--accent2);min-width:80px;text-align:center;transition:all .25s}
-.var-badge.pop{animation:boop .35s cubic-bezier(.34,1.56,.64,1)}
-@keyframes boop{0%{transform:scale(.8)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
-.ctrl-btn{background:rgba(255,185,108,.12);border:1px solid var(--border);color:var(--accent);padding:.4rem 1rem;border-radius:8px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.85rem;transition:all .2s}
-.ctrl-btn:hover{background:rgba(255,185,108,.25)}
-.ctrl-btn:disabled{opacity:.4;cursor:not-allowed}
-.stream-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;justify-content:center;min-height:50px}
-.stream-num{background:#1a1f35;border:1px solid var(--purple);border-radius:6px;padding:.3rem .7rem;font-family:'DM Mono',monospace;font-size:.9rem;color:var(--purple);animation:boop .3s ease}
-.stream-num.sentinel{border-color:var(--red);color:var(--red);animation:shakeWrong .4s ease}
-.stream-num.accepted{border-color:var(--green);color:var(--green)}
-@keyframes shakeWrong{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-.gate-area{display:flex;flex-direction:column;align-items:center;gap:.8rem}
-.gate{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;transition:all .3s;border:3px solid var(--muted)}
-.gate.ok{border-color:var(--green);background:rgba(80,250,123,.15);animation:boop .4s ease}
-.gate.bad{border-color:var(--red);background:rgba(255,85,85,.15);animation:shakeWrong .4s ease}
-.input-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;justify-content:center}
-.num-btn{background:#1a1f35;border:1px solid rgba(255,255,255,.1);color:var(--text);padding:.3rem .75rem;border-radius:6px;cursor:pointer;font-family:'DM Mono',monospace;font-size:.88rem;transition:all .2s}
-.num-btn:hover{border-color:var(--accent);color:var(--accent)}
-.digit-row{display:flex;gap:.4rem;align-items:center;justify-content:center;flex-wrap:wrap}
-.digit-box{width:48px;height:48px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:1.2rem;font-weight:700;border:2px solid var(--muted);color:var(--muted);transition:all .4s}
-.digit-box.extracted{border-color:var(--accent);color:var(--accent);background:rgba(255,185,108,.15);animation:boop .4s ease}
-.arrow-sep{color:var(--muted);font-size:1rem}
-.dm-row{display:flex;gap:1.2rem;align-items:center;justify-content:center;flex-wrap:wrap}
-.circle-btn{width:64px;height:64px;border-radius:50%;border:3px solid;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .3s;font-family:'DM Mono',monospace}
-.circle-btn.true-val{background:rgba(80,250,123,.2);border-color:var(--green);color:var(--green)}
-.circle-btn.false-val{background:rgba(255,85,85,.15);border-color:var(--red);color:var(--red)}
-.dm-result{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.5rem 1rem;font-family:'DM Mono',monospace;font-size:.82rem;text-align:center;min-width:180px;transition:all .3s}
-.dm-result.true-res{border-color:var(--green);color:var(--green)}
-.dm-result.false-res{border-color:var(--red);color:var(--red)}
-.ask-row{display:flex;justify-content:flex-end;margin-top:.5rem}
-.ask-btn{background:rgba(78,205,196,.1);border:1px solid rgba(78,205,196,.3);color:var(--accent2);padding:.4rem 1.1rem;border-radius:8px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.85rem;transition:all .2s}
-.ask-btn:hover{background:rgba(78,205,196,.2)}
-.deeper-box{display:none;background:rgba(78,205,196,.06);border:1px solid rgba(78,205,196,.2);border-radius:10px;padding:1.1rem 1.3rem;margin-top:.7rem;animation:fadeSlide .3s ease;color:var(--muted);line-height:1.9;font-size:.9rem}
-.deeper-box.open{display:block}
-.deeper-box h4{color:var(--accent2);margin-bottom:.5rem;font-size:.95rem}
-.deeper-box ul{padding-right:1.4rem;padding-left:1.4rem}
-.deeper-box li{margin-bottom:.4rem}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.step-label{font-size:.78rem;color:var(--muted);margin:.4rem 0 .2rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.prog-bar-wrap{width:100%;background:rgba(255,255,255,.07);border-radius:20px;height:10px;overflow:hidden;margin:.5rem 0}
-.prog-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:20px;transition:width .3s ease;width:0%}
-@media(max-width:640px){.two-col{grid-template-columns:1fr}.tab-nav{padding:1rem 1rem .5rem}.panels{padding:1rem 1rem 2rem}header{padding:1rem}}
+.nline-box{background:#0d1117;border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:1.5rem;overflow-x:auto}
+.nl-expr{font-family:var(--fm);font-size:.88rem;text-align:center;margin-bottom:1.25rem;direction:ltr;min-height:1.5rem}
+.nl-track{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.nbox{width:46px;height:46px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--fm);font-size:.92rem;font-weight:600;border:2px solid rgba(255,255,255,.06);color:#333;background:rgba(255,255,255,.01);transition:all .5s ease}
+.nbox.in{border-color:var(--accent);background:rgba(255,184,108,.15);color:var(--accent);animation:boop .4s ease forwards}
+.nbox.stop{border-color:rgba(255,80,80,.35);color:rgba(255,110,110,.55)}
+.nbox.skip{opacity:.15}
+.nbox.hit{border-color:var(--accent2);background:rgba(78,205,196,.12);color:var(--accent2);animation:boop .4s ease forwards}
+@keyframes boop{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.nl-legend{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;font-size:.79rem;color:var(--muted);margin-top:.5rem;direction:rtl}
+.nl-legend span{display:flex;align-items:center;gap:5px}
+.nldot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
 </style>
 </head>
 <body>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
 
-<div class="orb orb1"></div>
-<div class="orb orb2"></div>
+<div class="lesson-nav">
+  <div class="nav-title">🔂 حلقة for — Python</div>
+</div>
 
-<header>
-  <div class="logo">
-    <span class="logo-icon">🔁</span>
-    <div>
-      <h1 data-i18n="title">حلقة while في Python</h1>
-      <span data-i18n="subtitle">دورة نظرية — ٦ محاور</span>
-    </div>
-  </div>
-  <button id="langBtn" onclick="toggleLang()">English</button>
-</header>
+<div class="lesson-body">
 
-<nav class="tab-nav">
-  <button class="ntab on" onclick="switchTab(0)" data-i18n="tab0">١ · البنية</button>
-  <button class="ntab" onclick="switchTab(1)" data-i18n="tab1">٢ · العداد</button>
-  <button class="ntab" onclick="switchTab(2)" data-i18n="tab2">٣ · قيمة التوقف</button>
-  <button class="ntab" onclick="switchTab(3)" data-i18n="tab3">٤ · التحقق</button>
-  <button class="ntab" onclick="switchTab(4)" data-i18n="tab4">٥ · باقي القسمة</button>
-  <button class="ntab" onclick="switchTab(5)" data-i18n="tab5">٦ · الشروط</button>
-</nav>
-
-<main class="panels">
-
-<!-- ══════════ TAB 1 · SYNTAX ══════════ -->
-<section class="tab-panel active" id="panel0">
-  <div class="card">
-    <h2 data-i18n="s0_h1">الأجزاء الثلاثة الإلزامية</h2>
-    <p data-i18n="s0_p1">كل حلقة while صحيحة تحتوي على ثلاثة أجزاء لا تعمل بدونها: التهيئة، الشرط، والتحديث.</p>
-    <div class="parts">
-      <span class="part-pill p-init" onclick="hlStep(0)" data-i18n="pill_init">① تهيئة</span>
-      <span class="part-pill p-cond" onclick="hlStep(1)" data-i18n="pill_cond">② شرط</span>
-      <span class="part-pill p-body" onclick="hlStep(2)" data-i18n="pill_body">③ تحديث</span>
-    </div>
-<pre id="syn-code"><span class="hl-init" id="hl0"><span class="nb">i</span> = <span class="num">0</span>          <span class="cm" id="cm_init">  # ① التهيئة — نقطة البداية</span></span>
-<span class="kw">while</span> <span class="hl-cond" id="hl1"><span class="nb">i</span> &lt; <span class="num">5</span>        <span class="cm" id="cm_cond">  # ② الشرط — متى تستمر الحلقة؟</span></span>:
-    <span class="hl-body" id="hl2"><span class="fn">print</span>(<span class="nb">i</span>)     <span class="cm" id="cm_body">  # جسم الحلقة</span>
-    <span class="nb">i</span> += <span class="num">1</span>       <span class="cm" id="cm_upd">  # ③ التحديث — تجنّب الحلقة اللانهائية</span></span></pre>
-    <div class="anim-box">
-      <button class="ctrl-btn" onclick="stepSyntax()" id="stepBtn" data-i18n="btn_step">▶ خطوة تالية</button>
-      <button class="ctrl-btn" onclick="resetSyntax()" data-i18n="btn_reset">↺ إعادة</button>
-      <span id="step-msg" style="color:var(--accent2);font-size:.88rem;min-width:200px;text-align:center"></span>
-    </div>
+  <div class="lesson-hero">
+    <div class="lesson-tag">الدرس الثالث · Lesson 03</div>
+    <h1 class="lesson-h1">حلقة <em>for</em></h1>
+    <p class="lesson-sub">التكرار الأنيق على نطاقات وعناصر — الأسلوب الـ Pythonic!</p>
   </div>
 
-  <div class="card">
-    <h2 data-i18n="s0_h2">ماذا يحدث بدون التحديث؟</h2>
-    <p data-i18n="s0_p2">إذا نسيت تحديث المتغير داخل الحلقة، لن تتغير قيمة الشرط أبدًا — وتصبح الحلقة لا نهائية.</p>
-<pre><span class="nb">i</span> = <span class="num">0</span>
-<span class="kw">while</span> <span class="nb">i</span> &lt; <span class="num">5</span>:
-    <span class="fn">print</span>(<span class="nb">i</span>)
-    <span class="cm">  # ⚠️ <span id="cm_no_upd">لا يوجد i += 1  →  حلقة لا نهائية!</span></span></pre>
-    <div class="ask-row">
-      <button class="ask-btn" onclick="toggleDeeper(0)" data-i18n="btn_ask">💬 اسألني أكثر</button>
+  <!-- ══ CONCEPT 01: ANATOMY ══ -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="font-size:1rem;width:44px;height:44px">🔬</div>
+      <div class="step-title">تشريح حلقة <span>for</span> — كل جزء</div>
     </div>
-    <div class="deeper-box" id="deeper0">
-      <h4 data-i18n="d0_h">لماذا لا تعمل الحلقة بدون التحديث؟</h4>
-      <ul>
-        <li data-i18n="d0_1">الشرط <code>i &lt; 5</code> يُفحص في كل دورة قبل تنفيذ الجسم.</li>
-        <li data-i18n="d0_2">إذا بقيت قيمة <code>i</code> صفرًا دائمًا، فالشرط سيظل <code>True</code> إلى الأبد.</li>
-        <li data-i18n="d0_3">Python لا تكتشف الحلقات اللانهائية تلقائيًا — المسؤولية عليك.</li>
-        <li data-i18n="d0_4">الحل: تأكد دائمًا أن المتغير المستخدم في الشرط يتغير داخل الجسم.</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    <div class="div"></div>
+    <p class="prose">قبل الأمثلة، دعينا نشرّح سطر <code class="il">for</code> ونفهم معنى كل كلمة فيه بالضبط:</p>
 
-<!-- ══════════ TAB 2 · COUNTER ══════════ -->
-<section class="tab-panel" id="panel1">
-  <div class="card">
-    <h2 data-i18n="s1_h1">العد للأمام والخلف</h2>
-    <div class="two-col">
-      <div>
-        <div class="step-label" data-i18n="lbl_countup">عد تصاعدي</div>
-<pre><span class="nb">i</span> = <span class="num">0</span>
-<span class="kw">while</span> <span class="nb">i</span> &lt; <span class="num">5</span>:
-    <span class="fn">print</span>(<span class="nb">i</span>)
-    <span class="nb">i</span> += <span class="num">1</span></pre>
+    <div class="anatomy-wrap">
+      <div class="anat-line">
+        <span class="ak">for</span><span class="ap"> </span><span class="av">i</span><span class="ap"> </span><span class="ai">in</span><span class="ap"> </span><span class="af">range</span><span class="ap">(</span><span class="an">1</span><span class="ap">, </span><span class="an">6</span><span class="ap">):</span>
       </div>
-      <div>
-        <div class="step-label" data-i18n="lbl_countdown">عد تنازلي</div>
-<pre><span class="nb">i</span> = <span class="num">5</span>
-<span class="kw">while</span> <span class="nb">i</span> &gt; <span class="num">0</span>:
-    <span class="fn">print</span>(<span class="nb">i</span>)
-    <span class="nb">i</span> -= <span class="num">1</span></pre>
-      </div>
-    </div>
-    <div class="anim-box" style="flex-direction:column;gap:.8rem">
-      <div style="display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;justify-content:center">
-        <span data-i18n="lbl_var_i">المتغير i =</span>
-        <div class="var-badge" id="counter-val">0</div>
-        <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center">
-          <button class="ctrl-btn" onclick="counterStep(1)" data-i18n="btn_inc">▲ زيادة</button>
-          <button class="ctrl-btn" onclick="counterStep(-1)" data-i18n="btn_dec">▼ نقصان</button>
-          <button class="ctrl-btn" onclick="counterReset()" data-i18n="btn_reset">↺</button>
+      <div class="aleg-grid">
+        <div class="aleg-card">
+          <div class="adot" style="background:#FF79C6"></div>
+          <div><strong style="color:#FF79C6">for</strong><p>كلمة Python المحجوزة. تعني "لكل". تُعلم بداية الحلقة.</p></div>
         </div>
-      </div>
-      <div class="prog-bar-wrap" style="max-width:300px;width:100%">
-        <div class="prog-bar" id="prog-bar"></div>
-      </div>
-      <span id="counter-status" style="font-size:.85rem;color:var(--muted)"></span>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2 data-i18n="s1_h2">عدّ المحاولات</h2>
-    <p data-i18n="s1_p2">يُستخدم العداد لتتبع عدد الدورات: مفيد لتحديد عدد المحاولات المسموحة.</p>
-<pre><span class="nb">attempts</span> = <span class="num">0</span>
-<span class="nb">max_tries</span> = <span class="num">3</span>
-
-<span class="kw">while</span> <span class="nb">attempts</span> &lt; <span class="nb">max_tries</span>:
-    <span class="cm">    <span id="cm_try">  # جرّب العملية</span></span>
-    <span class="nb">attempts</span> += <span class="num">1</span>
-
-<span class="fn">print</span>(<span class="str">"<span id="str_done">انتهت المحاولات</span>"</span>)</pre>
-    <div class="ask-row">
-      <button class="ask-btn" onclick="toggleDeeper(1)" data-i18n="btn_ask">💬 اسألني أكثر</button>
-    </div>
-    <div class="deeper-box" id="deeper1">
-      <h4 data-i18n="d1_h">متى تختار while بدلاً من for؟</h4>
-      <ul>
-        <li data-i18n="d1_1">استخدم <code>for</code> عندما تعرف عدد التكرارات مسبقًا.</li>
-        <li data-i18n="d1_2">استخدم <code>while</code> عندما يعتمد التوقف على شرط قد يتغير أثناء التنفيذ.</li>
-        <li data-i18n="d1_3">مثال: "كرر حتى يصح المستخدم الإجابة" — لا تعرف كم مرة مسبقًا.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════ TAB 3 · SENTINEL ══════════ -->
-<section class="tab-panel" id="panel2">
-  <div class="card">
-    <h2 data-i18n="s2_h1">قيمة التوقف (Sentinel)</h2>
-    <p data-i18n="s2_p1">بدلاً من العد، تستمر الحلقة حتى يُدخل المستخدم قيمة خاصة تُوقفها — مثل -1 أو "quit".</p>
-<pre><span class="nb">total</span> = <span class="num">0</span>
-<span class="nb">x</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"<span id="str_enter">أدخل رقمًا (-1 للتوقف): </span>"</span>))
-
-<span class="kw">while</span> <span class="nb">x</span> != -<span class="num">1</span>:
-    <span class="nb">total</span> += <span class="nb">x</span>     <span class="cm"><span id="cm_acc">  # تراكم</span></span>
-    <span class="nb">x</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"<span id="str_enter2">أدخل رقمًا (-1 للتوقف): </span>"</span>))
-
-<span class="fn">print</span>(<span class="str">"<span id="str_total">المجموع:</span>"</span>, <span class="nb">total</span>)</pre>
-    <div class="anim-box" style="flex-direction:column;gap:.8rem">
-      <div class="stream-row" id="stream-row"></div>
-      <div style="display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;justify-content:center">
-        <span data-i18n="lbl_total">المجموع =</span>
-        <div class="var-badge" id="sent-total">0</div>
-      </div>
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center">
-        <button class="ctrl-btn" onclick="sentAdd()" id="sentAddBtn" data-i18n="btn_addnum">+ أضف رقمًا</button>
-        <button class="ctrl-btn" onclick="sentStop()" id="sentStopBtn" data-i18n="btn_sentinel">⏹ أرسل -1</button>
-        <button class="ctrl-btn" onclick="sentReset()" data-i18n="btn_reset">↺ إعادة</button>
-      </div>
-    </div>
-    <div class="ask-row">
-      <button class="ask-btn" onclick="toggleDeeper(2)" data-i18n="btn_ask">💬 اسألني أكثر</button>
-    </div>
-    <div class="deeper-box" id="deeper2">
-      <h4 data-i18n="d2_h">متى تستخدم نمط Sentinel؟</h4>
-      <ul>
-        <li data-i18n="d2_1">عندما يتحكم المستخدم في توقف البرنامج بنفسه.</li>
-        <li data-i18n="d2_2">قيمة التوقف يجب أن تكون خارج نطاق البيانات الصحيحة (مثل -1 للأعداد الموجبة).</li>
-        <li data-i18n="d2_3">نمط "اقرأ قبل الحلقة ثم اقرأ في نهاية الجسم" يضمن معالجة أول قيمة بشكل صحيح.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════ TAB 4 · VALIDATION ══════════ -->
-<section class="tab-panel" id="panel3">
-  <div class="card">
-    <h2 data-i18n="s3_h1">رفض المدخلات الخاطئة</h2>
-    <p data-i18n="s3_p1">نستخدم or لرفض قيمة خارج النطاق، و and لاشتراط تحقق شرطين معًا.</p>
-    <div class="two-col">
-      <div>
-        <div class="step-label" data-i18n="lbl_or_gate">بوابة or</div>
-<pre><span class="kw">while</span> <span class="nb">x</span> &lt; <span class="num">0</span> <span class="kw">or</span> <span class="nb">x</span> &gt; <span class="num">100</span>:
-    <span class="nb">x</span> = <span class="fn">int</span>(<span class="fn">input</span>(
-        <span class="str">"<span id="str_range">0-100: </span>"</span>))</pre>
-      </div>
-      <div>
-        <div class="step-label" data-i18n="lbl_not_valid">نمط not valid</div>
-<pre><span class="nb">valid</span> = <span class="kw">False</span>
-<span class="kw">while</span> <span class="kw">not</span> <span class="nb">valid</span>:
-    <span class="nb">x</span> = <span class="fn">int</span>(<span class="fn">input</span>(
-        <span class="str">"<span id="str_range2">0-100: </span>"</span>))
-    <span class="nb">valid</span> = <span class="num">0</span> &lt;= <span class="nb">x</span> &lt;= <span class="num">100</span></pre>
-      </div>
-    </div>
-    <div class="anim-box" style="flex-direction:column;gap:.9rem">
-      <p style="font-size:.85rem;color:var(--muted)" data-i18n="gate_inst">اضغط على رقم — هل يمر من البوابة؟</p>
-      <div class="input-row" id="gate-nums"></div>
-      <div class="gate-area">
-        <div class="gate" id="gate-icon">🔒</div>
-        <span id="gate-msg" style="font-size:.85rem;color:var(--muted)"></span>
-      </div>
-    </div>
-    <div class="ask-row">
-      <button class="ask-btn" onclick="toggleDeeper(3)" data-i18n="btn_ask">💬 اسألني أكثر</button>
-    </div>
-    <div class="deeper-box" id="deeper3">
-      <h4 data-i18n="d3_h">الفرق بين or و and في التحقق</h4>
-      <ul>
-        <li data-i18n="d3_1"><code>or</code>: يكفي أن يكون أحد الشرطين صحيحًا لرفض القيمة.</li>
-        <li data-i18n="d3_2"><code>and</code>: يجب أن يتحقق الشرطان معًا لقبول القيمة.</li>
-        <li data-i18n="d3_3">نمط <code>while not valid</code> أوضح قراءةً عندما يكون منطق الصحة معقدًا.</li>
-        <li data-i18n="d3_4">تستطيع كتابة <code>0 &lt;= x &lt;= 100</code> مباشرةً في Python.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════ TAB 5 · MODULO ══════════ -->
-<section class="tab-panel" id="panel4">
-  <div class="card">
-    <h2 data-i18n="s4_h1">استخراج الأرقام بـ % و //</h2>
-    <p data-i18n="s4_p1"><code>n % 10</code> يُعطي آخر رقم، و<code>n // 10</code> يُزيله. كرر حتى تصبح <code>n == 0</code>.</p>
-<pre><span class="nb">n</span> = <span class="num">4752</span>
-<span class="kw">while</span> <span class="nb">n</span> &gt; <span class="num">0</span>:
-    <span class="nb">digit</span> = <span class="nb">n</span> % <span class="num">10</span>   <span class="cm"><span id="cm_dig">  # آخر رقم</span></span>
-    <span class="fn">print</span>(<span class="nb">digit</span>)
-    <span class="nb">n</span> = <span class="nb">n</span> // <span class="num">10</span>     <span class="cm"><span id="cm_shift">  # أزل آخر رقم</span></span></pre>
-    <div class="anim-box" style="flex-direction:column;gap:1rem">
-      <div style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;justify-content:center">
-        <span data-i18n="lbl_number">الرقم n =</span>
-        <div class="var-badge" id="mod-n" style="font-size:1.2rem;min-width:90px">4752</div>
-      </div>
-      <div class="digit-row" id="digit-row"></div>
-      <div style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center">
-        <button class="ctrl-btn" onclick="modStep()" id="modStepBtn" data-i18n="btn_extract">⚙ استخرج رقمًا</button>
-        <button class="ctrl-btn" onclick="modReset()" data-i18n="btn_reset">↺ إعادة</button>
-      </div>
-      <span id="mod-msg" style="font-size:.85rem;color:var(--muted)"></span>
-    </div>
-    <div class="ask-row">
-      <button class="ask-btn" onclick="toggleDeeper(4)" data-i18n="btn_ask">💬 اسألني أكثر</button>
-    </div>
-    <div class="deeper-box" id="deeper4">
-      <h4 data-i18n="d4_h">لماذا نستخدم % و // معًا؟</h4>
-      <ul>
-        <li data-i18n="d4_1"><code>%</code> (باقي القسمة): يُعطي ما تبقى بعد القسمة على 10 — دائمًا الرقم الأخير.</li>
-        <li data-i18n="d4_2"><code>//</code> (قسمة صحيحة): يُقسم ويتجاهل الكسر — يُزيل الرقم الأخير.</li>
-        <li data-i18n="d4_3">مثال: <code>4752 % 10 = 2</code> ثم <code>4752 // 10 = 475</code>.</li>
-        <li data-i18n="d4_4">تنتهي الحلقة عندما تصبح <code>n == 0</code> أي لم يتبق أرقام.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════ TAB 6 · CONDITIONS ══════════ -->
-<section class="tab-panel" id="panel5">
-  <div class="card">
-    <h2 data-i18n="s5_h1">اختبارات القسمة وقانون دي مورغان</h2>
-    <p data-i18n="s5_p1"><code>n % 2 == 0</code> يختبر الزوجية. قانون دي مورغان يُبسّط الشروط المنفية.</p>
-    <div class="two-col">
-      <div>
-        <div class="step-label" data-i18n="lbl_div">اختبارات القسمة</div>
-<pre><span class="nb">n</span> % <span class="num">2</span> == <span class="num">0</span>   <span class="cm"><span id="cm_even">  # زوجي</span></span>
-<span class="nb">n</span> % <span class="num">2</span> != <span class="num">0</span>   <span class="cm"><span id="cm_odd">  # فردي</span></span>
-<span class="nb">n</span> % <span class="num">3</span> == <span class="num">0</span>   <span class="cm"><span id="cm_div3">  # يقبل القسمة على 3</span></span>
-<span class="nb">n</span> % <span class="num">5</span> == <span class="num">0</span>   <span class="cm"><span id="cm_div5">  # يقبل القسمة على 5</span></span></pre>
-      </div>
-      <div>
-        <div class="step-label" data-i18n="lbl_demorgan">دي مورغان</div>
-<pre><span class="kw">not</span>(<span class="nb">A</span> <span class="kw">and</span> <span class="nb">B</span>)
-  ⟺
-<span class="kw">not</span> <span class="nb">A</span> <span class="kw">or</span> <span class="kw">not</span> <span class="nb">B</span>
-
-<span class="kw">not</span>(<span class="nb">A</span> <span class="kw">or</span> <span class="nb">B</span>)
-  ⟺
-<span class="kw">not</span> <span class="nb">A</span> <span class="kw">and</span> <span class="kw">not</span> <span class="nb">B</span></pre>
-      </div>
-    </div>
-    <div class="anim-box" style="flex-direction:column;gap:1rem">
-      <p style="font-size:.85rem;color:var(--muted)" data-i18n="dm_inst">اضغط على A أو B لتغيير قيمتهما — شاهد كيف يتغير الناتج</p>
-      <div class="dm-row">
-        <div style="text-align:center">
-          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem">A</div>
-          <button class="circle-btn true-val" id="dmA" onclick="dmToggle('A')">True</button>
+        <div class="aleg-card">
+          <div class="adot" style="background:#8BE9FD"></div>
+          <div><strong style="color:#8BE9FD">i</strong><p>متغير الحلقة. يأخذ قيمة جديدة تلقائياً كل دورة (1 ثم 2 ثم ...). الاسم اختياري.</p></div>
         </div>
-        <div style="text-align:center">
-          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.3rem">B</div>
-          <button class="circle-btn true-val" id="dmB" onclick="dmToggle('B')">True</button>
+        <div class="aleg-card">
+          <div class="adot" style="background:#FFB86C"></div>
+          <div><strong style="color:#FFB86C">in</strong><p>تعني "من". تربط المتغير بمصدر الأرقام أو العناصر.</p></div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:.4rem">
-          <div class="dm-result true-res" id="dm-and">A and B = True</div>
-          <div class="dm-result true-res" id="dm-or">A or B = True</div>
-          <div class="dm-result false-res" id="dm-nand">not(A and B) = False</div>
-          <div class="dm-result false-res" id="dm-nor">not(A or B) = False</div>
+        <div class="aleg-card">
+          <div class="adot" style="background:#50FA7B"></div>
+          <div><strong style="color:#50FA7B">range(1, 6)</strong><p>دالة تُولّد أرقاماً: 1، 2، 3، 4، 5. هي المصدر الذي ندور عليه.</p></div>
+        </div>
+        <div class="aleg-card">
+          <div class="adot" style="background:#BD93F9"></div>
+          <div><strong style="color:#BD93F9">1, 6</strong><p>معاملات range: ابدأ من 1 وتوقف قبل 6. (الرقم 6 نفسه لا يُنتج).</p></div>
+        </div>
+        <div class="aleg-card">
+          <div class="adot" style="background:#F8F8F2;opacity:0.6"></div>
+          <div><strong>:</strong><p>النقطتان تُخبران Python أن جسم الحلقة يبدأ بالسطر التالي (مع مسافة بادئة).</p></div>
         </div>
       </div>
     </div>
-    <div class="ask-row">
-      <button class="ask-btn" onclick="toggleDeeper(5)" data-i18n="btn_ask">💬 اسألني أكثر</button>
+  </div>
+
+  <!-- ══ CONCEPT 02: i ══ -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="font-family:var(--fm)">i</div>
+      <div class="step-title">ما هو <span>i</span>؟ — متغير الحلقة</div>
     </div>
-    <div class="deeper-box" id="deeper5">
-      <h4 data-i18n="d5_h">تطبيق قانون دي مورغان في while</h4>
-      <ul>
-        <li data-i18n="d5_1">إذا أردت "لا زوجي ولا يقبل 3"، اكتب: <code>not(n%2==0 or n%3==0)</code></li>
-        <li data-i18n="d5_2">بتطبيق دي مورغان: <code>n%2!=0 and n%3!=0</code> — أسهل قراءةً.</li>
-        <li data-i18n="d5_3">القانون يُساعدك على تبسيط الشروط المعقدة وتجنب الأقواس المتداخلة.</li>
-      </ul>
+    <div class="div"></div>
+    <p class="prose"><strong>i</strong> هو متغير "السائق" — Python تُغيّر قيمته تلقائياً في كل دورة. أنت لا تكتب <code class="il">i = i + 1</code>، الحلقة تفعل هذا وحدها. شاهد الأنيميشن:</p>
+
+    <div class="loop-anim">
+      <div class="loop-head">تنفيذ: <code style="font-family:var(--fm);color:var(--accent2)">for i in range(1, 6): print(i)</code></div>
+      <div class="loop-track" id="loopTrack">
+        <div class="lb">1</div>
+        <div class="lb">2</div>
+        <div class="lb">3</div>
+        <div class="lb">4</div>
+        <div class="lb">5</div>
+      </div>
+      <div class="loop-status" id="loopStatus"><span style="color:var(--muted)">اضغط تشغيل لرؤية i يتغيّر ▼</span></div>
+      <div class="loop-btns">
+        <button class="lbtn" onclick="loopStart()">▶ تشغيل</button>
+        <button class="lbtn" onclick="loopReset()">↺ إعادة</button>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-ic">💡</div>
+      <div class="tip-body">
+        <strong>اسم المتغير حر تماماً</strong>
+        <p>التقليد هو كتابة <code class="il">i</code> (اختصار index) لكن يمكنك <code class="il">for num in range(5):</code> أو <code class="il">for طالبة in range(5):</code> — Python لا تهتم بالاسم.</p>
+      </div>
     </div>
   </div>
-</section>
 
-</main>
+  <!-- ══ CONCEPT 03: range ══ -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="font-family:var(--fm);font-size:.8rem">[ ]</div>
+      <div class="step-title">ما هو <span>range()</span>؟</div>
+    </div>
+    <div class="div"></div>
+    <p class="prose"><code class="il">range()</code> تُولّد سلسلة أرقام بدون تخزينها كلها في الذاكرة — لها ثلاث صيغ:</p>
 
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="ic">1️⃣</div>
+        <h4>range(stop)</h4>
+        <p>صيغة مختصرة. تبدأ من 0 تلقائياً.<br><code class="il">range(5)</code> → 0, 1, 2, 3, 4</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">2️⃣</div>
+        <h4>range(start, stop)</h4>
+        <p>تحدد البداية والنهاية.<br><code class="il">range(1, 6)</code> → 1, 2, 3, 4, 5</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">3️⃣</div>
+        <h4>range(start, stop, step)</h4>
+        <p>تحدد الخطوة أيضاً.<br><code class="il">range(0, 10, 2)</code> → 0, 2, 4, 6, 8</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">⚠️</div>
+        <h4>stop غير مضمّن!</h4>
+        <p><code class="il">range(1, 6)</code> تنتج 1 حتى 5 فقط. الرقم 6 لا يظهر أبداً — هذا تصميم Python.</p>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top:1.5rem">اضغط على أي صيغة لترى الأرقام المُنتجة على خط الأعداد:</p>
+    <div class="nline-tabs">
+      <button class="ntab on" onclick="showRange(0)" id="rtab0">range(5)</button>
+      <button class="ntab" onclick="showRange(1)" id="rtab1">range(1, 6)</button>
+      <button class="ntab" onclick="showRange(2)" id="rtab2">range(3, 9)</button>
+    </div>
+    <div class="nline-box">
+      <div class="nl-expr" id="nlExpr"></div>
+      <div class="nl-track" id="nlTrack"></div>
+      <div class="nl-legend">
+        <span><span class="nldot" style="background:var(--accent)"></span> مضمّن في range</span>
+        <span><span class="nldot" style="background:rgba(255,80,80,.55)"></span> stop — غير مضمّن</span>
+        <span><span class="nldot" style="background:#222"></span> خارج النطاق</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CONCEPT 04: step ══ -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="font-size:.8rem">↪↪</div>
+      <div class="step-title">ما هو <span>step</span>؟ — الخطوة</div>
+    </div>
+    <div class="div"></div>
+    <p class="prose"><strong>step</strong> هو المعامل الثالث — يُحدد مقدار القفز بين كل رقم والتالي. إذا تركته، الافتراضي <code class="il">1</code> (كل رقم بالترتيب).</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="ic">2️⃣</div>
+        <h4>step=2 (أرقام زوجية)</h4>
+        <p><code class="il">range(0, 10, 2)</code> → 0, 2, 4, 6, 8<br>تقفز كل مرتين</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">3️⃣</div>
+        <h4>step=3</h4>
+        <p><code class="il">range(0, 15, 3)</code> → 0, 3, 6, 9, 12<br>تقفز ثلاث خطوات</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">⬇️</div>
+        <h4>step سالب — تنازلي</h4>
+        <p><code class="il">range(10, 0, -1)</code> → 10, 9, 8, ... 1<br>تعدّ للخلف</p>
+      </div>
+      <div class="info-card">
+        <div class="ic">1️⃣</div>
+        <h4>الافتراضي step=1</h4>
+        <p><code class="il">range(5)</code> = <code class="il">range(0,5,1)</code><br>بدون خطوة → كل رقم بالترتيب</p>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top:1.5rem">شاهد كيف تعمل الخطوة — الأرقام الفاتحة تُؤخذ، المعتمة تُتخطى:</p>
+    <div class="nline-tabs">
+      <button class="ntab on" onclick="showStep(0)" id="stab0">step=2 (زوجي)</button>
+      <button class="ntab" onclick="showStep(1)" id="stab1">step=3</button>
+      <button class="ntab" onclick="showStep(2)" id="stab2">step=-1 (تنازلي)</button>
+    </div>
+    <div class="nline-box">
+      <div class="nl-expr" id="stepExpr"></div>
+      <div class="nl-track" id="stepTrack"></div>
+      <div class="nl-legend">
+        <span><span class="nldot" style="background:var(--accent2)"></span> يُؤخذ (step يطاله)</span>
+        <span><span class="nldot" style="background:#1a1a2e;border:1px solid #333"></span> يُتخطى</span>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tip-ic">⚠️</div>
+      <div class="tip-body">
+        <strong>step سالب: انتبه لاتجاه start و stop</strong>
+        <p>في العدّ التنازلي <code class="il">start</code> يجب أن يكون <strong>أكبر</strong> من <code class="il">stop</code>. <code class="il">range(10, 0, -1)</code> صحيح — <code class="il">range(0, 10, -1)</code> لا ينتج شيئاً!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 01 -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">01</div>
+      <div class="step-title">ما هي حلقة <span>for؟</span></div>
+    </div>
+    <div class="div"></div>
+    <p class="prose">
+      حلقة <code class="il">for</code> تُكرّر على عناصر متسلسلة — نطاق أرقام، نص، قائمة، وأكثر.
+      هي أكثر أناقةً من <code class="il">while</code> حين تعرفين عدد التكرارات مسبقاً.
+    </p>
+    <div class="info-grid">
+      <div class="info-card"><div class="ic">📏</div><h4>range()</h4><p><code class="il">range(start, stop, step)</code> تُولّد سلسلة أرقام. <code class="il">range(1,11)</code> من 1 إلى 10.</p></div>
+      <div class="info-card"><div class="ic">🔡</div><h4>التكرار على النصوص</h4><p>يمكن التكرار على كل حرف: <code class="il">for c in "Python":</code></p></div>
+      <div class="info-card"><div class="ic">📐</div><h4>خطوة مخصصة (step)</h4><p><code class="il">range(2,21,2)</code> الأزواج. <code class="il">range(10,0,-1)</code> عدّ تنازلي.</p></div>
+      <div class="info-card"><div class="ic">🔗</div><h4>for متداخلة</h4><p>for داخل for لطباعة أنماط أو بناء جداول.</p></div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">for_basics.py</span></div>
+      <pre><span class="cm"># من 1 إلى 10</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">i</span>)
+
+<span class="cm"># الأعداد الزوجية — خطوة 2</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">2</span>, <span class="num">21</span>, <span class="num">2</span>)<span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">i</span>)   <span class="cm"># 2 4 6 ... 20</span>
+
+<span class="cm"># عدّ تنازلي من 10 إلى 1</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">10</span>, <span class="num">0</span>, <span class="op">-</span><span class="num">1</span>)<span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">i</span>)   <span class="cm"># 10 9 ... 1</span>
+
+<span class="cm"># التكرار على نص</span>
+<span class="kw">for</span> <span class="vr">c</span> <span class="kw2">in</span> <span class="str">"Python"</span><span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">c</span>)   <span class="cm"># P y t h o n</span></pre>
+    </div>
+  </div>
+
+  <!-- STEP 02 -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">02</div>
+      <div class="step-title">المجموع وجدول <span>الضرب</span></div>
+    </div>
+    <div class="div"></div>
+    <p class="prose">الاستخدامات الأكثر شيوعاً لـ for: حساب مجموع، جدول الضرب، ومربّعات الأرقام.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">sum_table.py</span></div>
+      <pre><span class="cm"># مجموع الأرقام من 1 إلى 10</span>
+<span class="vr">total</span> <span class="op">=</span> <span class="num">0</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
+    <span class="vr">total</span> <span class="op">+=</span> <span class="vr">i</span>
+<span class="fn">print</span>(<span class="str">"المجموع:"</span>, <span class="vr">total</span>)   <span class="cm"># 55</span>
+
+<span class="cm"># جدول الضرب</span>
+<span class="vr">n</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"أدخلي عدداً: "</span>))
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">11</span>)<span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">n</span>, <span class="str">"×"</span>, <span class="vr">i</span>, <span class="str">"="</span>, <span class="vr">n</span> <span class="op">*</span> <span class="vr">i</span>)
+
+<span class="cm"># مربّعات الأرقام من 1 إلى 5</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>)<span class="op">:</span>
+    <span class="fn">print</span>(<span class="vr">i</span>, <span class="str">"² ="</span>, <span class="vr">i</span> <span class="op">**</span> <span class="num">2</span>)  <span class="cm"># 1 4 9 16 25</span></pre>
+    </div>
+  </div>
+
+  <!-- STEP 03 -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">03</div>
+      <div class="step-title">for المتداخلة و<span>الأنماط</span></div>
+    </div>
+    <div class="div"></div>
+    <p class="prose">
+      حلقة for داخل أخرى — تُسمّى <strong>nested loops</strong>.
+      الحلقة الداخلية تُكمل دورتها كاملةً في كل تكرار للخارجية.
+    </p>
+    <div class="code-wrap">
+      <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">nested_for.py</span></div>
+      <pre><span class="cm"># نمط المثلث</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">5</span>)<span class="op">:</span>
+    <span class="kw">for</span> <span class="vr">j</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="vr">i</span> <span class="op">+</span> <span class="num">1</span>)<span class="op">:</span>
+        <span class="fn">print</span>(<span class="vr">j</span>, <span class="vr">end</span><span class="op">=</span><span class="str">" "</span>)
+    <span class="fn">print</span>()
+<span class="cm"># الناتج:</span>
+<span class="cm"># 1</span>
+<span class="cm"># 1 2</span>
+<span class="cm"># 1 2 3</span>
+<span class="cm"># 1 2 3 4</span></pre>
+    </div>
+    <div class="tip">
+      <div class="tip-ic">💡</div>
+      <div class="tip-body">
+        <strong>end=" " في print</strong>
+        <p>بشكل افتراضي print تنتقل لسطر جديد. <code class="il">end=" "</code> تجعلها تطبع مسافة بدلاً من ذلك، مما يُبقي الأرقام في نفس السطر.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 04 -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">04</div>
+      <div class="step-title">العدّ والبحث عن <span>الأكبر</span></div>
+    </div>
+    <div class="div"></div>
+    <p class="prose">مسألتان ستواجهينهما كثيراً: العدّ بشروط داخل الحلقة، وإيجاد القيمة القصوى بدون <code class="il">max()</code>.</p>
+    <div class="code-wrap">
+      <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">count_max.py</span></div>
+      <pre><span class="cm"># عدّ الزوجي والفردي من 1 إلى 100</span>
+<span class="vr">even</span>, <span class="vr">odd</span> <span class="op">=</span> <span class="num">0</span>, <span class="num">0</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">101</span>)<span class="op">:</span>
+    <span class="kw">if</span> <span class="vr">i</span> <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span><span class="op">:</span>
+        <span class="vr">even</span> <span class="op">+=</span> <span class="num">1</span>
+    <span class="kw">else</span><span class="op">:</span>
+        <span class="vr">odd</span> <span class="op">+=</span> <span class="num">1</span>
+<span class="fn">print</span>(<span class="str">"الزوجية:"</span>, <span class="vr">even</span>, <span class="str">"| الفردية:"</span>, <span class="vr">odd</span>)
+
+<span class="cm"># أكبر رقم بين 5 مدخلات (بدون max())</span>
+<span class="vr">largest</span> <span class="op">=</span> <span class="kw">None</span>
+<span class="kw">for</span> <span class="vr">i</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="num">5</span>)<span class="op">:</span>
+    <span class="vr">num</span> <span class="op">=</span> <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">f"الرقم {i+1}: "</span>))
+    <span class="kw">if</span> <span class="vr">largest</span> <span class="kw2">is</span> <span class="kw">None</span> <span class="kw2">or</span> <span class="vr">num</span> <span class="op">&gt;</span> <span class="vr">largest</span><span class="op">:</span>
+        <span class="vr">largest</span> <span class="op">=</span> <span class="vr">num</span>
+<span class="fn">print</span>(<span class="str">"الأكبر:"</span>, <span class="vr">largest</span>)
+
+<span class="cm"># عدّ خانات رقم</span>
+<span class="vr">n</span> <span class="op">=</span> <span class="fn">input</span>(<span class="str">"أدخلي رقماً: "</span>)
+<span class="vr">count</span> <span class="op">=</span> <span class="num">0</span>
+<span class="kw">for</span> <span class="vr">d</span> <span class="kw2">in</span> <span class="vr">n</span><span class="op">:</span>
+    <span class="kw">if</span> <span class="vr">d</span><span class="op">.</span><span class="fn">isdigit</span>()<span class="op">:</span>
+        <span class="vr">count</span> <span class="op">+=</span> <span class="num">1</span>
+<span class="fn">print</span>(<span class="str">"عدد الخانات:"</span>, <span class="vr">count</span>)</pre>
+    </div>
+  </div>
+
+</div>
 <script>
-const T = {
-  ar: {
-    title:"حلقة while في Python", subtitle:"دورة نظرية — ٦ محاور",
-    tab0:"١ · البنية", tab1:"٢ · العداد", tab2:"٣ · قيمة التوقف",
-    tab3:"٤ · التحقق", tab4:"٥ · باقي القسمة", tab5:"٦ · الشروط",
-    s0_h1:"الأجزاء الثلاثة الإلزامية",
-    s0_p1:"كل حلقة while صحيحة تحتوي على ثلاثة أجزاء لا تعمل بدونها: التهيئة، الشرط، والتحديث.",
-    pill_init:"① تهيئة", pill_cond:"② شرط", pill_body:"③ تحديث",
-    s0_h2:"ماذا يحدث بدون التحديث؟",
-    s0_p2:"إذا نسيت تحديث المتغير داخل الحلقة، لن تتغير قيمة الشرط أبدًا — وتصبح الحلقة لا نهائية.",
-    btn_step:"▶ خطوة تالية", btn_reset:"↺ إعادة", btn_ask:"💬 اسألني أكثر",
-    cm_init:"التهيئة — نقطة البداية", cm_cond:"الشرط — متى تستمر الحلقة؟",
-    cm_body:"جسم الحلقة", cm_upd:"التحديث — تجنّب الحلقة اللانهائية",
-    cm_no_upd:"لا يوجد i += 1  →  حلقة لا نهائية!",
-    d0_h:"لماذا لا تعمل الحلقة بدون التحديث؟",
-    d0_1:"الشرط <code>i &lt; 5</code> يُفحص في كل دورة قبل تنفيذ الجسم.",
-    d0_2:"إذا بقيت قيمة <code>i</code> صفرًا دائمًا، فالشرط سيظل <code>True</code> إلى الأبد.",
-    d0_3:"Python لا تكتشف الحلقات اللانهائية تلقائيًا — المسؤولية عليك.",
-    d0_4:"الحل: تأكد دائمًا أن المتغير المستخدم في الشرط يتغير داخل الجسم.",
-    s1_h1:"العد للأمام والخلف",
-    lbl_countup:"عد تصاعدي", lbl_countdown:"عد تنازلي",
-    lbl_var_i:"المتغير i =", btn_inc:"▲ زيادة", btn_dec:"▼ نقصان",
-    s1_h2:"عدّ المحاولات",
-    s1_p2:"يُستخدم العداد لتتبع عدد الدورات: مفيد لتحديد عدد المحاولات المسموحة.",
-    cm_try:"جرّب العملية", str_done:"انتهت المحاولات",
-    d1_h:"متى تختار while بدلاً من for؟",
-    d1_1:"استخدم <code>for</code> عندما تعرف عدد التكرارات مسبقًا.",
-    d1_2:"استخدم <code>while</code> عندما يعتمد التوقف على شرط قد يتغير أثناء التنفيذ.",
-    d1_3:"مثال: 'كرر حتى يصح المستخدم الإجابة' — لا تعرف كم مرة مسبقًا.",
-    s2_h1:"قيمة التوقف (Sentinel)",
-    s2_p1:"بدلاً من العد، تستمر الحلقة حتى يُدخل المستخدم قيمة خاصة تُوقفها — مثل -1 أو \"quit\".",
-    str_enter:"أدخل رقمًا (-1 للتوقف): ", lbl_total:"المجموع =",
-    btn_addnum:"+ أضف رقمًا", btn_sentinel:"⏹ أرسل -1",
-    cm_acc:"تراكم", str_total:"المجموع:",
-    d2_h:"متى تستخدم نمط Sentinel؟",
-    d2_1:"عندما يتحكم المستخدم في توقف البرنامج بنفسه.",
-    d2_2:"قيمة التوقف يجب أن تكون خارج نطاق البيانات الصحيحة (مثل -1 للأعداد الموجبة).",
-    d2_3:"نمط 'اقرأ قبل الحلقة ثم اقرأ في نهاية الجسم' يضمن معالجة أول قيمة بشكل صحيح.",
-    s3_h1:"رفض المدخلات الخاطئة",
-    s3_p1:"نستخدم or لرفض قيمة خارج النطاق، و and لاشتراط تحقق شرطين معًا.",
-    lbl_or_gate:"بوابة or", lbl_not_valid:"نمط not valid",
-    str_range:"0-100: ",
-    gate_inst:"اضغط على رقم — هل يمر من البوابة؟",
-    gate_ok:"✓ مقبولة — تمر من البوابة", gate_bad:"✗ مرفوضة — خارج النطاق 0-100",
-    d3_h:"الفرق بين or و and في التحقق",
-    d3_1:"<code>or</code>: يكفي أن يكون أحد الشرطين صحيحًا لرفض القيمة.",
-    d3_2:"<code>and</code>: يجب أن يتحقق الشرطان معًا لقبول القيمة.",
-    d3_3:"نمط <code>while not valid</code> أوضح قراءةً عندما يكون منطق الصحة معقدًا.",
-    d3_4:"تستطيع كتابة <code>0 &lt;= x &lt;= 100</code> مباشرةً في Python.",
-    s4_h1:"استخراج الأرقام بـ % و //",
-    s4_p1:"<code>n % 10</code> يُعطي آخر رقم، و<code>n // 10</code> يُزيله. كرر حتى تصبح <code>n == 0</code>.",
-    lbl_number:"الرقم n =", btn_extract:"⚙ استخرج رقمًا",
-    cm_dig:"آخر رقم", cm_shift:"أزل آخر رقم",
-    mod_done:"تم استخراج جميع الأرقام",
-    d4_h:"لماذا نستخدم % و // معًا؟",
-    d4_1:"<code>%</code> (باقي القسمة): يُعطي ما تبقى بعد القسمة على 10 — دائمًا الرقم الأخير.",
-    d4_2:"<code>//</code> (قسمة صحيحة): يُقسم ويتجاهل الكسر — يُزيل الرقم الأخير.",
-    d4_3:"مثال: <code>4752 % 10 = 2</code> ثم <code>4752 // 10 = 475</code>.",
-    d4_4:"تنتهي الحلقة عندما تصبح <code>n == 0</code> أي لم يتبق أرقام.",
-    s5_h1:"اختبارات القسمة وقانون دي مورغان",
-    s5_p1:"<code>n % 2 == 0</code> يختبر الزوجية. قانون دي مورغان يُبسّط الشروط المنفية.",
-    lbl_div:"اختبارات القسمة", lbl_demorgan:"دي مورغان",
-    cm_even:"زوجي", cm_odd:"فردي", cm_div3:"يقبل القسمة على 3", cm_div5:"يقبل القسمة على 5",
-    dm_inst:"اضغط على A أو B لتغيير قيمتهما — شاهد كيف يتغير الناتج",
-    d5_h:"تطبيق قانون دي مورغان في while",
-    d5_1:"إذا أردت 'لا زوجي ولا يقبل 3'، اكتب: <code>not(n%2==0 or n%3==0)</code>",
-    d5_2:"بتطبيق دي مورغان: <code>n%2!=0 and n%3!=0</code> — أسهل قراءةً.",
-    d5_3:"القانون يُساعدك على تبسيط الشروط المعقدة وتجنب الأقواس المتداخلة.",
-    step0:"① التهيئة: نبدأ بـ i = 0",
-    step1:"② الشرط: i < 5 — هل نستمر؟",
-    step2:"③ الجسم والتحديث: ننفّذ ثم نزيد i",
-    ctr_loop:"الحلقة تعمل ✓", ctr_stop:"توقفت الحلقة: i = 5"
-  },
-  en: {
-    title:"Python while Loop", subtitle:"Theory Course — 6 Topics",
-    tab0:"1 · Syntax", tab1:"2 · Counter", tab2:"3 · Sentinel",
-    tab3:"4 · Validation", tab4:"5 · Modulo", tab5:"6 · Conditions",
-    s0_h1:"The 3 Mandatory Parts",
-    s0_p1:"Every valid while loop has three parts without which it won't work: initialization, condition, and update.",
-    pill_init:"① Init", pill_cond:"② Condition", pill_body:"③ Update",
-    s0_h2:"What happens without the update?",
-    s0_p2:"If you forget to update the variable inside the loop, the condition never changes — the loop becomes infinite.",
-    btn_step:"▶ Next Step", btn_reset:"↺ Reset", btn_ask:"💬 Ask me more",
-    cm_init:"① Init — starting point", cm_cond:"② Condition — when to keep going?",
-    cm_body:"loop body", cm_upd:"③ Update — avoid infinite loop",
-    cm_no_upd:"no i += 1  →  infinite loop!",
-    d0_h:"Why doesn't the loop work without the update?",
-    d0_1:"The condition <code>i &lt; 5</code> is checked every iteration before the body runs.",
-    d0_2:"If <code>i</code> stays zero forever, the condition stays <code>True</code> forever.",
-    d0_3:"Python does not automatically detect infinite loops — it's your responsibility.",
-    d0_4:"Fix: always ensure the variable used in the condition changes inside the body.",
-    s1_h1:"Counting Up and Down",
-    lbl_countup:"Count up", lbl_countdown:"Count down",
-    lbl_var_i:"Variable i =", btn_inc:"▲ Increment", btn_dec:"▼ Decrement",
-    s1_h2:"Tracking Attempts",
-    s1_p2:"A counter tracks the number of iterations — useful for limiting the number of allowed attempts.",
-    cm_try:"# try the operation", str_done:"attempts exhausted",
-    d1_h:"When to choose while over for?",
-    d1_1:"Use <code>for</code> when you know the number of iterations in advance.",
-    d1_2:"Use <code>while</code> when stopping depends on a condition that may change at runtime.",
-    d1_3:"Example: 'repeat until the user gets it right' — you don't know how many times in advance.",
-    s2_h1:"Sentinel Value",
-    s2_p1:"Instead of counting, the loop continues until the user enters a special stopping value — like -1 or \"quit\".",
-    str_enter:"Enter a number (-1 to stop): ", lbl_total:"Total =",
-    btn_addnum:"+ Add number", btn_sentinel:"⏹ Send -1",
-    cm_acc:"accumulate", str_total:"Total:",
-    d2_h:"When to use the Sentinel pattern?",
-    d2_1:"When the user controls when the program stops.",
-    d2_2:"The sentinel value must be outside the valid data range (e.g. -1 for positive numbers).",
-    d2_3:"The 'read before loop, then read at end of body' pattern handles the first value correctly.",
-    s3_h1:"Rejecting Invalid Input",
-    s3_p1:"Use or to reject a value outside a range, and and to require two conditions both hold.",
-    lbl_or_gate:"or gate", lbl_not_valid:"not valid pattern",
-    str_range:"0-100: ",
-    gate_inst:"Click a number — does it pass the gate?",
-    gate_ok:"✓ Accepted — passes the gate", gate_bad:"✗ Rejected — outside range 0-100",
-    d3_h:"Difference between or and and in validation",
-    d3_1:"<code>or</code>: only one condition needs to be true to reject the value.",
-    d3_2:"<code>and</code>: both conditions must hold to accept the value.",
-    d3_3:"The <code>while not valid</code> pattern is clearer when validity logic is complex.",
-    d3_4:"You can write <code>0 &lt;= x &lt;= 100</code> directly in Python.",
-    s4_h1:"Digit Extraction with % and //",
-    s4_p1:"<code>n % 10</code> gives the last digit, <code>n // 10</code> removes it. Repeat until <code>n == 0</code>.",
-    lbl_number:"Number n =", btn_extract:"⚙ Extract digit",
-    cm_dig:"last digit", cm_shift:"remove last digit",
-    mod_done:"All digits extracted",
-    d4_h:"Why use % and // together?",
-    d4_1:"<code>%</code> (modulo): gives the remainder after dividing by 10 — always the last digit.",
-    d4_2:"<code>//</code> (integer division): divides and discards the fraction — removes the last digit.",
-    d4_3:"Example: <code>4752 % 10 = 2</code> then <code>4752 // 10 = 475</code>.",
-    d4_4:"The loop ends when <code>n == 0</code>, meaning no digits remain.",
-    s5_h1:"Divisibility Tests and De Morgan's Law",
-    s5_p1:"<code>n % 2 == 0</code> tests for even. De Morgan's law simplifies negated conditions.",
-    lbl_div:"Divisibility tests", lbl_demorgan:"De Morgan",
-    cm_even:"even", cm_odd:"odd", cm_div3:"divisible by 3", cm_div5:"divisible by 5",
-    dm_inst:"Click A or B to toggle their values — watch the results change",
-    d5_h:"Applying De Morgan's Law in while",
-    d5_1:"To say 'neither even nor divisible by 3': <code>not(n%2==0 or n%3==0)</code>",
-    d5_2:"By De Morgan: <code>n%2!=0 and n%3!=0</code> — easier to read.",
-    d5_3:"The law helps simplify complex conditions and avoid nested parentheses.",
-    step0:"① Init: start with i = 0",
-    step1:"② Condition: i < 5 — keep going?",
-    step2:"③ Body & Update: execute then increment i",
-    ctr_loop:"Loop running ✓", ctr_stop:"Loop stopped: i = 5"
+// ── Loop Animation ─────────────────────────────
+let loopTimer = null, loopStep = -1;
+const loopMsgs = [
+  'i = <span class="lv">1</span> &nbsp;→&nbsp; print(<span class="lv">1</span>)',
+  'i = <span class="lv">2</span> &nbsp;→&nbsp; print(<span class="lv">2</span>)',
+  'i = <span class="lv">3</span> &nbsp;→&nbsp; print(<span class="lv">3</span>)',
+  'i = <span class="lv">4</span> &nbsp;→&nbsp; print(<span class="lv">4</span>)',
+  'i = <span class="lv">5</span> &nbsp;→&nbsp; print(<span class="lv">5</span>)',
+];
+
+function loopReset() {
+  clearInterval(loopTimer);
+  loopStep = -1;
+  document.querySelectorAll('#loopTrack .lb').forEach(b => b.className = 'lb');
+  document.getElementById('loopStatus').innerHTML = '<span style="color:var(--muted)">اضغط تشغيل لرؤية i يتغيّر ▼</span>';
+}
+
+function loopStart() {
+  loopReset();
+  const boxes = document.querySelectorAll('#loopTrack .lb');
+  loopStep = 0;
+  loopTimer = setInterval(() => {
+    if (loopStep > 0) boxes[loopStep - 1].className = 'lb done';
+    if (loopStep < boxes.length) {
+      boxes[loopStep].className = 'lb active';
+      document.getElementById('loopStatus').innerHTML = loopMsgs[loopStep];
+    } else {
+      clearInterval(loopTimer);
+      document.getElementById('loopStatus').innerHTML = '<span class="lv2">✓ انتهت الحلقة — i جرّب كل القيم!</span>';
+    }
+    loopStep++;
+  }, 900);
+}
+
+// ── Range number line ──────────────────────────
+const rangeCfg = [
+  { expr: 'range(<span style="color:#FF79C6">5</span>)', note: '→ يبدأ من 0 تلقائياً: 0, 1, 2, 3, 4', min:0, max:6, start:0, stop:5 },
+  { expr: 'range(<span style="color:#50FA7B">1</span>, <span style="color:#FF79C6">6</span>)', note: '→ من 1 حتى 5 (6 غير مضمّن)', min:0, max:7, start:1, stop:6 },
+  { expr: 'range(<span style="color:#50FA7B">3</span>, <span style="color:#FF79C6">9</span>)', note: '→ من 3 حتى 8 (9 غير مضمّن)', min:0, max:10, start:3, stop:9 },
+];
+let rTimer = null;
+
+function showRange(idx) {
+  clearTimeout(rTimer);
+  document.querySelectorAll('[id^="rtab"]').forEach((t, i) => t.className = 'ntab' + (i === idx ? ' on' : ''));
+  const c = rangeCfg[idx];
+  document.getElementById('nlExpr').innerHTML =
+    `<span style="color:var(--accent2)">${c.expr}</span> <span style="color:var(--muted);font-size:.8rem">${c.note}</span>`;
+  const track = document.getElementById('nlTrack');
+  track.innerHTML = '';
+  const boxes = [];
+  for (let n = c.min; n <= c.max; n++) {
+    const el = document.createElement('div');
+    el.className = 'nbox' + (n === c.stop ? ' stop' : '');
+    el.textContent = n;
+    track.appendChild(el);
+    boxes.push({ el, n });
   }
-};
-
-// ── state ──
-let lang = localStorage.getItem('wl_lang') || 'ar';
-let synStep = -1;
-let ctrVal = 0; const CTR_MAX = 5;
-let sentTotal = 0, sentActive = true, sentIdx = 0;
-let modN = 4752, modDigits = [];
-let dmA = true, dmB = true;
-const sentNums = [7,3,12,5,9,2,18];
-
-// ── language ──
-function toggleLang() {
-  lang = lang === 'ar' ? 'en' : 'ar';
-  localStorage.setItem('wl_lang', lang);
-  applyLang();
+  let i = 0;
+  (function tick() {
+    if (i >= boxes.length) return;
+    const { el, n } = boxes[i++];
+    if (n >= c.start && n < c.stop) el.classList.add('in');
+    rTimer = setTimeout(tick, 160);
+  })();
 }
 
-function applyLang() {
-  const t = T[lang];
-  const html = document.documentElement;
-  html.lang = lang;
-  html.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.title = t.title;
-  document.getElementById('langBtn').textContent = lang === 'ar' ? 'English' : 'العربية';
+// ── Step visualization ─────────────────────────
+const stepCfg = [
+  { expr: 'range(<span style="color:#50FA7B">0</span>, <span style="color:#FF79C6">10</span>, <span style="color:#FFB86C">2</span>)', note: '→ أرقام زوجية: 0, 2, 4, 6, 8', nums: [...Array(10).keys()], picked: [0,2,4,6,8] },
+  { expr: 'range(<span style="color:#50FA7B">0</span>, <span style="color:#FF79C6">15</span>, <span style="color:#FFB86C">3</span>)', note: '→ 0, 3, 6, 9, 12', nums: [...Array(15).keys()], picked: [0,3,6,9,12] },
+  { expr: 'range(<span style="color:#50FA7B">10</span>, <span style="color:#FF79C6">0</span>, <span style="color:#FFB86C">-1</span>)', note: '→ تنازلي: 10, 9, 8, ..., 1', nums: [...Array(11).keys()], picked: [1,2,3,4,5,6,7,8,9,10] },
+];
+let sTimer = null;
 
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const k = el.getAttribute('data-i18n');
-    if (t[k] !== undefined) el.innerHTML = t[k];
+function showStep(idx) {
+  clearTimeout(sTimer);
+  document.querySelectorAll('[id^="stab"]').forEach((t, i) => t.className = 'ntab' + (i === idx ? ' on' : ''));
+  const c = stepCfg[idx];
+  document.getElementById('stepExpr').innerHTML =
+    `<span style="color:var(--accent2)">${c.expr}</span> <span style="color:var(--muted);font-size:.8rem">${c.note}</span>`;
+  const track = document.getElementById('stepTrack');
+  track.innerHTML = '';
+  const boxes = c.nums.map(n => {
+    const el = document.createElement('div');
+    el.className = 'nbox';
+    el.textContent = n;
+    track.appendChild(el);
+    return { el, n };
   });
-
-  // inline comment spans with ids
-  const cmIds = ['cm_init','cm_cond','cm_body','cm_upd','cm_no_upd',
-                 'cm_try','cm_acc','cm_dig','cm_shift',
-                 'cm_even','cm_odd','cm_div3','cm_div5'];
-  cmIds.forEach(id => {
-    const el = document.getElementById(id);
-    if (el && t[id]) el.textContent = '  # ' + t[id];
-  });
-
-  // string spans
-  ['str_done','str_enter','str_enter2','str_total','str_range','str_range2'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el && t[id]) el.textContent = t[id];
-  });
-
-  updateCounterStatus();
-  updateDM();
+  let i = 0;
+  (function tick() {
+    if (i >= boxes.length) return;
+    const { el, n } = boxes[i++];
+    el.classList.add(c.picked.includes(n) ? 'hit' : 'skip');
+    sTimer = setTimeout(tick, 120);
+  })();
 }
 
-// ── tabs ──
-function switchTab(n) {
-  document.querySelectorAll('.ntab').forEach((b,i) => b.classList.toggle('on', i===n));
-  document.querySelectorAll('.tab-panel').forEach((p,i) => p.classList.toggle('active', i===n));
-}
-
-// ── deeper ──
-function toggleDeeper(n) {
-  document.getElementById('deeper'+n).classList.toggle('open');
-}
-
-// ── TAB 1: syntax step ──
-const synSteps = ['step0','step1','step2'];
-const synHls = ['hl0','hl1','hl2'];
-
-function hlStep(n) {
-  synStep = n;
-  highlightSyn();
-}
-
-function stepSyntax() {
-  synStep = (synStep + 1) % synSteps.length;
-  highlightSyn();
-}
-
-function highlightSyn() {
-  synHls.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.style.outline = 'none'; el.style.outlineOffset = '0'; }
-  });
-  const id = synHls[synStep];
-  const el = document.getElementById(id);
-  if (el) { el.style.outline = '2px solid rgba(255,185,108,.8)'; el.style.outlineOffset = '3px'; }
-  const msgKey = synSteps[synStep];
-  document.getElementById('step-msg').textContent = T[lang][msgKey] || '';
-  document.getElementById('stepBtn').textContent = synStep === synSteps.length-1
-    ? (T[lang].btn_reset || '↺') : (T[lang].btn_step || '▶');
-}
-
-function resetSyntax() {
-  synStep = -1;
-  synHls.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.style.outline = 'none'; }
-  });
-  document.getElementById('step-msg').textContent = '';
-  document.getElementById('stepBtn').textContent = T[lang].btn_step || '▶ خطوة تالية';
-}
-
-// ── TAB 2: counter ──
-function counterStep(dir) {
-  const next = ctrVal + dir;
-  if (next < 0 || next > CTR_MAX) return;
-  ctrVal = next;
-  const el = document.getElementById('counter-val');
-  el.textContent = ctrVal;
-  el.classList.remove('pop');
-  void el.offsetWidth;
-  el.classList.add('pop');
-  document.getElementById('prog-bar').style.width = (ctrVal / CTR_MAX * 100) + '%';
-  updateCounterStatus();
-}
-
-function counterReset() {
-  ctrVal = 0;
-  document.getElementById('counter-val').textContent = '0';
-  document.getElementById('prog-bar').style.width = '0%';
-  updateCounterStatus();
-}
-
-function updateCounterStatus() {
-  const t = T[lang];
-  document.getElementById('counter-status').textContent =
-    ctrVal >= CTR_MAX ? (t.ctr_stop || '') : (ctrVal > 0 ? (t.ctr_loop || '') : '');
-}
-
-// ── TAB 3: sentinel ──
-function sentAdd() {
-  if (!sentActive) return;
-  const v = sentNums[sentIdx % sentNums.length]; sentIdx++;
-  sentTotal += v;
-  const row = document.getElementById('stream-row');
-  const box = document.createElement('span');
-  box.className = 'stream-num accepted';
-  box.textContent = v;
-  row.appendChild(box);
-  const tot = document.getElementById('sent-total');
-  tot.textContent = sentTotal;
-  tot.classList.remove('pop'); void tot.offsetWidth; tot.classList.add('pop');
-}
-
-function sentStop() {
-  if (!sentActive) return;
-  sentActive = false;
-  const row = document.getElementById('stream-row');
-  const box = document.createElement('span');
-  box.className = 'stream-num sentinel';
-  box.textContent = '-1';
-  row.appendChild(box);
-  document.getElementById('sentAddBtn').disabled = true;
-  document.getElementById('sentStopBtn').disabled = true;
-}
-
-function sentReset() {
-  sentTotal = 0; sentActive = true; sentIdx = 0;
-  document.getElementById('stream-row').innerHTML = '';
-  document.getElementById('sent-total').textContent = '0';
-  document.getElementById('sentAddBtn').disabled = false;
-  document.getElementById('sentStopBtn').disabled = false;
-}
-
-// ── TAB 4: validation gate ──
-function buildGate() {
-  const nums = [-5, 0, 50, 99, 100, 150, -1, 42];
-  const row = document.getElementById('gate-nums');
-  if (!row) return;
-  row.innerHTML = '';
-  nums.forEach(n => {
-    const b = document.createElement('button');
-    b.className = 'num-btn';
-    b.textContent = n;
-    b.onclick = () => testGate(n);
-    row.appendChild(b);
-  });
-}
-
-function testGate(x) {
-  const gate = document.getElementById('gate-icon');
-  const msg  = document.getElementById('gate-msg');
-  const valid = x >= 0 && x <= 100;
-  gate.className = 'gate ' + (valid ? 'ok' : 'bad');
-  gate.textContent = valid ? '✓' : '✗';
-  msg.textContent = valid ? T[lang].gate_ok : T[lang].gate_bad;
-  msg.style.color  = valid ? 'var(--green)' : 'var(--red)';
-  setTimeout(() => { gate.className = 'gate'; gate.textContent = '🔒'; msg.textContent = ''; }, 1600);
-}
-
-// ── TAB 5: modulo ──
-function modReset() {
-  modN = 4752; modDigits = [];
-  document.getElementById('mod-n').textContent = modN;
-  document.getElementById('digit-row').innerHTML = '';
-  document.getElementById('mod-msg').textContent = '';
-  document.getElementById('modStepBtn').disabled = false;
-}
-
-function modStep() {
-  if (modN <= 0) { document.getElementById('mod-msg').textContent = T[lang].mod_done; return; }
-  const d = modN % 10;
-  modDigits.push(d);
-  modN = Math.floor(modN / 10);
-  const nEl = document.getElementById('mod-n');
-  nEl.textContent = modN || '0';
-  nEl.classList.remove('pop'); void nEl.offsetWidth; nEl.classList.add('pop');
-  const row = document.getElementById('digit-row');
-  row.innerHTML = '';
-  modDigits.forEach((dig, i) => {
-    if (i > 0) { const sep = document.createElement('span'); sep.className='arrow-sep'; sep.textContent='←'; row.appendChild(sep); }
-    const box = document.createElement('div');
-    box.className = 'digit-box extracted';
-    box.textContent = dig;
-    row.appendChild(box);
-  });
-  if (modN === 0) {
-    document.getElementById('mod-msg').textContent = T[lang].mod_done;
-    document.getElementById('modStepBtn').disabled = true;
-  }
-}
-
-// ── TAB 6: de morgan ──
-function dmToggle(which) {
-  if (which === 'A') dmA = !dmA; else dmB = !dmB;
-  const btnA = document.getElementById('dmA');
-  const btnB = document.getElementById('dmB');
-  btnA.textContent = dmA ? 'True' : 'False';
-  btnA.className = 'circle-btn ' + (dmA ? 'true-val' : 'false-val');
-  btnB.textContent = dmB ? 'True' : 'False';
-  btnB.className = 'circle-btn ' + (dmB ? 'true-val' : 'false-val');
-  updateDM();
-}
-
-function updateDM() {
-  function set(id, expr, val) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.textContent = expr + ' = ' + val;
-    el.className = 'dm-result ' + (val ? 'true-res' : 'false-res');
-  }
-  set('dm-and',  'A and B',     dmA && dmB);
-  set('dm-or',   'A or B',      dmA || dmB);
-  set('dm-nand', 'not(A and B)', !(dmA && dmB));
-  set('dm-nor',  'not(A or B)',  !(dmA || dmB));
-}
-
-// ── init ──
-document.addEventListener('DOMContentLoaded', () => {
-  applyLang();
-  buildGate();
-  updateDM();
-});
+document.addEventListener('DOMContentLoaded', () => { showRange(0); showStep(0); });
 </script>
 </body>
 </html>
