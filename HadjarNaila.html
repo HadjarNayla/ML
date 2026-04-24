@@ -289,6 +289,60 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
 ::-webkit-scrollbar{width:6px;height:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:100px}
+
+/* ═══ FUNCTIONS LESSON ═══ */
+#lesson-func .lesson-tag{background:rgba(82,214,138,0.1);border-color:rgba(82,214,138,0.3);color:var(--green)}
+#lesson-func .lesson-h1 em{background:linear-gradient(135deg,var(--green),var(--accent2));-webkit-background-clip:text;background-clip:text}
+#lesson-func .div{background:linear-gradient(90deg,var(--green),var(--accent2))}
+#lesson-func .step-num{background:rgba(82,214,138,0.12);border-color:rgba(82,214,138,0.35);color:var(--green)}
+#lesson-func .step-title span{color:var(--green)}
+#lesson-func .tip-body strong{color:var(--green)}
+#lesson-func code.il{background:rgba(82,214,138,0.15);color:var(--green)}
+#lesson-func .lesson-hero{border-color:rgba(82,214,138,0.15)}
+#lesson-func .progress-bar-inner{background:linear-gradient(90deg,var(--green),var(--accent2))}
+
+/* func anatomy */
+.func-anatomy{background:#0d1117;border:1px solid rgba(82,214,138,0.15);border-radius:16px;padding:2rem 1.5rem;margin:1.75rem 0;overflow-x:auto}
+.func-anat-line{font-family:var(--fm);font-size:clamp(.9rem,3.5vw,1.5rem);text-align:center;margin-bottom:1.75rem;white-space:nowrap;direction:ltr;letter-spacing:.04em}
+.fa-kw{color:#FF79C6;font-weight:700}.fa-name{color:#50FA7B;font-weight:700}
+.fa-param{color:#8BE9FD}.fa-default{color:#FFB86C}.fa-colon{color:#F8F8F280}
+.fa-return{color:#BD93F9}
+.func-leg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:.7rem;direction:rtl}
+.func-leg-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:.85rem 1rem;display:flex;gap:10px;align-items:flex-start;transition:border-color .3s,transform .3s}
+.func-leg-card:hover{border-color:rgba(82,214,138,.3);transform:translateY(-2px)}
+.func-leg-card .fdot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.func-leg-card strong{display:block;font-size:.88rem;margin-bottom:3px;font-family:var(--fm)}
+.func-leg-card p{font-size:.79rem;color:var(--muted);line-height:1.45}
+
+/* scope table */
+.scope-table{width:100%;border-collapse:collapse;margin:1.25rem 0;font-size:.88rem;direction:rtl}
+.scope-table th{background:rgba(82,214,138,.1);color:var(--green);padding:.65rem 1rem;text-align:right;font-weight:700;border-bottom:1px solid rgba(82,214,138,.2)}
+.scope-table td{padding:.6rem 1rem;border-bottom:1px solid rgba(255,255,255,.05);color:var(--muted);vertical-align:top}
+.scope-table tr:hover td{background:rgba(255,255,255,.02)}
+.scope-table code{font-family:var(--fm);font-size:.82em;background:rgba(82,214,138,.12);color:var(--green);padding:1px 6px;border-radius:4px}
+
+/* call animation */
+.func-call-anim{background:var(--surface);border:1px solid rgba(82,214,138,.15);border-radius:16px;padding:1.75rem;margin:1.75rem 0;text-align:center}
+.fca-stages{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.25rem}
+.fca-box{background:var(--surface2);border:2px solid rgba(255,255,255,.08);border-radius:12px;padding:.75rem 1.1rem;font-family:var(--fm);font-size:.82rem;color:var(--muted);transition:all .4s cubic-bezier(.34,1.56,.64,1);min-width:90px;text-align:center}
+.fca-box.lit{border-color:var(--green);background:rgba(82,214,138,.12);color:var(--green);transform:translateY(-6px);box-shadow:0 10px 28px rgba(82,214,138,.2)}
+.fca-box.done{border-color:rgba(78,205,196,.4);background:rgba(78,205,196,.07);color:var(--accent2);transform:none}
+.fca-arrow{color:var(--muted);font-size:1.2rem;align-self:center;flex-shrink:0}
+.fca-result{font-family:var(--fm);font-size:1rem;color:var(--muted);min-height:2rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.fca-val{color:var(--green);font-size:1.15rem;font-weight:700}
+.fca-btns{display:flex;justify-content:center;gap:.75rem;margin-top:1.25rem}
+.fbtn{background:rgba(82,214,138,.1);border:1px solid rgba(82,214,138,.25);border-radius:8px;padding:7px 22px;color:var(--green);font-family:var(--fh);font-size:.85rem;cursor:pointer;transition:all .2s}
+.fbtn:hover{background:rgba(82,214,138,.2)}
+
+/* param explorer */
+.param-explorer{background:var(--surface);border:1px solid rgba(82,214,138,.15);border-radius:16px;padding:1.75rem;margin:1.75rem 0}
+.param-explorer h4{font-size:.9rem;font-weight:700;color:var(--green);margin-bottom:1rem}
+.param-sliders{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1rem}
+.param-row{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+.param-row label{font-family:var(--fm);font-size:.82rem;color:var(--muted);min-width:60px}
+.param-row input[type=range]{flex:1;min-width:100px;accent-color:var(--green)}
+.param-row .pval{font-family:var(--fm);font-size:.88rem;color:var(--green);min-width:30px;text-align:center}
+.param-output{background:#0d1117;border:1px solid rgba(82,214,138,.15);border-radius:10px;padding:1rem 1.25rem;font-family:var(--fm);font-size:.9rem;color:var(--accent2);text-align:center;min-height:2.5rem;transition:all .3s}
 </style>
 </head>
 <body>
@@ -350,11 +404,12 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
       <div class="c-desc" id="cd5">خزّن مئات القيم في متغير واحد. قريباً...</div>
     </div>
 
-    <div class="course-card locked">
-      <div class="c-lock">🔒</div>
-      <div class="c-num">06</div><div class="c-icon">🗂️</div>
-      <div class="c-title" id="ct6">القواميس</div>
-      <div class="c-desc" id="cd6">ربط المفاتيح بالقيم. قريباً...</div>
+    <div class="course-card unlocked" onclick="startLesson('func')" style="border-color:rgba(82,214,138,0.3);background:rgba(82,214,138,0.04)">
+      <div class="c-badge" style="background:var(--green);color:#000" id="cb6">جديد ✦</div>
+      <div class="c-num">06</div><div class="c-icon">🧩</div>
+      <div class="c-title" id="ct6">الدوال</div>
+      <div class="c-desc" id="cd6">اكتبي كودًا مرة واحدة واستخدميه مرات لا تُحصى — مع المعاملات، القيم الافتراضية، وreturn.</div>
+      <button class="start-btn" id="sbtn6" style="background:var(--green);color:#000">▶ ابدأ الدرس</button>
     </div>
   </div>
 </div>
@@ -1112,6 +1167,264 @@ code.il{background:rgba(124,111,224,0.2);border-radius:5px;padding:1px 7px;font-
   </div>
 </div>
 
+<!-- ══════════════ FUNCTIONS LESSON ══════════════ -->
+<div id="lesson-func" class="lesson-page">
+  <div class="lesson-nav">
+    <button class="back-btn" onclick="goBack()"><span>←</span> <span>العودة</span></button>
+    <div class="nav-title">🧩 الدوال — Functions</div>
+    <div class="progress-wrap">
+      <div class="progress-bar-outer"><div class="progress-bar-inner" id="pbar-func"></div></div>
+      <div class="progress-txt" id="ptxt-func">0%</div>
+    </div>
+  </div>
+  <div class="lesson-body">
+    <div class="lesson-hero">
+      <div class="lesson-tag">الدرس السادس · Lesson 06</div>
+      <h1 class="lesson-h1">الدوال في <em>Python</em></h1>
+      <p class="lesson-sub">اكتبي كودًا مرة واحدة واستخدميه مرات لا تُحصى — مع المعاملات، القيم الافتراضية، وreturn.</p>
+    </div>
+
+    <!-- STEP 1: ANATOMY -->
+    <div class="step">
+      <div class="step-header"><div class="step-num" style="font-size:1rem;width:44px;height:44px">🔬</div><div class="step-title">تشريح <span>الدالة</span> — كل جزء</div></div>
+      <div class="div"></div>
+      <p class="prose">قبل أي مثال، دعينا نفهم كل كلمة في تعريف الدالة:</p>
+      <div class="func-anatomy">
+        <div class="func-anat-line">
+          <span class="fa-kw">def</span><span class="fa-colon"> </span><span class="fa-name">greet</span><span class="fa-colon">(</span><span class="fa-param">name</span><span class="fa-colon">, </span><span class="fa-param">times</span><span class="fa-colon">=</span><span class="fa-default">1</span><span class="fa-colon">):</span>
+        </div>
+        <div class="func-leg-grid">
+          <div class="func-leg-card"><div class="fdot" style="background:#FF79C6"></div><div><strong style="color:#FF79C6">def</strong><p>الكلمة المحجوزة التي تُعلن بداية تعريف الدالة.</p></div></div>
+          <div class="func-leg-card"><div class="fdot" style="background:#50FA7B"></div><div><strong style="color:#50FA7B">greet</strong><p>اسم الدالة — اختاريه واضحًا ليعبّر عن وظيفتها.</p></div></div>
+          <div class="func-leg-card"><div class="fdot" style="background:#8BE9FD"></div><div><strong style="color:#8BE9FD">name</strong><p>معامل إلزامي. يجب تمريره عند الاستدعاء.</p></div></div>
+          <div class="func-leg-card"><div class="fdot" style="background:#FFB86C"></div><div><strong style="color:#FFB86C">times=1</strong><p>معامل اختياري بقيمة افتراضية. إذا لم يُمرَّر يأخذ 1.</p></div></div>
+          <div class="func-leg-card"><div class="fdot" style="background:#F8F8F280"></div><div><strong>:</strong><p>تُعلن بداية جسم الدالة. ما يليها يجب أن يكون مبادَرًا بـ 4 مسافات.</p></div></div>
+          <div class="func-leg-card"><div class="fdot" style="background:#BD93F9"></div><div><strong style="color:#BD93F9">return</strong><p>ترسل نتيجة الدالة للمستدعي. اختيارية — بدونها ترجع None.</p></div></div>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">first_function.py</span></div>
+        <pre><span class="kw">def</span> <span class="fn">greet</span>(<span class="vr">name</span>, <span class="vr">times</span><span class="op">=</span><span class="num">1</span>):
+    <span class="kw">for</span> <span class="vr">_</span> <span class="kw2">in</span> <span class="fn">range</span>(<span class="vr">times</span>):
+        <span class="fn">print</span>(<span class="str">f"مرحبًا، {<span class="vr">name</span>}!"</span>)
+
+<span class="fn">greet</span>(<span class="str">"نائلة"</span>)         <span class="cm"># مرحبًا، نائلة!</span>
+<span class="fn">greet</span>(<span class="str">"نائلة"</span>, <span class="num">3</span>)      <span class="cm"># ثلاث مرات</span></pre>
+      </div>
+    </div>
+
+    <!-- STEP 2: CALL ANIMATION -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">01</div><div class="step-title">كيف تعمل <span>الدالة؟</span></div></div>
+      <div class="div"></div>
+      <p class="prose">عند استدعاء دالة، Python تنتقل إلى جسمها، تُنفّذه، ثم تعود بالنتيجة. شاهد ذلك خطوة بخطوة:</p>
+      <div class="func-call-anim">
+        <div style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;direction:rtl">
+          تنفيذ: <code style="font-family:var(--fm);color:var(--accent2)">result = add(3, 7)</code>
+        </div>
+        <div class="fca-stages">
+          <div class="fca-box" id="fca0">استدعاء<br><span style="color:var(--accent2);font-size:.75rem">add(3, 7)</span></div>
+          <div class="fca-arrow">→</div>
+          <div class="fca-box" id="fca1">تمرير<br><span style="color:var(--accent2);font-size:.75rem">a=3, b=7</span></div>
+          <div class="fca-arrow">→</div>
+          <div class="fca-box" id="fca2">تنفيذ<br><span style="color:var(--accent2);font-size:.75rem">return a+b</span></div>
+          <div class="fca-arrow">→</div>
+          <div class="fca-box" id="fca3">النتيجة<br><span style="color:var(--accent2);font-size:.75rem">result = ?</span></div>
+        </div>
+        <div class="fca-result" id="fca-result"><span style="color:var(--muted)">اضغط تشغيل ▼</span></div>
+        <div class="fca-btns">
+          <button class="fbtn" onclick="fcaStart()">▶ تشغيل</button>
+          <button class="fbtn" onclick="fcaReset()">↺ إعادة</button>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">add_function.py</span></div>
+        <pre><span class="kw">def</span> <span class="fn">add</span>(<span class="vr">a</span>, <span class="vr">b</span>):
+    <span class="kw">return</span> <span class="vr">a</span> <span class="op">+</span> <span class="vr">b</span>
+
+<span class="vr">result</span> <span class="op">=</span> <span class="fn">add</span>(<span class="num">3</span>, <span class="num">7</span>)
+<span class="fn">print</span>(<span class="vr">result</span>)   <span class="cm"># 10</span></pre>
+      </div>
+    </div>
+
+    <!-- STEP 3: PARAMETERS -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">02</div><div class="step-title">أنواع <span>المعاملات</span></div></div>
+      <div class="div"></div>
+      <p class="prose">Python تدعم عدة أساليب لتمرير القيم للدوال:</p>
+      <div class="info-grid">
+        <div class="info-card"><div class="ic">① </div><h4>معاملات موضعية</h4><p>تُمرَّر بالترتيب. <code class="il">add(3, 7)</code> → a=3, b=7</p></div>
+        <div class="info-card"><div class="ic">② </div><h4>معاملات مسمّاة</h4><p>تُمرَّر باسمها. <code class="il">greet(name="نائلة")</code></p></div>
+        <div class="info-card"><div class="ic">③ </div><h4>قيم افتراضية</h4><p>تُستخدم إذا لم تُمرَّر قيمة. <code class="il">def f(x=10):</code></p></div>
+        <div class="info-card"><div class="ic">④ </div><h4>*args و**kwargs</h4><p>عدد غير محدود من القيم أو الأزواج المسمّاة.</p></div>
+      </div>
+
+      <!-- interactive param explorer -->
+      <div class="param-explorer">
+        <h4>🎮 جرّبي: استدعاء دالة power(base, exp=2)</h4>
+        <div class="param-sliders">
+          <div class="param-row">
+            <label>base</label>
+            <input type="range" min="1" max="10" value="3" id="baseSlider" oninput="updatePower()">
+            <span class="pval" id="baseVal">3</span>
+          </div>
+          <div class="param-row">
+            <label>exp</label>
+            <input type="range" min="1" max="5" value="2" id="expSlider" oninput="updatePower()">
+            <span class="pval" id="expVal">2</span>
+          </div>
+        </div>
+        <div class="param-output" id="powerOutput">power(3, 2) = 9</div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">params.py</span></div>
+        <pre><span class="kw">def</span> <span class="fn">power</span>(<span class="vr">base</span>, <span class="vr">exp</span><span class="op">=</span><span class="num">2</span>):
+    <span class="kw">return</span> <span class="vr">base</span> <span class="op">**</span> <span class="vr">exp</span>
+
+<span class="fn">power</span>(<span class="num">3</span>)       <span class="cm"># 9   (exp=2 افتراضي)</span>
+<span class="fn">power</span>(<span class="num">2</span>, <span class="num">8</span>)    <span class="cm"># 256</span>
+<span class="fn">power</span>(<span class="vr">exp</span><span class="op">=</span><span class="num">3</span>, <span class="vr">base</span><span class="op">=</span><span class="num">4</span>)  <span class="cm"># 64 — بالاسم</span>
+
+<span class="cm"># *args: عدد غير محدود</span>
+<span class="kw">def</span> <span class="fn">total</span>(<span class="op">*</span><span class="vr">nums</span>):
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="vr">nums</span>)
+
+<span class="fn">total</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>)   <span class="cm"># 10</span></pre>
+      </div>
+    </div>
+
+    <!-- STEP 4: RETURN -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">03</div><div class="step-title">قيمة <span>الإرجاع</span> — return</div></div>
+      <div class="div"></div>
+      <p class="prose"><code class="il">return</code> ترسل نتيجة الدالة للكود الذي استدعاها. يمكن إرجاع قيم متعددة مرة واحدة!</p>
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">return_examples.py</span></div>
+        <pre><span class="cm"># إرجاع قيمة واحدة</span>
+<span class="kw">def</span> <span class="fn">square</span>(<span class="vr">n</span>):
+    <span class="kw">return</span> <span class="vr">n</span> <span class="op">**</span> <span class="num">2</span>
+
+<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">5</span>))   <span class="cm"># 25</span>
+
+<span class="cm"># إرجاع قيم متعددة (tuple)</span>
+<span class="kw">def</span> <span class="fn">min_max</span>(<span class="vr">nums</span>):
+    <span class="kw">return</span> <span class="fn">min</span>(<span class="vr">nums</span>), <span class="fn">max</span>(<span class="vr">nums</span>)
+
+<span class="vr">lo</span>, <span class="vr">hi</span> <span class="op">=</span> <span class="fn">min_max</span>([<span class="num">3</span>, <span class="num">1</span>, <span class="num">8</span>, <span class="num">2</span>])
+<span class="fn">print</span>(<span class="vr">lo</span>, <span class="vr">hi</span>)   <span class="cm"># 1  8</span>
+
+<span class="cm"># بدون return → ترجع None</span>
+<span class="kw">def</span> <span class="fn">say_hi</span>():
+    <span class="fn">print</span>(<span class="str">"مرحبا!"</span>)
+
+<span class="vr">x</span> <span class="op">=</span> <span class="fn">say_hi</span>()
+<span class="fn">print</span>(<span class="vr">x</span>)   <span class="cm"># None</span></pre>
+      </div>
+      <div class="tip"><div class="tip-ic">💡</div><div class="tip-body"><strong>return تُوقف الدالة فوراً</strong><p>أي كود بعد <code class="il">return</code> لن يُنفَّذ. يمكن استخدام هذا للخروج المبكر من الدالة.</p></div></div>
+    </div>
+
+    <!-- STEP 5: SCOPE -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">04</div><div class="step-title">نطاق <span>المتغيرات</span> — Scope</div></div>
+      <div class="div"></div>
+      <p class="prose">المتغيرات داخل الدالة <strong>محلية</strong> — لا تُرى خارجها. المتغيرات خارجها <strong>عامة</strong>.</p>
+      <table class="scope-table">
+        <tr><th>النوع</th><th>التعريف</th><th>الرؤية</th><th>مثال</th></tr>
+        <tr><td>محلي Local</td><td>داخل الدالة</td><td>داخل الدالة فقط</td><td><code>x = 5</code> داخل def</td></tr>
+        <tr><td>عام Global</td><td>خارج الدالة</td><td>في كل مكان</td><td><code>PI = 3.14</code> خارج def</td></tr>
+        <tr><td>global keyword</td><td>داخل الدالة</td><td>يُعدّل المتغير العام</td><td><code>global counter</code></td></tr>
+      </table>
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">scope.py</span></div>
+        <pre><span class="vr">total</span> <span class="op">=</span> <span class="num">0</span>   <span class="cm"># متغير عام</span>
+
+<span class="kw">def</span> <span class="fn">add_to_total</span>(<span class="vr">n</span>):
+    <span class="kw">global</span> <span class="vr">total</span>
+    <span class="vr">total</span> <span class="op">+=</span> <span class="vr">n</span>   <span class="cm"># يُعدّل العام</span>
+
+<span class="kw">def</span> <span class="fn">local_example</span>():
+    <span class="vr">x</span> <span class="op">=</span> <span class="num">99</span>   <span class="cm"># محلي فقط</span>
+    <span class="fn">print</span>(<span class="vr">x</span>)
+
+<span class="fn">add_to_total</span>(<span class="num">5</span>)
+<span class="fn">print</span>(<span class="vr">total</span>)   <span class="cm"># 5</span></pre>
+      </div>
+    </div>
+
+    <!-- STEP 6: REAL EXAMPLES -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">05</div><div class="step-title">أمثلة <span>حقيقية</span></div></div>
+      <div class="div"></div>
+      <div class="code-wrap">
+        <div class="code-hdr"><div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><span class="cf">real_functions.py</span></div>
+        <pre><span class="cm"># حساب المعدل</span>
+<span class="kw">def</span> <span class="fn">average</span>(<span class="op">*</span><span class="vr">grades</span>):
+    <span class="kw">if</span> <span class="kw2">not</span> <span class="vr">grades</span>:
+        <span class="kw">return</span> <span class="num">0</span>
+    <span class="kw">return</span> <span class="fn">sum</span>(<span class="vr">grades</span>) <span class="op">/</span> <span class="fn">len</span>(<span class="vr">grades</span>)
+
+<span class="fn">print</span>(<span class="fn">average</span>(<span class="num">14</span>, <span class="num">16</span>, <span class="num">18</span>))   <span class="cm"># 16.0</span>
+
+<span class="cm"># التحقق من كلمة المرور</span>
+<span class="kw">def</span> <span class="fn">is_strong</span>(<span class="vr">pwd</span>):
+    <span class="kw">return</span> (
+        <span class="fn">len</span>(<span class="vr">pwd</span>) <span class="op">>=</span> <span class="num">8</span> <span class="kw2">and</span>
+        <span class="fn">any</span>(<span class="vr">c</span>.<span class="fn">isdigit</span>() <span class="kw">for</span> <span class="vr">c</span> <span class="kw2">in</span> <span class="vr">pwd</span>) <span class="kw2">and</span>
+        <span class="fn">any</span>(<span class="vr">c</span>.<span class="fn">isupper</span>() <span class="kw">for</span> <span class="vr">c</span> <span class="kw2">in</span> <span class="vr">pwd</span>)
+    )
+
+<span class="fn">print</span>(<span class="fn">is_strong</span>(<span class="str">"Naila123"</span>))   <span class="cm"># True</span>
+<span class="fn">print</span>(<span class="fn">is_strong</span>(<span class="str">"naila"</span>))      <span class="cm"># False</span></pre>
+      </div>
+      <div class="tip"><div class="tip-ic">💡</div><div class="tip-body"><strong>مبدأ المسؤولية الواحدة</strong><p>كل دالة يجب أن تُنجز مهمة واحدة فقط. إذا وجدتِ نفسكِ تكتبين دالة تفعل أشياء كثيرة، اقسميها إلى دوال أصغر.</p></div></div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="step">
+      <div class="step-header"><div class="step-num">✦</div><div class="step-title">اختبري <span>نفسك</span></div></div>
+      <div class="div"></div>
+      <div class="quiz-card">
+        <div class="quiz-q">❓ ماذا ترجع دالة لا تحتوي على <code class="il">return</code>؟</div>
+        <div class="quiz-opts">
+          <button class="qo" onclick="qa('func',this,'wrong','gfb1',0)">0</button>
+          <button class="qo" onclick="qa('func',this,'wrong','gfb1',0)">False</button>
+          <button class="qo" onclick="qa('func',this,'correct','gfb1',0)">None</button>
+          <button class="qo" onclick="qa('func',this,'wrong','gfb1',0)">خطأ في التنفيذ</button>
+        </div>
+        <div class="qfb" id="gfb1"></div>
+      </div>
+      <div class="quiz-card" style="margin-top:1.25rem">
+        <div class="quiz-q">❓ ما الناتج؟ <code class="il">def f(x, y=5): return x + y</code> ← <code class="il">f(3)</code></div>
+        <div class="quiz-opts">
+          <button class="qo" onclick="qa('func',this,'wrong','gfb2',1)">3</button>
+          <button class="qo" onclick="qa('func',this,'correct','gfb2',1)">8</button>
+          <button class="qo" onclick="qa('func',this,'wrong','gfb2',1)">5</button>
+          <button class="qo" onclick="qa('func',this,'wrong','gfb2',1)">خطأ — y مطلوب</button>
+        </div>
+        <div class="qfb" id="gfb2"></div>
+      </div>
+      <div class="quiz-card" style="margin-top:1.25rem">
+        <div class="quiz-q">❓ ما الفرق بين معامل عادي ومعامل بـ <code class="il">*args</code>؟</div>
+        <div class="quiz-opts">
+          <button class="qo" onclick="qa('func',this,'wrong','gfb3',2)">لا فرق بينهما</button>
+          <button class="qo" onclick="qa('func',this,'wrong','gfb3',2)">*args يُرجع قائمة دائمًا</button>
+          <button class="qo" onclick="qa('func',this,'correct','gfb3',2)">*args يقبل عددًا غير محدود من القيم كـ tuple</button>
+          <button class="qo" onclick="qa('func',this,'wrong','gfb3',2)">*args للنصوص فقط</button>
+        </div>
+        <div class="qfb" id="gfb3"></div>
+      </div>
+    </div>
+
+    <div class="congrats" id="funcongrats" style="display:none">
+      <div class="big">🧩</div>
+      <h3 style="color:var(--green)">ممتازة يا نائلة!</h3>
+      <p>أكملتِ درس الدوال بنجاح! الآن كودك منظّم، قابل للاستخدام المتكرر، وأسهل للصيانة.</p>
+      <button class="congrats-btn" onclick="goBack()" style="background:var(--green);color:#000">← العودة للدروس</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ═══ QUIZ STATE ═══
 const state = {
@@ -1119,6 +1432,7 @@ const state = {
   while: [false,false,false],
   for:   [false,false,false],
   cond:  [false,false,false],
+  func:  [false,false,false],
 };
 
 const congratsIds = {
@@ -1126,6 +1440,7 @@ const congratsIds = {
   while: 'wcongrats',
   for:   'fcongrats',
   cond:  'ccongrats',
+  func:  'funcongrats',
 };
 
 const FB = {
@@ -1148,6 +1463,11 @@ const FB = {
     cfb1:{cor:'✓ صحيح! score=65 أكبر من 60 — elif ينفَّذ وتُطبع B.',wr:'✗ score=65 أكبر من 60 لكن أصغر من 90.'},
     cfb2:{cor:'✓ ممتاز! = للإسناد، == للمقارنة.',wr:'✗ فكّري مجدداً في الفرق بين الإسناد والمقارنة.'},
     cfb3:{cor:'✓ رائع! الشرط 10>5 صحيح، لذا x = "مرحبا".',wr:'✗ في التعبير الثلاثي، القيمة الأولى تُختار عند تحقق الشرط.'},
+  },
+  func: {
+    gfb1:{cor:'✓ ممتاز! كل دالة بلا return ترجع None تلقائيًا في Python.',wr:'✗ Python لا ترفع خطأ — تُكمل التنفيذ وترجع None بشكل ضمني.'},
+    gfb2:{cor:'✓ صحيح! f(3) تُمرّر x=3 وتستخدم القيمة الافتراضية y=5، فالناتج 8.',wr:'✗ المعامل y=5 افتراضي — إذا لم تُمرّري قيمة يُستخدم 5 تلقائيًا.'},
+    gfb3:{cor:'✓ رائع! *args تجمع كل الحجج الإضافية في tuple واحد دون حد للعدد.',wr:'✗ *args يجمع الحجج في tuple — ليس قائمة وليس للنصوص فقط.'},
   },
 };
 
@@ -1182,13 +1502,14 @@ function startLesson(lesson) {
   window.scrollTo(0,0);
   if (lesson==='for') setTimeout(()=>{showRange(0);showStep(0);},100);
   if (lesson==='while') { wBuildGate(); wUpdateDM(); }
+  if (lesson==='func') { updatePower(); }
 }
 
 function goBack() {
   document.querySelectorAll('.lesson-page').forEach(p=>p.style.display='none');
   document.getElementById('landing').style.display='flex';
   window.scrollTo(0,0);
-  ['vars','while','for','cond'].forEach(l=>{
+  ['vars','while','for','cond','func'].forEach(l=>{
     state[l]=[false,false,false];
     updateProgress(l);
     const el=document.getElementById(congratsIds[l]);
@@ -1200,6 +1521,7 @@ function goBack() {
   wSentReset();
   wModReset();
   wResetSyntax();
+  fcaReset();
 }
 
 function setLang(l) {
@@ -1495,7 +1817,53 @@ function wUpdateDM(){
   set('wdm-nand','not(A and B)',!(wDmA&&wDmB));
   set('wdm-nor', 'not(A or B)', !(wDmA||wDmB));
 }
+
+// ═══ FUNCTIONS LESSON JS ═══
+
+// call animation
+let fcaTimer=null, fcaStep=-1;
+const fcaMsgs=[
+  'تم استدعاء add(3, 7) ✓',
+  'تم تمرير a=3, b=7 إلى الدالة ✓',
+  'تنفيذ: return 3 + 7 ✓',
+  '<span class="fca-val">result = 10</span> 🎉',
+];
+
+function fcaReset(){
+  clearTimeout(fcaTimer); fcaStep=-1;
+  [0,1,2,3].forEach(i=>{const b=document.getElementById('fca'+i);if(b) b.className='fca-box';});
+  const r=document.getElementById('fca-result');
+  if(r) r.innerHTML='<span style="color:var(--muted)">اضغط تشغيل ▼</span>';
+}
+
+function fcaStart(){
+  fcaReset();
+  fcaStep=0;
+  (function tick(){
+    if(fcaStep>0){const prev=document.getElementById('fca'+(fcaStep-1));if(prev) prev.className='fca-box done';}
+    const box=document.getElementById('fca'+fcaStep);
+    if(box) box.className='fca-box lit';
+    const r=document.getElementById('fca-result');
+    if(r) r.innerHTML=fcaMsgs[fcaStep]||'';
+    fcaStep++;
+    if(fcaStep<4) fcaTimer=setTimeout(tick,1000);
+  })();
+}
+
+// param explorer
+function updatePower(){
+  const baseEl=document.getElementById('baseSlider');
+  const expEl=document.getElementById('expSlider');
+  if(!baseEl||!expEl) return;
+  const base=parseInt(baseEl.value);
+  const exp=parseInt(expEl.value);
+  const bv=document.getElementById('baseVal');
+  const ev=document.getElementById('expVal');
+  const out=document.getElementById('powerOutput');
+  if(bv) bv.textContent=base;
+  if(ev) ev.textContent=exp;
+  if(out) out.textContent=`power(${base}, ${exp}) = ${Math.pow(base,exp)}`;
+}
 </script>
 </body>
 </html>
-
