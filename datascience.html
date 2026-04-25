@@ -1228,7 +1228,6 @@
         </div>
       </div>
 
-      <!-- ══ COURSE 8 — NEW ══ -->
       <div class="course-card" onclick="openResume(8)">
         <div class="course-card-header c8">
           <span class="course-icon">🔵</span>
@@ -1356,25 +1355,43 @@ const projects = [
       { ex: '#4', text: 'Load housing.csv with read_csv() and display first 5 rows with .head()' },
       { ex: '#5', text: 'Print .shape, .columns, .dtypes to understand the dataset structure' },
       { ex: '#6', text: 'Use .describe() to get stats on price, sqft, and bedrooms' },
+      { ex: '#7', text: 'Select only the price column and print it' },
+      { ex: '#8', text: 'Select price and sqft_living together with double brackets' },
       { ex: '#9', text: 'Filter rows where price > 500,000 (expensive houses only)' },
       { ex: '#10', text: "Add column expensive = True if price >= 500,000, else False" },
+      { ex: '#11', text: 'Fill missing values in waterfront column with 0' },
+      { ex: '#12', text: 'Drop all rows that contain any NaN value' },
+      { ex: '#13', text: 'Rename sqft_living → living_area and sqft_lot → lot_area' },
+      { ex: '#14', text: 'Drop the sqft_basement column completely' },
+      { ex: '#15', text: 'Filter houses with 3+ bedrooms then reset_index(drop=True)' },
+      { ex: '#16', text: 'Sort by price descending to find the most expensive houses' },
       { ex: '#17', text: 'Group by floors and compute average price per floor count' },
+      { ex: '#18', text: 'Apply lambda to create price_per_sqft = price / living_area' },
+      { ex: '#19', text: 'Use .value_counts() on bedrooms to see most common bedroom count' },
       { ex: '#20', text: 'Export the cleaned DataFrame to house_clean.csv' },
     ],
     numpy: [
       { ex: '#2', text: 'Convert price column to a NumPy array with np.array()' },
+      { ex: '#6', text: 'Add sqft_living + sqft_lot element-wise using NumPy arrays' },
       { ex: '#7', text: 'Compute mean, max, min, std of price using np.mean(), np.max(), etc.' },
     ],
     matplotlib: [
       { ex: '#3', text: 'Plot sqft_living (x) vs price (y) with title and axis labels' },
+      { ex: '#9', text: 'Set figsize=(10,5) and add a grid to the price distribution chart' },
       { ex: '#11', text: 'Bar chart of average price grouped by number of floors' },
       { ex: '#13', text: 'Scatter plot of sqft_living vs price (30 random samples)' },
+      { ex: '#15', text: 'Subplot: price trend line + bedroom count bar chart side by side' },
+      { ex: '#16', text: 'Histogram of price with 8 bins to see price distribution' },
+      { ex: '#18', text: 'Annotate the most expensive house on the scatter plot with an arrow' },
     ],
     questions: [
       'What is the distribution of house prices — are there outliers?',
-      'Which features are most correlated with sale price?',
+      'Which features (sqft, bedrooms, grade) are most correlated with sale price?',
       'What is the average price per square foot grouped by number of floors?',
-      'Do waterfront properties sell for significantly more?',
+      'Do waterfront properties sell for significantly more? By what percentage?',
+      'Can you build a NumPy linear regression to predict price from sqft_living?',
+      'Which zip codes have the highest and lowest median house prices?',
+      'Are renovated houses priced higher than non-renovated ones of the same size?',
     ]
   },
   {
@@ -1385,23 +1402,46 @@ const projects = [
     overview: 'A rich sports analytics dataset with players\' physical attributes, skill ratings, wages, and club info. Use it to discover player trends, peak ages, and which clubs dominate the global football market.',
     pandas: [
       { ex: '#4', text: 'Load players_21.csv with .head() — preview names, ratings, clubs' },
+      { ex: '#5', text: '.shape, .columns, .dtypes — note this dataset has 100+ columns!' },
+      { ex: '#6', text: '.describe() on overall, age, wage_eur, value_eur' },
+      { ex: '#7', text: 'Select only the short_name column' },
+      { ex: '#8', text: 'Select short_name, overall, age together' },
       { ex: '#9', text: 'Filter players where overall >= 85 (elite players only)' },
+      { ex: '#10', text: 'Add is_young_talent = True if age ≤ 21 and potential ≥ 80' },
+      { ex: '#11', text: 'Fill missing release_clause_eur values with 0' },
+      { ex: '#12', text: 'Drop rows where nationality is NaN' },
+      { ex: '#13', text: 'Rename short_name → player_name, overall → rating' },
+      { ex: '#14', text: 'Drop irrelevant columns: player_url, dob' },
+      { ex: '#15', text: 'Filter strikers (player_positions contains "ST") then reset index' },
+      { ex: '#16', text: 'Sort by overall descending to rank top players globally' },
       { ex: '#17', text: 'Group by nationality and compute average overall rating per country' },
+      { ex: '#18', text: 'Apply lambda to convert wage_eur from weekly to annual (x * 52)' },
+      { ex: '#19', text: '.value_counts() on player_positions to see most common positions' },
       { ex: '#20', text: 'Export cleaned data to fifa_clean.csv' },
     ],
     numpy: [
       { ex: '#2', text: 'Convert the overall ratings column into a NumPy array' },
+      { ex: '#4', text: 'Reshape ratings array into a matrix (e.g. 100×18) for batch analysis' },
       { ex: '#7', text: 'Compute mean, max, min, std of overall rating and age' },
     ],
     matplotlib: [
       { ex: '#3', text: 'Plot age (x) vs overall (y) to see at what age players peak' },
+      { ex: '#6', text: 'Style the age vs rating trend line: blue, linewidth=2' },
+      { ex: '#8', text: 'Plot two lines: avg overall vs avg potential by age group' },
       { ex: '#11', text: 'Bar chart of top 10 nationalities by total player count' },
+      { ex: '#12', text: 'Horizontal bar chart of top 10 clubs by average squad rating' },
+      { ex: '#13', text: 'Scatter plot of wage_eur vs overall rating' },
       { ex: '#16', text: 'Histogram of overall ratings with 8 bins' },
+      { ex: '#17', text: 'Pie chart of player position distribution (FW, MF, DF, GK)' },
     ],
     questions: [
-      'At what age do players peak in overall rating?',
+      'At what age do players peak in overall rating? Is there a clear drop after 30?',
       'Which nationalities produce the highest-rated players on average?',
       'What is the correlation between a player\'s wage and their overall rating?',
+      'Which clubs have the highest average squad rating and total market value?',
+      'Who are the top 10 most undervalued players (high potential, low market value)?',
+      'How do key attributes (pace, shooting, passing) differ across positions?',
+      'Can you build a radar chart comparing the top 5 players across skill attributes?',
     ]
   },
   {
@@ -1412,23 +1452,45 @@ const projects = [
     overview: 'A transactional retail dataset from a UK-based online store. Clean the data, engineer revenue, and extract business insights about products, countries, and seasonality.',
     pandas: [
       { ex: '#4', text: 'Load data.csv with encoding="ISO-8859-1" — required for this file' },
+      { ex: '#5', text: '.shape, .columns, .dtypes — check if InvoiceDate is parsed correctly' },
+      { ex: '#6', text: '.describe() on Quantity and UnitPrice to spot anomalies' },
+      { ex: '#7', text: 'Select only the Description column' },
+      { ex: '#8', text: 'Select Description, Quantity, UnitPrice together' },
       { ex: '#9', text: 'Filter rows where Quantity > 0 (remove returns/cancellations)' },
       { ex: '#10', text: 'Add column Revenue = Quantity * UnitPrice' },
+      { ex: '#11', text: 'Fill missing CustomerID values with 0' },
+      { ex: '#12', text: 'Drop rows where Description is NaN' },
+      { ex: '#13', text: 'Rename InvoiceDate → date, UnitPrice → price' },
+      { ex: '#14', text: 'Drop the StockCode column' },
+      { ex: '#15', text: 'Filter UK-only orders (Country == "United Kingdom") then reset index' },
+      { ex: '#16', text: 'Sort by Revenue descending to find highest value transactions' },
       { ex: '#17', text: 'Group by Country and sum Revenue per country' },
+      { ex: '#18', text: 'Apply lambda to price to convert GBP to USD (multiply by 1.27)' },
+      { ex: '#19', text: '.value_counts() on Country to count orders per country' },
+      { ex: '#20', text: 'Export final cleaned data to ecommerce_clean.csv' },
     ],
     numpy: [
       { ex: '#2', text: 'Convert the Revenue column to a NumPy array' },
+      { ex: '#6', text: 'Compute Quantity * UnitPrice element-wise using NumPy arrays' },
       { ex: '#7', text: 'Compute mean, max, min, std of Revenue column' },
     ],
     matplotlib: [
       { ex: '#3', text: 'Plot monthly revenue over time with title and axis labels' },
+      { ex: '#9', text: 'Set figsize=(10,5) and add grid to the revenue trend line chart' },
       { ex: '#11', text: 'Bar chart of top 10 countries by total revenue' },
+      { ex: '#12', text: 'Horizontal bar chart of top 10 best-selling products by quantity' },
+      { ex: '#16', text: 'Histogram of UnitPrice distribution with 8 bins' },
       { ex: '#17', text: 'Pie chart of revenue share by top 5 countries' },
+      { ex: '#19', text: 'Twin axes: plot order count (bar) and avg revenue (line) by month' },
     ],
     questions: [
-      'What are the top 20 best-selling products by revenue?',
-      'Which months generate the highest sales revenue?',
+      'What are the top 20 best-selling products by revenue and by quantity sold?',
+      'Which months and days of the week generate the highest sales revenue?',
+      'What percentage of orders are returns, and which products are returned most?',
       'Which countries generate the most revenue outside the UK?',
+      'What is the average order value (AOV) per customer and how is it distributed?',
+      'Can you identify the top 20% of customers generating 80% of revenue (Pareto)?',
+      'How does revenue trend over time — is there a clear seasonal pattern?',
     ]
   },
   {
@@ -1439,21 +1501,45 @@ const projects = [
     overview: 'Records span over 250 years of surface temperatures worldwide. Clean the data, handle uncertainty, and reveal the temperature trends that define climate change.',
     pandas: [
       { ex: '#4', text: 'Load GlobalLandTemperaturesByCountry.csv with .head()' },
+      { ex: '#5', text: '.shape, .columns, .dtypes — note dt column is stored as string' },
+      { ex: '#6', text: '.describe() on AverageTemperature to see range and missing data' },
+      { ex: '#7', text: 'Select only the AverageTemperature column' },
+      { ex: '#8', text: 'Select dt, AverageTemperature, Country together' },
       { ex: '#9', text: 'Filter rows where Country == "Algeria" (or your country!)' },
+      { ex: '#10', text: 'Add column hot_year = True if AverageTemperature >= 25' },
+      { ex: '#11', text: 'Fill missing AverageTemperature with the column mean' },
+      { ex: '#12', text: 'Drop all rows where temperature is NaN' },
+      { ex: '#13', text: 'Rename dt → date, AverageTemperature → avg_temp' },
+      { ex: '#14', text: 'Drop AverageTemperatureUncertainty column' },
+      { ex: '#15', text: 'Filter records after 1900, then reset_index(drop=True)' },
+      { ex: '#16', text: 'Sort by avg_temp descending to find the hottest records on earth' },
       { ex: '#17', text: 'Group by Country and compute mean temperature per country' },
+      { ex: '#18', text: 'Apply lambda to convert Celsius to Fahrenheit (x * 9/5 + 32)' },
+      { ex: '#19', text: '.value_counts() on Country to count data records per country' },
+      { ex: '#20', text: 'Export cleaned data to climate_clean.csv' },
     ],
     numpy: [
       { ex: '#2', text: 'Convert avg_temp to a NumPy array with np.array()' },
+      { ex: '#5', text: 'Slice temperatures from year 1900 to 2000 using array indexing' },
       { ex: '#7', text: 'Compute mean, max, min, std of global temperature readings' },
     ],
     matplotlib: [
       { ex: '#3', text: 'Plot year (x) vs average global temperature (y) with axis labels' },
+      { ex: '#6', text: 'Style the trend line: red, dashed, linewidth=2' },
+      { ex: '#8', text: 'Plot two lines on same chart: warmest 10 countries vs global avg' },
+      { ex: '#9', text: 'Set figsize=(12,5) and add grid to the temperature trend chart' },
       { ex: '#16', text: 'Histogram of temperature distribution across all countries' },
+      { ex: '#18', text: 'Annotate the hottest year on record with an arrow and label' },
+      { ex: '#20', text: 'Apply ggplot style to the final temperature trend visualization' },
     ],
     questions: [
       'How has global average temperature changed from 1750 to today?',
       'Which decade saw the steepest rise in average temperature?',
+      'What is the 10-year rolling average, and how does it compare to raw monthly data?',
       'Which countries have experienced the greatest temperature increase over 100 years?',
+      'Is there a clear seasonal pattern in temperature fluctuations across regions?',
+      'Using NumPy, fit a polynomial trend line — what does it predict for 2050?',
+      'Which cities are warming the fastest compared to the global average?',
     ]
   },
   {
@@ -1464,22 +1550,44 @@ const projects = [
     overview: 'The benchmark dataset for fraud detection research. Heavily imbalanced — 99.83% normal vs 0.17% fraud. Explore patterns that separate fraud from legitimate activity.',
     pandas: [
       { ex: '#4', text: 'Load creditcard.csv — V1–V28 are PCA features, Amount and Time are raw' },
+      { ex: '#5', text: '.shape, .columns, .dtypes — check all 31 columns and 284,807 rows' },
+      { ex: '#6', text: '.describe() on Amount and Time to understand transaction ranges' },
+      { ex: '#7', text: 'Select only the Amount column' },
+      { ex: '#8', text: 'Select Amount, Time, Class together' },
       { ex: '#9', text: 'Filter rows where Class == 1 (fraudulent transactions only)' },
+      { ex: '#10', text: 'Add column high_value = True if Amount > 1000' },
+      { ex: '#11', text: 'Confirm no missing values with .isnull().sum() (this dataset is clean)' },
+      { ex: '#12', text: 'Practice .dropna() even when no NaN — good professional habit' },
+      { ex: '#13', text: 'Rename Class → is_fraud, Amount → transaction_amount' },
+      { ex: '#14', text: 'Drop the Time column' },
+      { ex: '#15', text: 'Filter high-value frauds (amount > 500) then reset index' },
+      { ex: '#16', text: 'Sort by transaction_amount descending to find the largest frauds' },
       { ex: '#17', text: 'Group by is_fraud and compute mean and std of transaction_amount' },
+      { ex: '#18', text: 'Apply lambda to normalize transaction_amount (divide by max value)' },
+      { ex: '#19', text: '.value_counts() on is_fraud to visualize the severe class imbalance' },
+      { ex: '#20', text: 'Export only fraud cases to fraud_cases.csv' },
     ],
     numpy: [
       { ex: '#2', text: 'Convert transaction_amount column into a NumPy array' },
+      { ex: '#6', text: 'After sampling, compute diff between fraud and non-fraud amounts element-wise' },
       { ex: '#7', text: 'Compute mean, max, min, std separately for fraud vs normal transactions' },
     ],
     matplotlib: [
       { ex: '#11', text: 'Bar chart comparing count of fraud vs normal transactions' },
       { ex: '#13', text: 'Scatter plot of V1 vs V2 colored by fraud class' },
+      { ex: '#14', text: 'Scatter with dot size and color varying by transaction_amount' },
+      { ex: '#15', text: 'Subplot: histogram of fraud amounts + bar chart of class counts' },
+      { ex: '#16', text: 'Histogram of transaction_amount for fraud vs normal (8 bins each)' },
       { ex: '#17', text: 'Pie chart showing fraud (0.17%) vs legitimate (99.83%) percentage' },
     ],
     questions: [
       'How severe is the class imbalance? What are the risks of training on raw data?',
-      'What is the distribution of transaction amounts for fraud vs legitimate?',
-      'Which PCA components show the greatest difference between fraud and non-fraud?',
+      'What is the distribution of transaction amounts for fraud vs legitimate transactions?',
+      'At what time of day do fraudulent transactions occur most frequently?',
+      'Are fraudulent transactions typically smaller or larger than normal ones?',
+      'Which PCA components (V1–V28) show the greatest difference between fraud and non-fraud?',
+      'What is mean, median, and std of fraud amounts vs normal amounts using NumPy?',
+      'If you flag the top 1% of transactions by amount, what % of fraud cases do you catch?',
     ]
   }
 ];
@@ -1616,10 +1724,6 @@ const resumes = {
       { icon: '📏', variant: 'v9', title: 'Evaluation Metrics', content: `<strong>MAE</strong> — average absolute error, easy to interpret.<br><strong>RMSE</strong> — root mean squared error, penalizes large errors.<br><strong>R²</strong> — proportion of variance explained: 1.0 = perfect, 0 = predicts mean, negative = worse than mean.`, code: `<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> mean_absolute_error, r2_score\nmae = <span class="fn">mean_absolute_error</span>(y_test, y_pred)\nr2  = <span class="fn">r2_score</span>(y_test, y_pred)`, concepts: [{ title: 'MAE', body: 'Average absolute error — in same units as target' },{ title: 'RMSE', body: 'Punishes large errors more — most common metric' },{ title: 'R²', body: 'How much variance the model explains — 1.0 is perfect' },{ title: 'R² < 0', body: 'Model performs worse than just predicting the mean' }] }
     ]
   },
-
-  /* ══════════════════════════
-     COURSE 8 — NEW
-  ══════════════════════════ */
   8: {
     icon: '🔵', tag: 'Course 08', title: 'Unsupervised Learning & DS Project Pipeline',
     desc: 'Discover how machines find hidden patterns without labels. Master K-Means clustering, TF-IDF text weighting, and the full 12-step Data Science project workflow.',
@@ -1812,7 +1916,7 @@ const quizData = [
     { q: "In Gradient Boosting for regression, what does each new tree correct?", opts: ["The feature importances of the previous tree", "The residual errors (mistakes) of the previous tree", "The hyperparameters of the model", "The number of training samples"], ans: 1, exp: "Each new tree in Gradient Boosting is trained to predict the residual errors of all previous trees." },
     { q: "What does RMSE stand for and why is it commonly used?", opts: ["Relative Mean Squared Estimate", "Root Mean Squared Error — in the same units as the target variable", "Regularized Mean Sum Error", "Ranked Model Score Evaluation"], ans: 1, exp: "RMSE = √MSE — it's in the same units as y (e.g. dollars, degrees) making it easy to interpret." }
   ],
-  // Course 8 — NEW
+  // Course 8
   [
     { q: "What is the key difference between supervised and unsupervised learning?", opts: ["Supervised is faster to train", "Supervised uses labeled data; unsupervised uses unlabeled data to find hidden patterns", "Unsupervised always predicts numbers", "Supervised requires more data"], ans: 1, exp: "Supervised learning needs labels (correct answers). Unsupervised learning discovers structure from unlabeled data on its own." },
     { q: "In K-Means, what is a centroid?", opts: ["A data point that was misclassified", "The center point of a cluster — moves each iteration toward the cluster average", "The distance between two data points", "The number of clusters K"], ans: 1, exp: "A centroid is the center of a cluster. After each assignment step, it moves to the mean position of all points in its cluster." },
