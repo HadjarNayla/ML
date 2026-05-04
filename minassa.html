@@ -3,167 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة بالقرآن اهتديت | الروابط الرسمية</title>
-    <!-- استدعاء خطوط وأيقونات -->
+    <title>منصة بالقرآن اهتديت | الرسمية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1a4731; /* أخضر قرآني عميق */
-            --gold: #c5a059;    /* ذهبي هادئ */
-            --bg: #f4f7f6;
-            --text: #333;
+            --primary: #1a4731;
+            --accent: #c5a059;
+            --light-bg: #fdfdfd;
+            --text-dark: #2c3e50;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
             margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: #f4f4f4;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        .header {
-            background-color: var(--primary);
-            width: 100%;
+        /* Header & Hero */
+        header {
+            background: linear-gradient(rgba(26, 71, 49, 0.9), rgba(26, 71, 49, 0.9)), 
+                        url('https://images.unsplash.com/photo-1584281722571-0897f2679243?auto=format&fit=crop&q=80&w=1200');
+            background-size: cover;
             color: white;
-            padding: 40px 20px;
+            padding: 80px 20px;
             text-align: center;
-            border-bottom: 4px solid var(--gold);
         }
 
-        .header h1 { margin: 0; font-size: 2rem; }
-        .header p { margin-top: 10px; opacity: 0.9; }
+        .container { max-width: 1100px; margin: auto; padding: 20px; }
 
-        .links-container {
-            max-width: 600px;
-            width: 90%;
-            margin: -30px auto 40px auto;
+        /* Sections */
+        section { padding: 60px 0; border-bottom: 1px solid #eee; }
+        .section-title { text-align: center; color: var(--primary); margin-bottom: 40px; position: relative; }
+        .section-title::after { content: ''; width: 50px; height: 3px; background: var(--accent); position: absolute; bottom: -10px; right: 50%; transform: translateX(50%); }
+
+        /* About Section */
+        .about-text { text-align: center; font-size: 1.2rem; max-width: 800px; margin: auto; }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
         }
 
-        .link-card {
+        .service-card {
             background: white;
-            display: flex;
-            align-items: center;
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: var(--text);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            border-right: 5px solid var(--gold);
-        }
-
-        .link-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-            background-color: #fffdf9;
-        }
-
-        .link-card i {
-            font-size: 1.5rem;
-            margin-left: 15px;
-            width: 30px;
+            padding: 30px;
+            border-radius: 15px;
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: 0.3s;
         }
 
-        /* ألوان الأيقونات */
-        .fa-telegram { color: #0088cc; }
-        .fa-facebook { color: #1877f2; }
-        .fa-youtube { color: #ff0000; }
-        .fa-instagram { color: #e4405f; }
-        .fa-tiktok { color: #000000; }
-        .fa-envelope { color: var(--gold); }
+        .service-card:hover { transform: translateY(-10px); border-top: 4px solid var(--accent); }
 
-        .link-info h3 { margin: 0; font-size: 1.1rem; }
-        .link-info p { margin: 2px 0 0; font-size: 0.85rem; color: #777; }
+        .service-card i { font-size: 2.5rem; color: var(--accent); margin-bottom: 15px; }
 
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            color: #666;
+        /* Registration Form */
+        .registration-form {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 700px;
+            margin: auto;
         }
+
+        .form-group { margin-bottom: 20px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover { background: #246345; }
+
+        /* Footer */
+        footer { background: #222; color: white; text-align: center; padding: 40px 20px; }
+        .social-links a { color: white; margin: 0 10px; font-size: 1.5rem; text-decoration: none; }
+        .social-links a:hover { color: var(--accent); }
+
     </style>
 </head>
 <body>
 
-    <div class="header">
+    <header>
         <h1>منصة بالقرآن اهتديت</h1>
-        <p>خدمة كتاب الله وتدريس العلوم الشرعية</p>
-    </div>
+        <p>بوابتكم لتعلم العلوم الشرعية وتدبر كتاب الله</p>
+    </header>
 
-    <div class="links-container">
+    <div class="container">
         
-        <!-- التلغرام -->
-        <a href="https://t.me/ihtadyt" class="link-card" target="_blank">
-            <i class="fab fa-telegram"></i>
-            <div class="link-info">
-                <h3>قناة التلغرام العامة</h3>
-                <p>متابعة جديد الدروس والأنشطة</p>
+        <!-- التعريف بالمنصة -->
+        <section id="about">
+            <h2 class="section-title">التعريف بالمنصة</h2>
+            <div class="about-text">
+                <p>منصة "بالقرآن اهتديت" هي مبادرة تعليمية ودعوية متخصصة في نشر علوم القرآن الكريم والسنة النبوية. نسعى لتقديم محتوى شرعي مؤصل بأسلوب عصري يجمع بين الأصالة والتجديد، لتمكين المسلم من فهم دينه والاهتداء بنور الوحيين.</p>
             </div>
-        </a>
+        </section>
 
-        <!-- فيسبوك الرسمية -->
-        <a href="https://www.facebook.com/profile.php?id=100063465889729" class="link-card" target="_blank">
-            <i class="fab fa-facebook"></i>
-            <div class="link-info">
-                <h3>صفحة الفيسبوك الرسمية</h3>
-                <p>المنشورات اليومية والبث المباشر</p>
+        <!-- الخدمات المتاحة -->
+        <section id="services">
+            <h2 class="section-title">خدماتنا المتاحة</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <i class="fas fa-book-open"></i>
+                    <h3>تحفيظ القرآن</h3>
+                    <p>حلقات تعليمية مخصصة لمختلف الأعمار بروايات متعددة.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-mosque"></i>
+                    <h3>الدروس الشرعية</h3>
+                    <p>دروس في التفسير، العقيدة، والفقه بإشراف نخبة من المتخصصين.</p>
+                </div>
+                <div class="service-card">
+                    <i class="fas fa-microphone-alt"></i>
+                    <h3>سلسلة "بالقرآن اهتديت"</h3>
+                    <p>عرض قصص المهتدين والدروس والعبر المستفادة من رحلتهم.</p>
+                </div>
             </div>
-        </a>
+        </section>
 
-        <!-- المجموعة التفاعلية -->
-        <a href="https://www.facebook.com/share/g/1DH56Y2EHD/" class="link-card" target="_blank">
-            <i class="fas fa-users"></i>
-            <div class="link-info">
-                <h3>المجموعة التفاعلية</h3>
-                <p>مجتمع المنصة للمناقشة والمدارسة</p>
+        <!-- استمارة التسجيل -->
+        <section id="register">
+            <h2 class="section-title">طلب انضمام / تسجيل</h2>
+            <div class="registration-form">
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label>الاسم الكامل</label>
+                        <input type="text" placeholder="أدخل اسمك الثلاثي" required>
+                    </div>
+                    <div class="form-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" placeholder="example@gmail.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>نوع الخدمة المطلوبة</label>
+                        <select required>
+                            <option value="">-- اختر من القائمة --</option>
+                            <option value="quran">تحفيظ قرآن كريم</option>
+                            <option value="sharia">دروس علوم شرعية</option>
+                            <option value="info">استفسار عام</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>رسالة إضافية</label>
+                        <textarea rows="4" placeholder="اكتب استفسارك أو نبذة عنك هنا..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">إرسال الطلب</button>
+                </form>
             </div>
-        </a>
-
-        <!-- اليوتيوب -->
-        <a href="https://youtube.com/channel/UC7Mj20UsuBz4MB0FL9Sisag" class="link-card" target="_blank">
-            <i class="fab fa-youtube"></i>
-            <div class="link-info">
-                <h3>قناة اليوتيوب</h3>
-                <p>المستودع المرئي للبرامج والدورات</p>
-            </div>
-        </a>
-
-        <!-- إنستغرام -->
-        <a href="https://www.instagram.com/mnsblqran?igsh=MXFuNzNqZ3RsNHln" class="link-card" target="_blank">
-            <i class="fab fa-instagram"></i>
-            <div class="link-info">
-                <h3>حساب الإنستغرام</h3>
-                <p>صور، تصاميم، ومقاطع قصيرة</p>
-            </div>
-        </a>
-
-        <!-- تيك توك -->
-        <a href="https://www.tiktok.com/@user5715528599311" class="link-card" target="_blank">
-            <i class="fab fa-tiktok"></i>
-            <div class="link-info">
-                <h3>حساب التيك توك</h3>
-                <p>مقاطع دعوية سريعة</p>
-            </div>
-        </a>
-
-        <!-- البريد الإلكتروني -->
-        <a href="mailto:mnstbalqranahtdyt@gmail.com" class="link-card">
-            <i class="fas fa-envelope"></i>
-            <div class="link-info">
-                <h3>البريد الإلكتروني</h3>
-                <p>للتواصل الرسمي والاستفسارات</p>
-            </div>
-        </a>
+        </section>
 
     </div>
 
-    <div class="footer">
-        <p>منصة بالقرآن اهتديت &copy; 2026</p>
-    </div>
+    <footer>
+        <div class="social-links">
+            <a href="https://t.me/ihtadyt"><i class="fab fa-telegram"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=100063465889729"><i class="fab fa-facebook"></i></a>
+            <a href="https://youtube.com/channel/UC7Mj20UsuBz4MB0FL9Sisag"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.instagram.com/mnsblqran"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p style="margin-top: 20px;">جميع الحقوق محفوظة لمنصة بالقرآن اهتديت &copy; 2026</p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">للتواصل: mnstbalqranahtdyt@gmail.com</p>
+    </footer>
 
 </body>
 </html>
