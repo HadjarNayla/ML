@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بايثون للأطفال - الأستاذة حجار نائلة</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #6EC6F5;
+    --sun: #FFD93D;
+    --green: #6BCB77;
+    --purple: #A78BFA;
+    --coral: #FF8C69;
+    --pink: #F472B6;
+    --dark: #1E1B4B;
+    --card: #FFFFFF;
+    --bg: #F0F9FF;
+    --text: #1E1B4B;
+    --shadow: 0 8px 32px rgba(100,80,200,0.13);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* STARS BG */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+      radial-gradient(2px 2px at 10% 20%, #a78bfa55 0%, transparent 100%),
+      radial-gradient(2px 2px at 30% 60%, #6EC6F555 0%, transparent 100%),
+      radial-gradient(2px 2px at 60% 10%, #F472B655 0%, transparent 100%),
+      radial-gradient(2px 2px at 80% 70%, #FFD93D55 0%, transparent 100%),
+      radial-gradient(2px 2px at 90% 40%, #6BCB7755 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* HEADER */
+  header {
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(135deg, #6C63FF 0%, #A78BFA 50%, #F472B6 100%);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .header-stars {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle 2s infinite alternate;
+  }
+
+  @keyframes twinkle {
+    from { opacity: 0.3; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1.2); }
+  }
+
+  .header-inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+
+  .logo-robot {
+    font-size: 90px;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.18));
+    margin-bottom: 10px;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(-3deg); }
+    50% { transform: translateY(-18px) rotate(3deg); }
+  }
+
+  header h1 {
+    font-family: 'Tajawal', sans-serif;
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 900;
+    color: white;
+    text-shadow: 0 4px 24px rgba(0,0,0,0.25);
+    letter-spacing: 1px;
+    line-height: 1.2;
+  }
+
+  header h1 span {
+    color: #FFD93D;
+    display: block;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    color: rgba(255,255,255,0.92);
+    margin-top: 10px;
+    font-weight: 500;
+  }
+
+  .teacher-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.22);
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 50px;
+    padding: 10px 28px;
+    margin-top: 20px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    backdrop-filter: blur(8px);
+  }
+
+  .teacher-badge .star-icon { font-size: 1.4rem; }
+
+  /* NAVIGATION */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 3px solid var(--purple);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    overflow-x: auto;
+    box-shadow: 0 4px 20px rgba(100,80,200,0.12);
+  }
+
+  nav button {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 18px 24px;
+    color: #6C63FF;
+    border-bottom: 4px solid transparent;
+    transition: all 0.25s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  nav button:hover, nav button.active {
+    color: #F472B6;
+    border-bottom-color: #F472B6;
+    background: rgba(244,114,182,0.07);
+  }
+
+  nav .nav-icon { font-size: 1.3rem; }
+
+  /* SECTIONS */
+  section {
+    display: none;
+    position: relative;
+    z-index: 1;
+  }
+
+  section.visible {
+    display: block;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+
+  /* SECTION TITLES */
+  .section-title {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .section-title h2 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #6C63FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .section-title p {
+    color: #7C7DA0;
+    font-size: 1.1rem;
+    margin-top: 8px;
+    font-weight: 500;
+  }
+
+  /* CARDS GRID */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+    margin-bottom: 40px;
+  }
+
+  .lesson-card {
+    background: var(--card);
+    border-radius: 24px;
+    padding: 30px 24px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 3px solid transparent;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lesson-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    border-radius: 24px 24px 0 0;
+  }
+
+  .lesson-card.purple::before { background: linear-gradient(90deg, #6C63FF, #A78BFA); }
+  .lesson-card.green::before { background: linear-gradient(90deg, #10B981, #6BCB77); }
+  .lesson-card.coral::before { background: linear-gradient(90deg, #F97316, #FF8C69); }
+  .lesson-card.pink::before { background: linear-gradient(90deg, #EC4899, #F472B6); }
+  .lesson-card.sky::before { background: linear-gradient(90deg, #0EA5E9, #6EC6F5); }
+  .lesson-card.sun::before { background: linear-gradient(90deg, #EAB308, #FFD93D); }
+
+  .lesson-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 48px rgba(100,80,200,0.22);
+    border-color: var(--purple);
+  }
+
+  .card-emoji {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 14px;
+    animation: bounce-soft 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce-soft {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  .lesson-card h3 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1E1B4B;
+    margin-bottom: 8px;
+  }
+
+  .lesson-card p {
+    color: #7C7DA0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .level-badge {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .badge-easy { background: #D1FAE5; color: #059669; }
+  .badge-medium { background: #FEF3C7; color: #D97706; }
+
+  /* LESSON MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(30,27,75,0.7);
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+    padding: 20px;
+    overflow-y: auto;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; padding-top: 40px; }
+
+  .modal-box {
+    background: white;
+    border-radius: 28px;
+    max-width: 760px;
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.3);
+    animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(60px) scale(0.95); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .modal-header {
+    padding: 32px 32px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 2px solid #EDE9FE;
+  }
+
+  .modal-icon { font-size: 3rem; }
+
+  .modal-header h2 {
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: #6C63FF;
+  }
+
+  .modal-header p {
+    color: #7C7DA0;
+    font-size: 1rem;
+    margin-top: 4px;
+  }
+
+  .modal-close {
+    margin-right: auto;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #A78BFA;
+    line-height: 1;
+    transition: transform 0.2s;
+    font-family: sans-serif;
+  }
+
+  .modal-close:hover { transform: rotate(90deg) scale(1.2); }
+
+  .modal-body { padding: 28px 32px; }
+
+  /* CODING AREA */
+  .coding-area {
+    background: #1E1B4B;
+    border-radius: 18px;
+    overflow: hidden;
+    margin: 20px 0;
+  }
+
+  .code-header {
+    background: #312E81;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #A78BFA;
+    font-weight: 700;
+  }
+
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #FF8C69; }
+  .dot-y { background: #FFD93D; }
+  .dot-g { background: #6BCB77; }
+
+  .code-editor {
+    width: 100%;
+    background: #1E1B4B;
+    color: #E9D5FF;
+    border: none;
+    padding: 20px 24px;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    line-height: 1.7;
+    resize: vertical;
+    min-height: 160px;
+    direction: ltr;
+    text-align: left;
+    outline: none;
+  }
+
+  .code-editor:focus { background: #1a1750; }
+
+  .run-btn {
+    display: block;
+    width: 100%;
+    background: linear-gradient(135deg, #6C63FF, #A78BFA);
+    color: white;
+    border: none;
+    padding: 16px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .run-btn:hover { background: linear-gradient(135deg, #5B52E5, #9066E0); transform: scale(1.01); }
+  .run-btn:active { transform: scale(0.99); }
+
+  .output-area {
+    background: #0F172A;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-top: 16px;
+    min-height: 80px;
+    direction: ltr;
+    text-align: left;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    color: #6BCB77;
+    line-height: 1.8;
+    position: relative;
+    border: 2px solid #1E3A5F;
+  }
+
+  .output-label {
+    position: absolute;
+    top: -12px;
+    right: 16px;
+    background: #10B981;
+    color: white;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 2px 12px;
+    border-radius: 20px;
+  }
+
+  /* SHAPES CANVAS */
+  .shapes-output {
+    background: #F8F7FF;
+    border: 3px dashed #A78BFA;
+    border-radius: 18px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    padding: 20px;
+    position: relative;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .shapes-output-label {
+    position: absolute;
+    top: -14px;
+    right: 16px;
+    background: #A78BFA;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 2px 14px;
+    border-radius: 20px;
+    font-family: 'Tajawal', sans-serif;
+  }
+
+  /* CONCEPT CARDS */
+  .concept-box {
+    background: linear-gradient(135deg, #EDE9FE, #F0FDF4);
+    border-radius: 18px;
+    padding: 20px 24px;
+    margin: 14px 0;
+    border-right: 5px solid #6C63FF;
+  }
+
+  .concept-box h4 {
+    color: #6C63FF;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .concept-box p {
+    color: #374151;
+    line-height: 1.7;
+    font-size: 1rem;
+  }
+
+  .tip-box {
+    background: linear-gradient(135deg, #FEF3C7, #FFF7ED);
+    border-radius: 18px;
+    padding: 16px 22px;
+    margin: 14px 0;
+    border-right: 5px solid #F59E0B;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .tip-box .tip-icon { font-size: 1.6rem; flex-shrink: 0; }
+  .tip-box p { color: #92400E; font-size: 0.97rem; line-height: 1.6; font-weight: 500; }
+
+  /* PROGRESS */
+  .progress-wrap {
+    background: white;
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .stars-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+
+  .star-item {
+    font-size: 2.5rem;
+    transition: all 0.3s;
+    cursor: pointer;
+    filter: grayscale(1) opacity(0.3);
+    animation: none;
+  }
+
+  .star-item.earned {
+    filter: none;
+    animation: starPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes starPop {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+  }
+
+  /* QUIZ SECTION */
+  .quiz-question {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+  }
+
+  .quiz-question h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #1E1B4B;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .quiz-opt {
+    background: #F5F3FF;
+    border: 2px solid #DDD6FE;
+    border-radius: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4C1D95;
+    text-align: center;
+    transition: all 0.2s;
+    direction: ltr;
+  }
+
+  .quiz-opt:hover { background: #EDE9FE; border-color: #A78BFA; transform: scale(1.02); }
+  .quiz-opt.correct { background: #D1FAE5; border-color: #059669; color: #065F46; }
+  .quiz-opt.wrong { background: #FEE2E2; border-color: #DC2626; color: #991B1B; }
+
+  /* FUN SHAPES PAGE */
+  .shapes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+  }
+
+  .shape-card {
+    background: white;
+    border-radius: 24px;
+    padding: 24px 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 3px solid transparent;
+  }
+
+  .shape-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    border-color: var(--purple);
+    box-shadow: 0 16px 40px rgba(100,80,200,0.2);
+  }
+
+  .shape-preview {
+    width: 100%;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    border-radius: 16px;
+    background: #F5F3FF;
+  }
+
+  .shape-card h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #6C63FF;
+    margin-bottom: 6px;
+  }
+
+  .shape-card p {
+    font-size: 0.88rem;
+    color: #7C7DA0;
+  }
+
+  /* FOOTER */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #6C63FF, #A78BFA);
+    color: white;
+  }
+
+  footer p { font-size: 1.1rem; font-weight: 700; }
+  footer .footer-hearts { font-size: 1.5rem; margin: 8px 0; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .quiz-options { grid-template-columns: 1fr; }
+    nav button { padding: 14px 14px; font-size: 0.9rem; }
+    .modal-body { padding: 20px; }
+    .modal-header { padding: 20px; }
+  }
+
+  /* confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    animation: confetti-fall linear forwards;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  @keyframes confetti-fall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-stars" id="headerStars"></div>
+  <div class="header-inner">
+    <span class="logo-robot">🤖</span>
+    <h1>
+      تعلّم البرمجة
+      <span>بالأشكال والألوان!</span>
+    </h1>
+    <p class="subtitle">Python للأطفال · سهل وممتع وملموس ✨</p>
+    <div class="teacher-badge">
+      <span class="star-icon">⭐</span>
+      الأستاذة حجار نائلة
+      <span class="star-icon">⭐</span>
+    </div>
+  </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav>
+  <button class="active" onclick="showSection('home', this)">
+    <span class="nav-icon">🏠</span> الرئيسية
+  </button>
+  <button onclick="showSection('lessons', this)">
+    <span class="nav-icon">📚</span> الدروس
+  </button>
+  <button onclick="showSection('shapes', this)">
+    <span class="nav-icon">🔷</span> الأشكال
+  </button>
+  <button onclick="showSection('quiz', this)">
+    <span class="nav-icon">🎯</span> اختبار
+  </button>
+  <button onclick="showSection('progress', this)">
+    <span class="nav-icon">🏆</span> نجومي
+  </button>
+</nav>
+
+<!-- HOME SECTION -->
+<section id="home" class="visible">
+  <div class="section-wrap">
+    <div class="section-title">
+      <h2>🎉 أهلاً وسهلاً!</h2>
+      <p>هنا ستتعلم البرمجة بطريقة ممتعة جداً مع أشكال وألوان رائعة</p>
+    </div>
+
+    <div class="cards-grid">
+      <div class="lesson-card purple" onclick="showSection('lessons', document.querySelectorAll('nav button')[1])">
+        <span class="card-emoji">🐍</span>
+        <h3>ما هو بايثون؟</h3>
+        <p>بايثون لغة برمجة سهلة وممتعة مثل الألعاب!</p>
+        <span class="level-badge badge-easy">للمبتدئين</span>
+      </div>
+      <div class="lesson-card green" onclick="showSection('shapes', document.querySelectorAll('nav button')[2])">
+        <span class="card-emoji">🎨</span>
+        <h3>أشكال وألوان</h3>
+        <p>ارسم مربعات ودوائر ونجوم بالكود!</p>
+        <span class="level-badge badge-easy">ممتع جداً</span>
+      </div>
+      <div class="lesson-card coral" onclick="showSection('quiz', document.querySelectorAll('nav button')[3])">
+        <span class="card-emoji">🏆</span>
+        <h3>اختبر نفسك</h3>
+        <p>أسئلة ممتعة واربح النجوم!</p>
+        <span class="level-badge badge-medium">تحدي</span>
+      </div>
+    </div>
+
+    <div class="concept-box">
+      <h4>💡 هل تعرف ما هي البرمجة؟</h4>
+      <p>البرمجة هي أن تعطي الكمبيوتر <strong>أوامر</strong> ليفهمها ويطيعها! 
+      مثلاً تقول له "ارسم دائرة حمراء" فيرسمها فوراً! 🟥⭕</p>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-icon">🌟</span>
+      <p>في هذا الموقع ستتعلم كيف تتحدث مع الكمبيوتر بلغة اسمها <strong>بايثون Python</strong> وهي لغة سهلة جداً!</p>
+    </div>
+  </div>
+</section>
+
+<!-- LESSONS SECTION -->
+<section id="lessons">
+  <div class="section-wrap">
+    <div class="section-title">
+      <h2>📚 الدروس</h2>
+      <p>اختر درساً وابدأ التعلم خطوة بخطوة</p>
+    </div>
+
+    <div class="cards-grid">
+      <div class="lesson-card purple" onclick="openLesson('print')">
+        <span class="card-emoji">📢</span>
+        <h3>الدرس ١: قل مرحباً!</h3>
+        <p>تعلم كيف يتكلم الكمبيوتر ويقول كلاماً!</p>
+        <span class="level-badge badge-easy">سهل جداً ⭐</span>
+      </div>
+      <div class="lesson-card green" onclick="openLesson('variables')">
+        <span class="card-emoji">🎒</span>
+        <h3>الدرس ٢: الصناديق السحرية</h3>
+        <p>تعلم المتغيرات - صناديق تحفظ المعلومات!</p>
+        <span class="level-badge badge-easy">سهل ⭐⭐</span>
+      </div>
+      <div class="lesson-card coral" onclick="openLesson('colors')">
+        <span class="card-emoji">🎨</span>
+        <h3>الدرس ٣: الألوان والأشكال</h3>
+        <p>ارسم أشكالاً ملوّنة بالكود!</p>
+        <span class="level-badge badge-easy">ممتع ⭐⭐</span>
+      </div>
+      <div class="lesson-card pink" onclick="openLesson('loop')">
+        <span class="card-emoji">🔄</span>
+        <h3>الدرس ٤: الحلقات التكرارية</h3>
+        <p>اجعل الكمبيوتر يكرر أي شيء!</p>
+        <span class="level-badge badge-medium">متوسط ⭐⭐⭐</span>
+      </div>
+      <div class="lesson-card sky" onclick="openLesson('conditions')">
+        <span class="card-emoji">🤔</span>
+        <h3>الدرس ٥: القرارات</h3>
+        <p>اجعل الكمبيوتر يفكر ويختار!</p>
+        <span class="level-badge badge-medium">متوسط ⭐⭐⭐</span>
+      </div>
+      <div class="lesson-card sun" onclick="openLesson('patterns')">
+        <span class="card-emoji">🌟</span>
+        <h3>الدرس ٦: أنماط جميلة</h3>
+        <p>ارسم أنماطاً رائعة بالكود!</p>
+        <span class="level-badge badge-medium">إبداعي ⭐⭐⭐</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHAPES SECTION -->
+<section id="shapes">
+  <div class="section-wrap">
+    <div class="section-title">
+      <h2>🔷 أشكال وألوان</h2>
+      <p>اضغط على أي شكل وشاهد الكود الذي يرسمه!</p>
+    </div>
+
+    <div class="shapes-grid">
+      <div class="shape-card" onclick="openShape('circle')">
+        <div class="shape-preview">
+          <svg width="100" height="100"><circle cx="50" cy="50" r="40" fill="#6C63FF" opacity="0.9"/></svg>
+        </div>
+        <h3>الدائرة</h3>
+        <p>Circle</p>
+      </div>
+      <div class="shape-card" onclick="openShape('square')">
+        <div class="shape-preview">
+          <svg width="100" height="100"><rect x="10" y="10" width="80" height="80" rx="8" fill="#F472B6" opacity="0.9"/></svg>
+        </div>
+        <h3>المربع</h3>
+        <p>Square</p>
+      </div>
+      <div class="shape-card" onclick="openShape('triangle')">
+        <div class="shape-preview">
+          <svg width="100" height="100"><polygon points="50,5 95,90 5,90" fill="#FFD93D" opacity="0.9"/></svg>
+        </div>
+        <h3>المثلث</h3>
+        <p>Triangle</p>
+      </div>
+      <div class="shape-card" onclick="openShape('star')">
+        <div class="shape-preview">
+          <svg width="100" height="100"><polygon points="50,5 61,35 95,35 68,57 79,91 50,70 21,91 32,57 5,35 39,35" fill="#FF8C69" opacity="0.9"/></svg>
+        </div>
+        <h3>النجمة</h3>
+        <p>Star</p>
+      </div>
+      <div class="shape-card" onclick="openShape('rainbow')">
+        <div class="shape-preview">
+          <svg width="120" height="80">
+            <path d="M10,70 Q60,-10 110,70" stroke="#FF8C69" stroke-width="8" fill="none"/>
+            <path d="M18,70 Q60,0 102,70" stroke="#FFD93D" stroke-width="7" fill="none"/>
+            <path d="M26,70 Q60,10 94,70" stroke="#6BCB77" stroke-width="6" fill="none"/>
+            <path d="M34,70 Q60,20 86,70" stroke="#6EC6F5" stroke-width="5" fill="none"/>
+          </svg>
+        </div>
+        <h3>قوس قزح</h3>
+        <p>Rainbow</p>
+      </div>
+      <div class="shape-card" onclick="openShape('house')">
+        <div class="shape-preview">
+          <svg width="100" height="100">
+            <rect x="15" y="50" width="70" height="45" rx="4" fill="#A78BFA"/>
+            <polygon points="50,8 5,52 95,52" fill="#F472B6"/>
+            <rect x="35" y="65" width="18" height="30" rx="3" fill="#6C63FF"/>
+            <rect x="60" y="60" width="16" height="16" rx="2" fill="#FFD93D"/>
+          </svg>
+        </div>
+        <h3>البيت</h3>
+        <p>House</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ SECTION -->
+<section id="quiz">
+  <div class="section-wrap">
+    <div class="section-title">
+      <h2>🎯 اختبر نفسك!</h2>
+      <p>أجب على الأسئلة واجمع النجوم ⭐</p>
+    </div>
+
+    <div class="quiz-question">
+      <h3>❓ السؤال ١: ماذا يفعل print() في بايثون؟</h3>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">يرسم شكلاً</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, true)">يطبع / يعرض نصاً</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">يحذف الكود</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">يوقف البرنامج</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h3>❓ السؤال ٢: ما هو لون الشكل في هذا الكود؟<br><code style="background:#1E1B4B;color:#A78BFA;padding:6px 12px;border-radius:8px;font-size:0.9rem;display:inline-block;margin-top:8px;direction:ltr">color = "أحمر"</code></h3>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">أزرق 🔵</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, true)">أحمر 🔴</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">أخضر 🟢</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">أصفر 🟡</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h3>❓ السؤال ٣: كم مرة سيُكرر هذا الكود؟<br><code style="background:#1E1B4B;color:#A78BFA;padding:6px 12px;border-radius:8px;font-size:0.9rem;display:inline-block;margin-top:8px;direction:ltr">for i in range(5):</code></h3>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">3 مرات</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">1 مرة</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, true)">5 مرات</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">10 مرات</button>
+      </div>
+    </div>
+
+    <div class="quiz-question">
+      <h3>❓ السؤال ٤: ما هو اسم هذا الشكل؟
+        <svg width="40" height="40" style="vertical-align:middle;margin-right:10px"><circle cx="20" cy="20" r="18" fill="#6C63FF"/></svg>
+      </h3>
+      <div class="quiz-options">
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">مربع</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">مثلث</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, true)">دائرة</button>
+        <button class="quiz-opt" onclick="checkAnswer(this, false)">نجمة</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" style="display:none; text-align:center; background:linear-gradient(135deg,#EDE9FE,#D1FAE5); border-radius:20px; padding:30px; margin-top:24px;">
+      <div style="font-size:4rem;" id="result-emoji">🎉</div>
+      <h2 style="color:#6C63FF;font-size:1.8rem;margin:10px 0;" id="result-text">رائع جداً!</h2>
+      <p style="color:#374151;font-size:1.1rem;" id="result-score"></p>
+      <button onclick="resetQuiz()" style="margin-top:16px;background:linear-gradient(135deg,#6C63FF,#A78BFA);color:white;border:none;padding:14px 32px;border-radius:20px;font-family:'Tajawal',sans-serif;font-size:1.1rem;font-weight:800;cursor:pointer;transition:transform 0.2s" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">🔄 حاول مرة أخرى</button>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS SECTION -->
+<section id="progress">
+  <div class="section-wrap">
+    <div class="section-title">
+      <h2>🏆 نجومي</h2>
+      <p>شاهد تقدمك وكم نجماً جمعت!</p>
+    </div>
+
+    <div class="progress-wrap">
+      <div style="font-size:5rem;" id="trophy-icon">🏅</div>
+      <h3 style="font-size:1.5rem;color:#6C63FF;font-weight:800;margin:10px 0;">نجومك المكتسبة</h3>
+      <div class="stars-row" id="stars-display"></div>
+      <p style="color:#7C7DA0;font-size:1.1rem;margin-top:8px;" id="stars-count">لم تجمع نجوماً بعد - ابدأ الاختبار!</p>
+    </div>
+
+    <div class="cards-grid">
+      <div style="background:white;border-radius:20px;padding:24px;box-shadow:var(--shadow);text-align:center">
+        <div style="font-size:3rem">📚</div>
+        <h3 style="color:#6C63FF;font-weight:800;font-size:1.2rem;margin:10px 0">الدروس</h3>
+        <p style="font-size:2rem;font-weight:900;color:#1E1B4B" id="lessons-done">0</p>
+        <p style="color:#7C7DA0">درس مكتمل</p>
+      </div>
+      <div style="background:white;border-radius:20px;padding:24px;box-shadow:var(--shadow);text-align:center">
+        <div style="font-size:3rem">🎯</div>
+        <h3 style="color:#F472B6;font-weight:800;font-size:1.2rem;margin:10px 0">الإجابات الصحيحة</h3>
+        <p style="font-size:2rem;font-weight:900;color:#1E1B4B" id="correct-count">0</p>
+        <p style="color:#7C7DA0">إجابة صحيحة</p>
+      </div>
+      <div style="background:white;border-radius:20px;padding:24px;box-shadow:var(--shadow);text-align:center">
+        <div style="font-size:3rem">⭐</div>
+        <h3 style="color:#F59E0B;font-weight:800;font-size:1.2rem;margin:10px 0">النجوم</h3>
+        <p style="font-size:2rem;font-weight:900;color:#1E1B4B" id="total-stars">0</p>
+        <p style="color:#7C7DA0">نجمة مكتسبة</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LESSON MODAL -->
+<div class="modal-overlay" id="lessonModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-icon" id="modal-icon">📢</span>
+      <div>
+        <h2 id="modal-title">عنوان الدرس</h2>
+        <p id="modal-subtitle">وصف الدرس</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('lessonModal')">✕</button>
+    </div>
+    <div class="modal-body" id="modal-content">
+    </div>
+  </div>
+</div>
+
+<!-- SHAPE MODAL -->
+<div class="modal-overlay" id="shapeModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-icon" id="shape-modal-icon">🔷</span>
+      <div>
+        <h2 id="shape-modal-title">الشكل</h2>
+        <p id="shape-modal-subtitle">انظر كيف نرسمه بالكود</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('shapeModal')">✕</button>
+    </div>
+    <div class="modal-body" id="shape-modal-content"></div>
+  </div>
+</div>
+
+<footer>
+  <p>🐍 بايثون للأطفال - بكل حب من 💜</p>
+  <div class="footer-hearts">⭐ الأستاذة حجار نائلة ⭐</div>
+  <p style="font-size:0.9rem;opacity:0.85;margin-top:6px">البرمجة ليست صعبة... هي متعة! 🚀</p>
+</footer>
+
+<script>
+// STATE
+let starsEarned = parseInt(localStorage.getItem('stars') || '0');
+let correctAnswers = parseInt(localStorage.getItem('correct') || '0');
+let lessonsOpened = parseInt(localStorage.getItem('lessons') || '0');
+let quizAnswered = new Set();
+
+// NAV
+function showSection(id, btn) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('visible'));
+  document.getElementById(id).classList.add('visible');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  if(id === 'progress') updateProgress();
+}
+
+// LESSONS DATA
+const lessons = {
+  print: {
+    icon: '📢',
+    title: 'الدرس ١: قل مرحباً!',
+    subtitle: 'أمر print - تعلم كيف يتكلم الكمبيوتر',
+    content: `
+      <div class="concept-box">
+        <h4>🐍 ما هو print؟</h4>
+        <p>print() هو أمر يقول للكمبيوتر: "اعرض هذا الكلام على الشاشة!"<br>
+        مثل مكبّر الصوت للكمبيوتر 📢</p>
+      </div>
+      <div class="tip-box"><span class="tip-icon">💡</span><p>الكلام دائماً بين علامتي التنصيص " " أو ' '</p></div>
+      <div class="coding-area">
+        <div class="code-header">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          <span style="margin-right:12px">Python Code</span>
+        </div>
+        <textarea class="code-editor" id="code-print" spellcheck="false">print("مرحباً يا عالم!")
+print("اسمي بايثون 🐍")
+print("أنا أتعلم البرمجة!")</textarea>
+        <button class="run-btn" onclick="runPrint()">▶ شغّل الكود!</button>
+      </div>
+      <div class="output-area" id="out-print"><span class="output-label">النتيجة</span>اضغط "شغّل الكود" لترى النتيجة...</div>
+    `
+  },
+  variables: {
+    icon: '🎒',
+    title: 'الدرس ٢: الصناديق السحرية',
+    subtitle: 'المتغيرات - صناديق تحفظ المعلومات',
+    content: `
+      <div class="concept-box">
+        <h4>🎒 ما هو المتغير (Variable)؟</h4>
+        <p>تخيل صندوقاً سحرياً! تضع فيه أي شيء وتعطيه اسماً.<br>
+        مثلاً: صندوق اسمه "لون" وبداخله "أحمر" 🔴</p>
+      </div>
+      <div style="display:flex;gap:12px;margin:14px 0;flex-wrap:wrap">
+        <div style="background:#EDE9FE;border-radius:14px;padding:16px 20px;flex:1;min-width:180px;text-align:center">
+          <div style="font-size:2rem">📦</div>
+          <p style="font-weight:800;color:#6C63FF">الاسم = القيمة</p>
+          <p style="color:#7C7DA0;font-size:0.9rem">name = "نائلة"</p>
+        </div>
+        <div style="background:#D1FAE5;border-radius:14px;padding:16px 20px;flex:1;min-width:180px;text-align:center">
+          <div style="font-size:2rem">🔢</div>
+          <p style="font-weight:800;color:#059669">أرقام</p>
+          <p style="color:#7C7DA0;font-size:0.9rem">age = 10</p>
+        </div>
+      </div>
+      <div class="coding-area">
+        <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span style="margin-right:12px">Python Code</span></div>
+        <textarea class="code-editor" id="code-var" spellcheck="false">اسمي = "نائلة"
+عمري = 10
+لوني_المفضل = "أزرق"
+
+print("اسمي:", اسمي)
+print("عمري:", عمري)
+print("لوني المفضل:", لوني_المفضل)</textarea>
+        <button class="run-btn" onclick="runVariables()">▶ شغّل الكود!</button>
+      </div>
+      <div class="output-area" id="out-var"><span class="output-label">النتيجة</span>اضغط "شغّل الكود" لترى النتيجة...</div>
+    `
+  },
+  colors: {
+    icon: '🎨',
+    title: 'الدرس ٣: الألوان والأشكال',
+    subtitle: 'ارسم أشكالاً ملوّنة بالكود!',
+    content: `
+      <div class="concept-box">
+        <h4>🎨 رسم الأشكال بالكود</h4>
+        <p>يمكننا رسم أي شكل بكلمات بسيطة! الكمبيوتر يفهم أوامرنا ويرسم.</p>
+      </div>
+      <div class="tip-box"><span class="tip-icon">🌈</span><p>اختر لوناً وشكلاً واضغط تشغيل لتشاهد السحر!</p></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0">
+        <div>
+          <label style="font-weight:700;color:#6C63FF;display:block;margin-bottom:6px">الشكل:</label>
+          <select id="shape-select" style="width:100%;padding:10px;border-radius:10px;border:2px solid #A78BFA;font-family:'Tajawal',sans-serif;font-size:1rem">
+            <option value="circle">دائرة ⭕</option>
+            <option value="square">مربع 🟥</option>
+            <option value="star">نجمة ⭐</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-weight:700;color:#6C63FF;display:block;margin-bottom:6px">اللون:</label>
+          <select id="color-select" style="width:100%;padding:10px;border-radius:10px;border:2px solid #A78BFA;font-family:'Tajawal',sans-serif;font-size:1rem">
+            <option value="#6C63FF">بنفسجي 💜</option>
+            <option value="#F472B6">وردي 🌸</option>
+            <option value="#FFD93D">أصفر ⭐</option>
+            <option value="#6BCB77">أخضر 🟢</option>
+            <option value="#FF8C69">برتقالي 🍊</option>
+            <option value="#6EC6F5">سماوي 💙</option>
+          </select>
+        </div>
+      </div>
+      <button class="run-btn" onclick="runShapes()" style="border-radius:14px;margin-bottom:12px">▶ ارسم الشكل!</button>
+      <div class="shapes-output" id="shapes-output">
+        <span class="shapes-output-label">🎨 الرسم</span>
+        <p style="color:#A78BFA;font-weight:700">اضغط "ارسم الشكل" لترى الرسم هنا!</p>
+      </div>
+    `
+  },
+  loop: {
+    icon: '🔄',
+    title: 'الدرس ٤: الحلقات التكرارية',
+    subtitle: 'for loop - اجعل الكمبيوتر يكرر!',
+    content: `
+      <div class="concept-box">
+        <h4>🔄 ما هي الحلقة؟</h4>
+        <p>بدلاً من كتابة نفس الكود عشرين مرة،<br>
+        نستخدم <strong>for</strong> ويكرر الكمبيوتر لوحده! ذكي، أليس كذلك؟ 😄</p>
+      </div>
+      <div style="background:#1E1B4B;border-radius:14px;padding:16px 20px;margin:14px 0;direction:ltr;text-align:left;font-family:'Courier New',monospace;color:#E9D5FF;font-size:0.95rem;line-height:1.8">
+        <span style="color:#FFD93D">for</span> <span style="color:#6BCB77">i</span> <span style="color:#FFD93D">in</span> <span style="color:#6EC6F5">range(5)</span>:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#A78BFA">print</span>(<span style="color:#FF8C69">"مرحباً!"</span>)
+      </div>
+      <div class="coding-area">
+        <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span style="margin-right:12px">Python Code</span></div>
+        <textarea class="code-editor" id="code-loop" spellcheck="false">for i in range(5):
+    print("⭐ نجمة رقم", i+1)</textarea>
+        <button class="run-btn" onclick="runLoop()">▶ شغّل الكود!</button>
+      </div>
+      <div class="output-area" id="out-loop"><span class="output-label">النتيجة</span>اضغط "شغّل الكود"...</div>
+    `
+  },
+  conditions: {
+    icon: '🤔',
+    title: 'الدرس ٥: القرارات',
+    subtitle: 'if/else - اجعل الكمبيوتر يفكر!',
+    content: `
+      <div class="concept-box">
+        <h4>🤔 ما هو if/else؟</h4>
+        <p>الكمبيوتر يمكنه أن يختار! مثل أنت تقرر:<br>
+        <strong>"إذا كان الجو حاراً → اشرب ماء، وإلا → البس سترة"</strong></p>
+      </div>
+      <div class="coding-area">
+        <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span style="margin-right:12px">Python Code</span></div>
+        <textarea class="code-editor" id="code-if" spellcheck="false">درجة = 85
+
+if درجة >= 90:
+    print("🏆 ممتاز!")
+elif درجة >= 70:
+    print("⭐ جيد جداً!")
+else:
+    print("📚 حاول أكثر!")</textarea>
+        <button class="run-btn" onclick="runConditions()">▶ شغّل الكود!</button>
+      </div>
+      <div class="output-area" id="out-if"><span class="output-label">النتيجة</span>اضغط "شغّل الكود"...</div>
+      <div class="tip-box"><span class="tip-icon">💡</span><p>جرب تغيير رقم "85" إلى رقم آخر وانظر ماذا يحدث!</p></div>
+    `
+  },
+  patterns: {
+    icon: '🌟',
+    title: 'الدرس ٦: أنماط جميلة',
+    subtitle: 'ارسم أنماطاً رائعة بالكود!',
+    content: `
+      <div class="concept-box">
+        <h4>🌟 الأنماط = حلقات + أشكال!</h4>
+        <p>عندما نجمع الحلقات مع الأشكال نحصل على أنماط رائعة جداً! 🎨</p>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;margin:14px 0;flex-wrap:wrap">
+        <div>
+          <label style="font-weight:700;color:#6C63FF;display:block;margin-bottom:6px">عدد الأشكال: <span id="count-val">5</span></label>
+          <input type="range" min="3" max="12" value="5" id="shape-count" style="width:200px" oninput="document.getElementById('count-val').textContent=this.value">
+        </div>
+        <div>
+          <label style="font-weight:700;color:#6C63FF;display:block;margin-bottom:6px">نمط:</label>
+          <select id="pattern-type" style="padding:10px;border-radius:10px;border:2px solid #A78BFA;font-family:'Tajawal',sans-serif">
+            <option value="row">صف أفقي</option>
+            <option value="circle">دائرة من النجوم</option>
+            <option value="pyramid">هرم</option>
+          </select>
+        </div>
+      </div>
+      <button class="run-btn" onclick="runPattern()" style="border-radius:14px;margin-bottom:12px">▶ ارسم النمط!</button>
+      <div class="shapes-output" id="pattern-output" style="min-height:160px">
+        <span class="shapes-output-label">🌟 النمط</span>
+        <p style="color:#A78BFA;font-weight:700">اضغط "ارسم النمط"!</p>
+      </div>
+    `
+  }
+};
+
+function openLesson(id) {
+  const l = lessons[id];
+  document.getElementById('modal-icon').textContent = l.icon;
+  document.getElementById('modal-title').textContent = l.title;
+  document.getElementById('modal-subtitle').textContent = l.subtitle;
+  document.getElementById('modal-content').innerHTML = l.content;
+  document.getElementById('lessonModal').classList.add('open');
+  lessonsOpened++;
+  localStorage.setItem('lessons', lessonsOpened);
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+document.getElementById('lessonModal').addEventListener('click', function(e) {
+  if(e.target === this) closeModal('lessonModal');
+});
+document.getElementById('shapeModal').addEventListener('click', function(e) {
+  if(e.target === this) closeModal('shapeModal');
+});
+
+// LESSON RUN FUNCTIONS
+function runPrint() {
+  const out = document.getElementById('out-print');
+  out.innerHTML = '<span class="output-label">النتيجة</span>مرحباً يا عالم!<br>اسمي بايثون 🐍<br>أنا أتعلم البرمجة!';
+  out.style.color = '#6BCB77';
+  addStar();
+}
+
+function runVariables() {
+  const code = document.getElementById('code-var').value;
+  const out = document.getElementById('out-var');
+  let name = 'نائلة', age = '10', color = 'أزرق';
+  const nm = code.match(/اسمي\s*=\s*["'](.+?)["']/);
+  const ag = code.match(/عمري\s*=\s*(\d+)/);
+  const cl = code.match(/لوني_المفضل\s*=\s*["'](.+?)["']/);
+  if(nm) name = nm[1];
+  if(ag) age = ag[1];
+  if(cl) color = cl[1];
+  out.innerHTML = `<span class="output-label">النتيجة</span>اسمي: ${name}<br>عمري: ${age}<br>لوني المفضل: ${color}`;
+  out.style.color = '#6BCB77';
+  addStar();
+}
+
+function runShapes() {
+  const shape = document.getElementById('shape-select').value;
+  const color = document.getElementById('color-select').value;
+  const out = document.getElementById('shapes-output');
+  let svg = '';
+  if(shape === 'circle') {
+    svg = `<svg width="120" height="120"><circle cx="60" cy="60" r="55" fill="${color}" opacity="0.9"/></svg>`;
+  } else if(shape === 'square') {
+    svg = `<svg width="120" height="120"><rect x="5" y="5" width="110" height="110" rx="12" fill="${color}" opacity="0.9"/></svg>`;
+  } else {
+    svg = `<svg width="120" height="120"><polygon points="60,5 73,42 114,42 82,68 95,110 60,85 25,110 38,68 6,42 47,42" fill="${color}" opacity="0.9"/></svg>`;
+  }
+  out.innerHTML = `<span class="shapes-output-label">🎨 الرسم</span>${svg}${svg}${svg}`;
+  addStar();
+}
+
+function runLoop() {
+  const code = document.getElementById('code-loop').value;
+  const out = document.getElementById('out-loop');
+  const m = code.match(/range\((\d+)\)/);
+  const n = m ? parseInt(m[1]) : 5;
+  let res = '';
+  for(let i=0; i<Math.min(n,10); i++) res += `⭐ نجمة رقم ${i+1}<br>`;
+  out.innerHTML = `<span class="output-label">النتيجة</span>${res}`;
+  out.style.color = '#FFD93D';
+  addStar();
+}
+
+function runConditions() {
+  const code = document.getElementById('code-if').value;
+  const out = document.getElementById('out-if');
+  const m = code.match(/درجة\s*=\s*(\d+)/);
+  const grade = m ? parseInt(m[1]) : 85;
+  let result = '';
+  if(grade >= 90) result = '🏆 ممتاز!';
+  else if(grade >= 70) result = '⭐ جيد جداً!';
+  else result = '📚 حاول أكثر!';
+  out.innerHTML = `<span class="output-label">النتيجة</span>${result}`;
+  out.style.color = '#6BCB77';
+  addStar();
+}
+
+function runPattern() {
+  const count = parseInt(document.getElementById('shape-count').value);
+  const type = document.getElementById('pattern-type').value;
+  const out = document.getElementById('pattern-output');
+  const colors = ['#6C63FF','#F472B6','#FFD93D','#6BCB77','#FF8C69','#6EC6F5','#A78BFA'];
+  let html = '<span class="shapes-output-label">🌟 النمط</span>';
+
+  if(type === 'row') {
+    html += '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center">';
+    for(let i=0;i<count;i++) {
+      const c = colors[i % colors.length];
+      const size = 40 + i*4;
+      html += `<svg width="${size}" height="${size}"><circle cx="${size/2}" cy="${size/2}" r="${size/2-2}" fill="${c}"/></svg>`;
+    }
+    html += '</div>';
+  } else if(type === 'circle') {
+    const svgSize = 200;
+    const cx = 100, cy = 100, r = 75;
+    let svgContent = '';
+    for(let i=0;i<count;i++) {
+      const angle = (2*Math.PI/count)*i - Math.PI/2;
+      const x = cx + r*Math.cos(angle);
+      const y = cy + r*Math.sin(angle);
+      const c = colors[i % colors.length];
+      svgContent += `<polygon points="${x},${y-16} ${x+9},${y+6} ${x+16},${y-10} ${x},${y-20} ${x-16},${y-10} ${x-9},${y+6}" fill="${c}"/>`;
+    }
+    html += `<svg width="${svgSize}" height="${svgSize}">${svgContent}</svg>`;
+  } else {
+    html += '<div style="display:flex;flex-direction:column;align-items:center;gap:4px">';
+    for(let i=1;i<=Math.min(count,8);i++) {
+      html += '<div style="display:flex;gap:4px">';
+      for(let j=0;j<i;j++) {
+        html += `<svg width="28" height="28"><polygon points="14,2 17,10 26,10 19,16 22,25 14,19 6,25 9,16 2,10 11,10" fill="${colors[(i+j)%colors.length]}"/></svg>`;
+      }
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+  out.innerHTML = html;
+  addStar();
+}
+
+// SHAPES PAGE
+const shapesData = {
+  circle: {
+    icon: '⭕', title: 'الدائرة - Circle',
+    code: `# رسم دائرة بالكود
+شكل = "دائرة"
+لون = "بنفسجي"
+حجم = 100
+
+print("شكل:", شكل)
+print("لون:", لون)  
+print("حجم:", حجم)`,
+    preview: `<svg width="160" height="160"><circle cx="80" cy="80" r="70" fill="#6C63FF" opacity="0.85"/><circle cx="80" cy="80" r="45" fill="white" opacity="0.2"/></svg>`,
+    fact: 'الدائرة ليس لها زوايا! كل نقطة على حافتها تبعد نفس المسافة عن المركز.'
+  },
+  square: {
+    icon: '🟪', title: 'المربع - Square',
+    code: `# رسم مربع بالكود
+شكل = "مربع"
+لون = "وردي"
+عدد_الأضلاع = 4
+
+print("شكل:", شكل)
+print("عدد الأضلاع:", عدد_الأضلاع)
+print("كل الأضلاع متساوية!")`,
+    preview: `<svg width="160" height="160"><rect x="20" y="20" width="120" height="120" rx="12" fill="#F472B6" opacity="0.85"/></svg>`,
+    fact: 'المربع له 4 أضلاع متساوية و4 زوايا قائمة!'
+  },
+  triangle: {
+    icon: '🔺', title: 'المثلث - Triangle',
+    code: `# رسم مثلث بالكود
+شكل = "مثلث"
+لون = "أصفر"
+عدد_الأضلاع = 3
+
+print("شكل:", شكل)
+print("عدد الأضلاع:", عدد_الأضلاع)
+print("مجموع الزوايا = 180 درجة")`,
+    preview: `<svg width="160" height="160"><polygon points="80,10 150,145 10,145" fill="#FFD93D" opacity="0.9"/></svg>`,
+    fact: 'المثلث له 3 أضلاع وهو أقوى شكل هندسي!'
+  },
+  star: {
+    icon: '⭐', title: 'النجمة - Star',
+    code: `# رسم نجمة بالكود
+شكل = "نجمة"
+لون = "برتقالي"
+عدد_الرؤوس = 5
+
+print("شكل:", شكل)
+print("عدد الرؤوس:", عدد_الرؤوس)
+print("النجوم في السماء! ✨")`,
+    preview: `<svg width="160" height="160"><polygon points="80,8 97,55 148,55 108,85 123,135 80,104 37,135 52,85 12,55 63,55" fill="#FF8C69" opacity="0.9"/></svg>`,
+    fact: 'النجمة الكلاسيكية لها 5 رؤوس ونستخدمها للتعبير عن التميز!'
+  },
+  rainbow: {
+    icon: '🌈', title: 'قوس قزح - Rainbow',
+    code: `# ألوان قوس قزح
+ألوان = ["أحمر", "برتقالي", "أصفر", 
+         "أخضر", "أزرق", "بنفسجي"]
+
+for لون in ألوان:
+    print("🌈", لون)`,
+    preview: `<svg width="180" height="120"><path d="M10,110 Q90,-20 170,110" stroke="#FF4444" stroke-width="14" fill="none" opacity="0.85"/><path d="M22,110 Q90,-2 158,110" stroke="#FF8C00" stroke-width="12" fill="none" opacity="0.85"/><path d="M34,110 Q90,14 146,110" stroke="#FFD700" stroke-width="11" fill="none" opacity="0.85"/><path d="M46,110 Q90,28 134,110" stroke="#00BB44" stroke-width="10" fill="none" opacity="0.85"/><path d="M58,110 Q90,42 122,110" stroke="#4488FF" stroke-width="9" fill="none" opacity="0.85"/><path d="M70,110 Q90,54 110,110" stroke="#9955FF" stroke-width="8" fill="none" opacity="0.85"/></svg>`,
+    fact: 'قوس قزح له 7 ألوان: أحمر، برتقالي، أصفر، أخضر، أزرق، نيلي، بنفسجي!'
+  },
+  house: {
+    icon: '🏠', title: 'البيت - House',
+    code: `# بناء بيت بالكود!
+print("🏠 بناء بيت بايثون")
+print("=" * 20)
+print("   /\\")
+print("  /  \\")
+print(" /    \\")
+print("/______\\")
+print("|  []  |")
+print("|______|")`,
+    preview: `<svg width="160" height="170"><rect x="20" y="80" width="120" height="85" rx="5" fill="#A78BFA"/><polygon points="80,10 10,82 150,82" fill="#F472B6"/><rect x="55" y="100" width="30" height="65" rx="4" fill="#6C63FF"/><rect x="95" y="95" width="28" height="28" rx="4" fill="#FFD93D"/><circle cx="83" cy="130" r="4" fill="#FFD93D"/></svg>`,
+    fact: 'يمكنك رسم أي شكل بالكود باستخدام خطوط ونقاط!'
+  }
+};
+
+function openShape(id) {
+  const s = shapesData[id];
+  document.getElementById('shape-modal-icon').textContent = s.icon;
+  document.getElementById('shape-modal-title').textContent = s.title;
+  document.getElementById('shape-modal-subtitle').textContent = 'انظر كيف يبدو بالكود!';
+  document.getElementById('shape-modal-content').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;margin-bottom:20px">
+      <div style="text-align:center;background:#F5F3FF;border-radius:18px;padding:20px">${s.preview}</div>
+      <div>
+        <div class="tip-box"><span class="tip-icon">💡</span><p>${s.fact}</p></div>
+      </div>
+    </div>
+    <div class="coding-area">
+      <div class="code-header"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div><span style="margin-right:12px">Python Code</span></div>
+      <div class="code-editor" style="direction:ltr;text-align:left">${s.code}</div>
+    </div>
+  `;
+  document.getElementById('shapeModal').classList.add('open');
+}
+
+// QUIZ
+let quizScore = 0;
+let quizTotal = 0;
+
+function checkAnswer(btn, isCorrect) {
+  const container = btn.closest('.quiz-question');
+  if(container.dataset.answered) return;
+  container.dataset.answered = 'true';
+  
+  const allBtns = container.querySelectorAll('.quiz-opt');
+  allBtns.forEach(b => b.disabled = true);
+  
+  if(isCorrect) {
+    btn.classList.add('correct');
+    quizScore++;
+    correctAnswers++;
+    localStorage.setItem('correct', correctAnswers);
+    addStar();
+    confetti();
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b => { if(b.onclick.toString().includes('true')) b.classList.add('correct'); });
+  }
+  
+  quizTotal++;
+  
+  const total = document.querySelectorAll('.quiz-question').length;
+  if(document.querySelectorAll('.quiz-question[data-answered]').length === total) {
+    const result = document.getElementById('quiz-result');
+    result.style.display = 'block';
+    document.getElementById('result-score').textContent = `أجبت صحيحاً على ${quizScore} من ${total} أسئلة!`;
+    const emoji = quizScore === total ? '🏆' : quizScore >= total/2 ? '⭐' : '📚';
+    document.getElementById('result-emoji').textContent = emoji;
+    document.getElementById('result-text').textContent = quizScore === total ? 'مثالي! أنت نجم!' : quizScore >= total/2 ? 'أحسنت! استمر!' : 'لا بأس، حاول مرة أخرى!';
+    if(quizScore === total) confetti();
+  }
+}
+
+function resetQuiz() {
+  document.querySelectorAll('.quiz-question').forEach(q => {
+    delete q.dataset.answered;
+    q.querySelectorAll('.quiz-opt').forEach(b => {
+      b.classList.remove('correct','wrong');
+      b.disabled = false;
+    });
+  });
+  document.getElementById('quiz-result').style.display = 'none';
+  quizScore = 0; quizTotal = 0;
+}
+
+// STARS
+function addStar() {
+  starsEarned++;
+  localStorage.setItem('stars', starsEarned);
+}
+
+function updateProgress() {
+  const stars = parseInt(localStorage.getItem('stars') || '0');
+  const correct = parseInt(localStorage.getItem('correct') || '0');
+  const lessons = parseInt(localStorage.getItem('lessons') || '0');
+  
+  document.getElementById('total-stars').textContent = stars;
+  document.getElementById('correct-count').textContent = correct;
+  document.getElementById('lessons-done').textContent = lessons;
+  
+  const display = document.getElementById('stars-display');
+  display.innerHTML = '';
+  const showStars = Math.min(stars, 20);
+  for(let i=0; i<showStars; i++) {
+    const s = document.createElement('span');
+    s.className = 'star-item earned';
+    s.textContent = i%3===0?'⭐':i%3===1?'🌟':'✨';
+    s.style.animationDelay = (i*0.08)+'s';
+    display.appendChild(s);
+  }
+  
+  const trophy = document.getElementById('trophy-icon');
+  if(stars >= 20) trophy.textContent = '🏆';
+  else if(stars >= 10) trophy.textContent = '🥇';
+  else if(stars >= 5) trophy.textContent = '🥈';
+  else trophy.textContent = '🏅';
+  
+  const countEl = document.getElementById('stars-count');
+  countEl.textContent = stars > 0 ? `جمعت ${stars} نجمة! رائع!` : 'لم تجمع نجوماً بعد - ابدأ الاختبار!';
+}
+
+// CONFETTI
+function confetti() {
+  const colors = ['#6C63FF','#F472B6','#FFD93D','#6BCB77','#FF8C69','#6EC6F5'];
+  for(let i=0; i<18; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left: ${Math.random()*100}vw;
+      top: -20px;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      width: ${8+Math.random()*10}px;
+      height: ${8+Math.random()*10}px;
+      border-radius: ${Math.random()>0.5?'50%':'2px'};
+      animation-duration: ${1.5+Math.random()*2}s;
+      animation-delay: ${Math.random()*0.5}s;
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+  }
+}
+
+// HEADER STARS
+function createHeaderStars() {
+  const container = document.getElementById('headerStars');
+  for(let i=0; i<20; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = 2 + Math.random()*5;
+    s.style.cssText = `
+      width: ${size}px; height: ${size}px;
+      left: ${Math.random()*100}%;
+      top: ${Math.random()*100}%;
+      animation-delay: ${Math.random()*2}s;
+      animation-duration: ${1.5+Math.random()*2}s;
+      opacity: ${0.4+Math.random()*0.6};
+    `;
+    container.appendChild(s);
+  }
+}
+
+createHeaderStars();
+</script>
+</body>
+</html>
