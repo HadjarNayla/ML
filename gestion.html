@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apprendre Streamlit — Formation Complète</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fraunces:ital,wght@0,300;0,600;0,700;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ef;
+  --ink: #1a1814;
+  --surface: #ffffff;
+  --surface2: #f0ece5;
+  --border: #e0d9cf;
+  --accent: #c84b31;
+  --accent2: #2d6a4f;
+  --accent3: #1d4e89;
+  --muted: #7a7065;
+  --code-bg: #1e1e2e;
+  --code-text: #cdd6f4;
+  --tag-bg: #e8e2d8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: 280px;
+  min-height: 100vh;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 50;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.sidebar-logo-sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.progress-wrap {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.progress-track {
+  background: var(--surface2);
+  border-radius: 100px;
+  height: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 100px;
+  transition: width 0.6s ease;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 12px 0;
+  flex: 1;
+}
+
+.nav-item {
+  padding: 0 12px;
+  margin-bottom: 2px;
+}
+
+.nav-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.nav-btn:hover { background: var(--surface2); }
+.nav-btn.active { background: var(--accent); }
+.nav-btn.active .nav-num,
+.nav-btn.active .nav-title { color: white; }
+.nav-btn.done .nav-icon { color: var(--accent2); }
+
+.nav-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.nav-icon { font-size: 16px; flex-shrink: 0; }
+
+.nav-title {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.nav-check {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--accent2);
+}
+
+/* ─── MAIN ─── */
+.main {
+  margin-left: 280px;
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.topbar-session {
+  font-size: 0.78rem;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.topbar-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-arrow {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  transition: background 0.15s;
+}
+
+.nav-arrow:hover { background: var(--border); }
+.nav-arrow.primary { background: var(--accent); color: white; border-color: var(--accent); }
+.nav-arrow.primary:hover { background: #a83928; }
+
+/* ─── LESSON CONTENT ─── */
+.lesson {
+  display: none;
+  padding: 52px 48px 80px;
+  max-width: 860px;
+  animation: fadeIn 0.3s ease;
+}
+
+.lesson.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.lesson-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.lesson-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--tag-bg);
+  border-radius: 100px;
+  padding: 4px 12px;
+  font-size: 0.72rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.lesson-title {
+  font-family: 'Fraunces', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+
+.lesson-intro {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title::before {
+  content: attr(data-num);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+p {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #3d3830;
+  margin-bottom: 14px;
+}
+
+/* Code blocks */
+.code-block {
+  background: var(--code-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 20px 0;
+  border: 1px solid #313244;
+}
+
+.code-header {
+  background: #181825;
+  padding: 10px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #313244;
+}
+
+.code-lang {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: #6c7086;
+}
+
+.copy-btn {
+  background: none;
+  border: 1px solid #45475a;
+  color: #6c7086;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  font-family: 'JetBrains Mono', monospace;
+  transition: all 0.15s;
+}
+
+.copy-btn:hover { background: #313244; color: #cdd6f4; }
+
+.code-body {
+  padding: 20px 22px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--code-text);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* Syntax coloring */
+.kw  { color: #cba6f7; }
+.fn  { color: #89b4fa; }
+.str { color: #a6e3a1; }
+.cm  { color: #6c7086; font-style: italic; }
+.num { color: #fab387; }
+.cls { color: #f9e2af; }
+.imp { color: #f38ba8; }
+
+/* Callouts */
+.callout {
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.callout.tip   { background: #edf7f0; border-left: 3px solid var(--accent2); color: #1b4332; }
+.callout.info  { background: #eef3fb; border-left: 3px solid var(--accent3); color: #1a3a5c; }
+.callout.warn  { background: #fef8ec; border-left: 3px solid #e5a02a; color: #5c3d0e; }
+
+.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+/* Result preview */
+.preview {
+  background: #fafafa;
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 16px 0;
+  font-size: 0.88rem;
+}
+
+.preview-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.preview-output {
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+}
+
+.preview-h1 { font-size: 1.5rem; font-weight: 700; color: #1a1814; margin-bottom: 6px; }
+.preview-text { color: #444; font-size: 0.92rem; }
+.preview-metric { display: inline-block; background: #f0f0f0; border-radius: 6px; padding: 8px 14px; margin: 4px; }
+.preview-metric .m-val { font-size: 1.4rem; font-weight: 700; color: #1a1814; }
+.preview-metric .m-lbl { font-size: 0.72rem; color: #666; }
+
+/* Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin: 16px 0;
+}
+
+.data-table th {
+  background: var(--surface2);
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink);
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+
+/* Step list */
+.steps {
+  list-style: none;
+  counter-reset: step-counter;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.steps li {
+  counter-increment: step-counter;
+  display: flex;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.steps li::before {
+  content: counter(step-counter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  margin-top: 1px;
+}
+
+/* Inline code */
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82em;
+  background: var(--tag-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+/* Widget demos */
+.widget-demo {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin: 16px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.demo-btn {
+  background: #ff4b4b;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 20px;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.demo-input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.88rem;
+  width: 180px;
+}
+
+.demo-select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 0.88rem;
+}
+
+.demo-range { width: 160px; accent-color: #ff4b4b; }
+
+/* Done button */
+.done-btn {
+  margin-top: 40px;
+  background: var(--accent2);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-size: 0.95rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s;
+}
+
+.done-btn:hover { background: #1b4332; }
+
+/* Mobile */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .lesson { padding: 32px 24px 60px; }
+  .topbar { padding: 14px 20px; }
+  .menu-toggle { display: block; }
+  .lesson-title { font-size: 1.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-title">🐍 Streamlit<br>& Data Science</div>
+    <div class="sidebar-logo-sub">Formation complète · 10 séances</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label"><span>Progression</span><span id="prog-text">0 / 10</span></div>
+    <div class="progress-track"><div class="progress-fill" id="prog-bar" style="width:0%"></div></div>
+  </div>
+  <ul class="nav-list" id="nav-list">
+    <!-- filled by JS -->
+  </ul>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+    <div>
+      <div class="topbar-session" id="tb-session">Séance 1 / 10</div>
+      <div class="topbar-title" id="tb-title">Introduction à Streamlit</div>
+    </div>
+    <div class="topbar-nav">
+      <button class="nav-arrow" onclick="navigate(-1)">← Préc.</button>
+      <button class="nav-arrow primary" onclick="navigate(1)">Suivant →</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 1 — Introduction à Streamlit
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson active" id="lesson-0">
+    <div class="lesson-header">
+      <div class="lesson-badge">⚡ Séance 01 · Débutant</div>
+      <h1 class="lesson-title">Introduction à Streamlit</h1>
+      <p class="lesson-intro">Streamlit est une bibliothèque Python magique qui transforme un simple script Python en une application web interactive — sans aucune connaissance en HTML ou JavaScript. Dans cette séance, tu vas tout installer et lancer ta toute première application.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">C'est quoi Streamlit ?</h2>
+      <p>Imagine que tu veux partager ton analyse de données avec ton équipe. Normalement il faut faire un site web, ce qui est compliqué. Avec Streamlit, tu écris juste du Python normal et l'application web se crée automatiquement !</p>
+      <div class="callout tip"><div class="callout-icon">💡</div><div>Streamlit est utilisé par des data scientists chez Google, Uber, et des milliers de startups pour créer des dashboards et des applications de Machine Learning rapidement.</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">Installation</h2>
+      <p>Ouvre ton terminal (invite de commandes) et tape cette commande :</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">terminal</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Installer Streamlit avec pip</span>
+pip install streamlit
+
+<span class="cm"># Vérifier que ça marche</span>
+streamlit hello</div>
+      </div>
+      <div class="callout info"><div class="callout-icon">ℹ️</div><div>Si tu vois une page web s'ouvrir avec une démo Streamlit, félicitations — l'installation a réussi ! Si tu as Python 3.8 ou plus, ça marchera sans problème.</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">Ton premier fichier Python</h2>
+      <p>Crée un fichier qui s'appelle <code>app.py</code> et colle ce code dedans :</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+
+<span class="cm"># Titre de la page</span>
+st.<span class="fn">title</span>(<span class="str">"🎉 Ma Première Application Streamlit"</span>)
+
+<span class="cm"># Afficher du texte simple</span>
+st.<span class="fn">write</span>(<span class="str">"Bonjour le monde ! Je suis une app Streamlit."</span>)
+
+<span class="cm"># Afficher du texte formaté (Markdown)</span>
+st.<span class="fn">write</span>(<span class="str">"Voici une liste :
+- Python 🐍
+- Streamlit ⚡
+- Data Science 📊"</span>)
+
+<span class="cm"># Afficher un nombre</span>
+age = <span class="num">25</span>
+st.<span class="fn">write</span>(<span class="str">f"J'ai {age} ans."</span>)</div>
+      </div>
+      <div class="preview">
+        <div class="preview-label">👁 Rendu dans le navigateur</div>
+        <div class="preview-output">
+          <div class="preview-h1">🎉 Ma Première Application Streamlit</div>
+          <div class="preview-text">Bonjour le monde ! Je suis une app Streamlit.<br>Voici une liste :<br>• Python 🐍<br>• Streamlit ⚡<br>• Data Science 📊<br>J'ai 25 ans.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="4">Lancer l'application</h2>
+      <p>Dans ton terminal, va dans le dossier où tu as créé <code>app.py</code> et tape :</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">terminal</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">streamlit run app.py</div>
+      </div>
+      <p>Ton navigateur s'ouvre automatiquement sur <code>http://localhost:8501</code>. Chaque fois que tu sauvegardes ton fichier, l'application se met à jour instantanément !</p>
+      <div class="callout warn"><div class="callout-icon">⚠️</div><div>Pour arrêter l'application, appuie sur <strong>Ctrl+C</strong> dans le terminal. Ne ferme pas juste le navigateur.</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="5">Les fonctions essentielles</h2>
+      <table class="data-table">
+        <thead><tr><th>Fonction</th><th>Utilité</th><th>Exemple</th></tr></thead>
+        <tbody>
+          <tr><td><code>st.title()</code></td><td>Grand titre de page</td><td><code>st.title("Mon App")</code></td></tr>
+          <tr><td><code>st.write()</code></td><td>Afficher n'importe quoi</td><td><code>st.write("Texte", 42, df)</code></td></tr>
+          <tr><td><code>st.header()</code></td><td>Titre de section</td><td><code>st.header("Section 1")</code></td></tr>
+          <tr><td><code>st.subheader()</code></td><td>Sous-titre</td><td><code>st.subheader("Détails")</code></td></tr>
+          <tr><td><code>st.text()</code></td><td>Texte brut simple</td><td><code>st.text("texte brut")</code></td></tr>
+          <tr><td><code>st.markdown()</code></td><td>Texte en Markdown</td><td><code>st.markdown("**Gras**")</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="6">Exercice pratique</h2>
+      <p>Crée une application qui présente une recette de cuisine. Elle doit contenir :</p>
+      <ul class="steps">
+        <li>Un titre avec le nom de la recette</li>
+        <li>Un sous-titre "Ingrédients" avec la liste en Markdown</li>
+        <li>Un sous-titre "Instructions" avec les étapes numérotées</li>
+        <li>Une ligne affichant le temps de préparation (utilise une variable Python)</li>
+      </ul>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">solution.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+
+st.<span class="fn">title</span>(<span class="str">"🍝 Recette : Pâtes Carbonara"</span>)
+
+temps_prep = <span class="num">20</span>
+st.<span class="fn">write</span>(<span class="str">f"⏱ Temps de préparation : {temps_prep} minutes"</span>)
+
+st.<span class="fn">subheader</span>(<span class="str">"🛒 Ingrédients"</span>)
+st.<span class="fn">markdown</span>(<span class="str">"""
+- 400g de spaghetti
+- 200g de lardons
+- 4 jaunes d'œufs
+- 100g de parmesan
+- Sel et poivre
+"""</span>)
+
+st.<span class="fn">subheader</span>(<span class="str">"📋 Instructions"</span>)
+st.<span class="fn">markdown</span>(<span class="str">"""
+1. Faire cuire les pâtes al dente
+2. Faire revenir les lardons
+3. Mélanger les jaunes et le parmesan
+4. Tout mélanger hors du feu
+"""</span>)</div>
+      </div>
+    </div>
+    <button class="done-btn" onclick="markDone(0)">✅ Marquer comme terminé</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 2 — Widgets et Interactions
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson" id="lesson-1">
+    <div class="lesson-header">
+      <div class="lesson-badge">🎛️ Séance 02 · Débutant</div>
+      <h1 class="lesson-title">Widgets et Interactions</h1>
+      <p class="lesson-intro">Un widget est un élément interactif dans ton application : un bouton, un champ de texte, un curseur… Avec Streamlit, chaque widget retourne une valeur Python que tu peux utiliser directement dans ton code.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">Le principe fondamental</h2>
+      <p>La magie de Streamlit : quand l'utilisateur interagit avec un widget, le script Python se <strong>relance du début</strong>. La valeur du widget est capturée dans une variable et tu peux t'en servir.</p>
+      <div class="callout info"><div class="callout-icon">🔄</div><div>Pense à ton script comme une <strong>recette</strong> : Streamlit la relit à chaque interaction. C'est pourquoi les widgets retournent toujours leur valeur actuelle.</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">st.button() — Le bouton</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+
+<span class="cm"># st.button() retourne True si cliqué, False sinon</span>
+<span class="kw">if</span> st.<span class="fn">button</span>(<span class="str">"Clique ici !"</span>):
+    st.<span class="fn">write</span>(<span class="str">"🎉 Tu as cliqué sur le bouton !"</span>)
+<span class="kw">else</span>:
+    st.<span class="fn">write</span>(<span class="str">"Appuie sur le bouton ci-dessus."</span>)</div>
+      </div>
+      <div class="widget-demo">
+        <button class="demo-btn" onclick="this.nextElementSibling.textContent='🎉 Tu as cliqué !'">Clique ici !</button>
+        <span style="font-size:0.9rem;color:#666">Appuie sur le bouton ci-dessus.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">st.text_input() — Champ de texte</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Retourne la chaîne saisie (vide au départ)</span>
+nom = st.<span class="fn">text_input</span>(<span class="str">"Quel est ton prénom ?"</span>)
+
+<span class="kw">if</span> nom:
+    st.<span class="fn">write</span>(<span class="str">f"Bonjour {nom} ! 👋"</span>)
+<span class="kw">else</span>:
+    st.<span class="fn">write</span>(<span class="str">"Tape ton prénom ci-dessus."</span>)</div>
+      </div>
+      <div class="widget-demo">
+        <input class="demo-input" placeholder="Quel est ton prénom ?" oninput="document.getElementById('nom-out').textContent = this.value ? 'Bonjour ' + this.value + ' ! 👋' : 'Tape ton prénom.'">
+        <span id="nom-out" style="font-size:0.9rem;color:#666">Tape ton prénom.</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="4">st.selectbox() — Liste déroulante</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Retourne l'option sélectionnée</span>
+pays = st.<span class="fn">selectbox</span>(
+    <span class="str">"Choisis ton pays :"</span>,
+    [<span class="str">"France"</span>, <span class="str">"Maroc"</span>, <span class="str">"Algérie"</span>, <span class="str">"Tunisie"</span>, <span class="str">"Canada"</span>]
+)
+
+st.<span class="fn">write</span>(<span class="str">f"Tu habites en : {pays}"</span>)</div>
+      </div>
+      <div class="widget-demo">
+        <select class="demo-select" onchange="document.getElementById('pays-out').textContent='Tu habites en : '+this.value">
+          <option>France</option><option>Maroc</option><option>Algérie</option><option>Tunisie</option><option>Canada</option>
+        </select>
+        <span id="pays-out" style="font-size:0.9rem;color:#666">Tu habites en : France</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="5">st.slider() — Curseur</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># slider(label, min, max, valeur_défaut)</span>
+age = st.<span class="fn">slider</span>(<span class="str">"Ton âge :"</span>, <span class="num">0</span>, <span class="num">100</span>, <span class="num">25</span>)
+st.<span class="fn">write</span>(<span class="str">f"Tu as {age} ans."</span>)
+
+prix_max = st.<span class="fn">slider</span>(<span class="str">"Budget maximum (€) :"</span>, <span class="num">0</span>, <span class="num">1000</span>, <span class="num">200</span>)
+st.<span class="fn">write</span>(<span class="str">f"Budget : {prix_max}€"</span>)</div>
+      </div>
+      <div class="widget-demo">
+        <div style="width:100%">
+          <label style="font-size:0.85rem;color:#666">Ton âge : <input type="range" class="demo-range" min="0" max="100" value="25" oninput="document.getElementById('age-out').textContent=this.value"></label>
+          <span id="age-out" style="font-size:1rem;font-weight:700;margin-left:10px">25</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="6">st.checkbox() — Case à cocher</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Retourne True ou False</span>
+accepte = st.<span class="fn">checkbox</span>(<span class="str">"J'accepte les conditions"</span>)
+
+<span class="kw">if</span> accepte:
+    st.<span class="fn">success</span>(<span class="str">"✅ Merci d'avoir accepté !"</span>)
+<span class="kw">else</span>:
+    st.<span class="fn">warning</span>(<span class="str">"⚠️ Veuillez accepter les conditions."</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="7">Exercice : Calculatrice de pourboire</h2>
+      <p>Construis une petite app qui calcule le pourboire à laisser au restaurant :</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">pourboire.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+
+st.<span class="fn">title</span>(<span class="str">"🍽️ Calculatrice de Pourboire"</span>)
+
+montant = st.<span class="fn">number_input</span>(<span class="str">"Montant de l'addition (€) :"</span>, min_value=<span class="num">0.0</span>, value=<span class="num">50.0</span>)
+pourcent = st.<span class="fn">slider</span>(<span class="str">"Pourcentage de pourboire :"</span>, <span class="num">0</span>, <span class="num">30</span>, <span class="num">15</span>)
+nb_personnes = st.<span class="fn">number_input</span>(<span class="str">"Nombre de personnes :"</span>, min_value=<span class="num">1</span>, value=<span class="num">2</span>)
+
+pourboire = montant * pourcent / <span class="num">100</span>
+total = montant + pourboire
+par_personne = total / nb_personnes
+
+st.<span class="fn">write</span>(<span class="str">f"💰 Pourboire : **{pourboire:.2f}€**"</span>)
+st.<span class="fn">write</span>(<span class="str">f"💳 Total : **{total:.2f}€**"</span>)
+st.<span class="fn">write</span>(<span class="str">f"👤 Par personne : **{par_personne:.2f}€**"</span>)</div>
+      </div>
+    </div>
+    <button class="done-btn" onclick="markDone(1)">✅ Marquer comme terminé</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 3 — Design Moderne
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson" id="lesson-2">
+    <div class="lesson-header">
+      <div class="lesson-badge">🎨 Séance 03 · Débutant</div>
+      <h1 class="lesson-title">Design Moderne sans CSS</h1>
+      <p class="lesson-intro">Streamlit propose des outils de mise en page puissants. Sans écrire une seule ligne de CSS, tu peux créer des interfaces professionnelles avec colonnes, sidebar, métriques et bien plus.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">st.columns() — Disposition en colonnes</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+
+<span class="cm"># Créer 3 colonnes égales</span>
+col1, col2, col3 = st.<span class="fn">columns</span>(<span class="num">3</span>)
+
+<span class="kw">with</span> col1:
+    st.<span class="fn">header</span>(<span class="str">"Colonne 1"</span>)
+    st.<span class="fn">write</span>(<span class="str">"Contenu gauche"</span>)
+
+<span class="kw">with</span> col2:
+    st.<span class="fn">header</span>(<span class="str">"Colonne 2"</span>)
+    st.<span class="fn">write</span>(<span class="str">"Contenu centre"</span>)
+
+<span class="kw">with</span> col3:
+    st.<span class="fn">header</span>(<span class="str">"Colonne 3"</span>)
+    st.<span class="fn">write</span>(<span class="str">"Contenu droite"</span>)
+
+<span class="cm"># Colonnes de largeurs différentes (ratios)</span>
+col_large, col_petite = st.<span class="fn">columns</span>([<span class="num">3</span>, <span class="num">1</span>])</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">st.metric() — Indicateurs KPI</h2>
+      <p>Parfait pour afficher des chiffres importants avec une variation.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">col1, col2, col3 = st.<span class="fn">columns</span>(<span class="num">3</span>)
+
+col1.<span class="fn">metric</span>(<span class="str">"Ventes du mois"</span>, <span class="str">"12 500 €"</span>, <span class="str">"+8%"</span>)
+col2.<span class="fn">metric</span>(<span class="str">"Nouveaux clients"</span>, <span class="str">"48"</span>, <span class="str">"-3"</span>)
+col3.<span class="fn">metric</span>(<span class="str">"Satisfaction"</span>, <span class="str">"4.8 / 5"</span>, <span class="str">"+0.2"</span>)</div>
+      </div>
+      <div class="preview">
+        <div class="preview-label">👁 Rendu</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div class="preview-metric"><div class="m-val">12 500 €</div><div class="m-lbl">Ventes du mois ↑ +8%</div></div>
+          <div class="preview-metric"><div class="m-val">48</div><div class="m-lbl">Nouveaux clients ↓ -3</div></div>
+          <div class="preview-metric"><div class="m-val">4.8/5</div><div class="m-lbl">Satisfaction ↑ +0.2</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">st.sidebar — Menu latéral</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Tout ce qui est dans st.sidebar apparaît dans le panneau latéral</span>
+st.sidebar.<span class="fn">title</span>(<span class="str">"⚙️ Paramètres"</span>)
+
+categorie = st.sidebar.<span class="fn">selectbox</span>(
+    <span class="str">"Catégorie :"</span>,
+    [<span class="str">"Tous"</span>, <span class="str">"Électronique"</span>, <span class="str">"Vêtements"</span>, <span class="str">"Alimentation"</span>]
+)
+
+annee = st.sidebar.<span class="fn">slider</span>(<span class="str">"Année :"</span>, <span class="num">2020</span>, <span class="num">2024</span>, <span class="num">2023</span>)
+
+st.<span class="fn">title</span>(<span class="str">"📊 Dashboard"</span>)
+st.<span class="fn">write</span>(<span class="str">f"Données : {categorie} — {annee}"</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="4">st.expander() et st.container()</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Expander : contenu masqué/visible au clic</span>
+<span class="kw">with</span> st.<span class="fn">expander</span>(<span class="str">"📖 Voir les détails"</span>):
+    st.<span class="fn">write</span>(<span class="str">"Ce texte est caché par défaut !"</span>)
+    st.<span class="fn">write</span>(<span class="str">"Il apparaît quand l'utilisateur clique."</span>)
+
+<span class="cm"># Container : regrouper des éléments logiquement</span>
+<span class="kw">with</span> st.<span class="fn">container</span>():
+    st.<span class="fn">write</span>(<span class="str">"Éléments regroupés dans un container"</span>)
+    st.<span class="fn">button</span>(<span class="str">"Bouton du container"</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="5">Exercice : Page de profil</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">profil.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+
+st.<span class="fn">title</span>(<span class="str">"👤 Mon Profil"</span>)
+
+col_info, col_stats = st.<span class="fn">columns</span>([<span class="num">2</span>, <span class="num">1</span>])
+
+<span class="kw">with</span> col_info:
+    st.<span class="fn">subheader</span>(<span class="str">"Ahmed Benali"</span>)
+    st.<span class="fn">write</span>(<span class="str">"📍 Casablanca, Maroc"</span>)
+    st.<span class="fn">write</span>(<span class="str">"💼 Data Scientist"</span>)
+
+<span class="kw">with</span> col_stats:
+    st.<span class="fn">metric</span>(<span class="str">"Projets"</span>, <span class="str">"12"</span>)
+    st.<span class="fn">metric</span>(<span class="str">"Expérience"</span>, <span class="str">"3 ans"</span>)
+
+st.<span class="fn">divider</span>()
+
+c1, c2, c3 = st.<span class="fn">columns</span>(<span class="num">3</span>)
+c1.<span class="fn">metric</span>(<span class="str">"Python"</span>, <span class="str">"Expert"</span>)
+c2.<span class="fn">metric</span>(<span class="str">"SQL"</span>, <span class="str">"Avancé"</span>)
+c3.<span class="fn">metric</span>(<span class="str">"ML"</span>, <span class="str">"Intermédiaire"</span>)</div>
+      </div>
+    </div>
+    <button class="done-btn" onclick="markDone(2)">✅ Marquer comme terminé</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 4 — Données Excel
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson" id="lesson-3">
+    <div class="lesson-header">
+      <div class="lesson-badge">📊 Séance 04 · Débutant</div>
+      <h1 class="lesson-title">Gestion des Données Excel</h1>
+      <p class="lesson-intro">Excel est omniprésent dans les entreprises. Dans cette séance, tu vas apprendre à lire des fichiers Excel avec pandas, afficher les données dans Streamlit et ajouter des filtres dynamiques.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">Introduction à pandas</h2>
+      <p>Pandas est la bibliothèque Python pour manipuler des données. Un <strong>DataFrame</strong> est comme un tableau Excel dans Python.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">terminal</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">pip install pandas openpyxl</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">Lire un fichier Excel</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+<span class="imp">import</span> pandas <span class="imp">as</span> pd
+
+st.<span class="fn">title</span>(<span class="str">"📊 Mes Données Excel"</span>)
+
+<span class="cm"># Lire le fichier Excel</span>
+df = pd.<span class="fn">read_excel</span>(<span class="str">"ventes.xlsx"</span>)
+
+<span class="cm"># Afficher le tableau complet</span>
+st.<span class="fn">dataframe</span>(df)
+
+<span class="cm"># Infos rapides</span>
+st.<span class="fn">write</span>(<span class="str">f"✅ {len(df)} lignes chargées"</span>)</div>
+      </div>
+      <div class="callout tip"><div class="callout-icon">💡</div><div>Pour tester sans fichier Excel, crée des données directement en Python avec <code>pd.DataFrame({'Nom': ['Ali','Sara'], 'Ventes': [100, 250]})</code></div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">Créer des données de test</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+<span class="imp">import</span> pandas <span class="imp">as</span> pd
+
+<span class="cm"># Données de test (sans fichier Excel)</span>
+data = {
+    <span class="str">"Nom"</span>: [<span class="str">"Ali"</span>, <span class="str">"Sara"</span>, <span class="str">"Karim"</span>, <span class="str">"Fatima"</span>, <span class="str">"Omar"</span>],
+    <span class="str">"Département"</span>: [<span class="str">"Ventes"</span>, <span class="str">"IT"</span>, <span class="str">"Ventes"</span>, <span class="str">"RH"</span>, <span class="str">"IT"</span>],
+    <span class="str">"Salaire"</span>: [<span class="num">3500</span>, <span class="num">4200</span>, <span class="num">3800</span>, <span class="num">3200</span>, <span class="num">4500</span>],
+    <span class="str">"Ancienneté"</span>: [<span class="num">2</span>, <span class="num">5</span>, <span class="num">3</span>, <span class="num">1</span>, <span class="num">7</span>]
+}
+df = pd.<span class="fn">DataFrame</span>(data)
+
+st.<span class="fn">title</span>(<span class="str">"👥 Gestion des Employés"</span>)
+st.<span class="fn">dataframe</span>(df, use_container_width=<span class="kw">True</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="4">Ajouter des filtres</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Filtre par département (dans la sidebar)</span>
+depts = [<span class="str">"Tous"</span>] + <span class="fn">list</span>(df[<span class="str">"Département"</span>].<span class="fn">unique</span>())
+dept_choisi = st.sidebar.<span class="fn">selectbox</span>(<span class="str">"Département :"</span>, depts)
+
+<span class="cm"># Filtre par salaire</span>
+sal_min, sal_max = st.sidebar.<span class="fn">slider</span>(
+    <span class="str">"Salaire (€) :"</span>,
+    <span class="fn">int</span>(df[<span class="str">"Salaire"</span>].<span class="fn">min</span>()),
+    <span class="fn">int</span>(df[<span class="str">"Salaire"</span>].<span class="fn">max</span>()),
+    (<span class="fn">int</span>(df[<span class="str">"Salaire"</span>].<span class="fn">min</span>()), <span class="fn">int</span>(df[<span class="str">"Salaire"</span>].<span class="fn">max</span>()))
+)
+
+<span class="cm"># Appliquer les filtres</span>
+df_filtre = df.copy()
+<span class="kw">if</span> dept_choisi != <span class="str">"Tous"</span>:
+    df_filtre = df_filtre[df_filtre[<span class="str">"Département"</span>] == dept_choisi]
+df_filtre = df_filtre[
+    (df_filtre[<span class="str">"Salaire"</span>] >= sal_min) &
+    (df_filtre[<span class="str">"Salaire"</span>] <= sal_max)
+]
+
+st.<span class="fn">write</span>(<span class="str">f"{len(df_filtre)} résultats"</span>)
+st.<span class="fn">dataframe</span>(df_filtre, use_container_width=<span class="kw">True</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="5">Recherche par texte</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Barre de recherche</span>
+recherche = st.<span class="fn">text_input</span>(<span class="str">"🔍 Rechercher un employé :"</span>)
+
+<span class="kw">if</span> recherche:
+    df_filtre = df[df[<span class="str">"Nom"</span>].<span class="fn">str.contains</span>(recherche, case=<span class="kw">False</span>)]
+<span class="kw">else</span>:
+    df_filtre = df
+
+st.<span class="fn">dataframe</span>(df_filtre)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="6">Statistiques rapides</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Quelques stats simples</span>
+c1, c2, c3 = st.<span class="fn">columns</span>(<span class="num">3</span>)
+c1.<span class="fn">metric</span>(<span class="str">"Total employés"</span>, <span class="fn">len</span>(df))
+c2.<span class="fn">metric</span>(<span class="str">"Salaire moyen"</span>, <span class="str">f"{df['Salaire'].mean():.0f}€"</span>)
+c3.<span class="fn">metric</span>(<span class="str">"Salaire max"</span>, <span class="str">f"{df['Salaire'].max()}€"</span>)
+
+<span class="cm"># Description statistique complète</span>
+<span class="kw">with</span> st.<span class="fn">expander</span>(<span class="str">"📈 Voir les statistiques détaillées"</span>):
+    st.<span class="fn">dataframe</span>(df.<span class="fn">describe</span>())</div>
+      </div>
+    </div>
+    <button class="done-btn" onclick="markDone(3)">✅ Marquer comme terminé</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 5 — Application de gestion CRUD
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson" id="lesson-4">
+    <div class="lesson-header">
+      <div class="lesson-badge">🗂️ Séance 05 · Intermédiaire</div>
+      <h1 class="lesson-title">Application de Gestion (CRUD)</h1>
+      <p class="lesson-intro">CRUD = Create, Read, Update, Delete. C'est la base de toute application de gestion. Tu vas apprendre à ajouter, modifier et supprimer des données, puis les sauvegarder dans Excel.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">Structure de l'application</h2>
+      <p>L'application utilisera <code>st.session_state</code> pour garder les données en mémoire pendant que l'utilisateur navigue.</p>
+      <div class="callout info"><div class="callout-icon">🧠</div><div><strong>session_state</strong> est un dictionnaire spécial Streamlit. Les valeurs dedans <em>persistent</em> entre les relances du script. C'est essentiel pour stocker des données.</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">Initialisation et chargement</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+<span class="imp">import</span> pandas <span class="imp">as</span> pd
+<span class="imp">import</span> os
+
+FICHIER = <span class="str">"employes.xlsx"</span>
+
+<span class="cm"># Charger ou créer le fichier</span>
+<span class="kw">if</span> os.path.<span class="fn">exists</span>(FICHIER):
+    df = pd.<span class="fn">read_excel</span>(FICHIER)
+<span class="kw">else</span>:
+    df = pd.<span class="fn">DataFrame</span>(columns=[<span class="str">"Nom"</span>, <span class="str">"Département"</span>, <span class="str">"Salaire"</span>])
+
+<span class="cm"># Stocker dans session_state</span>
+<span class="kw">if</span> <span class="str">"employes"</span> <span class="kw">not in</span> st.session_state:
+    st.session_state.employes = df</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">Ajouter un enregistrement</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py (suite)</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">st.<span class="fn">title</span>(<span class="str">"👥 Gestion des Employés"</span>)
+
+<span class="cm"># ── FORMULAIRE D'AJOUT ──</span>
+st.<span class="fn">subheader</span>(<span class="str">"➕ Ajouter un employé"</span>)
+
+<span class="kw">with</span> st.<span class="fn">form</span>(<span class="str">"form_ajout"</span>):
+    nom = st.<span class="fn">text_input</span>(<span class="str">"Nom complet"</span>)
+    dept = st.<span class="fn">selectbox</span>(<span class="str">"Département"</span>, [<span class="str">"Ventes"</span>, <span class="str">"IT"</span>, <span class="str">"RH"</span>, <span class="str">"Finance"</span>])
+    salaire = st.<span class="fn">number_input</span>(<span class="str">"Salaire (€)"</span>, min_value=<span class="num">0</span>, step=<span class="num">100</span>)
+    soumis = st.<span class="fn">form_submit_button</span>(<span class="str">"Ajouter"</span>)
+
+<span class="kw">if</span> soumis <span class="kw">and</span> nom:
+    nouvelle_ligne = pd.<span class="fn">DataFrame</span>({
+        <span class="str">"Nom"</span>: [nom], <span class="str">"Département"</span>: [dept], <span class="str">"Salaire"</span>: [salaire]
+    })
+    st.session_state.employes = pd.<span class="fn">concat</span>(
+        [st.session_state.employes, nouvelle_ligne],
+        ignore_index=<span class="kw">True</span>
+    )
+    st.<span class="fn">success</span>(<span class="str">f"✅ {nom} ajouté avec succès !"</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="4">Afficher et supprimer</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py (suite)</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># ── AFFICHAGE ──</span>
+st.<span class="fn">subheader</span>(<span class="str">"📋 Liste des employés"</span>)
+st.<span class="fn">dataframe</span>(st.session_state.employes, use_container_width=<span class="kw">True</span>)
+
+<span class="cm"># ── SUPPRESSION ──</span>
+st.<span class="fn">subheader</span>(<span class="str">"🗑️ Supprimer un employé"</span>)
+<span class="kw">if</span> <span class="fn">len</span>(st.session_state.employes) > <span class="num">0</span>:
+    index_suppr = st.<span class="fn">selectbox</span>(
+        <span class="str">"Choisir l'employé à supprimer :"</span>,
+        st.session_state.employes.index,
+        format_func=<span class="kw">lambda</span> i: st.session_state.employes.loc[i, <span class="str">"Nom"</span>]
+    )
+    <span class="kw">if</span> st.<span class="fn">button</span>(<span class="str">"🗑️ Supprimer"</span>, type=<span class="str">"primary"</span>):
+        st.session_state.employes = st.session_state.employes.<span class="fn">drop</span>(index_suppr).<span class="fn">reset_index</span>(drop=<span class="kw">True</span>)
+        st.<span class="fn">success</span>(<span class="str">"Employé supprimé."</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="5">Sauvegarder dans Excel</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py (suite)</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># ── SAUVEGARDE ──</span>
+<span class="kw">if</span> st.<span class="fn">button</span>(<span class="str">"💾 Sauvegarder dans Excel"</span>):
+    st.session_state.employes.<span class="fn">to_excel</span>(FICHIER, index=<span class="kw">False</span>)
+    st.<span class="fn">success</span>(<span class="str">f"✅ Sauvegardé dans {FICHIER}"</span>)</div>
+      </div>
+    </div>
+    <button class="done-btn" onclick="markDone(4)">✅ Marquer comme terminé</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 6 — Dashboard Interactif
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson" id="lesson-5">
+    <div class="lesson-header">
+      <div class="lesson-badge">📈 Séance 06 · Intermédiaire</div>
+      <h1 class="lesson-title">Dashboard Interactif</h1>
+      <p class="lesson-intro">Un dashboard présente des données visuellement avec des graphiques. Plotly crée des graphiques interactifs (zoom, survol) directement dans Streamlit.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">Installation de Plotly</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">terminal</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">pip install plotly matplotlib</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">Graphique en barres avec Plotly</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">dashboard.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+<span class="imp">import</span> pandas <span class="imp">as</span> pd
+<span class="imp">import</span> plotly.express <span class="imp">as</span> px
+
+<span class="cm"># Données de ventes</span>
+df = pd.<span class="fn">DataFrame</span>({
+    <span class="str">"Mois"</span>: [<span class="str">"Jan"</span>,<span class="str">"Fév"</span>,<span class="str">"Mar"</span>,<span class="str">"Avr"</span>,<span class="str">"Mai"</span>,<span class="str">"Juin"</span>],
+    <span class="str">"Ventes"</span>: [<span class="num">12000</span>,<span class="num">15000</span>,<span class="num">9000</span>,<span class="num">18000</span>,<span class="num">21000</span>,<span class="num">16000</span>],
+    <span class="str">"Objectif"</span>: [<span class="num">14000</span>]*<span class="num">6</span>
+})
+
+st.<span class="fn">title</span>(<span class="str">"📊 Dashboard des Ventes"</span>)
+
+<span class="cm"># Graphique en barres</span>
+fig = px.<span class="fn">bar</span>(df, x=<span class="str">"Mois"</span>, y=<span class="str">"Ventes"</span>, title=<span class="str">"Ventes par mois"</span>,
+             color=<span class="str">"Ventes"</span>, color_continuous_scale=<span class="str">"Blues"</span>)
+st.<span class="fn">plotly_chart</span>(fig, use_container_width=<span class="kw">True</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">Graphique en courbe</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">dashboard.py (suite)</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="cm"># Courbe d'évolution</span>
+fig_line = px.<span class="fn">line</span>(df, x=<span class="str">"Mois"</span>, y=[<span class="str">"Ventes"</span>, <span class="str">"Objectif"</span>],
+                   title=<span class="str">"Ventes vs Objectif"</span>, markers=<span class="kw">True</span>)
+st.<span class="fn">plotly_chart</span>(fig_line, use_container_width=<span class="kw">True</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="4">Camembert (pie chart)</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">dashboard.py (suite)</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">df_dept = pd.<span class="fn">DataFrame</span>({
+    <span class="str">"Département"</span>: [<span class="str">"Ventes"</span>, <span class="str">"IT"</span>, <span class="str">"RH"</span>, <span class="str">"Finance"</span>],
+    <span class="str">"Employés"</span>: [<span class="num">12</span>, <span class="num">8</span>, <span class="num">5</span>, <span class="num">4</span>]
+})
+
+fig_pie = px.<span class="fn">pie</span>(df_dept, values=<span class="str">"Employés"</span>, names=<span class="str">"Département"</span>,
+                title=<span class="str">"Répartition par département"</span>)
+st.<span class="fn">plotly_chart</span>(fig_pie)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="5">Dashboard complet avec KPIs</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">dashboard_complet.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">st.<span class="fn">title</span>(<span class="str">"🏢 Dashboard Entreprise"</span>)
+
+<span class="cm"># KPIs en haut</span>
+k1, k2, k3, k4 = st.<span class="fn">columns</span>(<span class="num">4</span>)
+k1.<span class="fn">metric</span>(<span class="str">"CA Total"</span>, <span class="str">"91 000 €"</span>, <span class="str">"+12%"</span>)
+k2.<span class="fn">metric</span>(<span class="str">"Clients"</span>, <span class="str">"248"</span>, <span class="str">"+18"</span>)
+k3.<span class="fn">metric</span>(<span class="str">"Commandes"</span>, <span class="str">"1 340"</span>, <span class="str">"-5"</span>)
+k4.<span class="fn">metric</span>(<span class="str">"Panier moyen"</span>, <span class="str">"67.9€"</span>, <span class="str">"+2.1€"</span>)
+
+st.<span class="fn">divider</span>()
+
+<span class="cm"># Graphiques côte à côte</span>
+col_g, col_d = st.<span class="fn">columns</span>(<span class="num">2</span>)
+<span class="kw">with</span> col_g:
+    st.<span class="fn">plotly_chart</span>(fig_line, use_container_width=<span class="kw">True</span>)
+<span class="kw">with</span> col_d:
+    st.<span class="fn">plotly_chart</span>(fig_pie, use_container_width=<span class="kw">True</span>)</div>
+      </div>
+    </div>
+    <button class="done-btn" onclick="markDone(5)">✅ Marquer comme terminé</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 7 — Gestion avancée & fichiers
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson" id="lesson-6">
+    <div class="lesson-header">
+      <div class="lesson-badge">📁 Séance 07 · Intermédiaire</div>
+      <h1 class="lesson-title">Gestion Avancée & Fichiers</h1>
+      <p class="lesson-intro">Rends ton application encore plus professionnelle : permets aux utilisateurs d'uploader leurs propres fichiers, de télécharger des rapports générés, et de naviguer entre plusieurs pages.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">Upload de fichiers</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+<span class="imp">import</span> pandas <span class="imp">as</span> pd
+
+st.<span class="fn">title</span>(<span class="str">"📂 Upload de Fichier"</span>)
+
+<span class="cm"># Widget d'upload</span>
+fichier = st.<span class="fn">file_uploader</span>(
+    <span class="str">"Charge ton fichier Excel :"</span>,
+    type=[<span class="str">"xlsx"</span>, <span class="str">"xls"</span>, <span class="str">"csv"</span>]
+)
+
+<span class="kw">if</span> fichier <span class="kw">is not None</span>:
+    <span class="cm"># Lire selon le type</span>
+    <span class="kw">if</span> fichier.name.<span class="fn">endswith</span>(<span class="str">".csv"</span>):
+        df = pd.<span class="fn">read_csv</span>(fichier)
+    <span class="kw">else</span>:
+        df = pd.<span class="fn">read_excel</span>(fichier)
+    
+    st.<span class="fn">success</span>(<span class="str">f"✅ Fichier chargé : {fichier.name}"</span>)
+    st.<span class="fn">dataframe</span>(df, use_container_width=<span class="kw">True</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">Téléchargement de fichiers</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> io
+
+<span class="cm"># Préparer le fichier Excel en mémoire</span>
+output = io.<span class="fn">BytesIO</span>()
+df.<span class="fn">to_excel</span>(output, index=<span class="kw">False</span>)
+output.<span class="fn">seek</span>(<span class="num">0</span>)
+
+<span class="cm"># Bouton de téléchargement</span>
+st.<span class="fn">download_button</span>(
+    label=<span class="str">"⬇️ Télécharger en Excel"</span>,
+    data=output,
+    file_name=<span class="str">"rapport.xlsx"</span>,
+    mime=<span class="str">"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"</span>
+)
+
+<span class="cm"># Télécharger en CSV (plus simple)</span>
+csv = df.<span class="fn">to_csv</span>(index=<span class="kw">False</span>).<span class="fn">encode</span>(<span class="str">"utf-8"</span>)
+st.<span class="fn">download_button</span>(<span class="str">"⬇️ Télécharger en CSV"</span>, csv, <span class="str">"data.csv"</span>, <span class="str">"text/csv"</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">Application multi-pages</h2>
+      <p>Crée un dossier <code>pages/</code> à côté de ton <code>app.py</code>. Streamlit créera automatiquement une navigation.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">structure des fichiers</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">mon_projet/
+├── app.py              <span class="cm"># Page principale</span>
+└── pages/
+    ├── 1_Dashboard.py  <span class="cm"># Page 1</span>
+    ├── 2_Employes.py   <span class="cm"># Page 2</span>
+    └── 3_Rapports.py   <span class="cm"># Page 3</span></div>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">pages/1_Dashboard.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+
+st.<span class="fn">title</span>(<span class="str">"📊 Dashboard"</span>)
+st.<span class="fn">write</span>(<span class="str">"Bienvenue sur la page Dashboard !"</span>)</div>
+      </div>
+      <div class="callout tip"><div class="callout-icon">💡</div><div>Le numéro au début du nom de fichier (1_, 2_) contrôle l'ordre dans le menu de navigation.</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="4">Sidebar de navigation avancée</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">st.sidebar.<span class="fn">title</span>(<span class="str">"🏢 Mon Entreprise"</span>)
+st.sidebar.<span class="fn">image</span>(<span class="str">"logo.png"</span>, width=<span class="num">100</span>)  <span class="cm"># Si tu as un logo</span>
+st.sidebar.<span class="fn">divider</span>()
+
+<span class="cm"># Infos dans la sidebar</span>
+st.sidebar.<span class="fn">write</span>(<span class="str">"👤 Connecté : Admin"</span>)
+st.sidebar.<span class="fn">write</span>(<span class="str">"📅 2024"</span>)
+st.sidebar.<span class="fn">divider</span>()
+
+<span class="kw">if</span> st.sidebar.<span class="fn">button</span>(<span class="str">"🚪 Déconnexion"</span>):
+    st.<span class="fn">warning</span>(<span class="str">"Déconnecté !"</span>)</div>
+      </div>
+    </div>
+    <button class="done-btn" onclick="markDone(6)">✅ Marquer comme terminé</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 8 — Mini Projet
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson" id="lesson-7">
+    <div class="lesson-header">
+      <div class="lesson-badge">🏢 Séance 08 · Projet</div>
+      <h1 class="lesson-title">Mini Projet : Gestion d'Entreprise</h1>
+      <p class="lesson-intro">C'est l'heure de mettre tout en pratique. Tu vas construire une application complète de gestion d'un magasin : inventaire, ventes, et tableau de bord — tout en un !</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">Architecture du projet</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">structure</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">gestion_magasin/
+├── app.py               <span class="cm"># Page d'accueil</span>
+├── donnees.xlsx         <span class="cm"># Base de données</span>
+└── pages/
+    ├── 1_Inventaire.py  <span class="cm"># Gestion des produits</span>
+    ├── 2_Ventes.py      <span class="cm"># Enregistrer les ventes</span>
+    └── 3_Dashboard.py   <span class="cm"># Graphiques et KPIs</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">Page d'accueil (app.py)</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+<span class="imp">import</span> pandas <span class="imp">as</span> pd
+
+st.<span class="fn">set_page_config</span>(page_title=<span class="str">"Mon Magasin"</span>, page_icon=<span class="str">"🛒"</span>, layout=<span class="str">"wide"</span>)
+
+st.<span class="fn">title</span>(<span class="str">"🛒 Gestion de Mon Magasin"</span>)
+st.<span class="fn">write</span>(<span class="str">"Bienvenue dans le système de gestion."</span>)
+
+<span class="cm"># Charger les données</span>
+<span class="kw">try</span>:
+    df = pd.<span class="fn">read_excel</span>(<span class="str">"donnees.xlsx"</span>, sheet_name=<span class="str">"Produits"</span>)
+    c1, c2, c3 = st.<span class="fn">columns</span>(<span class="num">3</span>)
+    c1.<span class="fn">metric</span>(<span class="str">"Produits en stock"</span>, <span class="fn">len</span>(df))
+    c2.<span class="fn">metric</span>(<span class="str">"Valeur stock"</span>, <span class="str">f"{df['Prix'].sum():.0f}€"</span>)
+    c3.<span class="fn">metric</span>(<span class="str">"Ruptures"</span>, (df[<span class="str">"Stock"</span>] == <span class="num">0</span>).<span class="fn">sum</span>())
+<span class="kw">except</span>:
+    st.<span class="fn">info</span>(<span class="str">"Aucune donnée. Commence par ajouter des produits."</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">Page Inventaire</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">pages/1_Inventaire.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+<span class="imp">import</span> pandas <span class="imp">as</span> pd
+
+st.<span class="fn">title</span>(<span class="str">"📦 Inventaire des Produits"</span>)
+
+FICHIER = <span class="str">"donnees.xlsx"</span>
+
+<span class="kw">try</span>:
+    df = pd.<span class="fn">read_excel</span>(FICHIER, sheet_name=<span class="str">"Produits"</span>)
+<span class="kw">except</span>:
+    df = pd.<span class="fn">DataFrame</span>(columns=[<span class="str">"Produit"</span>,<span class="str">"Catégorie"</span>,<span class="str">"Prix"</span>,<span class="str">"Stock"</span>])
+
+<span class="kw">with</span> st.<span class="fn">form</span>(<span class="str">"ajout_produit"</span>):
+    st.<span class="fn">subheader</span>(<span class="str">"Ajouter un produit"</span>)
+    col1, col2 = st.<span class="fn">columns</span>(<span class="num">2</span>)
+    produit = col1.<span class="fn">text_input</span>(<span class="str">"Nom du produit"</span>)
+    categorie = col2.<span class="fn">selectbox</span>(<span class="str">"Catégorie"</span>, [<span class="str">"Alimentaire"</span>,<span class="str">"Électronique"</span>,<span class="str">"Vêtement"</span>])
+    prix = col1.<span class="fn">number_input</span>(<span class="str">"Prix (€)"</span>, min_value=<span class="num">0.0</span>)
+    stock = col2.<span class="fn">number_input</span>(<span class="str">"Quantité"</span>, min_value=<span class="num">0</span>)
+    
+    <span class="kw">if</span> st.<span class="fn">form_submit_button</span>(<span class="str">"Ajouter"</span>) <span class="kw">and</span> produit:
+        new_row = pd.<span class="fn">DataFrame</span>({<span class="str">"Produit"</span>:[produit],<span class="str">"Catégorie"</span>:[categorie],<span class="str">"Prix"</span>:[prix],<span class="str">"Stock"</span>:[stock]})
+        df = pd.<span class="fn">concat</span>([df, new_row], ignore_index=<span class="kw">True</span>)
+        df.<span class="fn">to_excel</span>(FICHIER, sheet_name=<span class="str">"Produits"</span>, index=<span class="kw">False</span>)
+        st.<span class="fn">success</span>(<span class="str">"Produit ajouté !"</span>)
+
+st.<span class="fn">dataframe</span>(df, use_container_width=<span class="kw">True</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="4">Conseils pour finir le projet</h2>
+      <ul class="steps">
+        <li>Crée la page Ventes avec un formulaire pour enregistrer chaque vente (produit, quantité, date)</li>
+        <li>Dans le Dashboard, affiche un graphique des ventes par jour et un par catégorie</li>
+        <li>Ajoute un filtre de dates dans la sidebar du Dashboard</li>
+        <li>Soigne la page d'accueil avec des métriques bien présentées en colonnes</li>
+        <li>Teste l'application complète et corrige les bugs avant de présenter</li>
+      </ul>
+    </div>
+    <button class="done-btn" onclick="markDone(7)">✅ Marquer comme terminé</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 9 — Machine Learning
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson" id="lesson-8">
+    <div class="lesson-header">
+      <div class="lesson-badge">🤖 Séance 09 · Avancé</div>
+      <h1 class="lesson-title">Déploiement de Modèles ML</h1>
+      <p class="lesson-intro">Le Machine Learning permet à l'ordinateur d'apprendre des patterns dans les données et de faire des prédictions. Streamlit rend ça accessible : tu vas entraîner un modèle et l'intégrer dans une interface.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">C'est quoi le Machine Learning ?</h2>
+      <p>Tu montres des exemples à l'algorithme (données + réponses connues), il apprend les patterns, puis il peut prédire la réponse pour de nouveaux exemples.</p>
+      <div class="callout info"><div class="callout-icon">🌸</div><div>Exemple classique : les fleurs Iris. En donnant la taille des pétales, le modèle prédit l'espèce. C'est le "Hello World" du Machine Learning.</div></div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">terminal</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">pip install scikit-learn joblib</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">Entraîner et sauvegarder un modèle</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">train_model.py (exécuter une seule fois)</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">from</span> sklearn.datasets <span class="imp">import</span> load_iris
+<span class="imp">from</span> sklearn.ensemble <span class="imp">import</span> RandomForestClassifier
+<span class="imp">from</span> sklearn.model_selection <span class="imp">import</span> train_test_split
+<span class="imp">import</span> joblib
+
+<span class="cm"># Charger les données</span>
+iris = load_iris()
+X, y = iris.data, iris.target
+
+<span class="cm"># Diviser : 80% entraînement, 20% test</span>
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="num">0.2</span>)
+
+<span class="cm"># Entraîner le modèle</span>
+modele = RandomForestClassifier(n_estimators=<span class="num">100</span>)
+modele.<span class="fn">fit</span>(X_train, y_train)
+
+<span class="cm"># Évaluer</span>
+score = modele.<span class="fn">score</span>(X_test, y_test)
+<span class="fn">print</span>(<span class="str">f"Précision : {score:.2%}"</span>)
+
+<span class="cm"># Sauvegarder le modèle</span>
+joblib.<span class="fn">dump</span>(modele, <span class="str">"modele_iris.pkl"</span>)
+<span class="fn">print</span>(<span class="str">"✅ Modèle sauvegardé dans modele_iris.pkl"</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">Charger et prédire dans Streamlit</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">app.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+<span class="imp">import</span> joblib
+<span class="imp">import</span> numpy <span class="imp">as</span> np
+
+<span class="cm"># Charger le modèle (une seule fois grâce au cache)</span>
+<span class="cls">@st.cache_resource</span>
+<span class="kw">def</span> <span class="fn">charger_modele</span>():
+    <span class="kw">return</span> joblib.<span class="fn">load</span>(<span class="str">"modele_iris.pkl"</span>)
+
+modele = <span class="fn">charger_modele</span>()
+
+ESPECES = [<span class="str">"Iris Setosa 🌸"</span>, <span class="str">"Iris Versicolor 🌺"</span>, <span class="str">"Iris Virginica 🌼"</span>]
+
+st.<span class="fn">title</span>(<span class="str">"🌸 Prédiction d'Espèce d'Iris"</span>)
+st.<span class="fn">write</span>(<span class="str">"Entre les mesures de la fleur pour identifier son espèce."</span>)
+
+<span class="cm"># Entrées utilisateur</span>
+col1, col2 = st.<span class="fn">columns</span>(<span class="num">2</span>)
+sep_l = col1.<span class="fn">slider</span>(<span class="str">"Longueur Sépale (cm)"</span>, <span class="num">4.0</span>, <span class="num">8.0</span>, <span class="num">5.5</span>)
+sep_w = col2.<span class="fn">slider</span>(<span class="str">"Largeur Sépale (cm)"</span>, <span class="num">2.0</span>, <span class="num">4.5</span>, <span class="num">3.5</span>)
+pet_l = col1.<span class="fn">slider</span>(<span class="str">"Longueur Pétale (cm)"</span>, <span class="num">1.0</span>, <span class="num">7.0</span>, <span class="num">4.0</span>)
+pet_w = col2.<span class="fn">slider</span>(<span class="str">"Largeur Pétale (cm)"</span>, <span class="num">0.1</span>, <span class="num">2.5</span>, <span class="num">1.2</span>)
+
+<span class="cm"># Prédire</span>
+<span class="kw">if</span> st.<span class="fn">button</span>(<span class="str">"🔮 Prédire l'espèce"</span>, type=<span class="str">"primary"</span>):
+    entree = np.<span class="fn">array</span>([[sep_l, sep_w, pet_l, pet_w]])
+    prediction = modele.<span class="fn">predict</span>(entree)[<span class="num">0</span>]
+    proba = modele.<span class="fn">predict_proba</span>(entree)[<span class="num">0</span>]
+    
+    st.<span class="fn">success</span>(<span class="str">f"## {ESPECES[prediction]}"</span>)
+    
+    st.<span class="fn">write</span>(<span class="str">"**Probabilités :**"</span>)
+    <span class="kw">for</span> i, espece <span class="kw">in</span> <span class="fn">enumerate</span>(ESPECES):
+        st.<span class="fn">progress</span>(<span class="fn">float</span>(proba[i]), text=<span class="str">f"{espece} : {proba[i]:.1%}"</span>)</div>
+      </div>
+    </div>
+    <button class="done-btn" onclick="markDone(8)">✅ Marquer comme terminé</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       SÉANCE 10 — Projet Final
+  ══════════════════════════════════════════════════ -->
+  <div class="lesson" id="lesson-9">
+    <div class="lesson-header">
+      <div class="lesson-badge">🏆 Séance 10 · Projet Final</div>
+      <h1 class="lesson-title">Projet Final : Application Data Science</h1>
+      <p class="lesson-intro">Le grand final ! Tu vas combiner tout ce que tu as appris pour créer une application Data Science complète et professionnelle, puis la déployer gratuitement sur le web.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="1">Idée de projet : Analyseur de Données Automatique</h2>
+      <p>L'utilisateur uploade n'importe quel fichier CSV/Excel, et l'app analyse automatiquement les données, génère des graphiques et applique un modèle de prédiction.</p>
+      <div class="callout tip"><div class="callout-icon">💡</div><div>Ce type d'application est très demandé en entreprise ! Elle permet à n'importe qui d'analyser ses données sans connaître Python.</div></div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="2">Code complet du projet</h2>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">projet_final.py</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body"><span class="imp">import</span> streamlit <span class="imp">as</span> st
+<span class="imp">import</span> pandas <span class="imp">as</span> pd
+<span class="imp">import</span> plotly.express <span class="imp">as</span> px
+<span class="imp">from</span> sklearn.preprocessing <span class="imp">import</span> LabelEncoder
+<span class="imp">from</span> sklearn.ensemble <span class="imp">import</span> RandomForestRegressor
+<span class="imp">from</span> sklearn.model_selection <span class="imp">import</span> train_test_split
+<span class="imp">import</span> io
+
+st.<span class="fn">set_page_config</span>(page_title=<span class="str">"DataAnalyzer Pro"</span>, page_icon=<span class="str">"🔬"</span>, layout=<span class="str">"wide"</span>)
+
+st.<span class="fn">title</span>(<span class="str">"🔬 DataAnalyzer Pro"</span>)
+st.<span class="fn">write</span>(<span class="str">"Upload ton fichier de données et l'analyse se fait automatiquement !"</span>)
+
+fichier = st.<span class="fn">file_uploader</span>(<span class="str">"📂 Charger un fichier CSV ou Excel"</span>, type=[<span class="str">"csv"</span>,<span class="str">"xlsx"</span>])
+
+<span class="kw">if</span> fichier:
+    df = pd.<span class="fn">read_csv</span>(fichier) <span class="kw">if</span> fichier.name.<span class="fn">endswith</span>(<span class="str">".csv"</span>) <span class="kw">else</span> pd.<span class="fn">read_excel</span>(fichier)
+    
+    <span class="cm"># ─── ONGLETS ───</span>
+    tab1, tab2, tab3, tab4 = st.<span class="fn">tabs</span>([<span class="str">"📋 Données"</span>, <span class="str">"📊 Graphiques"</span>, <span class="str">"📈 Statistiques"</span>, <span class="str">"🤖 ML"</span>])
+    
+    <span class="kw">with</span> tab1:
+        st.<span class="fn">subheader</span>(<span class="str">"Aperçu des données"</span>)
+        c1,c2,c3 = st.<span class="fn">columns</span>(<span class="num">3</span>)
+        c1.<span class="fn">metric</span>(<span class="str">"Lignes"</span>, df.shape[<span class="num">0</span>])
+        c2.<span class="fn">metric</span>(<span class="str">"Colonnes"</span>, df.shape[<span class="num">1</span>])
+        c3.<span class="fn">metric</span>(<span class="str">"Valeurs manquantes"</span>, df.<span class="fn">isnull</span>().<span class="fn">sum</span>().<span class="fn">sum</span>())
+        st.<span class="fn">dataframe</span>(df.head(<span class="num">50</span>), use_container_width=<span class="kw">True</span>)
+    
+    <span class="kw">with</span> tab2:
+        st.<span class="fn">subheader</span>(<span class="str">"Créer un graphique"</span>)
+        colonnes_num = df.<span class="fn">select_dtypes</span>(include=<span class="str">"number"</span>).columns.<span class="fn">tolist</span>()
+        colonnes_cat = df.<span class="fn">select_dtypes</span>(include=<span class="str">"object"</span>).columns.<span class="fn">tolist</span>()
+        
+        type_graph = st.<span class="fn">selectbox</span>(<span class="str">"Type de graphique"</span>, [<span class="str">"Barres"</span>,<span class="str">"Courbe"</span>,<span class="str">"Nuage de points"</span>,<span class="str">"Histogramme"</span>])
+        
+        <span class="kw">if</span> type_graph == <span class="str">"Histogramme"</span> <span class="kw">and</span> colonnes_num:
+            col_hist = st.<span class="fn">selectbox</span>(<span class="str">"Colonne"</span>, colonnes_num)
+            fig = px.<span class="fn">histogram</span>(df, x=col_hist)
+        <span class="kw">elif</span> colonnes_cat <span class="kw">and</span> colonnes_num:
+            x_col = st.<span class="fn">selectbox</span>(<span class="str">"Axe X"</span>, colonnes_cat + colonnes_num)
+            y_col = st.<span class="fn">selectbox</span>(<span class="str">"Axe Y"</span>, colonnes_num)
+            <span class="kw">if</span> type_graph == <span class="str">"Barres"</span>: fig = px.<span class="fn">bar</span>(df, x=x_col, y=y_col)
+            <span class="kw">elif</span> type_graph == <span class="str">"Courbe"</span>: fig = px.<span class="fn">line</span>(df, x=x_col, y=y_col)
+            <span class="kw">else</span>: fig = px.<span class="fn">scatter</span>(df, x=x_col, y=y_col)
+        
+        st.<span class="fn">plotly_chart</span>(fig, use_container_width=<span class="kw">True</span>)
+    
+    <span class="kw">with</span> tab3:
+        st.<span class="fn">subheader</span>(<span class="str">"Statistiques descriptives"</span>)
+        st.<span class="fn">dataframe</span>(df.<span class="fn">describe</span>(), use_container_width=<span class="kw">True</span>)
+    
+    <span class="kw">with</span> tab4:
+        st.<span class="fn">subheader</span>(<span class="str">"Prédiction automatique"</span>)
+        <span class="kw">if</span> <span class="fn">len</span>(colonnes_num) >= <span class="num">2</span>:
+            cible = st.<span class="fn">selectbox</span>(<span class="str">"Variable à prédire (cible)"</span>, colonnes_num)
+            features = [c <span class="kw">for</span> c <span class="kw">in</span> colonnes_num <span class="kw">if</span> c != cible]
+            
+            <span class="kw">if</span> st.<span class="fn">button</span>(<span class="str">"🚀 Entraîner le modèle"</span>):
+                X = df[features].<span class="fn">dropna</span>()
+                y = df.loc[X.index, cible]
+                X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=<span class="num">0.2</span>)
+                mdl = <span class="fn">RandomForestRegressor</span>()
+                mdl.<span class="fn">fit</span>(X_tr, y_tr)
+                score = mdl.<span class="fn">score</span>(X_te, y_te)
+                st.<span class="fn">metric</span>(<span class="str">"Score R² du modèle"</span>, <span class="str">f"{score:.2%}"</span>)
+                st.<span class="fn">success</span>(<span class="str">"Modèle entraîné !"</span>)</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="3">Déploiement sur Streamlit Cloud</h2>
+      <ul class="steps">
+        <li>Crée un compte gratuit sur <strong>github.com</strong> et mets ton code dans un dépôt public</li>
+        <li>Va sur <strong>share.streamlit.io</strong> et connecte ton compte GitHub</li>
+        <li>Clique "New app", sélectionne ton dépôt et le fichier <code>app.py</code></li>
+        <li>Ajoute un fichier <code>requirements.txt</code> avec les bibliothèques nécessaires</li>
+        <li>Clique "Deploy" — ton app sera en ligne en quelques minutes !</li>
+      </ul>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">requirements.txt</span><button class="copy-btn" onclick="copyCode(this)">copier</button></div>
+        <div class="code-body">streamlit
+pandas
+plotly
+scikit-learn
+openpyxl
+joblib</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title" data-num="4">🎉 Félicitations !</h2>
+      <div class="callout tip"><div class="callout-icon">🏆</div><div><strong>Tu as terminé la formation !</strong> Tu sais maintenant créer des applications Streamlit complètes, manipuler des données avec pandas, créer des graphiques avec Plotly, et déployer des modèles de Machine Learning. Continue à pratiquer en créant tes propres projets !</div></div>
+    </div>
+    <button class="done-btn" onclick="markDone(9)">🏆 Terminer la formation !</button>
+  </div>
+
+</div><!-- end main -->
+
+<script>
+const TITLES = [
+  "Introduction à Streamlit",
+  "Widgets et Interactions",
+  "Design Moderne sans CSS",
+  "Gestion des Données Excel",
+  "Application de Gestion (CRUD)",
+  "Dashboard Interactif",
+  "Gestion Avancée & Fichiers",
+  "Mini Projet : Gestion d'Entreprise",
+  "Déploiement de Modèles ML",
+  "Projet Final : Application Data Science"
+];
+
+const ICONS = ["⚡","🎛️","🎨","📊","🗂️","📈","📁","🏢","🤖","🏆"];
+
+let current = 0;
+let done = JSON.parse(localStorage.getItem('st_done') || '[]');
+
+function buildNav() {
+  const ul = document.getElementById('nav-list');
+  ul.innerHTML = '';
+  TITLES.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.className = 'nav-item';
+    const isDone = done.includes(i);
+    li.innerHTML = `<button class="nav-btn ${i===current?'active':''} ${isDone?'done':''}" onclick="goTo(${i})">
+      <span class="nav-num">${String(i+1).padStart(2,'0')}</span>
+      <span class="nav-icon">${ICONS[i]}</span>
+      <span class="nav-title">${t}</span>
+      ${isDone ? '<span class="nav-check">✓</span>' : ''}
+    </button>`;
+    ul.appendChild(li);
+  });
+}
+
+function updateProgress() {
+  const pct = Math.round(done.length / TITLES.length * 100);
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('prog-text').textContent = done.length + ' / ' + TITLES.length;
+}
+
+function goTo(i) {
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.getElementById('lesson-' + i).classList.add('active');
+  current = i;
+  document.getElementById('tb-session').textContent = `Séance ${i+1} / ${TITLES.length}`;
+  document.getElementById('tb-title').textContent = TITLES[i];
+  buildNav();
+  window.scrollTo(0,0);
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < TITLES.length) goTo(next);
+}
+
+function markDone(i) {
+  if (!done.includes(i)) { done.push(i); localStorage.setItem('st_done', JSON.stringify(done)); }
+  updateProgress();
+  buildNav();
+  if (i < TITLES.length - 1) {
+    setTimeout(() => goTo(i + 1), 500);
+  }
+}
+
+function copyCode(btn) {
+  const code = btn.closest('.code-block').querySelector('.code-body').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'copié !';
+    setTimeout(() => btn.textContent = 'copier', 1500);
+  });
+}
+
+buildNav();
+updateProgress();
+</script>
+</body>
+</html>
