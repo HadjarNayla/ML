@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدرس الثالث · تحديات البرمجة 🔥</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#06060f;--surface:#0e0e1f;--border:rgba(255,255,255,.08);
+  --easy:#00e5a0;--medium:#f7c948;--hard:#ff6b6b;--extreme:#b56aff;
+  --text:rgba(255,255,255,.88);--muted:rgba(255,255,255,.4);
+}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* GRID BG */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;z-index:0
+}
+
+/* PROGRESS */
+#progress-bar{position:fixed;top:0;left:0;right:0;height:3px;z-index:999;
+  background:linear-gradient(90deg,var(--easy),var(--medium),var(--hard),var(--extreme));
+  transform-origin:left;transform:scaleX(0);transition:transform .15s}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;padding:2rem;position:relative;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,229,160,.07) 0%,transparent 70%)}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;
+  border:1px solid rgba(0,229,160,.3);background:rgba(0,229,160,.07);
+  padding:.4rem 1.2rem;border-radius:4px;font-size:.82rem;color:var(--easy);
+  letter-spacing:.05em;margin-bottom:2rem;font-family:'Space Mono',monospace}
+.hero-badge::before{content:'▶ ';color:var(--easy)}
+.hero h1{font-size:clamp(2.4rem,7vw,5rem);font-weight:900;line-height:1.1;margin-bottom:1rem}
+.hero h1 .accent{background:linear-gradient(135deg,var(--easy),#00b4d8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--muted);max-width:520px;line-height:1.9;margin-bottom:3rem;font-size:.97rem}
+.level-pills{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
+.lpill{padding:.45rem 1.1rem;border-radius:4px;font-size:.82rem;font-weight:700;
+  font-family:'Space Mono',monospace;letter-spacing:.04em;cursor:default}
+.lpill.easy{background:rgba(0,229,160,.12);border:1px solid rgba(0,229,160,.35);color:var(--easy)}
+.lpill.medium{background:rgba(247,201,72,.12);border:1px solid rgba(247,201,72,.35);color:var(--medium)}
+.lpill.hard{background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.35);color:var(--hard)}
+.lpill.extreme{background:rgba(181,106,255,.12);border:1px solid rgba(181,106,255,.35);color:var(--extreme)}
+.start-btn{background:var(--easy);color:#06060f;border:none;padding:1rem 2.8rem;
+  border-radius:4px;font-size:1rem;font-family:'Cairo',sans-serif;font-weight:700;
+  cursor:pointer;letter-spacing:.03em;transition:all .25s;position:relative;overflow:hidden}
+.start-btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);
+  opacity:0;transition:opacity .2s}
+.start-btn:hover::after{opacity:1}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(0,229,160,.35)}
+
+/* SCOREBOARD */
+.score-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:rgba(6,6,15,.92);backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  padding:.6rem 2rem;display:flex;align-items:center;gap:2rem;justify-content:center;flex-wrap:wrap}
+.score-item{display:flex;align-items:center;gap:.5rem;font-family:'Space Mono',monospace;font-size:.82rem}
+.score-label{color:var(--muted)}
+.score-val{font-weight:700}
+.score-val.green{color:var(--easy)}
+.score-val.gold{color:var(--medium)}
+.score-val.purple{color:var(--extreme)}
+.progress-dots{display:flex;gap:.35rem;flex-wrap:wrap}
+.pdot{width:10px;height:10px;border-radius:2px;background:rgba(255,255,255,.1);transition:background .4s}
+.pdot.done{background:var(--easy)}
+.pdot.wrong{background:var(--hard)}
+
+/* SECTIONS */
+.section{padding:4rem 1.5rem 2rem;position:relative;z-index:1}
+.sec-inner{max-width:900px;margin:0 auto}
+
+/* LEVEL DIVIDER */
+.level-divider{display:flex;align-items:center;gap:1.5rem;margin:3rem 0 2rem;padding:1.2rem 1.8rem;
+  border-radius:6px;font-family:'Space Mono',monospace}
+.level-divider.easy-div{background:rgba(0,229,160,.05);border:1px solid rgba(0,229,160,.2)}
+.level-divider.medium-div{background:rgba(247,201,72,.05);border:1px solid rgba(247,201,72,.2)}
+.level-divider.hard-div{background:rgba(255,107,107,.05);border:1px solid rgba(255,107,107,.2)}
+.level-divider.extreme-div{background:rgba(181,106,255,.05);border:1px solid rgba(181,106,255,.2)}
+.lvl-icon{font-size:2rem}
+.lvl-info h2{font-size:1.2rem;font-weight:700;margin-bottom:.2rem}
+.lvl-info p{font-size:.82rem;color:var(--muted)}
+.easy-div .lvl-info h2{color:var(--easy)}
+.medium-div .lvl-info h2{color:var(--medium)}
+.hard-div .lvl-info h2{color:var(--hard)}
+.extreme-div .lvl-info h2{color:var(--extreme)}
+.lvl-badge{margin-right:auto;padding:.3rem .8rem;border-radius:3px;
+  font-size:.72rem;font-weight:700}
+.easy-div .lvl-badge{background:rgba(0,229,160,.15);color:var(--easy)}
+.medium-div .lvl-badge{background:rgba(247,201,72,.15);color:var(--medium)}
+.hard-div .lvl-badge{background:rgba(255,107,107,.15);color:var(--hard)}
+.extreme-div .lvl-badge{background:rgba(181,106,255,.15);color:var(--extreme)}
+
+/* EXERCISE CARD */
+.ex-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  margin-bottom:1.5rem;overflow:hidden;transition:border-color .3s;position:relative}
+.ex-card:hover{border-color:rgba(255,255,255,.15)}
+.ex-card.solved{border-color:rgba(0,229,160,.4)!important}
+.ex-card.failed{border-color:rgba(255,107,107,.3)}
+.solved-glow{position:absolute;inset:0;pointer-events:none;border-radius:8px;
+  box-shadow:inset 0 0 40px rgba(0,229,160,.06);opacity:0;transition:opacity .5s}
+.ex-card.solved .solved-glow{opacity:1}
+
+.ex-top{padding:1.4rem 1.6rem 0;display:flex;align-items:flex-start;gap:1rem}
+.ex-num-badge{width:42px;height:42px;border-radius:6px;display:flex;align-items:center;
+  justify-content:center;font-family:'Space Mono',monospace;font-weight:700;font-size:1rem;
+  flex-shrink:0}
+.easy-num{background:rgba(0,229,160,.12);color:var(--easy);border:1px solid rgba(0,229,160,.3)}
+.medium-num{background:rgba(247,201,72,.12);color:var(--medium);border:1px solid rgba(247,201,72,.3)}
+.hard-num{background:rgba(255,107,107,.12);color:var(--hard);border:1px solid rgba(255,107,107,.3)}
+.extreme-num{background:rgba(181,106,255,.12);color:var(--extreme);border:1px solid rgba(181,106,255,.3)}
+.ex-meta{flex:1}
+.ex-title{font-size:1.05rem;font-weight:700;margin-bottom:.3rem}
+.ex-desc{color:var(--muted);font-size:.88rem;line-height:1.7}
+.ex-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem}
+.tag{padding:.2rem .55rem;border-radius:3px;font-size:.72rem;font-family:'Space Mono',monospace;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)}
+
+.ex-body{padding:1.2rem 1.6rem}
+.expected-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:6px;
+  padding:.9rem 1.1rem;margin-bottom:1.2rem;font-size:.85rem}
+.exp-label{font-size:.72rem;font-family:'Space Mono',monospace;color:var(--muted);
+  margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.08em}
+.exp-content{font-family:'Space Mono',monospace;font-size:.8rem;color:#a5d6ff;line-height:1.7;direction:ltr}
+.hint-box{background:rgba(247,201,72,.04);border:1px solid rgba(247,201,72,.15);
+  border-radius:6px;padding:.8rem 1rem;margin-bottom:1.2rem;font-size:.84rem;
+  color:rgba(247,201,72,.75);line-height:1.6;display:none}
+.hint-box.show{display:block}
+
+/* inputs for simulated input() */
+.sim-inputs{background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:6px;padding:1rem;margin-bottom:1rem}
+.sim-label{font-size:.75rem;font-family:'Space Mono',monospace;color:var(--muted);margin-bottom:.7rem}
+.sim-row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center;margin-bottom:.5rem}
+.sim-row:last-child{margin-bottom:0}
+.sim-key{font-size:.8rem;color:var(--muted);min-width:80px;text-align:right;font-family:'Space Mono',monospace}
+.sim-val{flex:1;min-width:120px;background:rgba(255,255,255,.05);border:1px solid var(--border);
+  border-radius:5px;padding:.45rem .8rem;color:#fff;font-family:'Cairo',sans-serif;
+  font-size:.9rem;outline:none;transition:border-color .3s}
+.sim-val:focus{border-color:rgba(255,255,255,.3)}
+
+/* EDITOR */
+.editor-wrap{background:#0a0a18;border-radius:6px;overflow:hidden;margin-bottom:.8rem;border:1px solid var(--border)}
+.editor-bar{display:flex;align-items:center;gap:.5rem;padding:.6rem 1rem;border-bottom:1px solid var(--border);background:#080816}
+.ebar-dots{display:flex;gap:.35rem}
+.edot{width:9px;height:9px;border-radius:50%}
+.ebar-title{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted);margin-right:auto}
+.ebar-lang{font-family:'Space Mono',monospace;font-size:.7rem;color:rgba(0,229,160,.6);padding:.15rem .5rem;background:rgba(0,229,160,.08);border-radius:3px}
+.code-area{padding:.9rem 1rem;font-family:'Space Mono',monospace;direction:ltr;
+  min-height:80px;font-size:.84rem;color:#e2e2e2;outline:none;
+  white-space:pre;caret-color:var(--easy);line-height:1.7}
+.code-area:empty::before{content:attr(data-placeholder);color:rgba(255,255,255,.18)}
+
+/* BUTTONS */
+.ex-actions{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center}
+.btn-run{background:var(--easy);color:#06060f;border:none;padding:.6rem 1.4rem;
+  border-radius:4px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:700;
+  cursor:pointer;transition:all .2s}
+.btn-run:hover{opacity:.9;transform:translateY(-1px)}
+.btn-check{background:rgba(181,106,255,.15);border:1px solid rgba(181,106,255,.3);
+  color:var(--extreme);padding:.6rem 1.4rem;border-radius:4px;
+  font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-check:hover{background:rgba(181,106,255,.25)}
+.btn-hint{background:rgba(247,201,72,.08);border:1px solid rgba(247,201,72,.2);
+  color:var(--medium);padding:.5rem 1rem;border-radius:4px;
+  font-family:'Cairo',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s}
+.btn-hint:hover{background:rgba(247,201,72,.15)}
+.btn-reset{background:rgba(255,255,255,.04);border:1px solid var(--border);
+  color:var(--muted);padding:.5rem .9rem;border-radius:4px;
+  font-family:'Space Mono',monospace;font-size:.75rem;cursor:pointer;transition:all .2s;margin-right:auto}
+.btn-reset:hover{background:rgba(255,255,255,.08)}
+
+/* OUTPUT */
+.output-panel{background:#000;border-radius:5px;padding:.8rem 1rem;margin-top:.8rem;
+  font-family:'Space Mono',monospace;direction:ltr;min-height:36px;
+  font-size:.82rem;color:var(--easy);border:1px solid var(--border);display:none;line-height:1.8}
+.output-panel.show{display:block}
+.out-tag{font-size:.68rem;color:var(--muted);margin-bottom:.3rem;font-family:'Cairo',sans-serif;direction:rtl}
+.output-line{white-space:pre-wrap}
+
+/* FEEDBACK */
+.feedback{padding:.85rem 1.1rem;border-radius:5px;margin-top:.7rem;
+  font-size:.88rem;line-height:1.7;display:none}
+.feedback.show{display:block;animation:slideUp .3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.feedback.ok{background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.25);color:rgba(0,229,160,.9)}
+.feedback.err{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.25);color:rgba(255,107,107,.9)}
+
+/* CONFETTI */
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.confetti-piece{position:absolute;width:8px;height:8px;opacity:0;border-radius:2px}
+
+/* FOOTER */
+footer{padding:4rem 2rem 8rem;text-align:center;position:relative;z-index:1}
+.footer-trophy{font-size:4rem;display:block;margin-bottom:1rem;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+footer h3{font-size:1.4rem;color:rgba(255,255,255,.8);margin-bottom:.5rem}
+footer p{color:var(--muted);font-size:.9rem;margin-bottom:.3rem}
+.next-btn{display:inline-block;margin-top:1.5rem;padding:.75rem 2rem;border-radius:4px;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);
+  font-family:'Space Mono',monospace;font-size:.85rem}
+
+/* STREAK */
+.streak-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
+  background:#0e0e1f;border:1px solid var(--easy);border-radius:12px;
+  padding:2rem 3rem;text-align:center;z-index:9998;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.streak-popup.show{transform:translate(-50%,-50%) scale(1)}
+.streak-num{font-size:4rem;font-weight:900;color:var(--easy);font-family:'Space Mono',monospace;line-height:1}
+.streak-label{font-size:1.1rem;margin-top:.3rem;color:rgba(255,255,255,.7)}
+
+/* FI */
+.fi{opacity:0;transform:translateY(25px);transition:opacity .55s ease,transform .55s ease}
+.fi.vis{opacity:1;transform:none}
+
+@media(max-width:600px){
+  .score-bar{gap:1rem;padding:.6rem 1rem}
+  .ex-top{gap:.7rem}
+  .ex-body,.ex-top{padding:1rem 1.1rem}
+  .hero h1{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="confetti-wrap" id="confettiWrap"></div>
+<div class="streak-popup" id="streakPopup">
+  <div class="streak-num" id="streakNum">🔥3</div>
+  <div class="streak-label">سلسلة إجابات صحيحة!</div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">الدرس الثالث · Python للمبتدئين</div>
+  <h1>وقت<br><span class="accent">التحديات!</span> 🔥</h1>
+  <p>20 تمريناً من السهل للمستحيل — اختبر كل ما تعلّمته عن print() وinput() والمتغيرات. كل إجابة صحيحة تقرّبك من اللقب الأعلى!</p>
+  <div class="level-pills">
+    <div class="lpill easy">🟢 سهل × 6</div>
+    <div class="lpill medium">🟡 متوسط × 6</div>
+    <div class="lpill hard">🔴 صعب × 5</div>
+    <div class="lpill extreme">⚡ أسطوري × 3</div>
+  </div>
+  <button class="start-btn" onclick="document.getElementById('exercises').scrollIntoView({behavior:'smooth'})">ابدأ التحديات 🚀</button>
+</section>
+
+<!-- EXERCISES -->
+<div id="exercises">
+<div class="section">
+<div class="sec-inner">
+
+<!-- ===================== EASY ===================== -->
+<div class="fi level-divider easy-div">
+  <div class="lvl-icon">🟢</div>
+  <div class="lvl-info">
+    <h2>المستوى الأول — سهل</h2>
+    <p>ابدأ بخطوات واثقة. print() والمتغيرات الأساسية</p>
+  </div>
+  <div class="lvl-badge">6 تمارين</div>
+</div>
+
+<!-- EX 1 -->
+<div class="fi ex-card" id="card1">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge easy-num">01</div>
+    <div class="ex-meta">
+      <div class="ex-title">👋 أول سطر لك</div>
+      <div class="ex-desc">اطبع كلمة <strong>مرحباً</strong> على الشاشة بالضبط</div>
+      <div class="ex-tags"><span class="tag">print</span><span class="tag">string</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">الإخراج المطلوب</div>
+      <div class="exp-content">مرحباً</div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c1" contenteditable="true" data-placeholder='print("...")'></div>
+    </div>
+    <div class="output-panel" id="o1"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot1"></div></div>
+    <div class="feedback" id="f1"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(1)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(1)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(1)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(1)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h1">استخدم print() واكتب النص بين علامتَي تنصيص: print("مرحباً")</div>
+  </div>
+</div>
+
+<!-- EX 2 -->
+<div class="fi ex-card" id="card2" style="transition-delay:.05s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge easy-num">02</div>
+    <div class="ex-meta">
+      <div class="ex-title">📋 ثلاثة أسطر</div>
+      <div class="ex-desc">اطبع اسمك، مدينتك، وهوايتك المفضلة — كل واحدة في سطر منفصل</div>
+      <div class="ex-tags"><span class="tag">print</span><span class="tag">multi-line</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال على الإخراج</div>
+      <div class="exp-content">أحمد<br>الرياض<br>البرمجة</div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c2" contenteditable="true" data-placeholder="print(...)&#10;print(...)&#10;print(...)"></div>
+    </div>
+    <div class="output-panel" id="o2"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot2"></div></div>
+    <div class="feedback" id="f2"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(2)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(2)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(2)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(2)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h2">كل print() يطبع سطراً جديداً. اكتب ثلاث print() منفصلة</div>
+  </div>
+</div>
+
+<!-- EX 3 -->
+<div class="fi ex-card" id="card3" style="transition-delay:.1s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge easy-num">03</div>
+    <div class="ex-meta">
+      <div class="ex-title">🔢 المتغير الأول</div>
+      <div class="ex-desc">عرّف متغيراً اسمه <code style="color:var(--easy);font-family:'Space Mono',monospace">score</code> وأعطه قيمة 100، ثم اطبعه</div>
+      <div class="ex-tags"><span class="tag">variable</span><span class="tag">int</span><span class="tag">print</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">الإخراج المطلوب</div>
+      <div class="exp-content">100</div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c3" contenteditable="true" data-placeholder="score = ...&#10;print(score)"></div>
+    </div>
+    <div class="output-panel" id="o3"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot3"></div></div>
+    <div class="feedback" id="f3"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(3)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(3)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(3)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(3)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h3">score = 100 ثم print(score)  لاحظ: بدون علامات تنصيص عند طباعة متغير</div>
+  </div>
+</div>
+
+<!-- EX 4 -->
+<div class="fi ex-card" id="card4" style="transition-delay:.15s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge easy-num">04</div>
+    <div class="ex-meta">
+      <div class="ex-title">🧮 جمع بسيط</div>
+      <div class="ex-desc">عرّف <code style="color:var(--easy);font-family:'Space Mono',monospace">a = 7</code> و <code style="color:var(--easy);font-family:'Space Mono',monospace">b = 3</code>، احسب مجموعهما واطبع النتيجة</div>
+      <div class="ex-tags"><span class="tag">variables</span><span class="tag">arithmetic</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">الإخراج المطلوب</div>
+      <div class="exp-content">10</div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c4" contenteditable="true" data-placeholder="a = 7&#10;b = 3&#10;result = ...&#10;print(result)"></div>
+    </div>
+    <div class="output-panel" id="o4"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot4"></div></div>
+    <div class="feedback" id="f4"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(4)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(4)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(4)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(4)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h4">result = a + b  ثم print(result)  أو مباشرةً: print(a + b)</div>
+  </div>
+</div>
+
+<!-- EX 5 -->
+<div class="fi ex-card" id="card5" style="transition-delay:.2s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge easy-num">05</div>
+    <div class="ex-meta">
+      <div class="ex-title">💬 دمج النص</div>
+      <div class="ex-desc">عرّف <code style="color:var(--easy);font-family:'Space Mono',monospace">first = "Hello"</code> و <code style="color:var(--easy);font-family:'Space Mono',monospace">second = "World"</code>، ادمجهما مع مسافة بينهما واطبع النتيجة</div>
+      <div class="ex-tags"><span class="tag">string</span><span class="tag">concatenation</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">الإخراج المطلوب</div>
+      <div class="exp-content">Hello World</div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c5" contenteditable="true" data-placeholder='first = "Hello"&#10;second = "World"&#10;print(...)'></div>
+    </div>
+    <div class="output-panel" id="o5"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot5"></div></div>
+    <div class="feedback" id="f5"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(5)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(5)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(5)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(5)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h5">استخدم + لدمج النصوص مع مسافة: first + " " + second</div>
+  </div>
+</div>
+
+<!-- EX 6 -->
+<div class="fi ex-card" id="card6" style="transition-delay:.25s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge easy-num">06</div>
+    <div class="ex-meta">
+      <div class="ex-title">⌨️ مرحبا بالمستخدم</div>
+      <div class="ex-desc">اطلب من المستخدم اسمه ثم اطبع "أهلاً [الاسم]!"</div>
+      <div class="ex-tags"><span class="tag">input</span><span class="tag">print</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال على الإخراج (لو الاسم: سارة)</div>
+      <div class="exp-content">أهلاً سارة!</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">الاسم:</div><input class="sim-val" id="s6_0" type="text" value="سارة"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c6" contenteditable="true" data-placeholder='name = input("ما اسمك؟ ")&#10;print(...)'></div>
+    </div>
+    <div class="output-panel" id="o6"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot6"></div></div>
+    <div class="feedback" id="f6"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(6)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(6)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(6)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(6)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h6">name = input("...") ثم print("أهلاً " + name + "!")</div>
+  </div>
+</div>
+
+<!-- ===================== MEDIUM ===================== -->
+<div class="fi level-divider medium-div" style="transition-delay:.1s">
+  <div class="lvl-icon">🟡</div>
+  <div class="lvl-info">
+    <h2>المستوى الثاني — متوسط</h2>
+    <p>تحديات تحتاج تفكيراً أكثر. تحويل الأنواع والعمليات المختلطة</p>
+  </div>
+  <div class="lvl-badge">6 تمارين</div>
+</div>
+
+<!-- EX 7 -->
+<div class="fi ex-card" id="card7">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge medium-num">07</div>
+    <div class="ex-meta">
+      <div class="ex-title">🎂 كم عمرك بعد 10 سنوات؟</div>
+      <div class="ex-desc">اطلب عمر المستخدم كرقم، ثم اطبع عمره بعد 10 سنوات</div>
+      <div class="ex-tags"><span class="tag">input</span><span class="tag">int()</span><span class="tag">arithmetic</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (لو العمر: 15)</div>
+      <div class="exp-content">بعد 10 سنوات ستكون عمرك 25</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">العمر:</div><input class="sim-val" id="s7_0" type="number" value="15"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c7" contenteditable="true" data-placeholder='age = int(input("كم عمرك؟ "))&#10;...'></div>
+    </div>
+    <div class="output-panel" id="o7"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot7"></div></div>
+    <div class="feedback" id="f7"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(7)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(7)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(7)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(7)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h7">تذكر: int() لتحويل input() إلى رقم، وstr() لتحويل الرقم إلى نص عند الدمج</div>
+  </div>
+</div>
+
+<!-- EX 8 -->
+<div class="fi ex-card" id="card8" style="transition-delay:.05s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge medium-num">08</div>
+    <div class="ex-meta">
+      <div class="ex-title">🌡️ تحويل الحرارة</div>
+      <div class="ex-desc">اطلب درجة حرارة بالمئوية وحوّلها إلى فهرنهايت. القانون: <code style="font-family:'Space Mono',monospace;color:var(--medium)">(C × 9/5) + 32</code></div>
+      <div class="ex-tags"><span class="tag">float</span><span class="tag">formula</span><span class="tag">input</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (لو المئوية: 100)</div>
+      <div class="exp-content">100 درجة مئوية = 212.0 فهرنهايت</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">المئوية:</div><input class="sim-val" id="s8_0" type="number" value="100"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c8" contenteditable="true" data-placeholder="c = float(input(...))&#10;f = ...&#10;print(...)"></div>
+    </div>
+    <div class="output-panel" id="o8"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot8"></div></div>
+    <div class="feedback" id="f8"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(8)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(8)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(8)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(8)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h8">f = (c * 9/5) + 32 ثم print(str(c) + " درجة مئوية = " + str(f) + " فهرنهايت")</div>
+  </div>
+</div>
+
+<!-- EX 9 -->
+<div class="fi ex-card" id="card9" style="transition-delay:.1s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge medium-num">09</div>
+    <div class="ex-meta">
+      <div class="ex-title">🔢 مضاعفات العدد</div>
+      <div class="ex-desc">اطلب رقماً من المستخدم وأخرج أول 5 مضاعفات له — كل واحدة في سطر</div>
+      <div class="ex-tags"><span class="tag">input</span><span class="tag">multiplication</span><span class="tag">multi-print</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (لو الرقم: 4)</div>
+      <div class="exp-content">4<br>8<br>12<br>16<br>20</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">الرقم:</div><input class="sim-val" id="s9_0" type="number" value="4"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c9" contenteditable="true" data-placeholder="n = int(input(...))&#10;print(n * 1)&#10;print(n * 2)&#10;..."></div>
+    </div>
+    <div class="output-panel" id="o9"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot9"></div></div>
+    <div class="feedback" id="f9"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(9)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(9)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(9)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(9)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h9">print(n*1) ثم print(n*2) ... حتى print(n*5)</div>
+  </div>
+</div>
+
+<!-- EX 10 -->
+<div class="fi ex-card" id="card10" style="transition-delay:.15s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge medium-num">10</div>
+    <div class="ex-meta">
+      <div class="ex-title">🛒 سعر بعد الخصم</div>
+      <div class="ex-desc">اطلب سعر منتج ونسبة الخصم (%)، احسب السعر النهائي واطبعه</div>
+      <div class="ex-tags"><span class="tag">float</span><span class="tag">percentage</span><span class="tag">input</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (سعر: 200، خصم: 20%)</div>
+      <div class="exp-content">السعر بعد الخصم: 160.0 ريال</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">السعر:</div><input class="sim-val" id="s10_0" type="number" value="200"></div>
+      <div class="sim-row"><div class="sim-key">الخصم %:</div><input class="sim-val" id="s10_1" type="number" value="20"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c10" contenteditable="true" data-placeholder="price = float(input(...))&#10;discount = float(input(...))&#10;final = ...&#10;print(...)"></div>
+    </div>
+    <div class="output-panel" id="o10"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot10"></div></div>
+    <div class="feedback" id="f10"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(10)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(10)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(10)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(10)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h10">final = price - (price * discount / 100)</div>
+  </div>
+</div>
+
+<!-- EX 11 -->
+<div class="fi ex-card" id="card11" style="transition-delay:.2s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge medium-num">11</div>
+    <div class="ex-meta">
+      <div class="ex-title">📐 محيط الدائرة</div>
+      <div class="ex-desc">اطلب نصف قطر دائرة واحسب محيطها. π = 3.14159</div>
+      <div class="ex-tags"><span class="tag">float</span><span class="tag">math</span><span class="tag">variables</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (نصف القطر: 5)</div>
+      <div class="exp-content">محيط الدائرة: 31.4159</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">نصف القطر:</div><input class="sim-val" id="s11_0" type="number" value="5"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c11" contenteditable="true" data-placeholder="pi = 3.14159&#10;r = float(input(...))&#10;circumference = ...&#10;print(...)"></div>
+    </div>
+    <div class="output-panel" id="o11"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot11"></div></div>
+    <div class="feedback" id="f11"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(11)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(11)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(11)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(11)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h11">circumference = 2 * pi * r</div>
+  </div>
+</div>
+
+<!-- EX 12 -->
+<div class="fi ex-card" id="card12" style="transition-delay:.25s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge medium-num">12</div>
+    <div class="ex-meta">
+      <div class="ex-title">🔄 تبديل القيم</div>
+      <div class="ex-desc">عرّف <code style="font-family:'Space Mono',monospace;color:var(--medium)">x = "قمر"</code> و <code style="font-family:'Space Mono',monospace;color:var(--medium)">y = "شمس"</code>، بدّل قيمهما واطبعهما بعد التبديل</div>
+      <div class="ex-tags"><span class="tag">variables</span><span class="tag">swap</span><span class="tag">temp</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">الإخراج المطلوب</div>
+      <div class="exp-content">x = شمس<br>y = قمر</div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c12" contenteditable="true" data-placeholder='x = "قمر"&#10;y = "شمس"&#10;temp = ...&#10;x = ...&#10;y = ...&#10;print("x = " + x)&#10;print("y = " + y)'></div>
+    </div>
+    <div class="output-panel" id="o12"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot12"></div></div>
+    <div class="feedback" id="f12"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(12)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(12)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(12)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(12)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h12">احفظ قيمة x في متغير مؤقت: temp = x ثم x = y ثم y = temp</div>
+  </div>
+</div>
+
+<!-- ===================== HARD ===================== -->
+<div class="fi level-divider hard-div" style="transition-delay:.1s">
+  <div class="lvl-icon">🔴</div>
+  <div class="lvl-info">
+    <h2>المستوى الثالث — صعب</h2>
+    <p>هنا الأمور تصير جدية. تحتاج تفكير منطقي وتركيز عالٍ</p>
+  </div>
+  <div class="lvl-badge">5 تمارين</div>
+</div>
+
+<!-- EX 13 -->
+<div class="fi ex-card" id="card13">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge hard-num">13</div>
+    <div class="ex-meta">
+      <div class="ex-title">📊 المتوسط الحسابي</div>
+      <div class="ex-desc">اطلب 4 أرقام من المستخدم واحسب متوسطها الحسابي واطبعه</div>
+      <div class="ex-tags"><span class="tag">input ×4</span><span class="tag">average</span><span class="tag">float</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (10، 20، 30، 40)</div>
+      <div class="exp-content">المتوسط: 25.0</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">رقم 1:</div><input class="sim-val" id="s13_0" type="number" value="10"></div>
+      <div class="sim-row"><div class="sim-key">رقم 2:</div><input class="sim-val" id="s13_1" type="number" value="20"></div>
+      <div class="sim-row"><div class="sim-key">رقم 3:</div><input class="sim-val" id="s13_2" type="number" value="30"></div>
+      <div class="sim-row"><div class="sim-key">رقم 4:</div><input class="sim-val" id="s13_3" type="number" value="40"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c13" contenteditable="true" data-placeholder="n1 = float(input(...))&#10;n2 = float(input(...))&#10;...&#10;avg = ...&#10;print(...)"></div>
+    </div>
+    <div class="output-panel" id="o13"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot13"></div></div>
+    <div class="feedback" id="f13"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(13)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(13)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(13)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(13)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h13">avg = (n1 + n2 + n3 + n4) / 4</div>
+  </div>
+</div>
+
+<!-- EX 14 -->
+<div class="fi ex-card" id="card14" style="transition-delay:.05s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge hard-num">14</div>
+    <div class="ex-meta">
+      <div class="ex-title">💰 حساب الفاتورة</div>
+      <div class="ex-desc">اطلب: اسم العميل، سعر الوجبة، وعدد الأشخاص. احسب المجموع مع ضريبة 15% واطبع فاتورة منظّمة</div>
+      <div class="ex-tags"><span class="tag">input ×3</span><span class="tag">tax</span><span class="tag">formatted output</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (علي، 50، 3 أشخاص)</div>
+      <div class="exp-content">===== فاتورة علي =====<br>عدد الأشخاص: 3<br>المجموع قبل الضريبة: 150.0<br>الضريبة 15%: 22.5<br>الإجمالي: 172.5</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">الاسم:</div><input class="sim-val" id="s14_0" type="text" value="علي"></div>
+      <div class="sim-row"><div class="sim-key">سعر الوجبة:</div><input class="sim-val" id="s14_1" type="number" value="50"></div>
+      <div class="sim-row"><div class="sim-key">عدد الأشخاص:</div><input class="sim-val" id="s14_2" type="number" value="3"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c14" contenteditable="true" data-placeholder="name = input(...)&#10;meal_price = float(input(...))&#10;people = int(input(...))&#10;..."></div>
+    </div>
+    <div class="output-panel" id="o14"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot14"></div></div>
+    <div class="feedback" id="f14"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(14)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(14)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(14)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(14)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h14">subtotal = meal_price * people ثم tax = subtotal * 0.15 ثم total = subtotal + tax</div>
+  </div>
+</div>
+
+<!-- EX 15 -->
+<div class="fi ex-card" id="card15" style="transition-delay:.1s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge hard-num">15</div>
+    <div class="ex-meta">
+      <div class="ex-title">🚗 حاسبة الرحلة</div>
+      <div class="ex-desc">اطلب: المسافة (كم) وسرعة السيارة (كم/ساعة). احسب الوقت اللازم واطبع النتيجة بالساعات والدقائق</div>
+      <div class="ex-tags"><span class="tag">division</span><span class="tag">modulo</span><span class="tag">time</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (250 كم، 100 كم/ساعة)</div>
+      <div class="exp-content">وقت الرحلة: 2 ساعة و 30 دقيقة</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">المسافة كم:</div><input class="sim-val" id="s15_0" type="number" value="250"></div>
+      <div class="sim-row"><div class="sim-key">السرعة كم/س:</div><input class="sim-val" id="s15_1" type="number" value="100"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c15" contenteditable="true" data-placeholder="dist = float(input(...))&#10;speed = float(input(...))&#10;total_hours = ...&#10;hours = int(total_hours)&#10;minutes = ...&#10;print(...)"></div>
+    </div>
+    <div class="output-panel" id="o15"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot15"></div></div>
+    <div class="feedback" id="f15"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(15)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(15)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(15)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(15)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h15">total_hours = dist / speed ثم hours = int(total_hours) ثم minutes = int((total_hours - hours) * 60)</div>
+  </div>
+</div>
+
+<!-- EX 16 -->
+<div class="fi ex-card" id="card16" style="transition-delay:.15s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge hard-num">16</div>
+    <div class="ex-meta">
+      <div class="ex-title">📦 مساحة الصندوق</div>
+      <div class="ex-desc">اطلب طول وعرض وارتفاع صندوق. احسب حجمه ومجموع مساحة أوجهه الستة</div>
+      <div class="ex-tags"><span class="tag">3D geometry</span><span class="tag">volume</span><span class="tag">surface area</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (طول 4، عرض 3، ارتفاع 2)</div>
+      <div class="exp-content">الحجم: 24<br>مساحة الأوجه: 52</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">الطول:</div><input class="sim-val" id="s16_0" type="number" value="4"></div>
+      <div class="sim-row"><div class="sim-key">العرض:</div><input class="sim-val" id="s16_1" type="number" value="3"></div>
+      <div class="sim-row"><div class="sim-key">الارتفاع:</div><input class="sim-val" id="s16_2" type="number" value="2"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c16" contenteditable="true" data-placeholder="l = int(input(...))&#10;w = int(input(...))&#10;h = int(input(...))&#10;volume = ...&#10;surface = ...&#10;print(...)"></div>
+    </div>
+    <div class="output-panel" id="o16"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot16"></div></div>
+    <div class="feedback" id="f16"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(16)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(16)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(16)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(16)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h16">volume = l*w*h ثم surface = 2*(l*w + l*h + w*h)</div>
+  </div>
+</div>
+
+<!-- EX 17 -->
+<div class="fi ex-card" id="card17" style="transition-delay:.2s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge hard-num">17</div>
+    <div class="ex-meta">
+      <div class="ex-title">💸 تقسيم الفاتورة</div>
+      <div class="ex-desc">اطلب: إجمالي الفاتورة، عدد الأشخاص، ونسبة البقشيش (%). احسب ما يدفعه كل شخص بالضبط</div>
+      <div class="ex-tags"><span class="tag">tip</span><span class="tag">division</span><span class="tag">real-world</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (300، 4 أشخاص، 10% بقشيش)</div>
+      <div class="exp-content">كل شخص يدفع: 82.5 ريال</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">الفاتورة:</div><input class="sim-val" id="s17_0" type="number" value="300"></div>
+      <div class="sim-row"><div class="sim-key">عدد الأشخاص:</div><input class="sim-val" id="s17_1" type="number" value="4"></div>
+      <div class="sim-row"><div class="sim-key">البقشيش %:</div><input class="sim-val" id="s17_2" type="number" value="10"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c17" contenteditable="true" data-placeholder="bill = float(input(...))&#10;people = int(input(...))&#10;tip_pct = float(input(...))&#10;..."></div>
+    </div>
+    <div class="output-panel" id="o17"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot17"></div></div>
+    <div class="feedback" id="f17"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(17)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(17)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(17)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(17)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h17">total = bill + (bill * tip_pct / 100) ثم per_person = total / people</div>
+  </div>
+</div>
+
+<!-- ===================== EXTREME ===================== -->
+<div class="fi level-divider extreme-div" style="transition-delay:.1s">
+  <div class="lvl-icon">⚡</div>
+  <div class="lvl-info">
+    <h2>المستوى الأسطوري — Extreme</h2>
+    <p>للشجعان فقط. هذه التحديات تحتاج تخطيطاً مسبقاً وتفكيراً عميقاً</p>
+  </div>
+  <div class="lvl-badge">3 تمارين</div>
+</div>
+
+<!-- EX 18 -->
+<div class="fi ex-card" id="card18">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge extreme-num">18</div>
+    <div class="ex-meta">
+      <div class="ex-title">🔐 مشفّر الرسائل</div>
+      <div class="ex-desc">اطلب رسالة نصية ورقماً سرياً (1-9). اصنع "تشفيراً" بطباعة الرسالة مكررة بعدد الرقم السري، مع طباعة طول الرسالة الأصلية ورسالة سرية مخصوصة</div>
+      <div class="ex-tags"><span class="tag">string *</span><span class="tag">len</span><span class="tag">str()</span><span class="tag">creative</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (رسالة: "hi"، رقم: 3)</div>
+      <div class="exp-content">===[ رسالة سرية ]===<br>hihihi<br>طول الرسالة الأصلية: 2<br>مستوى التشفير: 3<br>====================</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">الرسالة:</div><input class="sim-val" id="s18_0" type="text" value="hi"></div>
+      <div class="sim-row"><div class="sim-key">الرقم السري:</div><input class="sim-val" id="s18_1" type="number" value="3" min="1" max="9"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c18" contenteditable="true" data-placeholder="msg = input(...)&#10;key = int(input(...))&#10;..."></div>
+    </div>
+    <div class="output-panel" id="o18"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot18"></div></div>
+    <div class="feedback" id="f18"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(18)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(18)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(18)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(18)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h18">النص المكرر = msg * key  وللطول: len(msg)  كل شيء بالمتغيرات وstr()</div>
+  </div>
+</div>
+
+<!-- EX 19 -->
+<div class="fi ex-card" id="card19" style="transition-delay:.05s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge extreme-num">19</div>
+    <div class="ex-meta">
+      <div class="ex-title">🏦 حاسبة القرض المصرفي</div>
+      <div class="ex-desc">اطلب: مبلغ القرض، نسبة الفائدة السنوية (%)، وعدد سنوات السداد. احسب إجمالي المبلغ المسدّد والفائدة الكلية والقسط الشهري</div>
+      <div class="ex-tags"><span class="tag">compound math</span><span class="tag">finance</span><span class="tag">multiple outputs</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال (50000، 5%، 3 سنوات)</div>
+      <div class="exp-content">===[ تفاصيل القرض ]===<br>المبلغ الأصلي: 50000.0 ريال<br>إجمالي الفائدة: 7500.0 ريال<br>إجمالي المسدّد: 57500.0 ريال<br>القسط الشهري: 1597.22 ريال</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">المبلغ:</div><input class="sim-val" id="s19_0" type="number" value="50000"></div>
+      <div class="sim-row"><div class="sim-key">الفائدة %:</div><input class="sim-val" id="s19_1" type="number" value="5"></div>
+      <div class="sim-row"><div class="sim-key">السنوات:</div><input class="sim-val" id="s19_2" type="number" value="3"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c19" contenteditable="true" data-placeholder="principal = float(input(...))&#10;rate = float(input(...))&#10;years = int(input(...))&#10;..."></div>
+    </div>
+    <div class="output-panel" id="o19"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot19"></div></div>
+    <div class="feedback" id="f19"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(19)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(19)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(19)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(19)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h19">interest = principal * (rate/100) * years ثم total = principal + interest ثم monthly = total / (years * 12)</div>
+  </div>
+</div>
+
+<!-- EX 20 -->
+<div class="fi ex-card" id="card20" style="transition-delay:.1s">
+  <div class="solved-glow"></div>
+  <div class="ex-top">
+    <div class="ex-num-badge extreme-num">20</div>
+    <div class="ex-meta">
+      <div class="ex-title">🎮 بطاقة اللاعب</div>
+      <div class="ex-desc">اطلب: اسم اللاعب، نقاطه الثلاث (جولة 1، 2، 3)، واسم الفريق. احسب مجموعها ومتوسطها والنقاط التقديرية (المجموع × 10) وأنشئ بطاقة لاعب منظّمة ومزخرفة</div>
+      <div class="ex-tags"><span class="tag">strings</span><span class="tag">arithmetic</span><span class="tag">formatting</span><span class="tag">creative</span></div>
+    </div>
+  </div>
+  <div class="ex-body">
+    <div class="expected-box">
+      <div class="exp-label">مثال</div>
+      <div class="exp-content">╔══════════════════╗<br>║  بطاقة اللاعب   ║<br>╠══════════════════╣<br>║ الاسم: ريان      ║<br>║ الفريق: النجوم   ║<br>║ جولة 1: 85       ║<br>║ جولة 2: 90       ║<br>║ جولة 3: 78       ║<br>║ المجموع: 253     ║<br>║ المتوسط: 84.33   ║<br>║ النقاط الكلية: 2530 ║<br>╚══════════════════╝</div>
+    </div>
+    <div class="sim-inputs">
+      <div class="sim-label">// قيم input() للمحاكاة</div>
+      <div class="sim-row"><div class="sim-key">الاسم:</div><input class="sim-val" id="s20_0" type="text" value="ريان"></div>
+      <div class="sim-row"><div class="sim-key">الفريق:</div><input class="sim-val" id="s20_1" type="text" value="النجوم"></div>
+      <div class="sim-row"><div class="sim-key">جولة 1:</div><input class="sim-val" id="s20_2" type="number" value="85"></div>
+      <div class="sim-row"><div class="sim-key">جولة 2:</div><input class="sim-val" id="s20_3" type="number" value="90"></div>
+      <div class="sim-row"><div class="sim-key">جولة 3:</div><input class="sim-val" id="s20_4" type="number" value="78"></div>
+    </div>
+    <div class="editor-wrap">
+      <div class="editor-bar"><div class="ebar-dots"><div class="edot" style="background:#ff5f57"></div><div class="edot" style="background:#ffbd2e"></div><div class="edot" style="background:#28ca42"></div></div><div class="ebar-title">main.py</div><div class="ebar-lang">python</div></div>
+      <div class="code-area" id="c20" contenteditable="true" data-placeholder="player = input(...)&#10;team = input(...)&#10;r1 = int(input(...))&#10;r2 = int(input(...))&#10;r3 = int(input(...))&#10;..."></div>
+    </div>
+    <div class="output-panel" id="o20"><div class="out-tag">الإخراج:</div><div class="output-line" id="ot20"></div></div>
+    <div class="feedback" id="f20"></div>
+    <div class="ex-actions" style="margin-top:.8rem">
+      <button class="btn-reset" onclick="resetEx(20)">↺ مسح</button>
+      <button class="btn-hint" onclick="toggleHint(20)">💡 تلميح</button>
+      <button class="btn-run" onclick="runEx(20)">▶ تشغيل</button>
+      <button class="btn-check" onclick="checkEx(20)">✓ تحقق</button>
+    </div>
+    <div class="hint-box" id="h20">total = r1+r2+r3 ثم avg = total/3 ثم bonus = total * 10 وصمّم الإخراج بـ print() متعددة مع ═══ للزخرفة</div>
+  </div>
+</div>
+
+</div><!-- sec-inner -->
+</div><!-- section -->
+</div><!-- exercises -->
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-trophy">🏆</span>
+  <h3>أكملتَ الدرس الثالث!</h3>
+  <p>تعلّمتَ: print() متعددة · المتغيرات والأنواع · input() وتحويل البيانات</p>
+  <p style="margin-top:.3rem">حسابات حقيقية · تنسيق الإخراج · حل مشاكل واقعية</p>
+  <div class="next-btn">الدرس الرابع — الشروط والقرارات 🔜</div>
+</footer>
+
+<!-- SCORE BAR -->
+<div class="score-bar">
+  <div class="score-item"><span class="score-label">✅ صح</span><span class="score-val green" id="scoreCorrect">0</span></div>
+  <div class="score-item"><span class="score-label">❌ خطأ</span><span class="score-val" style="color:var(--hard)" id="scoreWrong">0</span></div>
+  <div class="score-item"><span class="score-label">🔥 سلسلة</span><span class="score-val gold" id="scoreStreak">0</span></div>
+  <div class="score-item"><span class="score-label">⭐ نقاط</span><span class="score-val purple" id="scorePoints">0</span></div>
+  <div class="progress-dots" id="progressDots"></div>
+</div>
+
+<script>
+/* ===== SETUP ===== */
+const TOTAL=20;
+const state={correct:0,wrong:0,streak:0,points:0,solved:new Set(),failed:new Set()};
+
+// build progress dots
+const dotsEl=document.getElementById('progressDots');
+for(let i=1;i<=TOTAL;i++){const d=document.createElement('div');d.className='pdot';d.id='dot'+i;dotsEl.appendChild(d);}
+
+// progress bar
+window.addEventListener('scroll',()=>{
+  const pct=window.scrollY/(document.body.scrollHeight-window.innerHeight);
+  document.getElementById('progress-bar').style.transform=`scaleX(${Math.min(pct,1)})`;
+});
+
+// fade-in
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')}),{threshold:.1});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+/* ===== PYTHON SIMULATOR ===== */
+function simPython(code,inputs){
+  const lines=code.trim().split('\n');
+  const vars={};const output=[];let idx=0;
+  const gi=()=>(inputs&&inputs[idx]!==undefined?inputs[idx++]:'');
+  for(let raw of lines){
+    const ln=raw.trim();
+    if(!ln||ln.startsWith('#'))continue;
+    let m;
+    // print
+    m=ln.match(/^print\s*\((.+)\)$/s);
+    if(m){try{output.push(String(evalE(m[1].trim(),vars)));}catch(e){output.push('⚠️ خطأ');}continue;}
+    // int(input(...))
+    m=ln.match(/^(\w+)\s*=\s*int\s*\(\s*input\s*\(.*?\)\s*\)$/);
+    if(m){vars[m[1]]=parseInt(gi())||0;continue;}
+    // float(input(...))
+    m=ln.match(/^(\w+)\s*=\s*float\s*\(\s*input\s*\(.*?\)\s*\)$/);
+    if(m){vars[m[1]]=parseFloat(gi())||0;continue;}
+    // input(...)
+    m=ln.match(/^(\w+)\s*=\s*input\s*\(.*?\)$/);
+    if(m){vars[m[1]]=gi();continue;}
+    // var = expr
+    m=ln.match(/^(\w+)\s*=\s*(.+)$/);
+    if(m){try{vars[m[1]]=evalE(m[2].trim(),vars);}catch(e){}continue;}
+  }
+  return{output,vars};
+}
+
+function evalE(expr,vars){
+  expr=expr.trim();
+  // string literal
+  let m=expr.match(/^(["'])(.*)\1$/s);
+  if(m)return m[2];
+  // number
+  if(/^-?\d+$/.test(expr))return parseInt(expr);
+  if(/^-?\d*\.\d+$/.test(expr))return parseFloat(expr);
+  // str()
+  m=expr.match(/^str\s*\((.+)\)$/s);
+  if(m)return String(evalE(m[1],vars));
+  // int()
+  m=expr.match(/^int\s*\((.+)\)$/s);
+  if(m)return Math.floor(Number(evalE(m[1],vars)))||0;
+  // float()
+  m=expr.match(/^float\s*\((.+)\)$/s);
+  if(m)return parseFloat(evalE(m[1],vars))||0;
+  // round(x, n)
+  m=expr.match(/^round\s*\((.+),\s*(\d+)\)$/s);
+  if(m)return parseFloat(Number(evalE(m[1],vars)).toFixed(parseInt(m[2])));
+  m=expr.match(/^round\s*\((.+)\)$/s);
+  if(m)return Math.round(Number(evalE(m[1],vars)));
+  // len()
+  m=expr.match(/^len\s*\((.+)\)$/s);
+  if(m)return String(evalE(m[1],vars)).length;
+  // variable
+  if(vars[expr]!==undefined)return vars[expr];
+  // handle ** first
+  if(expr.includes('**')){
+    const parts=splitOp(expr,'**');
+    if(parts.length===2)return Math.pow(Number(evalE(parts[0],vars)),Number(evalE(parts[1],vars)));
+  }
+  // // floor div
+  if(expr.includes('//')){
+    const parts=splitOp(expr,'//');
+    if(parts.length===2)return Math.floor(Number(evalE(parts[0],vars))/Number(evalE(parts[1],vars)));
+  }
+  // + - (split from right to handle precedence)
+  const pm=splitAddSub(expr);
+  if(pm){
+    const L=evalE(pm[0],vars),R=evalE(pm[2],vars);
+    if(pm[1]==='+'){if(typeof L==='string'||typeof R==='string')return String(L)+String(R);return L+R;}
+    return Number(L)-Number(R);
+  }
+  // * / %
+  const mmd=splitMulDiv(expr);
+  if(mmd){
+    const L=Number(evalE(mmd[0],vars)),R=Number(evalE(mmd[2],vars));
+    if(mmd[1]==='*'){
+      const lv=evalE(mmd[0],vars);
+      if(typeof lv==='string')return lv.repeat(R);
+      return L*R;
+    }
+    if(mmd[1]==='/')return L/R;
+    if(mmd[1]==='%')return L%R;
+  }
+  return expr;
+}
+
+function splitOp(expr,op){
+  const i=expr.indexOf(op);
+  if(i===-1)return null;
+  return[expr.slice(0,i).trim(),expr.slice(i+op.length).trim()];
+}
+
+function splitAddSub(expr){
+  let depth=0,inStr=false,strChar='';
+  for(let i=expr.length-1;i>=0;i--){
+    const c=expr[i];
+    if(!inStr&&(c==='"'||c==="'")){inStr=true;strChar=c;}
+    else if(inStr&&c===strChar){inStr=false;}
+    if(!inStr){
+      if(c===')'||c===']')depth++;
+      else if(c==='('||c==='[')depth--;
+      if(depth===0&&(c==='+'||c==='-')&&i>0){
+        return[expr.slice(0,i).trim(),c,expr.slice(i+1).trim()];
+      }
+    }
+  }
+  return null;
+}
+
+function splitMulDiv(expr){
+  let depth=0,inStr=false,strChar='';
+  for(let i=expr.length-1;i>=0;i--){
+    const c=expr[i];
+    if(!inStr&&(c==='"'||c==="'")){inStr=true;strChar=c;}
+    else if(inStr&&c===strChar){inStr=false;}
+    if(!inStr){
+      if(c===')'||c===']')depth++;
+      else if(c==='('||c==='[')depth--;
+      if(depth===0&&(c==='*'||c==='/'||c==='%')){
+        // skip ** and //
+        if(i+1<expr.length&&expr[i+1]===c)continue;
+        if(i>0&&expr[i-1]===c)continue;
+        return[expr.slice(0,i).trim(),c,expr.slice(i+1).trim()];
+      }
+    }
+  }
+  return null;
+}
+
+/* ===== INPUTS PER EXERCISE ===== */
+function getInputs(n){
+  const ids={
+    6:['s6_0'],7:['s7_0'],8:['s8_0'],9:['s9_0'],10:['s10_0','s10_1'],
+    11:['s11_0'],13:['s13_0','s13_1','s13_2','s13_3'],
+    14:['s14_0','s14_1','s14_2'],15:['s15_0','s15_1'],
+    16:['s16_0','s16_1','s16_2'],17:['s17_0','s17_1','s17_2'],
+    18:['s18_0','s18_1'],19:['s19_0','s19_1','s19_2'],
+    20:['s20_0','s20_1','s20_2','s20_3','s20_4']
+  };
+  if(!ids[n])return[];
+  return ids[n].map(id=>{const el=document.getElementById(id);return el?el.value:'';});
+}
+
+/* ===== RUN ===== */
+function runEx(n){
+  const code=document.getElementById('c'+n).innerText.trim();
+  const inputs=getInputs(n);
+  const oPanel=document.getElementById('o'+n);
+  const oText=document.getElementById('ot'+n);
+  let res;
+  try{res=simPython(code,inputs);}
+  catch(e){oText.textContent='⚠️ خطأ في الكود';oPanel.classList.add('show');return;}
+  oText.textContent=res.output.join('\n')||'(لا يوجد إخراج)';
+  oPanel.classList.add('show');
+}
+
+/* ===== CHECK LOGIC ===== */
+function checkEx(n){
+  const code=document.getElementById('c'+n).innerText.trim();
+  const inputs=getInputs(n);
+  const fb=document.getElementById('f'+n);
+  let res,ok=false,msg='';
+  try{res=simPython(code,inputs);}
+  catch(e){showFeedback(n,false,'⚠️ في خطأ بالكود، راجع كتابتك');return;}
+
+  const out=res.output;
+  const vars=res.vars;
+  const joined=out.join('\n');
+
+  if(n===1){
+    ok=out.length>0&&out[0].trim()==='مرحباً';
+    msg=ok?'🎉 ممتاز! طبعت "مرحباً" بشكل صحيح':'❌ الإخراج يجب أن يكون "مرحباً" بالضبط  تأكد من علامات التنصيص';
+  }
+  else if(n===2){
+    ok=out.length>=3&&out.every(l=>l.trim().length>0);
+    msg=ok?'🎉 رائع! ثلاثة أسطر مطبوعة بنجاح':'❌ تأكد من وجود 3 أسطر print() — كل سطر يحتوي على نص';
+  }
+  else if(n===3){
+    ok=out.length>0&&String(out[0]).trim()==='100'&&/score/.test(code);
+    msg=ok?'🎉 صح! المتغير score = 100 مطبوع':'❌ تأكد أن المتغير اسمه score وقيمته 100';
+  }
+  else if(n===4){
+    ok=out.length>0&&(Number(out[0])===10||out.some(o=>String(o).trim()==='10'));
+    msg=ok?'🎉 صح! 7 + 3 = 10':'❌ النتيجة يجب أن تكون 10';
+  }
+  else if(n===5){
+    ok=out.some(o=>String(o).trim()==='Hello World');
+    msg=ok?'🎉 ممتاز! الدمج صحيح: "Hello World"':'❌ تأكد من وجود مسافة بين الكلمتين: first + " " + second';
+  }
+  else if(n===6){
+    const nm=inputs[0]||'سارة';
+    ok=out.some(o=>String(o).includes('أهلاً')&&String(o).includes(nm)&&String(o).includes('!'));
+    msg=ok?`🎉 أحسنت! الترحيب بـ ${nm} صحيح`:'❌ تأكد أن الإخراج يحتوي على "أهلاً" + الاسم + "!"';
+  }
+  else if(n===7){
+    const age=parseInt(inputs[0])||15;
+    ok=out.some(o=>String(o).includes(String(age+10)));
+    msg=ok?'🎉 صح! حساب العمر بعد 10 سنوات صحيح':'❌ أضف 10 للعمر المدخل واطبع النتيجة';
+  }
+  else if(n===8){
+    const c=parseFloat(inputs[0])||100;
+    const f=(c*9/5)+32;
+    ok=out.some(o=>String(o).includes(String(f))||String(o).includes(f.toFixed(1)));
+    msg=ok?'🎉 صح! التحويل صحيح':'❌ القانون: f = (c * 9/5) + 32';
+  }
+  else if(n===9){
+    const n9=parseInt(inputs[0])||4;
+    ok=[1,2,3,4,5].every(i=>out.some(o=>Number(o)===n9*i||String(o).trim()===String(n9*i)));
+    msg=ok?`🎉 ممتاز! المضاعفات الخمسة لـ ${n9} صحيحة`:'❌ تأكد أن الإخراج يحتوي على 5 مضاعفات';
+  }
+  else if(n===10){
+    const price=parseFloat(inputs[0])||200,disc=parseFloat(inputs[1])||20;
+    const final=price-(price*disc/100);
+    ok=out.some(o=>String(o).includes(String(final)));
+    msg=ok?'🎉 صح! السعر بعد الخصم صحيح':'❌ الحساب: final = price - (price * discount / 100)';
+  }
+  else if(n===11){
+    const r=parseFloat(inputs[0])||5;
+    const expected=2*3.14159*r;
+    ok=out.some(o=>String(o).includes(expected.toFixed(3).slice(0,5))||String(o).includes(String(expected)));
+    msg=ok?'🎉 صح! محيط الدائرة صحيح':'❌ القانون: circumference = 2 * 3.14159 * r';
+  }
+  else if(n===12){
+    ok=out.some(o=>String(o).includes('شمس'))&&out.some(o=>String(o).includes('قمر'));
+    const xOk=out.some(o=>o.includes('x')&&o.includes('شمس'));
+    const yOk=out.some(o=>o.includes('y')&&o.includes('قمر'));
+    ok=xOk&&yOk;
+    msg=ok?'🎉 ممتاز! التبديل صحيح: x=شمس، y=قمر':'❌ بعد التبديل: x يجب أن يحتوي شمس وy قمر';
+  }
+  else if(n===13){
+    const nums=[inputs[0],inputs[1],inputs[2],inputs[3]].map(Number);
+    const avg=(nums[0]+nums[1]+nums[2]+nums[3])/4;
+    ok=out.some(o=>String(o).includes(String(avg))||String(o).includes(avg.toFixed(1)));
+    msg=ok?'🎉 صح! المتوسط الحسابي صحيح':'❌ تأكد من جمع الأربعة أرقام وقسمتها على 4';
+  }
+  else if(n===14){
+    const name=inputs[0],meal=parseFloat(inputs[1])||50,ppl=parseInt(inputs[2])||3;
+    const sub=meal*ppl,tax=sub*0.15,total=sub+tax;
+    ok=out.some(o=>String(o).includes(name))&&out.some(o=>String(o).includes(String(total))||String(o).includes(total.toFixed(1)));
+    msg=ok?'🎉 الفاتورة صحيحة ومنظّمة!':'❌ تأكد من حساب: subtotal = meal * people، tax = subtotal * 0.15، total = subtotal + tax';
+  }
+  else if(n===15){
+    const dist=parseFloat(inputs[0])||250,speed=parseFloat(inputs[1])||100;
+    const th=dist/speed,h=Math.floor(th),m=Math.round((th-h)*60);
+    ok=out.some(o=>String(o).includes(String(h)))&&out.some(o=>String(o).includes(String(m)));
+    msg=ok?`🎉 صح! ${h} ساعة و${m} دقيقة`:'❌ total_hours = dist/speed ثم hours = int(total_hours) ثم minutes = int((total_hours-hours)*60)';
+  }
+  else if(n===16){
+    const l=parseInt(inputs[0])||4,w=parseInt(inputs[1])||3,h=parseInt(inputs[2])||2;
+    const vol=l*w*h,surf=2*(l*w+l*h+w*h);
+    ok=out.some(o=>String(o).includes(String(vol)))&&out.some(o=>String(o).includes(String(surf)));
+    msg=ok?'🎉 صح! الحجم ومساحة الأوجه صحيحان':'❌ volume = l*w*h و surface = 2*(l*w + l*h + w*h)';
+  }
+  else if(n===17){
+    const bill=parseFloat(inputs[0])||300,ppl=parseInt(inputs[1])||4,tip=parseFloat(inputs[2])||10;
+    const total=bill+(bill*tip/100),per=total/ppl;
+    ok=out.some(o=>String(o).includes(String(per))||String(o).includes(per.toFixed(1))||String(o).includes(per.toFixed(2)));
+    msg=ok?'🎉 صح! تقسيم الفاتورة صحيح':'❌ total = bill + (bill*tip/100) ثم per_person = total / people';
+  }
+  else if(n===18){
+    const m18=inputs[0]||'hi',key=parseInt(inputs[1])||3;
+    ok=out.some(o=>String(o).includes(m18.repeat(key)))&&out.some(o=>String(o).includes(String(m18.length)));
+    msg=ok?'🎉 التشفير يعمل!  مبدع':'❌ تأكد من: النص المكرر = msg * key، وطبع len(msg)';
+  }
+  else if(n===19){
+    const p=parseFloat(inputs[0])||50000,r=parseFloat(inputs[1])||5,y=parseInt(inputs[2])||3;
+    const interest=p*(r/100)*y,total=p+interest,monthly=total/(y*12);
+    ok=out.some(o=>String(o).includes(String(interest))||String(o).includes(interest.toFixed(1)))
+      &&out.some(o=>String(o).includes(String(total))||String(o).includes(total.toFixed(1)));
+    msg=ok?'🎉 حاسبة القرض تعمل بدقة!':'❌ interest = principal*(rate/100)*years، monthly = total/(years*12)';
+  }
+  else if(n===20){
+    const player=inputs[0]||'ريان',team=inputs[1]||'النجوم';
+    const r1=parseInt(inputs[2])||85,r2=parseInt(inputs[3])||90,r3=parseInt(inputs[4])||78;
+    const total=r1+r2+r3,bonus=total*10;
+    ok=out.some(o=>String(o).includes(player))
+      &&out.some(o=>String(o).includes(team))
+      &&out.some(o=>String(o).includes(String(total)))
+      &&out.some(o=>String(o).includes(String(bonus)));
+    msg=ok?'🎉 بطاقة اللاعب مكتملة! أنت مبرمج حقيقي 🌟':'❌ تأكد من طباعة: الاسم، الفريق، المجموع، والنقاط الكلية (total×10)';
+  }
+
+  // run to show output too
+  runEx(n);
+  showFeedback(n,ok,msg);
+}
+
+function showFeedback(n,ok,msg){
+  const fb=document.getElementById('f'+n);
+  const card=document.getElementById('card'+n);
+  const dot=document.getElementById('dot'+n);
+  fb.className='feedback show '+(ok?'ok':'err');
+  fb.textContent=msg;
+
+  if(ok&&!state.solved.has(n)){
+    state.solved.add(n);state.failed.delete(n);
+    card.classList.add('solved');card.classList.remove('failed');
+    dot.classList.add('done');dot.classList.remove('wrong');
+    state.correct++;state.streak++;
+    const pts=calcPoints(n);state.points+=pts;
+    updateScore();
+    if(state.streak>=3)showStreak();
+    launchConfetti();
+  } else if(!ok&&!state.solved.has(n)){
+    if(!state.failed.has(n)){state.wrong++;state.failed.add(n);}
+    state.streak=0;card.classList.add('failed');dot.classList.add('wrong');
+    updateScore();
+  }
+}
+
+function calcPoints(n){
+  if(n<=6)return 10;
+  if(n<=12)return 20;
+  if(n<=17)return 35;
+  return 60;
+}
+
+function updateScore(){
+  document.getElementById('scoreCorrect').textContent=state.correct;
+  document.getElementById('scoreWrong').textContent=state.wrong;
+  document.getElementById('scoreStreak').textContent=state.streak;
+  document.getElementById('scorePoints').textContent=state.points;
+}
+
+function showStreak(){
+  const popup=document.getElementById('streakPopup');
+  document.getElementById('streakNum').textContent='🔥'+state.streak;
+  popup.classList.add('show');
+  setTimeout(()=>popup.classList.remove('show'),2500);
+}
+
+function launchConfetti(){
+  const wrap=document.getElementById('confettiWrap');
+  const colors=['#00e5a0','#f7c948','#ff6b6b','#b56aff','#00b4d8'];
+  for(let i=0;i<40;i++){
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.style.cssText=`left:${20+Math.random()*60}%;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};
+      transform:rotate(${Math.random()*360}deg);
+      animation:fall ${1+Math.random()*1.5}s ease-in forwards ${Math.random()*.5}s`;
+    wrap.appendChild(el);
+    setTimeout(()=>el.remove(),3000);
+  }
+}
+
+// confetti keyframes
+const style=document.createElement('style');
+style.textContent=`@keyframes fall{to{transform:translateY(110vh) rotate(${Math.random()*720}deg);opacity:0}}`;
+document.head.appendChild(style);
+
+function toggleHint(n){document.getElementById('h'+n).classList.toggle('show');}
+function resetEx(n){
+  document.getElementById('c'+n).innerText='';
+  document.getElementById('o'+n).classList.remove('show');
+  document.getElementById('f'+n).className='feedback';
+}
+</script>
+</body>
+</html>
