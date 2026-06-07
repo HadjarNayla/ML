@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدرس الثاني · كيف تتكلم الحواسيب؟ 🐍</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#080818;color:#fff;overflow-x:hidden}
+#progress-bar{position:fixed;top:0;right:0;height:4px;background:linear-gradient(90deg,#f7971e,#ffd200,#21d4fd,#b721ff);z-index:999;width:0%;transition:width .1s}
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(160deg,#050515 0%,#0d0d35 50%,#05051a 100%)}
+.hero-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:.5rem 1.5rem;border-radius:50px;font-size:.9rem;margin-bottom:1.5rem;color:#a0c4ff;backdrop-filter:blur(8px)}
+.hero-icons{font-size:3.5rem;display:flex;gap:1rem;margin-bottom:1.5rem;animation:floatUD 3s ease-in-out infinite}
+@keyframes floatUD{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.hero h1{font-size:clamp(2rem,6vw,4.2rem);font-weight:900;line-height:1.3;margin-bottom:1.2rem;background:linear-gradient(135deg,#fff 0%,#ffd200 40%,#21d4fd 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,.65);max-width:580px;line-height:1.9;margin-bottom:2.5rem}
+.hero-btn{background:linear-gradient(135deg,#f7971e,#ffd200);color:#080818;border:none;padding:1rem 2.5rem;border-radius:50px;font-size:1.1rem;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 8px 30px rgba(247,151,30,.4);transition:transform .3s,box-shadow .3s}
+.hero-btn:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(247,151,30,.6)}
+.hero-scroll{margin-top:2.5rem;font-size:.85rem;color:rgba(255,255,255,.3);animation:fadeUD 2s ease-in-out infinite}
+@keyframes fadeUD{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.7;transform:translateY(6px)}}
+
+/* SECTIONS */
+.section{padding:5rem 1.5rem;position:relative}
+.sec-inner{max-width:1050px;margin:0 auto}
+.sec-title{text-align:center;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:.7rem}
+.sec-sub{text-align:center;color:rgba(255,255,255,.55);margin-bottom:3rem;font-size:1rem;line-height:1.8}
+.fi{opacity:0;transform:translateY(35px);transition:opacity .65s ease,transform .65s ease}
+.fi.vis{opacity:1;transform:none}
+
+/* CARDS */
+.card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;margin-bottom:2rem}
+.icard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:1.8rem;text-align:center;transition:transform .3s,box-shadow .3s}
+.icard:hover{transform:translateY(-6px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
+.icard .ico{font-size:2.8rem;margin-bottom:.8rem}
+.icard h3{font-size:1.1rem;margin-bottom:.6rem}
+.icard p{color:rgba(255,255,255,.6);line-height:1.7;font-size:.92rem}
+
+/* BINARY SECTION */
+.bin-sec{background:linear-gradient(180deg,#080818 0%,#0d1a10 100%)}
+.bin-sec .sec-title{background:linear-gradient(135deg,#f7971e,#ffd200);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.bulb-row{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+.bulb-item{display:flex;flex-direction:column;align-items:center;gap:.6rem}
+.bulb{width:70px;height:70px;border-radius:50%;background:#111;border:3px solid #222;box-shadow:inset 0 3px 10px rgba(0,0,0,.6);transition:all .5s;font-size:2rem;display:flex;align-items:center;justify-content:center}
+.bulb.on{background:radial-gradient(circle at 35% 35%,#fff9c4,#ffd200);box-shadow:0 0 32px rgba(255,210,0,.8),0 0 60px rgba(255,210,0,.3),inset 0 3px 10px rgba(255,255,255,.3)}
+.bulb-label{font-size:1.4rem;font-weight:900;color:rgba(255,255,255,.5);transition:color .4s}
+.bulb-label.on{color:#ffd200}
+.bulb-sub{font-size:.72rem;color:rgba(255,255,255,.3)}
+
+.binary-demo-box{background:rgba(255,210,0,.05);border:1px solid rgba(255,210,0,.2);border-radius:20px;padding:2rem;margin-top:1.5rem}
+.binary-demo-box h3{color:#ffd200;text-align:center;font-size:1.3rem;margin-bottom:.4rem}
+.binary-demo-box .hint{text-align:center;color:rgba(255,255,255,.45);font-size:.9rem;margin-bottom:1.5rem}
+.bin-input-row{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem}
+.bin-input{background:rgba(255,255,255,.07);border:2px solid rgba(255,210,0,.3);border-radius:14px;padding:.7rem 1.2rem;color:#fff;font-family:'Cairo',sans-serif;font-size:1.1rem;width:180px;text-align:center;outline:none;transition:border-color .3s}
+.bin-input:focus{border-color:#ffd200}
+.bin-btn{background:linear-gradient(135deg,#f7971e,#ffd200);color:#080818;border:none;padding:.7rem 1.6rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;transition:transform .2s}
+.bin-btn:hover{transform:translateY(-2px)}
+.bits-display{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;min-height:56px;align-items:center}
+.bit-chip{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:1.3rem;font-weight:700;transition:all .4s;background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08);color:rgba(255,255,255,.3)}
+.bit-chip.one{background:rgba(255,210,0,.18);border-color:#ffd200;color:#ffd200;box-shadow:0 0 14px rgba(255,210,0,.3)}
+.bit-chip.zero{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.5)}
+.bin-char-result{text-align:center;margin-top:1rem;font-size:.9rem;color:rgba(255,255,255,.5)}
+.bin-char-result span{color:#ffd200;font-weight:700}
+
+/* SALAM DEMO */
+.salam-box{margin-top:1.5rem;background:rgba(0,0,0,.3);border-radius:14px;padding:1.5rem}
+.salam-title{text-align:center;font-size:1rem;color:rgba(255,255,255,.55);margin-bottom:1rem}
+.salam-chars{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.salam-char{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.salam-letter{font-size:1.6rem;font-weight:700;color:#ffd200}
+.salam-bits{font-family:'Courier New',monospace;font-size:.65rem;color:rgba(255,255,255,.4);letter-spacing:1px}
+
+/* WHY HARD SECTION */
+.hard-sec{background:linear-gradient(180deg,#0d1a10 0%,#1a0d0d 100%)}
+.hard-sec .sec-title{color:#ff7b72}
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+@media(max-width:600px){.compare-box{grid-template-columns:1fr}}
+.compare-card{border-radius:18px;padding:1.8rem}
+.compare-card.binary-card{background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.25)}
+.compare-card.python-card{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.25)}
+.compare-card h3{margin-bottom:1rem;font-size:1.1rem;text-align:center}
+.binary-card h3{color:#ff7b72}
+.python-card h3{color:#2ecc71}
+.code-panel{background:#0d1117;border-radius:14px;padding:1.4rem;font-family:'Courier New',monospace;direction:ltr;overflow-x:auto}
+.cline{padding:.28rem .5rem;border-radius:6px;font-size:.82rem;color:#555;transition:all .35s;line-height:1.85;white-space:nowrap}
+.cline.exec{background:rgba(74,144,217,.15);color:#7ec8e3;border-left:3px solid #4A90D9}
+.kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#3a4a5a;font-style:italic}.num{color:#f8c555}
+.cline.exec .kw{color:#ffadad}.cline.exec .str{color:#caffbf}
+.hard-stat{text-align:center;padding:2rem;background:rgba(231,76,60,.06);border:1px solid rgba(231,76,60,.2);border-radius:18px;margin-top:1.5rem}
+.hard-stat .big-num{font-size:3.5rem;font-weight:900;color:#ff7b72;line-height:1}
+.hard-stat p{color:rgba(255,255,255,.55);margin-top:.5rem;font-size:.95rem}
+
+/* TRANSLATORS SECTION */
+.trans-sec{background:linear-gradient(180deg,#1a0d0d 0%,#0d1530 100%)}
+.trans-sec .sec-title{color:#21d4fd}
+.pipeline-wrap{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.pipe-step{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:.8rem 1.2rem;text-align:center;min-width:100px}
+.pipe-step .ps-ico{font-size:1.8rem;display:block;margin-bottom:.3rem}
+.pipe-step .ps-lbl{font-size:.82rem;color:rgba(255,255,255,.65)}
+.pipe-arrow{font-size:1.5rem;color:rgba(255,255,255,.25)}
+.pipe-step.highlight{background:rgba(33,212,253,.12);border-color:rgba(33,212,253,.4)}
+.pipe-step.highlight .ps-lbl{color:#21d4fd}
+
+.trans-toggle{display:flex;gap:1rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
+.ttog{padding:.7rem 1.8rem;border-radius:50px;border:2px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.6);font-family:'Cairo',sans-serif;font-size:.95rem;cursor:pointer;transition:all .25s;font-weight:600}
+.ttog:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.1)}
+.ttog.active-compiler{border-color:#f7971e;background:rgba(247,151,30,.15);color:#f7971e}
+.ttog.active-interpreter{border-color:#21d4fd;background:rgba(33,212,253,.15);color:#21d4fd}
+
+.trans-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:650px){.trans-cards{grid-template-columns:1fr}}
+.trans-card{border-radius:20px;padding:2rem;transition:transform .3s}
+.trans-card.compiler-c{background:rgba(247,151,30,.07);border:2px solid rgba(247,151,30,.25)}
+.trans-card.interpreter-c{background:rgba(33,212,253,.07);border:2px solid rgba(33,212,253,.25)}
+.trans-card h3{font-size:1.2rem;margin-bottom:.5rem}
+.compiler-c h3{color:#f7971e}
+.interpreter-c h3{color:#21d4fd}
+.trans-card .sub{font-size:.85rem;color:rgba(255,255,255,.45);margin-bottom:1.2rem}
+.trans-steps{display:flex;flex-direction:column;gap:.6rem}
+.tstep{display:flex;align-items:center;gap:.8rem;padding:.7rem 1rem;border-radius:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);font-size:.88rem;color:rgba(255,255,255,.55);transition:all .4s}
+.tstep.active{color:#fff}
+.compiler-c .tstep.active{background:rgba(247,151,30,.15);border-color:rgba(247,151,30,.35);border-right:3px solid #f7971e}
+.interpreter-c .tstep.active{background:rgba(33,212,253,.15);border-color:rgba(33,212,253,.35);border-right:3px solid #21d4fd}
+.tstep-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;background:rgba(255,255,255,.08)}
+.compiler-c .tstep.active .tstep-num{background:#f7971e;color:#000}
+.interpreter-c .tstep.active .tstep-num{background:#21d4fd;color:#000}
+.langs-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-top:1rem}
+.lang-chip{padding:.3rem .9rem;border-radius:50px;font-size:.82rem;font-weight:600}
+.lang-chip.comp-lang{background:rgba(247,151,30,.15);border:1px solid rgba(247,151,30,.3);color:#f7971e}
+.lang-chip.interp-lang{background:rgba(33,212,253,.15);border:1px solid rgba(33,212,253,.3);color:#21d4fd}
+
+/* PYTHON SECTION */
+.py-sec{background:linear-gradient(180deg,#0d1530 0%,#0d2015 100%)}
+.py-sec .sec-title{background:linear-gradient(135deg,#3db5e8,#2ecc71);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.py-hero-row{display:flex;align-items:center;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:3rem}
+.py-snake{font-size:7rem;animation:snakeWiggle 3s ease-in-out infinite}
+@keyframes snakeWiggle{0%,100%{transform:rotate(-5deg) scale(1)}50%{transform:rotate(5deg) scale(1.08)}}
+.py-facts{display:flex;flex-direction:column;gap:.8rem}
+.py-fact{display:flex;align-items:center;gap:.8rem;padding:.7rem 1.1rem;background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.2);border-radius:12px;font-size:.9rem;color:rgba(255,255,255,.75)}
+.py-fact .fk{font-size:1.2rem}
+
+/* HELLO WORLD SECTION */
+.hw-sec{background:linear-gradient(180deg,#0d2015 0%,#150d30 100%)}
+.hw-sec .sec-title{color:#d2a8ff}
+.story-box{background:rgba(210,168,255,.06);border:1px solid rgba(210,168,255,.2);border-radius:20px;padding:2rem;margin-bottom:2.5rem}
+.story-box p{color:rgba(255,255,255,.7);line-height:1.9;font-size:.97rem}
+.story-box .highlight{color:#d2a8ff;font-weight:700}
+
+.print-explain{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2.5rem;align-items:start}
+@media(max-width:650px){.print-explain{grid-template-columns:1fr}}
+.print-anatomy{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.8rem}
+.print-anatomy h3{color:#d2a8ff;margin-bottom:1.2rem;font-size:1.1rem}
+.anat-code{background:#0d1117;border-radius:12px;padding:1.2rem;font-family:'Courier New',monospace;direction:ltr;font-size:1.1rem;text-align:center;margin-bottom:1.2rem;letter-spacing:.5px}
+.anat-fn{color:#d2a8ff;position:relative;cursor:default}
+.anat-paren{color:#e2e2e2}
+.anat-str{color:#a5d6ff}
+.anat-row{display:flex;gap:.8rem;align-items:flex-start;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.88rem}
+.anat-row:last-child{border-bottom:none}
+.anat-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.anat-row p{color:rgba(255,255,255,.65);line-height:1.6}
+
+.hw-editor{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.8rem}
+.hw-editor h3{color:#d2a8ff;margin-bottom:.5rem;font-size:1.1rem}
+.hw-editor .hint{color:rgba(255,255,255,.4);font-size:.85rem;margin-bottom:1.2rem}
+.code-editor-wrap{background:#0d1117;border-radius:12px;padding:.4rem;margin-bottom:1rem}
+.editor-header{display:flex;gap:.4rem;padding:.5rem .7rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.editor-dot{width:10px;height:10px;border-radius:50%}
+.editor-code{padding:.8rem .8rem;font-family:'Courier New',monospace;direction:ltr;min-height:60px;font-size:.9rem;color:#fff;outline:none;white-space:pre;caret-color:#d2a8ff}
+.editor-code:empty::before{content:attr(data-placeholder);color:rgba(255,255,255,.2)}
+.run-btn{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;padding:.75rem 2rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;display:block;margin:0 auto}
+.run-btn:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(46,204,113,.45)}
+.output-box{background:#000;border-radius:10px;padding:1rem 1.2rem;margin-top:1rem;font-family:'Courier New',monospace;direction:ltr;min-height:44px;font-size:.9rem;color:#2ecc71;border:1px solid rgba(255,255,255,.06)}
+.output-box .output-label{font-size:.7rem;color:rgba(255,255,255,.25);margin-bottom:.3rem;direction:rtl;font-family:'Cairo',sans-serif}
+
+/* VARIABLES SECTION */
+.vars-sec{background:linear-gradient(180deg,#150d30 0%,#0d1a2e 100%)}
+.vars-sec .sec-title{color:#f093fb}
+
+.omar-problem{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:2rem;margin-bottom:2.5rem}
+.omar-problem h3{color:#f093fb;font-size:1.2rem;margin-bottom:.5rem}
+.omar-problem .sub{color:rgba(255,255,255,.45);font-size:.88rem;margin-bottom:1.5rem}
+.omar-code{background:#0d1117;border-radius:14px;padding:1.4rem;font-family:'Courier New',monospace;direction:ltr;margin-bottom:1.2rem}
+.omar-line{padding:.3rem .5rem;border-radius:6px;font-size:.85rem;color:#6b7280;line-height:1.9;white-space:nowrap;overflow:hidden;transition:all .4s;position:relative}
+.omar-line .kw{color:#ff7b72}.omar-line .str{color:#a5d6ff}
+.omar-line.highlight-change{background:rgba(231,76,60,.18);border-right:3px solid #e74c3c;animation:flashRed .5s ease}
+.omar-line.highlight-ok{background:rgba(46,204,113,.18);border-right:3px solid #2ecc71}
+@keyframes flashRed{0%,100%{background:rgba(231,76,60,.18)}50%{background:rgba(231,76,60,.4)}}
+.omar-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.omar-change-btn{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff;border:none;padding:.75rem 1.8rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.92rem;cursor:pointer;transition:transform .2s}
+.omar-change-btn:hover{transform:translateY(-2px)}
+.omar-fix-btn{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;padding:.75rem 1.8rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.92rem;cursor:pointer;transition:transform .2s}
+.omar-fix-btn:hover{transform:translateY(-2px)}
+.omar-solution{margin-top:1.5rem;display:none}
+.omar-solution.show{display:block;animation:fadeIn .5s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.solution-intro{text-align:center;padding:1rem;background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.25);border-radius:12px;color:#a8f0c0;font-size:.95rem;margin-bottom:1rem}
+
+.var-types-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:2.5rem}
+.var-type-card{border-radius:20px;padding:2rem}
+.var-type-card.int-card{background:rgba(74,144,217,.07);border:1px solid rgba(74,144,217,.25)}
+.var-type-card.float-card{background:rgba(155,89,182,.07);border:1px solid rgba(155,89,182,.25)}
+.var-type-card.str-card{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.25)}
+.var-type-card h3{font-size:1.15rem;margin-bottom:.3rem}
+.int-card h3{color:#4A90D9}
+.float-card h3{color:#9B59B6}
+.str-card h3{color:#2ecc71}
+.var-type-card .type-desc{font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:1.2rem}
+.var-demo-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.8rem}
+.var-input{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.5rem .8rem;color:#fff;font-family:'Cairo',sans-serif;font-size:.9rem;width:80px;outline:none;text-align:center;transition:border-color .3s}
+.var-input:focus{border-color:rgba(255,255,255,.4)}
+.op-btns{display:flex;gap:.4rem;flex-wrap:wrap}
+.op-btn{padding:.35rem .7rem;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);font-family:'Courier New',monospace;font-size:.85rem;cursor:pointer;transition:all .2s;font-weight:700}
+.op-btn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35);transform:scale(1.05)}
+.op-btn.active-op{border-color:#4A90D9;background:rgba(74,144,217,.2);color:#7ec8e3}
+.float-card .op-btn.active-op{border-color:#9B59B6;background:rgba(155,89,182,.2);color:#d2a8ff}
+.str-card .op-btn.active-op{border-color:#2ecc71;background:rgba(46,204,113,.2);color:#a8f0c0}
+.var-result-box{background:rgba(0,0,0,.3);border-radius:10px;padding:.8rem 1rem;font-family:'Courier New',monospace;direction:ltr;font-size:.9rem;color:#caffbf;margin-top:.8rem;min-height:38px;border:1px solid rgba(255,255,255,.06)}
+.var-op-explain{font-size:.8rem;color:rgba(255,255,255,.4);margin-top:.4rem;min-height:18px;text-align:center}
+
+/* INPUT SECTION */
+.input-sec{background:linear-gradient(180deg,#0d1a2e 0%,#1a0d1a 100%)}
+.input-sec .sec-title{color:#f39c12}
+.terminal-demo{background:#000;border-radius:18px;padding:.5rem;border:1px solid rgba(255,165,0,.2);overflow:hidden;max-width:520px;margin:0 auto 2.5rem}
+.term-header{display:flex;align-items:center;gap:.5rem;padding:.6rem 1rem;background:#111;border-radius:12px 12px 0 0}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-title{font-size:.78rem;color:rgba(255,255,255,.3);margin-right:auto}
+.term-body{padding:1.2rem 1.4rem;font-family:'Courier New',monospace;direction:ltr;font-size:.9rem;min-height:100px}
+.term-line{line-height:2;display:flex;align-items:center;gap:.4rem}
+.term-prompt{color:#f39c12}
+.term-text{color:#fff}
+.term-cursor{width:8px;height:1.1em;background:#f39c12;animation:blink-cur .8s step-end infinite;display:inline-block}
+@keyframes blink-cur{0%,100%{opacity:1}50%{opacity:0}}
+.term-output{color:#2ecc71}
+.term-user-input{border:none;background:transparent;color:#fff;font-family:'Courier New',monospace;font-size:.9rem;outline:none;flex:1}
+
+.input-explain-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+@media(max-width:650px){.input-explain-grid{grid-template-columns:1fr}}
+.input-explain-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:1.6rem}
+.input-explain-card h3{color:#f39c12;margin-bottom:.8rem;font-size:1.05rem}
+.input-explain-card p{color:rgba(255,255,255,.65);font-size:.9rem;line-height:1.7}
+.input-explain-card .code-snippet{background:#0d1117;border-radius:8px;padding:.7rem 1rem;font-family:'Courier New',monospace;direction:ltr;font-size:.82rem;margin-top:.8rem}
+.type-convert-row{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;margin-top:.5rem}
+.type-chip{padding:.3rem .9rem;border-radius:50px;font-size:.82rem;font-family:'Courier New',monospace}
+.type-chip.str-t{background:rgba(46,204,113,.15);border:1px solid rgba(46,204,113,.3);color:#a8f0c0}
+.type-chip.int-t{background:rgba(74,144,217,.15);border:1px solid rgba(74,144,217,.3);color:#7ec8e3}
+.type-chip.float-t{background:rgba(155,89,182,.15);border:1px solid rgba(155,89,182,.3);color:#d2a8ff}
+
+.input-live-demo{background:rgba(243,156,18,.05);border:1px solid rgba(243,156,18,.2);border-radius:20px;padding:2rem;max-width:520px;margin:0 auto}
+.input-live-demo h3{color:#f39c12;text-align:center;margin-bottom:1.5rem}
+.ilive-row{display:flex;gap:.8rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap}
+.ilive-label{font-size:.9rem;color:rgba(255,255,255,.55);min-width:90px;text-align:right}
+.ilive-input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:.6rem 1rem;color:#fff;font-family:'Cairo',sans-serif;font-size:.95rem;outline:none;transition:border-color .3s;min-width:120px}
+.ilive-input:focus{border-color:#f39c12}
+.ilive-run-btn{background:linear-gradient(135deg,#f7971e,#f39c12);color:#000;border:none;padding:.7rem 1.8rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:transform .2s;display:block;margin:0 auto .8rem}
+.ilive-run-btn:hover{transform:translateY(-2px)}
+.ilive-output{background:#000;border-radius:10px;padding:.9rem 1.2rem;font-family:'Courier New',monospace;direction:ltr;min-height:40px;font-size:.88rem;color:#f39c12;border:1px solid rgba(243,156,18,.2);text-align:left}
+
+/* EXERCISES SECTION */
+.ex-sec{background:linear-gradient(180deg,#1a0d1a 0%,#080818 100%)}
+.ex-sec .sec-title{color:#fff}
+.ex-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:2rem;margin-bottom:1.8rem}
+.ex-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.ex-num{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;flex-shrink:0}
+.ex-title{font-size:1.2rem;font-weight:700}
+.ex-desc{color:rgba(255,255,255,.6);font-size:.92rem;line-height:1.7;margin-bottom:1.4rem}
+.ex-task-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.9rem;color:rgba(255,255,255,.75);line-height:1.7}
+.ex-task-box .task-label{font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:.3rem}
+.ex-editor-wrap{background:#0d1117;border-radius:12px;padding:.4rem;margin-bottom:.8rem}
+.ex-editor-header{display:flex;gap:.4rem;padding:.5rem .7rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.ex-code{padding:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:70px;font-size:.88rem;color:#fff;outline:none;white-space:pre;caret-color:#fff}
+.ex-code:empty::before{content:attr(data-placeholder);color:rgba(255,255,255,.2)}
+.ex-btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.ex-run-btn{background:linear-gradient(135deg,#4A90D9,#2c5282);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-run-btn:hover{transform:translateY(-2px)}
+.ex-check-btn{background:linear-gradient(135deg,#9B59B6,#6c3483);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-check-btn:hover{transform:translateY(-2px)}
+.ex-output{background:#000;border-radius:8px;padding:.8rem 1rem;margin-bottom:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:36px;font-size:.85rem;color:#2ecc71;border:1px solid rgba(255,255,255,.06);display:none}
+.ex-output.show{display:block}
+.ex-feedback{padding:.8rem 1.2rem;border-radius:10px;font-size:.9rem;margin-top:.5rem;display:none;line-height:1.6}
+.ex-feedback.show{display:block}
+.ex-feedback.correct{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);color:#a8f0c0}
+.ex-feedback.wrong{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);color:#f0a8a8}
+
+/* FOOTER */
+footer{background:#030308;padding:3.5rem 2rem;text-align:center}
+footer .big-e{font-size:3rem;margin-bottom:1rem}
+footer h3{font-size:1.2rem;color:rgba(255,255,255,.75);margin-bottom:.5rem}
+footer p{color:rgba(255,255,255,.3);font-size:.9rem}
+.next-lesson-btn{display:inline-block;margin-top:1.5rem;padding:.8rem 2rem;border-radius:50px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.35);font-family:'Cairo',sans-serif;font-size:.95rem;cursor:default}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .compare-box,.trans-cards,.print-explain,.input-explain-grid{grid-template-columns:1fr}
+  .code-panel,.omar-code{min-width:unset;width:100%}
+  .bits-display{gap:.25rem}
+  .bit-chip{width:36px;height:36px;font-size:1.1rem}
+  .pipeline-wrap{gap:.3rem}
+  .pipe-step{min-width:72px;padding:.6rem .8rem}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="stars-bg" id="starsContainer"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🎓 الدرس الثاني · Python للمبتدئين</div>
+  <div class="hero-icons">💡 ⚡ 🐍</div>
+  <h1>كيف تتكلّم<br>الحواسيب؟</h1>
+  <p>من الكهرباء والأصفار والواحدات إلى Python، رحلة مذهلة اكتشفنا بها كيف نكلّم الحاسوب بلغتنا!</p>
+  <button class="hero-btn" onclick="document.getElementById('sec-binary').scrollIntoView({behavior:'smooth'})">ابدأ الرحلة 🚀</button>
+  <div class="hero-scroll">▼ اسحب للأسفل</div>
+</section>
+
+<!-- BINARY SECTION -->
+<section class="section bin-sec" id="sec-binary">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">⚡ عالم الـ 0 و 1</div>
+    <p class="sec-sub">لاحظت في الأفلام والكرتون دائماً يضعون أصفار وواحدات؟ هل تساءلت ما هي؟<br>هي ببساطة كهرباء! الواحد يعني كهرباء موجودة والصفر يعني لا توجد كهرباء.</p>
+  </div>
+
+  <!-- Lightbulb row -->
+  <div class="fi" style="transition-delay:.1s">
+    <div class="bulb-row" id="bulbRow">
+      <div class="bulb-item">
+        <div class="bulb on" id="b0">💡</div>
+        <div class="bulb-label on">1</div>
+        <div class="bulb-sub">كهرباء ✓</div>
+      </div>
+      <div class="bulb-item">
+        <div class="bulb" id="b1">💡</div>
+        <div class="bulb-label">0</div>
+        <div class="bulb-sub">لا كهرباء</div>
+      </div>
+      <div class="bulb-item">
+        <div class="bulb on" id="b2">💡</div>
+        <div class="bulb-label on">1</div>
+        <div class="bulb-sub">كهرباء ✓</div>
+      </div>
+      <div class="bulb-item">
+        <div class="bulb on" id="b3">💡</div>
+        <div class="bulb-label on">1</div>
+        <div class="bulb-sub">كهرباء ✓</div>
+      </div>
+      <div class="bulb-item">
+        <div class="bulb" id="b4">💡</div>
+        <div class="bulb-label">0</div>
+        <div class="bulb-sub">لا كهرباء</div>
+      </div>
+      <div class="bulb-item">
+        <div class="bulb" id="b5">💡</div>
+        <div class="bulb-label">0</div>
+        <div class="bulb-sub">لا كهرباء</div>
+      </div>
+      <div class="bulb-item">
+        <div class="bulb on" id="b6">💡</div>
+        <div class="bulb-label on">1</div>
+        <div class="bulb-sub">كهرباء ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive binary converter -->
+  <div class="fi binary-demo-box" style="transition-delay:.2s">
+    <h3>🔤 حوّل حرفاً إلى ثنائي</h3>
+    <p class="hint">اكتب أي حرف أو رقم واضغط حوّل لترى كيف يحفظه الحاسوب!</p>
+    <div class="bin-input-row">
+      <input class="bin-input" id="binInput" type="text" maxlength="1" placeholder="A" value="A">
+      <button class="bin-btn" onclick="convertToBinary()">⚡ حوّل</button>
+    </div>
+    <div class="bits-display" id="bitsDisplay"></div>
+    <div class="bin-char-result" id="binCharResult"></div>
+
+    <!-- Salam demo -->
+    <div class="salam-box">
+      <div class="salam-title">كلمة "سلام" بالثنائي  كل حرف له رمز رقمي خاص</div>
+      <div class="salam-chars">
+        <div class="salam-char"><div class="salam-letter">س</div><div class="salam-bits">011000110011</div></div>
+        <div class="salam-char"><div class="salam-letter">ل</div><div class="salam-bits">011001000100</div></div>
+        <div class="salam-char"><div class="salam-letter">ا</div><div class="salam-bits">011000100111</div></div>
+        <div class="salam-char"><div class="salam-letter">م</div><div class="salam-bits">011001000101</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fi card-row" style="transition-delay:.3s">
+    <div class="icard">
+      <div class="ico">🧱</div>
+      <h3 style="color:#ffd200">أصغر وحدة بيانات</h3>
+      <p>البِت (Bit) هو الواحد أو الصفر، وهو أصغر وحدة معلومات في أي حاسوب على الإطلاق</p>
+    </div>
+    <div class="icard">
+      <div class="ico">🔢</div>
+      <h3 style="color:#ffd200">8 بِتات = حرف</h3>
+      <p>8 بِتات تشكّل بايت واحد، وكل حرف نكتبه يُخزَّن في بايت واحد  هذا النظام اسمه ASCII</p>
+    </div>
+    <div class="icard">
+      <div class="ico">💾</div>
+      <h3 style="color:#ffd200">كل شيء ثنائي</h3>
+      <p>الصور والأغاني والألعاب والفيديو  كلها في النهاية ملايين الأصفار والواحدات داخل الحاسوب</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- WHY HARD SECTION -->
+<section class="section hard-sec" id="sec-hard">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">😵 لماذا كانت اللغة الثنائية صعبة؟</div>
+    <p class="sec-sub">المبرمجون القدامى كانوا يكتبون البرامج مباشرةً بالأصفار والواحدات  هل تتخيّل كم كان ذلك صعباً ومملاً؟</p>
+  </div>
+
+  <div class="fi compare-box" style="transition-delay:.1s">
+    <div class="compare-card binary-card">
+      <h3>❌ لغة الآلة (قديماً)</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem;direction:ltr;text-align:left">فقط لطباعة "Hello"...</p>
+      <div class="code-panel">
+        <div class="cline">01001000 01100101</div>
+        <div class="cline">01101100 01101100</div>
+        <div class="cline">01101111 00100001</div>
+        <div class="cline">00001010 11001101</div>
+        <div class="cline">00100001 01001100</div>
+        <div class="cline">10111000 00000001</div>
+        <div class="cline">00000000 11001101</div>
+        <div class="cline">10000000 10110100</div>
+      </div>
+    </div>
+    <div class="compare-card python-card">
+      <h3>✅ Python (الآن)</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem;direction:ltr;text-align:left">نفس النتيجة بسطر واحد!</p>
+      <div class="code-panel">
+        <div class="cline"><span class="fn">print</span>(<span class="str">"Hello!"</span>)</div>
+        <div class="cline">&nbsp;</div>
+        <div class="cline"><span class="cm"># هذا كل شيء!</span></div>
+        <div class="cline"><span class="cm"># سطر واحد فقط</span></div>
+        <div class="cline">&nbsp;</div>
+        <div class="cline"><span class="cm"># بدل 8 أسطر</span></div>
+        <div class="cline"><span class="cm"># من أصفار وواحدات</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fi hard-stat" style="transition-delay:.2s">
+    <div class="big-num">64 بِت</div>
+    <p>هذا ما يحتاجه الحاسوب لتخزين كلمة "Hello" في الذاكرة<br>تخيّل لو كتبت برنامجاً كاملاً بهذه الطريقة!</p>
+  </div>
+</div>
+</section>
+
+<!-- TRANSLATORS SECTION -->
+<section class="section trans-sec" id="sec-trans">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🔄 المُترجِمون</div>
+    <p class="sec-sub">لأن كتابة الأصفار والواحدات كانت مستحيلة عملياً، اخترعوا لغات برمجة<br>تحتاج إلى "مُترجِم" يحوّلها إلى لغة الآلة. نوعان من المترجمين موجودان:</p>
+  </div>
+
+  <!-- Pipeline -->
+  <div class="fi pipeline-wrap" style="transition-delay:.1s">
+    <div class="pipe-step">
+      <span class="ps-ico">👨‍💻</span>
+      <div class="ps-lbl">كودك بالإنجليزي</div>
+    </div>
+    <div class="pipe-arrow">←</div>
+    <div class="pipe-step highlight">
+      <span class="ps-ico">🔄</span>
+      <div class="ps-lbl">المُترجِم</div>
+    </div>
+    <div class="pipe-arrow">←</div>
+    <div class="pipe-step">
+      <span class="ps-ico">01</span>
+      <div class="ps-lbl">لغة الآلة</div>
+    </div>
+    <div class="pipe-arrow">←</div>
+    <div class="pipe-step">
+      <span class="ps-ico">💻</span>
+      <div class="ps-lbl">الحاسوب يفهم</div>
+    </div>
+  </div>
+
+  <!-- Toggle -->
+  <div class="fi" style="transition-delay:.15s">
+    <div class="trans-toggle">
+      <button class="ttog active-compiler" id="togCompiler" onclick="showTranslator('compiler')">📚 المُترجِم الكلي (Compiler)</button>
+      <button class="ttog" id="togInterpreter" onclick="showTranslator('interpreter')">📖 المُترجِم الفوري (Interpreter)</button>
+    </div>
+  </div>
+
+  <div class="fi trans-cards" style="transition-delay:.2s">
+    <!-- Compiler -->
+    <div class="trans-card compiler-c" id="compilerCard">
+      <h3>📚 المُترجِم الكلي (Compiler)</h3>
+      <p class="sub">مثل شخص يترجم كتاباً كاملاً مرة واحدة</p>
+      <div class="trans-steps" id="compilerSteps">
+        <div class="tstep active" data-i="0">
+          <div class="tstep-num">1</div>
+          <span>تكتب البرنامج كاملاً أولاً</span>
+        </div>
+        <div class="tstep active" data-i="1">
+          <div class="tstep-num">2</div>
+          <span>المترجم يقرأ كل الكود دفعةً واحدة</span>
+        </div>
+        <div class="tstep active" data-i="2">
+          <div class="tstep-num">3</div>
+          <span>يحوّله إلى ملف جاهز للتشغيل</span>
+        </div>
+        <div class="tstep active" data-i="3">
+          <div class="tstep-num">4</div>
+          <span>البرنامج يشتغل بسرعة عالية جداً 🚀</span>
+        </div>
+      </div>
+      <div class="langs-row">
+        <span class="lang-chip comp-lang">C</span>
+        <span class="lang-chip comp-lang">C++</span>
+        <span class="lang-chip comp-lang">Rust</span>
+        <span class="lang-chip comp-lang">Go</span>
+      </div>
+    </div>
+
+    <!-- Interpreter -->
+    <div class="trans-card interpreter-c" id="interpreterCard">
+      <h3>📖 المُترجِم الفوري (Interpreter)</h3>
+      <p class="sub">مثل مترجم فوري يترجم سطراً بسطر</p>
+      <div class="trans-steps" id="interpreterSteps">
+        <div class="tstep active" data-i="0">
+          <div class="tstep-num">1</div>
+          <span>تكتب السطر الأول</span>
+        </div>
+        <div class="tstep active" data-i="1">
+          <div class="tstep-num">2</div>
+          <span>المترجم يقرأه ويحوّله فوراً</span>
+        </div>
+        <div class="tstep active" data-i="2">
+          <div class="tstep-num">3</div>
+          <span>الحاسوب ينفّذه مباشرةً</span>
+        </div>
+        <div class="tstep active" data-i="3">
+          <div class="tstep-num">4</div>
+          <span>ثم ينتقل للسطر التالي 📝</span>
+        </div>
+      </div>
+      <div class="langs-row">
+        <span class="lang-chip interp-lang">Python</span>
+        <span class="lang-chip interp-lang">JavaScript</span>
+        <span class="lang-chip interp-lang">Ruby</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PYTHON SECTION -->
+<section class="section py-sec" id="sec-python">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🐍 مرحباً بـ Python</div>
+    <p class="sec-sub">Python هي لغة برمجة مبتدئ-صديقة، سهلة القراءة، وتُستخدم في كل مجال تقريباً</p>
+  </div>
+
+  <div class="fi py-hero-row" style="transition-delay:.1s">
+    <div class="py-snake">🐍</div>
+    <div class="py-facts">
+      <div class="py-fact"><span class="fk">📅</span> اخترعها <strong>Guido van Rossum</strong> عام 1991</div>
+      <div class="py-fact"><span class="fk">🌍</span> اللغة الأولى في العالم للمبتدئين وعلماء البيانات</div>
+      <div class="py-fact"><span class="fk">🏢</span> تستخدمها Google و NASA و Netflix وآلاف الشركات</div>
+      <div class="py-fact"><span class="fk">🔄</span> تعتمد على <strong>Interpreter</strong>  تترجم سطراً بسطر</div>
+      <div class="py-fact"><span class="fk">📖</span> قواعدها شبيهة بالإنجليزي البسيط</div>
+    </div>
+  </div>
+
+  <div class="fi card-row" style="transition-delay:.2s">
+    <div class="icard">
+      <div class="ico">📖</div>
+      <h3 style="color:#2ecc71">سهل القراءة</h3>
+      <p>كودها يشبه الجمل الإنجليزية العادية  حتى شخص لا يبرمج يفهم ما يفعله البرنامج!</p>
+    </div>
+    <div class="icard">
+      <div class="ico">📦</div>
+      <h3 style="color:#2ecc71">مكتبات ضخمة</h3>
+      <p>آلاف المكتبات الجاهزة لأي شيء: رسم بياني، ذكاء اصطناعي، ألعاب، مواقع ويب وأكثر</p>
+    </div>
+    <div class="icard">
+      <div class="ico">👥</div>
+      <h3 style="color:#2ecc71">مجتمع ضخم</h3>
+      <p>ملايين المبرمجين حول العالم يستخدمون Python  أي سؤال لديك ستجد إجابته فوراً!</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- HELLO WORLD SECTION -->
+<section class="section hw-sec" id="sec-hw">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">👋 مرحباً يا عالم!</div>
+    <p class="sec-sub">أول برنامج يكتبه أي مبرمج في العالم هو "Hello, World!"  تقليد عمره أكثر من 50 سنة</p>
+  </div>
+
+  <!-- Story -->
+  <div class="fi story-box" style="transition-delay:.1s">
+    <p>منذ السبعينيات وكتاب <span class="highlight">"The C Programming Language"</span> عام 1978، أصبح من التقليد أن أول شيء تتعلمه في أي لغة برمجة هو طباعة رسالة "Hello, World!" على الشاشة. هذا التقليد انتشر في كل اللغات، وأصبح لحظة احتفال رمزية تقول: <span class="highlight">"لقد بدأتُ رحلتي في البرمجة!"</span></p>
+  </div>
+
+  <!-- Print anatomy + editor -->
+  <div class="fi print-explain" style="transition-delay:.2s">
+    <!-- Anatomy -->
+    <div class="print-anatomy">
+      <h3>🔬 تشريح دالة print()</h3>
+      <div class="anat-code">
+        <span class="anat-fn">print</span><span class="anat-paren">(</span><span class="anat-str">"Hello, World!"</span><span class="anat-paren">)</span>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#d2a8ff"></div>
+        <p><strong style="color:#d2a8ff">print</strong>  اسم الدالة، تخبر Python أنك تريد طباعة شيء على الشاشة</p>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#e2e2e2"></div>
+        <p><strong style="color:#e2e2e2">( )</strong>  الأقواس تلتف حول ما تريد طباعته، لا تنساها أبداً!</p>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#a5d6ff"></div>
+        <p><strong style="color:#a5d6ff">"Hello, World!"</strong>  النص الذي ستطبعه، لابد أن يكون بين علامتَي تنصيص</p>
+      </div>
+    </div>
+
+    <!-- Interactive editor -->
+    <div class="hw-editor">
+      <h3>✍️ اكتب برنامجك الأول!</h3>
+      <p class="hint">اكتب في المحرر أدناه، ثم اضغط تشغيل</p>
+      <div class="code-editor-wrap">
+        <div class="editor-header">
+          <div class="editor-dot" style="background:#ff5f57"></div>
+          <div class="editor-dot" style="background:#ffbd2e"></div>
+          <div class="editor-dot" style="background:#28ca42"></div>
+        </div>
+        <div class="editor-code" id="hwEditor" contenteditable="true" data-placeholder='print("Hello, World!")'></div>
+      </div>
+      <button class="run-btn" onclick="runHW()">▶ تشغيل</button>
+      <div class="output-box" id="hwOutput">
+        <div class="output-label">الإخراج:</div>
+        <div id="hwOutputText"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- VARIABLES SECTION -->
+<section class="section vars-sec" id="sec-vars">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">📦 المتغيرات</div>
+    <p class="sec-sub">قبل أن نتعلم المتغيرات، دعنا نرى لماذا نحتاجها أصلاً...</p>
+  </div>
+
+  <!-- Omar Problem -->
+  <div class="fi omar-problem" style="transition-delay:.1s">
+    <h3>😤 مشكلة عمر العجوز</h3>
+    <p class="sub">عمر الشايب كان يحب اسمه "عمر" كثيراً، كان عمره 50 سنة ولم يكن يحب ذلك. اتفرج على الكود وشوف المشكلة:</p>
+    <div class="omar-code" id="omarCode">
+      <div class="omar-line" id="ol0"><span class="kw">print</span>(<span class="str">"عمر الشايب"</span>)</div>
+      <div class="omar-line" id="ol1"><span class="kw">print</span>(<span class="str">"كان يحب اسمه عمر كثيراً"</span>)</div>
+      <div class="omar-line" id="ol2"><span class="kw">print</span>(<span class="str">"كان عمره 50 سنة"</span>)</div>
+      <div class="omar-line" id="ol3"><span class="kw">print</span>(<span class="str">"لم يكن يحب أن يكون عمره 50 سنة"</span>)</div>
+    </div>
+    <p style="color:rgba(255,255,255,.5);font-size:.88rem;margin-bottom:1.2rem;text-align:center">اضغط "غيّر الاسم والعمر" وشوف كم خط لازم تغيّره!</p>
+    <div class="omar-btns">
+      <button class="omar-change-btn" onclick="omarChange()">✏️ غيّر الاسم والعمر</button>
+      <button class="omar-fix-btn" onclick="omarFix()">✨ الحل: استخدم متغيرات!</button>
+    </div>
+    <div class="omar-solution" id="omarSolution">
+      <div class="solution-intro">🎉 بالمتغيرات تغيّر القيمة مرة واحدة فقط وتنعكس في كل مكان!</div>
+      <div class="code-panel" style="direction:ltr">
+        <div class="cline"><span class="cm"># تعريف المتغيرات مرة واحدة</span></div>
+        <div class="cline" id="solLine0"><span class="kw">name</span> = <span class="str">"عمر"</span></div>
+        <div class="cline" id="solLine1"><span class="kw">age</span> = <span class="num">50</span></div>
+        <div class="cline">&nbsp;</div>
+        <div class="cline" id="solLine2"><span class="cm"># الآن الكود يستخدم المتغيرات</span></div>
+        <div class="cline"><span class="fn">print</span>(<span class="kw">name</span> + <span class="str">" الشايب"</span>)</div>
+        <div class="cline"><span class="fn">print</span>(<span class="str">"كان يحب اسمه "</span> + <span class="kw">name</span> + <span class="str">" كثيراً"</span>)</div>
+        <div class="cline"><span class="fn">print</span>(<span class="str">"كان عمره "</span> + <span class="fn">str</span>(<span class="kw">age</span>) + <span class="str">" سنة"</span>)</div>
+        <div class="cline"><span class="fn">print</span>(<span class="str">"لم يحب أن يكون عمره "</span> + <span class="fn">str</span>(<span class="kw">age</span>) + <span class="str">" سنة"</span>)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Variable Types -->
+  <div class="fi" style="transition-delay:.2s">
+    <div class="sec-title" style="font-size:1.8rem;margin-bottom:2rem">📌 أنواع المتغيرات في Python</div>
+  </div>
+
+  <div class="fi var-types-grid" style="transition-delay:.25s">
+    <!-- INT -->
+    <div class="var-type-card int-card">
+      <h3>🔢 int  عدد صحيح</h3>
+      <p class="type-desc">أعداد بدون فاصلة عشرية: 5 أو -3 أو 1000</p>
+      <div class="var-demo-row">
+        <input class="var-input" id="intA" type="number" value="10">
+        <div class="op-btns" id="intOps">
+          <button class="op-btn" onclick="calcInt('+')">+</button>
+          <button class="op-btn" onclick="calcInt('-')">-</button>
+          <button class="op-btn" onclick="calcInt('*')">×</button>
+          <button class="op-btn" onclick="calcInt('/')">÷</button>
+          <button class="op-btn" onclick="calcInt('//')">÷÷</button>
+          <button class="op-btn" onclick="calcInt('%')">%</button>
+          <button class="op-btn" onclick="calcInt('**')">^</button>
+        </div>
+        <input class="var-input" id="intB" type="number" value="3">
+      </div>
+      <div class="var-result-box" id="intResult">10 + 3 = 13</div>
+      <div class="var-op-explain" id="intExplain">الجمع العادي</div>
+    </div>
+
+    <!-- FLOAT -->
+    <div class="var-type-card float-card">
+      <h3>🌊 float  عدد عشري</h3>
+      <p class="type-desc">أعداد بفاصلة عشرية: 3.14 أو 2.5 أو -0.7</p>
+      <div class="var-demo-row">
+        <input class="var-input" id="floatA" type="number" step="0.1" value="3.14">
+        <div class="op-btns" id="floatOps">
+          <button class="op-btn" onclick="calcFloat('+')">+</button>
+          <button class="op-btn" onclick="calcFloat('-')">-</button>
+          <button class="op-btn" onclick="calcFloat('*')">×</button>
+          <button class="op-btn" onclick="calcFloat('/')">÷</button>
+          <button class="op-btn" onclick="calcFloat('**')">^</button>
+        </div>
+        <input class="var-input" id="floatB" type="number" step="0.1" value="2.0">
+      </div>
+      <div class="var-result-box" id="floatResult">3.14 + 2.0 = 5.140000000000001</div>
+      <div class="var-op-explain" id="floatExplain">الجمع  لاحظ دقة الأعداد العشرية!</div>
+    </div>
+
+    <!-- STRING -->
+    <div class="var-type-card str-card">
+      <h3>📝 str  نص</h3>
+      <p class="type-desc">أي نص بين علامتَي تنصيص: "مرحبا" أو "123"</p>
+      <div class="var-demo-row" style="flex-direction:column;align-items:flex-start">
+        <input class="var-input" type="text" id="strA" value="مرحبا" style="width:100%;text-align:right">
+        <div class="op-btns" style="margin:.5rem 0">
+          <button class="op-btn" onclick="calcStr('+')">+</button>
+          <button class="op-btn" onclick="calcStr('*')">×</button><input type="number" id="strRepeat" value="3" min="1" max="10" style="width:44px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.3rem .4rem;color:#fff;font-family:'Courier New',monospace;font-size:.82rem;outline:none;text-align:center">
+          <button class="op-btn" onclick="calcStr('len')">len</button>
+          <button class="op-btn" onclick="calcStr('upper')">upper</button>
+          <button class="op-btn" onclick="calcStr('lower')">lower</button>
+        </div>
+        <input class="var-input" type="text" id="strB" value=" يا عالم" style="width:100%;text-align:right" placeholder="النص الثاني (للجمع)">
+      </div>
+      <div class="var-result-box" id="strResult" style="color:#a5d6ff;word-break:break-all">str1 + str2 = "مرحبا يا عالم"</div>
+      <div class="var-op-explain" id="strExplain">الدمج: + يلصق نصين ببعض</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- INPUT SECTION -->
+<section class="section input-sec" id="sec-input">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">⌨️ دالة input()</div>
+    <p class="sec-sub">حتى الآن برامجنا تطبع فقط. ماذا لو أردنا أن يردّ المستخدم ويتفاعل مع البرنامج؟<br>هنا يأتي دور دالة <strong>input()</strong></p>
+  </div>
+
+  <!-- Terminal demo -->
+  <div class="fi terminal-demo" style="transition-delay:.1s">
+    <div class="term-header">
+      <div class="term-dot" style="background:#ff5f57"></div>
+      <div class="term-dot" style="background:#ffbd2e"></div>
+      <div class="term-dot" style="background:#28ca42"></div>
+      <div class="term-title">Python Terminal</div>
+    </div>
+    <div class="term-body" id="termBody">
+      <div class="term-line"><span class="term-prompt">>>> </span><span class="term-text">name = input("ما اسمك؟ ")</span></div>
+      <div class="term-line"><span class="term-prompt">ما اسمك؟ </span><span class="term-cursor" id="termCursor"></span></div>
+    </div>
+  </div>
+
+  <div class="fi input-explain-grid" style="transition-delay:.15s">
+    <div class="input-explain-card">
+      <h3>📖 كيف تعمل input()</h3>
+      <p>البرنامج يوقف تنفيذه وينتظر أن يكتب المستخدم شيئاً ثم يضغط Enter. ما يكتبه يُخزَّن في المتغير.</p>
+      <div class="code-snippet">
+        <div class="cline"><span class="kw">name</span> = <span class="fn">input</span>(<span class="str">"ما اسمك؟ "</span>)</div>
+        <div class="cline"><span class="fn">print</span>(<span class="str">"مرحبا، "</span> + <span class="kw">name</span>)</div>
+      </div>
+    </div>
+    <div class="input-explain-card">
+      <h3>⚠️ تحويل نوع البيانات</h3>
+      <p>input() دائماً يُرجع <strong>نص (str)</strong>! لو أردت رقماً لابد تحوّله باستخدام int() أو float()</p>
+      <div class="type-convert-row">
+        <span class="type-chip str-t">input() → str</span>
+        <span class="type-chip int-t">int(input()) → int</span>
+        <span class="type-chip float-t">float(input()) → float</span>
+      </div>
+      <div class="code-snippet" style="margin-top:.8rem">
+        <div class="cline"><span class="kw">age</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم عمرك؟ "</span>))</div>
+        <div class="cline"><span class="fn">print</span>(<span class="kw">age</span> + <span class="num">1</span>)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live demo -->
+  <div class="fi input-live-demo" style="transition-delay:.2s">
+    <h3>🎮 جرّب بنفسك!</h3>
+    <div class="ilive-row">
+      <label class="ilive-label">اسمك:</label>
+      <input class="ilive-input" id="liveName" type="text" placeholder="اكتب اسمك هنا">
+    </div>
+    <div class="ilive-row">
+      <label class="ilive-label">عمرك:</label>
+      <input class="ilive-input" id="liveAge" type="number" placeholder="مثال: 15">
+    </div>
+    <button class="ilive-run-btn" onclick="runLiveInput()">▶ تشغيل البرنامج</button>
+    <div class="ilive-output" id="liveOutput">الإخراج سيظهر هنا</div>
+    <div class="code-panel" style="margin-top:1rem;direction:ltr">
+      <div class="cline"><span class="kw">name</span> = <span class="fn">input</span>(<span class="str">"ما اسمك؟ "</span>)</div>
+      <div class="cline"><span class="kw">age</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم عمرك؟ "</span>))</div>
+      <div class="cline"><span class="fn">print</span>(<span class="str">"مرحبا "</span> + <span class="kw">name</span> + <span class="str">"!"</span>)</div>
+      <div class="cline"><span class="fn">print</span>(<span class="str">"عمرك "</span> + <span class="fn">str</span>(<span class="kw">age</span>) + <span class="str">" سنة"</span>)</div>
+      <div class="cline"><span class="fn">print</span>(<span class="str">"السنة القادمة ستصبح عمرك "</span> + <span class="fn">str</span>(<span class="kw">age</span> + <span class="num">1</span>))</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EXERCISES SECTION -->
+<section class="section ex-sec" id="sec-exercises">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🏋️ وقت التمارين!</div>
+    <p class="sec-sub">اختبر ما تعلّمته  اكتب الكود وشوف النتيجة. لا تتردد في التجربة أكثر من مرة!</p>
+  </div>
+
+  <!-- Exercise 1 -->
+  <div class="fi ex-card" style="transition-delay:.05s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(74,144,217,.2);color:#4A90D9;border:2px solid rgba(74,144,217,.4)">1</div>
+      <div class="ex-title">اطبع اسمك على الشاشة</div>
+    </div>
+    <p class="ex-desc">استخدم دالة print() لتطبع اسمك الكامل على الشاشة</p>
+    <div class="ex-task-box">
+      <div class="task-label">المطلوب:</div>
+      اكتب سطراً واحداً يطبع اسمك الكامل  مثلاً لو اسمك أحمد: الإخراج يكون <strong>أحمد</strong>
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header">
+        <div class="editor-dot" style="background:#ff5f57"></div>
+        <div class="editor-dot" style="background:#ffbd2e"></div>
+        <div class="editor-dot" style="background:#28ca42"></div>
+      </div>
+      <div class="ex-code" id="ex1Code" contenteditable="true" data-placeholder='print("اسمك هنا")'></div>
+    </div>
+    <div class="ex-output" id="ex1Output"><div class="output-label">الإخراج:</div><div id="ex1OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(1)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(1)">✅ تحقق من الإجابة</button>
+    </div>
+    <div class="ex-feedback" id="ex1Feedback"></div>
+  </div>
+
+  <!-- Exercise 2 -->
+  <div class="fi ex-card" style="transition-delay:.1s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(155,89,182,.2);color:#9B59B6;border:2px solid rgba(155,89,182,.4)">2</div>
+      <div class="ex-title">متغيرات شخصيتك</div>
+    </div>
+    <p class="ex-desc">عرّف 3 متغيرات لوصف نفسك: اسمك (str)، عمرك (int)، وطولك بالمتر (float)  ثم اطبعهم</p>
+    <div class="ex-task-box">
+      <div class="task-label">مثال:</div>
+      <div style="direction:ltr;font-family:'Courier New',monospace;font-size:.88rem">
+        name = "أحمد"<br>
+        age = 15<br>
+        height = 1.65
+      </div>
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header">
+        <div class="editor-dot" style="background:#ff5f57"></div>
+        <div class="editor-dot" style="background:#ffbd2e"></div>
+        <div class="editor-dot" style="background:#28ca42"></div>
+      </div>
+      <div class="ex-code" id="ex2Code" contenteditable="true" data-placeholder="name = ...&#10;age = ...&#10;height = ...&#10;print(name)&#10;print(age)&#10;print(height)"></div>
+    </div>
+    <div class="ex-output" id="ex2Output"><div class="output-label">الإخراج:</div><div id="ex2OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(2)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(2)">✅ تحقق من الإجابة</button>
+    </div>
+    <div class="ex-feedback" id="ex2Feedback"></div>
+  </div>
+
+  <!-- Exercise 3 -->
+  <div class="fi ex-card" style="transition-delay:.15s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(46,204,113,.2);color:#2ecc71;border:2px solid rgba(46,204,113,.4)">3</div>
+      <div class="ex-title">احسب مساحة المستطيل</div>
+    </div>
+    <p class="ex-desc">لديك مستطيل طوله 5 وعرضه 3. احسب مساحته وطبعها على الشاشة</p>
+    <div class="ex-task-box">
+      <div class="task-label">تلميح:</div>
+      مساحة المستطيل = الطول × العرض  استخدم المتغيرات لتخزين القيم ثم احسب
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header">
+        <div class="editor-dot" style="background:#ff5f57"></div>
+        <div class="editor-dot" style="background:#ffbd2e"></div>
+        <div class="editor-dot" style="background:#28ca42"></div>
+      </div>
+      <div class="ex-code" id="ex3Code" contenteditable="true" data-placeholder="length = 5&#10;width = 3&#10;area = ...&#10;print(area)"></div>
+    </div>
+    <div class="ex-output" id="ex3Output"><div class="output-label">الإخراج:</div><div id="ex3OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(3)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(3)">✅ تحقق من الإجابة</button>
+    </div>
+    <div class="ex-feedback" id="ex3Feedback"></div>
+  </div>
+
+  <!-- Exercise 4 -->
+  <div class="fi ex-card" style="transition-delay:.2s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(243,156,18,.2);color:#f39c12;border:2px solid rgba(243,156,18,.4)">4</div>
+      <div class="ex-title">برنامج الترحيب</div>
+    </div>
+    <p class="ex-desc">اكتب برنامجاً يطلب من المستخدم اسمه وعمره ثم يطبع رسالة ترحيب بهما معاً</p>
+    <div class="ex-task-box">
+      <div class="task-label">مثال للإخراج المتوقع:</div>
+      <div style="direction:ltr;font-family:'Courier New',monospace;font-size:.88rem;color:#a5d6ff">
+        مرحبا أحمد! عمرك 15 سنة.
+      </div>
+      <div style="margin-top:.5rem;font-size:.85rem;color:rgba(255,255,255,.45)">تذكر: input() يرجع str دائماً  استخدم int() للعمر</div>
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header">
+        <div class="editor-dot" style="background:#ff5f57"></div>
+        <div class="editor-dot" style="background:#ffbd2e"></div>
+        <div class="editor-dot" style="background:#28ca42"></div>
+      </div>
+      <div class="ex-code" id="ex4Code" contenteditable="true" data-placeholder="name = input(...)&#10;age = int(input(...))&#10;print(...)"></div>
+    </div>
+
+    <!-- Simulated input for ex4 -->
+    <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:1rem;margin-bottom:.8rem">
+      <p style="font-size:.82rem;color:rgba(255,255,255,.4);margin-bottom:.6rem">لمحاكاة input() في التمرين، أدخل القيم هنا:</p>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+        <input id="ex4Name" type="text" placeholder="الاسم" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.4rem .8rem;color:#fff;font-family:'Cairo',sans-serif;font-size:.9rem;outline:none;flex:1;min-width:100px">
+        <input id="ex4Age" type="number" placeholder="العمر" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:.4rem .8rem;color:#fff;font-family:'Cairo',sans-serif;font-size:.9rem;outline:none;width:90px">
+      </div>
+    </div>
+
+    <div class="ex-output" id="ex4Output"><div class="output-label">الإخراج:</div><div id="ex4OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(4)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(4)">✅ تحقق من الإجابة</button>
+    </div>
+    <div class="ex-feedback" id="ex4Feedback"></div>
+  </div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="big-e">🐍</div>
+  <h3>أتممت الدرس الثاني  أنت رائع!</h3>
+  <p>تعلّمتَ: الثنائي ⚡ المترجمون 🔄 Python 🐍 print() 📢 المتغيرات 📦 input() ⌨️</p>
+  <div class="next-lesson-btn">الدرس الثالث  قريباً 🔒</div>
+</footer>
+
+<script>
+/* ── Stars ── */
+(function(){
+  const c=document.getElementById('starsContainer');
+  for(let i=0;i<120;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const sz=Math.random()*2.5+.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*5}s`;
+    c.appendChild(s);
+  }
+})();
+
+/* ── Progress bar ── */
+window.addEventListener('scroll',()=>{
+  const el=document.getElementById('progress-bar');
+  const p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  el.style.width=Math.min(p,100)+'%';
+});
+
+/* ── Fade-in on scroll ── */
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:.12});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+/* ── Binary converter ── */
+function convertToBinary(){
+  const ch=document.getElementById('binInput').value||'A';
+  const code=ch.charCodeAt(0);
+  const bits=code.toString(2).padStart(8,'0');
+  const disp=document.getElementById('bitsDisplay');
+  const res=document.getElementById('binCharResult');
+  disp.innerHTML='';
+  bits.split('').forEach((b,i)=>{
+    setTimeout(()=>{
+      const chip=document.createElement('div');
+      chip.className='bit-chip '+(b==='1'?'one':'zero');
+      chip.textContent=b;
+      disp.appendChild(chip);
+    },i*80);
+  });
+  setTimeout(()=>{
+    res.innerHTML=`الحرف <span>"${ch}"</span> = الرقم ${code} = ${bits} بالثنائي`;
+  },bits.length*80+100);
+}
+convertToBinary();
+
+/* ── Translator toggle ── */
+function showTranslator(type){
+  const tc=document.getElementById('togCompiler');
+  const ti=document.getElementById('togInterpreter');
+  if(type==='compiler'){
+    tc.className='ttog active-compiler';
+    ti.className='ttog';
+  } else {
+    ti.className='ttog active-interpreter';
+    tc.className='ttog';
+  }
+}
+
+/* ── Hello World editor ── */
+function runHW(){
+  const code=(document.getElementById('hwEditor').innerText||'').trim();
+  const out=document.getElementById('hwOutputText');
+  const results=[];
+  const lines=code.split('\n');
+  lines.forEach(line=>{
+    line=line.trim();
+    if(!line||line.startsWith('#'))return;
+    const m=line.match(/^print\s*\(\s*(["'])(.*?)\1\s*\)$/);
+    if(m) results.push(m[2]);
+    else results.push('⚠️ خطأ: تأكد من كتابة print("النص")');
+  });
+  out.textContent=results.join('\n')||'لا يوجد إخراج';
+}
+
+/* ── Omar problem ── */
+let omarChanged=false;
+function omarChange(){
+  if(omarChanged)return;
+  omarChanged=true;
+  const lines=[0,1,2,3];
+  lines.forEach((li,i)=>{
+    setTimeout(()=>{
+      const el=document.getElementById('ol'+li);
+      el.classList.add('highlight-change');
+      setTimeout(()=>el.classList.remove('highlight-change'),700);
+    },i*400);
+  });
+  setTimeout(()=>{
+    document.getElementById('ol0').innerHTML='<span class="kw">print</span>(<span class="str">"<mark style=\'background:#ff5e5e40;color:#ff9999\'>محمد</mark> الشايب"</span>)';
+    document.getElementById('ol1').innerHTML='<span class="kw">print</span>(<span class="str">"كان يحب اسمه <mark style=\'background:#ff5e5e40;color:#ff9999\'>محمد</mark> كثيراً"</span>)';
+    document.getElementById('ol2').innerHTML='<span class="kw">print</span>(<span class="str">"كان عمره <mark style=\'background:#ff5e5e40;color:#ff9999\'>60</mark> سنة"</span>)';
+    document.getElementById('ol3').innerHTML='<span class="kw">print</span>(<span class="str">"لم يكن يحب أن يكون عمره <mark style=\'background:#ff5e5e40;color:#ff9999\'>60</mark> سنة"</span>)';
+    document.getElementById('ol2').classList.add('highlight-change');
+    document.getElementById('ol3').classList.add('highlight-change');
+    setTimeout(()=>{
+      document.getElementById('ol2').classList.remove('highlight-change');
+      document.getElementById('ol3').classList.remove('highlight-change');
+    },800);
+  },4*400+200);
+}
+function omarFix(){
+  const sol=document.getElementById('omarSolution');
+  sol.classList.add('show');
+  sol.scrollIntoView({behavior:'smooth',block:'nearest'});
+  ['solLine0','solLine1','solLine2'].forEach((id,i)=>{
+    setTimeout(()=>{
+      const el=document.getElementById(id);
+      el.classList.add('exec');
+      setTimeout(()=>el.classList.remove('exec'),800);
+    },i*300+200);
+  });
+}
+
+/* ── Variable type demos ── */
+const opExplains={
+  '+':'الجمع','-':'الطرح','*':'الضرب','/':'القسمة العادية (تعطي float)',
+  '//':'القسمة الصحيحة (بدون باقي)','%':'باقي القسمة','**':'الأس (القوة)'
+};
+function calcInt(op){
+  const a=parseFloat(document.getElementById('intA').value)||0;
+  const b=parseFloat(document.getElementById('intB').value)||0;
+  let res;
+  if(op==='+')res=a+b;
+  else if(op==='-')res=a-b;
+  else if(op==='*')res=a*b;
+  else if(op==='/')res=b!==0?(a/b).toFixed(4):' خطأ: قسمة على صفر';
+  else if(op=='//')res=b!==0?Math.floor(a/b):' خطأ: قسمة على صفر';
+  else if(op==='%')res=b!==0?((a%b)+b)%b:' خطأ: قسمة على صفر';
+  else if(op==='**')res=Math.pow(a,b);
+  const opSym={'*':'×','/':'÷','//':'÷÷','**':'^'}[op]||op;
+  document.getElementById('intResult').textContent=`${a} ${opSym} ${b} = ${res}`;
+  document.getElementById('intExplain').textContent=opExplains[op]||'';
+  document.querySelectorAll('#intOps .op-btn').forEach(b=>b.classList.remove('active-op'));
+  event.target.classList.add('active-op');
+}
+function calcFloat(op){
+  const a=parseFloat(document.getElementById('floatA').value)||0;
+  const b=parseFloat(document.getElementById('floatB').value)||0;
+  let res;
+  if(op==='+')res=a+b;
+  else if(op==='-')res=a-b;
+  else if(op==='*')res=a*b;
+  else if(op==='/')res=b!==0?a/b:'خطأ';
+  else if(op==='**')res=Math.pow(a,b);
+  const opSym={'*':'×','/':'÷','**':'^'}[op]||op;
+  document.getElementById('floatResult').textContent=`${a} ${opSym} ${b} = ${res}`;
+  document.getElementById('floatExplain').textContent=opExplains[op]||'';
+  document.querySelectorAll('#floatOps .op-btn').forEach(b=>b.classList.remove('active-op'));
+  event.target.classList.add('active-op');
+}
+function calcStr(op){
+  const a=document.getElementById('strA').value||'';
+  const b=document.getElementById('strB').value||'';
+  let res,explain;
+  if(op==='+'){res=`"${a+b}"`;explain='الدمج: + يلصق نصين ببعض'}
+  else if(op==='*'){const n=parseInt(document.getElementById('strRepeat').value)||2;res=`"${a.repeat(n)}"`;explain=`التكرار: النص × ${n}`}
+  else if(op==='len'){res=a.length;explain=`len("${a}") = عدد الحروف`}
+  else if(op==='upper'){res=`"${a.toUpperCase()}"`;explain='upper() تحوّل الحروف لكبيرة (للإنجليزي)'}
+  else if(op==='lower'){res=`"${a.toLowerCase()}"`;explain='lower() تحوّل الحروف لصغيرة'}
+  document.getElementById('strResult').textContent=res;
+  document.getElementById('strExplain').textContent=explain;
+  document.querySelectorAll('.str-card .op-btn').forEach(b=>b.classList.remove('active-op'));
+  event.target.classList.add('active-op');
+}
+
+/* ── Live input demo ── */
+function runLiveInput(){
+  const name=document.getElementById('liveName').value.trim();
+  const ageVal=document.getElementById('liveAge').value.trim();
+  const out=document.getElementById('liveOutput');
+  if(!name){out.textContent='⚠️ أدخل اسمك أولاً!';return;}
+  const age=parseInt(ageVal)||0;
+  const lines=[
+    `مرحبا ${name}!`,
+    `عمرك ${age} سنة`,
+    `السنة القادمة ستصبح عمرك ${age+1}`
+  ];
+  out.textContent='';
+  lines.forEach((l,i)=>setTimeout(()=>{out.textContent+=l+'\n';},i*400));
+}
+
+/* ── Terminal animation ── */
+(function(){
+  const body=document.getElementById('termBody');
+  const stages=[
+    {delay:1500,fn:()=>{
+      body.innerHTML+=`<div class="term-line"><span class="term-prompt">ما اسمك؟ </span><span class="term-text" id="termTyped"></span><span class="term-cursor"></span></div>`;
+      const el=document.getElementById('termTyped');
+      const text='أحمد';
+      let i=0;
+      const t=setInterval(()=>{if(i<text.length){el.textContent+=text[i++];}else clearInterval(t);},150);
+    }},
+    {delay:3500,fn:()=>{
+      body.innerHTML=`
+        <div class="term-line"><span class="term-prompt">>>> </span><span class="term-text">name = input("ما اسمك؟ ")</span></div>
+        <div class="term-line"><span class="term-prompt">ما اسمك؟ </span><span class="term-text">أحمد</span></div>
+        <div class="term-line"><span class="term-prompt">>>> </span><span class="term-text">print("مرحبا، " + name)</span></div>
+        <div class="term-line"><span class="term-output">مرحبا، أحمد</span></div>
+        <div class="term-line"><span class="term-prompt">>>> </span><span class="term-cursor"></span></div>`;
+    }}
+  ];
+  stages.forEach(s=>setTimeout(s.fn,s.delay));
+})();
+
+/* ── Exercises ── */
+function simPython(code,inputs){
+  const lines=code.trim().split('\n');
+  const vars={};
+  const output=[];
+  let inpIdx=0;
+  const getInput=()=>(inputs&&inputs[inpIdx]!==undefined?inputs[inpIdx++]:'');
+  for(let raw of lines){
+    const line=raw.trim();
+    if(!line||line.startsWith('#'))continue;
+    // print
+    let m=line.match(/^print\s*\((.+)\)$/);
+    if(m){
+      output.push(evalExpr(m[1],vars));
+      continue;
+    }
+    // int(input(...))
+    m=line.match(/^(\w+)\s*=\s*int\s*\(\s*input\s*\(.*?\)\s*\)$/);
+    if(m){vars[m[1]]=parseInt(getInput())||0;continue;}
+    // float(input(...))
+    m=line.match(/^(\w+)\s*=\s*float\s*\(\s*input\s*\(.*?\)\s*\)$/);
+    if(m){vars[m[1]]=parseFloat(getInput())||0;continue;}
+    // input(...)
+    m=line.match(/^(\w+)\s*=\s*input\s*\(.*?\)$/);
+    if(m){vars[m[1]]=getInput();continue;}
+    // var = expr
+    m=line.match(/^(\w+)\s*=\s*(.+)$/);
+    if(m){vars[m[1]]=evalExpr(m[2],vars);continue;}
+  }
+  return {output,vars};
+}
+
+function evalExpr(expr,vars){
+  expr=expr.trim();
+  // string literal
+  let m=expr.match(/^(["'])(.*)\1$/);
+  if(m)return m[2];
+  // int literal
+  if(/^-?\d+$/.test(expr))return parseInt(expr);
+  // float literal
+  if(/^-?\d+\.\d+$/.test(expr))return parseFloat(expr);
+  // str(x)
+  m=expr.match(/^str\s*\((.+)\)$/);
+  if(m)return String(evalExpr(m[1],vars));
+  // int(x)
+  m=expr.match(/^int\s*\((.+)\)$/);
+  if(m)return parseInt(evalExpr(m[1],vars))||0;
+  // float(x)
+  m=expr.match(/^float\s*\((.+)\)$/);
+  if(m)return parseFloat(evalExpr(m[1],vars))||0;
+  // len(x)
+  m=expr.match(/^len\s*\((.+)\)$/);
+  if(m){const v=evalExpr(m[1],vars);return String(v).length;}
+  // variable
+  if(vars[expr]!==undefined)return vars[expr];
+  // concatenation / arithmetic  split by +
+  if(expr.includes('+')){
+    const parts=splitByOp(expr,'+');
+    if(parts.length>1){
+      const evaled=parts.map(p=>evalExpr(p.trim(),vars));
+      if(evaled.some(e=>typeof e==='string'))return evaled.map(e=>String(e)).join('');
+      return evaled.reduce((a,b)=>a+b,0);
+    }
+  }
+  if(expr.includes('*')&&!expr.includes('**')){
+    const parts=splitByOp(expr,'*');
+    if(parts.length>1){const evaled=parts.map(p=>evalExpr(p.trim(),vars));return evaled.reduce((a,b)=>a*b,1);}
+  }
+  if(expr.includes('**')){
+    const parts=expr.split('**');
+    if(parts.length===2)return Math.pow(Number(evalExpr(parts[0].trim(),vars)),Number(evalExpr(parts[1].trim(),vars)));
+  }
+  return expr;
+}
+
+function splitByOp(expr,op){
+  const parts=[];let cur='',depth=0;
+  for(let i=0;i<expr.length;i++){
+    const c=expr[i];
+    if(c==='('||c==='['||c==='{')depth++;
+    else if(c===')'||c===']'||c==='}')depth--;
+    else if(c===op[0]&&depth===0&&expr.slice(i,i+op.length)===op){parts.push(cur);cur='';i+=op.length-1;continue;}
+    cur+=c;
+  }
+  parts.push(cur);
+  return parts;
+}
+
+function runEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText.trim();
+  const outDiv=document.getElementById('ex'+n+'Output');
+  const outText=document.getElementById('ex'+n+'OutText');
+  let inputs=[];
+  if(n===4){inputs=[document.getElementById('ex4Name').value||'مستخدم',document.getElementById('ex4Age').value||'0'];}
+  let result;
+  try{result=simPython(code,inputs);}
+  catch(e){outText.textContent='⚠️ خطأ في الكود';outDiv.classList.add('show');return;}
+  outText.textContent=result.output.join('\n')||'(لا يوجد إخراج)';
+  outDiv.classList.add('show');
+}
+
+function checkEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText.trim();
+  const fb=document.getElementById('ex'+n+'Feedback');
+  let ok=false,msg='';
+  let inputs=[];
+  if(n===4){inputs=[document.getElementById('ex4Name').value||'أحمد',document.getElementById('ex4Age').value||'15'];}
+  let result;
+  try{result=simPython(code,inputs);}
+  catch(e){msg='⚠️ في خطأ بالكود، راجع كتابتك';fb.className='ex-feedback show wrong';fb.textContent=msg;return;}
+
+  if(n===1){
+    ok=result.output.length>0&&result.output[0].trim().length>0&&!result.output[0].includes('⚠️');
+    msg=ok?'✅ ممتاز! طبعت نصاً على الشاشة بنجاح 🎉':'❌ تأكد من استخدام print() مع نص بين علامات التنصيص\nمثال: print("أحمد")';
+  } else if(n===2){
+    const vars=result.vars;
+    const hasStr=Object.values(vars).some(v=>typeof v==='string');
+    const hasInt=Object.values(vars).some(v=>Number.isInteger(v)&&typeof v!=='string');
+    const hasFloat=Object.values(vars).some(v=>typeof v==='number'&&!Number.isInteger(v));
+    ok=hasStr&&hasInt&&hasFloat&&result.output.length>=3;
+    msg=ok?'✅ رائع! عرّفت المتغيرات الثلاثة بأنواعها الصحيحة 🎉':'❌ تأكد أن لديك: نص (str) وعدد صحيح (int) وعدد عشري (float) وطبعت الثلاثة';
+  } else if(n===3){
+    ok=result.output.some(o=>String(o).trim()==='15'||Number(o)===15);
+    msg=ok?'✅ صحيح! مساحة المستطيل = 5 × 3 = 15 🎉':'❌ الإجابة يجب أن تكون 15  تأكد من area = length * width';
+  } else if(n===4){
+    const nm=inputs[0];const ag=inputs[1];
+    ok=result.output.some(o=>String(o).includes(nm))&&result.output.some(o=>String(o).includes(String(ag)));
+    const hasInput=/input\s*\(/.test(code);
+    ok=ok&&hasInput;
+    msg=ok?`✅ ممتاز! برنامجك يرحب بـ ${nm} ويذكر العمر ${ag} 🎉`:'❌ تأكد من استخدام input() لطلب الاسم والعمر، وطبع كليهما في الرسالة';
+  }
+
+  fb.className='ex-feedback show '+(ok?'correct':'wrong');
+  fb.textContent=msg;
+}
+</script>
+</body>
+</html>
