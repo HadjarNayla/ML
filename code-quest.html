@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مغامرة البرمجة - فكر مثل الكمبيوتر!</title>
+<style>
+/* ============================================================
+   FONTS
+============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Rubik:wght@500;700;800;900&family=Fira+Code:wght@500;700&display=swap');
+
+/* ============================================================
+   THEME
+============================================================ */
+:root{
+  --paper:   #FFF6E9;
+  --ink:     #2B2342;
+  --coral:   #FF6B6B;
+  --yellow:  #FFD93D;
+  --mint:    #5FD08D;
+  --sky:     #4D96FF;
+  --purple:  #9B5DE5;
+  --pink:    #FF8FAB;
+  --white:   #FFFFFF;
+  --true-bg: #DCFCE7;
+  --false-bg:#FFE4E6;
+  --radius:  24px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family:'Rubik', sans-serif;
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    radial-gradient(rgba(43,35,66,.07) 2px, transparent 2px);
+  background-size:28px 28px;
+  overflow-x:hidden;
+}
+
+h1,h2,h3{ font-family:'Baloo Bhaijaan 2', 'Rubik', cursive; line-height:1.25; }
+
+code, pre{ font-family:'Fira Code', monospace; direction:ltr; unicode-bidi:embed; }
+
+/* ============================================================
+   STICKY NAV
+============================================================ */
+nav{
+  position:sticky; top:12px; z-index:50;
+  display:flex; justify-content:center; gap:8px;
+  flex-wrap:wrap; padding:0 12px;
+}
+nav a{
+  background:var(--white);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink);
+  padding:6px 14px;
+  font-weight:900; font-size:.85rem;
+  color:var(--ink); text-decoration:none;
+  transition:transform .15s, box-shadow .15s;
+}
+nav a:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); background:var(--yellow); }
+
+/* ============================================================
+   HERO
+============================================================ */
+header{
+  position:relative;
+  text-align:center;
+  padding:90px 20px 70px;
+  overflow:hidden;
+}
+.blob{
+  position:absolute; border-radius:50%;
+  border:3px solid var(--ink);
+  animation:float 6s ease-in-out infinite;
+  z-index:0;
+}
+.blob.b1{ width:70px;  height:70px;  background:var(--coral);  top:12%; left:8%;  animation-delay:0s; }
+.blob.b2{ width:46px;  height:46px;  background:var(--yellow); top:60%; left:14%; animation-delay:1.2s; }
+.blob.b3{ width:90px;  height:90px;  background:var(--sky);    top:18%; right:7%; animation-delay:.6s; }
+.blob.b4{ width:40px;  height:40px;  background:var(--mint);   top:65%; right:13%;animation-delay:1.8s; }
+.blob.b5{ width:30px;  height:30px;  background:var(--purple); top:38%; left:22%; animation-delay:2.4s; }
+@keyframes float{
+  0%,100%{ transform:translateY(0) rotate(0deg); }
+  50%    { transform:translateY(-18px) rotate(8deg); }
+}
+
+header h1{
+  position:relative; z-index:1;
+  font-size:clamp(2.4rem, 7vw, 4.6rem);
+  font-weight:800;
+}
+header h1 span{ display:inline-block; animation:bounceIn .8s both; }
+header h1 span:nth-child(odd){ color:var(--coral); }
+header h1 span:nth-child(even){ color:var(--sky); }
+header h1 span:nth-child(3n){ color:var(--mint); }
+@keyframes bounceIn{
+  0%{ transform:translateY(-40px) scale(.3); opacity:0; }
+  60%{ transform:translateY(8px) scale(1.1); opacity:1; }
+  100%{ transform:translateY(0) scale(1); }
+}
+
+header p.tagline{
+  position:relative; z-index:1;
+  font-size:clamp(1.05rem, 2.5vw, 1.4rem);
+  font-weight:800;
+  max-width:600px; margin:18px auto 34px;
+}
+
+/* big flip coin in hero */
+.coin-wrap{ perspective:900px; display:inline-block; cursor:pointer; position:relative; z-index:1; }
+.coin{
+  width:170px; height:170px; position:relative;
+  transform-style:preserve-3d;
+  transition:transform .6s cubic-bezier(.4,1.6,.5,1);
+}
+.coin.flipped{ transform:rotateY(180deg); }
+.coin-face{
+  position:absolute; inset:0;
+  border-radius:50%;
+  border:4px solid var(--ink);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  backface-visibility:hidden;
+  font-family:'Baloo Bhaijaan 2', cursive; font-weight:800;
+  box-shadow:6px 6px 0 var(--ink);
+}
+.coin-face.front{ background:var(--mint); }
+.coin-face.back { background:var(--coral); transform:rotateY(180deg); }
+.coin-face .big{ font-size:1.9rem; font-family:'Fira Code', monospace; font-weight:700; }
+.coin-face .small{ font-size:1.2rem; }
+.coin-hint{ font-weight:800; margin-top:14px; font-size:.95rem; opacity:.7; position:relative; z-index:1; }
+
+/* ============================================================
+   SECTIONS / CARDS
+============================================================ */
+main{ max-width:980px; margin:0 auto; padding:0 18px 80px; }
+
+section{
+  margin:70px 0;
+  opacity:0; transform:translateY(40px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+section.visible{ opacity:1; transform:translateY(0); }
+
+.badge{
+  display:inline-block;
+  font-family:'Baloo Bhaijaan 2', cursive; font-weight:800;
+  font-size:.95rem;
+  background:var(--yellow);
+  border:3px solid var(--ink);
+  border-radius:12px;
+  box-shadow:4px 4px 0 var(--ink);
+  padding:4px 16px;
+  transform:rotate(3deg);
+  margin-bottom:14px;
+}
+.badge.sky{ background:var(--sky); color:#fff; }
+.badge.coral{ background:var(--coral); color:#fff; }
+.badge.mint{ background:var(--mint); }
+.badge.purple{ background:var(--purple); color:#fff; }
+.badge.pink{ background:var(--pink); }
+
+section h2{ font-size:clamp(1.7rem, 4.5vw, 2.5rem); margin-bottom:10px; }
+section .lead{ font-size:1.1rem; font-weight:700; max-width:680px; margin-bottom:26px; line-height:1.9; }
+
+.card{
+  background:var(--white);
+  border:3px solid var(--ink);
+  border-radius:var(--radius);
+  box-shadow:7px 7px 0 var(--ink);
+  padding:26px;
+}
+
+.grid{ display:grid; gap:20px; }
+.grid.cols-3{ grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); }
+.grid.cols-2{ grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* ============================================================
+   TOGGLE SWITCHES (boolean section)
+============================================================ */
+.toggle-card{ text-align:center; transition:transform .2s; }
+.toggle-card:hover{ transform:translateY(-4px); }
+.toggle-card .scene{
+  font-size:4rem; height:90px;
+  display:flex; align-items:center; justify-content:center;
+  transition:filter .3s, transform .3s;
+}
+.toggle-card .scene.glow{ filter:drop-shadow(0 0 18px var(--yellow)); transform:scale(1.15); }
+.toggle-card h3{ font-size:1.2rem; margin:8px 0 14px; }
+
+.switch{
+  position:relative; display:inline-block;
+  width:78px; height:42px; cursor:pointer;
+}
+.switch input{ opacity:0; width:0; height:0; }
+.slider-track{
+  position:absolute; inset:0;
+  background:#d9d2e9;
+  border:3px solid var(--ink);
+  border-radius:999px;
+  transition:background .25s;
+}
+.slider-track::before{
+  content:"";
+  position:absolute; left:4px; top:3px;
+  width:28px; height:28px;
+  background:var(--white);
+  border:3px solid var(--ink);
+  border-radius:50%;
+  transition:transform .25s cubic-bezier(.4,1.6,.5,1);
+}
+.switch input:checked + .slider-track{ background:var(--mint); }
+.switch input:checked + .slider-track::before{ transform:translateX(34px); }
+
+.bool-readout{
+  margin-top:14px;
+  font-family:'Fira Code', monospace; font-weight:700;
+  font-size:.95rem;
+  direction:ltr; unicode-bidi:embed;
+  padding:8px 12px;
+  border-radius:12px;
+  border:3px solid var(--ink);
+  display:inline-block;
+  transition:background .25s;
+}
+.bool-readout.is-true { background:var(--true-bg); }
+.bool-readout.is-false{ background:var(--false-bg); }
+.bool-readout b.t{ color:#15803d; }
+.bool-readout b.f{ color:#be123c; }
+
+.fact-strip{
+  margin-top:26px;
+  background:var(--ink); color:var(--paper);
+  border-radius:var(--radius);
+  border:3px solid var(--ink);
+  box-shadow:7px 7px 0 var(--purple);
+  padding:20px 26px;
+  font-weight:800; font-size:1.05rem;
+  text-align:center;
+  line-height:2;
+}
+.fact-strip code{ background:rgba(255,255,255,.15); padding:2px 8px; border-radius:8px; }
+
+/* ============================================================
+   SEESAW (comparison section)
+============================================================ */
+.compare-wrap{ display:grid; gap:20px; grid-template-columns:1fr; }
+@media(min-width:760px){ .compare-wrap{ grid-template-columns:1.2fr .8fr; } }
+
+.seesaw-stage{
+  position:relative; height:230px;
+  display:flex; align-items:flex-end; justify-content:center;
+  overflow:visible;
+}
+.seesaw-plank{
+  position:absolute; bottom:74px; left:50%;
+  width:min(420px, 86%); height:14px;
+  margin-left:calc(min(420px, 86%) / -2);
+  background:var(--yellow);
+  border:3px solid var(--ink);
+  border-radius:8px;
+  transition:transform .5s cubic-bezier(.4,1.4,.5,1);
+  transform-origin:center center;
+}
+.seesaw-box{
+  position:absolute; bottom:14px;
+  width:64px; height:64px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Fira Code', monospace; font-weight:700; font-size:1.5rem;
+  border:3px solid var(--ink); border-radius:16px;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.seesaw-box.left { left:-6px;  background:var(--coral); color:#fff; }
+.seesaw-box.right{ right:-6px; background:var(--sky);   color:#fff; }
+.seesaw-pivot{
+  width:0; height:0; position:absolute; bottom:18px; left:50%;
+  transform:translateX(-50%);
+  border-left:34px solid transparent;
+  border-right:34px solid transparent;
+  border-bottom:62px solid var(--purple);
+  filter:drop-shadow(3px 3px 0 var(--ink));
+}
+.seesaw-ground{
+  position:absolute; bottom:0; left:5%; right:5%;
+  height:18px; background:var(--mint);
+  border:3px solid var(--ink); border-radius:999px;
+}
+
+.range-row{ display:flex; align-items:center; gap:12px; margin:10px 0; font-weight:900; }
+.range-row label{ min-width:64px; font-family:'Fira Code', monospace; font-weight:700; font-size:1rem; direction:ltr; }
+.range-row output{
+  min-width:42px; text-align:center;
+  font-family:'Fira Code', monospace; font-weight:700;
+  border:3px solid var(--ink); border-radius:10px;
+  padding:2px 6px; background:var(--paper);
+}
+input[type=range]{
+  flex:1; appearance:none; height:12px;
+  direction:ltr;
+  background:var(--paper);
+  border:3px solid var(--ink); border-radius:999px;
+  outline:none; cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  appearance:none; width:26px; height:26px;
+  background:var(--coral);
+  border:3px solid var(--ink); border-radius:50%;
+  box-shadow:2px 2px 0 var(--ink);
+}
+input[type=range].blue::-webkit-slider-thumb{ background:var(--sky); }
+input[type=range].hot::-webkit-slider-thumb{ background:var(--yellow); }
+
+.op-chips{ display:flex; flex-direction:column; gap:10px; }
+.op-chip{
+  display:flex; justify-content:space-between; align-items:center;
+  direction:ltr;
+  border:3px solid var(--ink); border-radius:14px;
+  padding:9px 14px;
+  font-family:'Fira Code', monospace; font-weight:700; font-size:.95rem;
+  transition:background .25s, transform .25s;
+}
+.op-chip.is-true { background:var(--true-bg); }
+.op-chip.is-false{ background:var(--false-bg); }
+.op-chip .verdict{
+  font-family:'Fira Code', monospace; font-size:.85rem;
+  padding:2px 12px; border-radius:999px;
+  border:2.5px solid var(--ink); color:#fff;
+}
+.op-chip.is-true  .verdict{ background:#16a34a; }
+.op-chip.is-false .verdict{ background:#e11d48; }
+
+.mini-note{
+  margin-top:18px; font-weight:800; font-size:1rem;
+  background:var(--yellow);
+  border:3px solid var(--ink); border-radius:16px;
+  box-shadow:4px 4px 0 var(--ink);
+  padding:14px 18px;
+  line-height:1.9;
+}
+
+/* ============================================================
+   CODE BLOCKS
+============================================================ */
+pre.codeblock{
+  background:var(--ink); color:#EDE9FE;
+  border-radius:18px; border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--sky);
+  padding:18px 20px;
+  font-size:.95rem; line-height:1.9;
+  overflow-x:auto;
+  direction:ltr; text-align:left;
+}
+pre.codeblock .ln{ display:block; padding:0 10px; border-radius:8px; transition:background .3s; }
+pre.codeblock .ln.active{ background:rgba(95,208,141,.35); outline:2px dashed var(--mint); }
+pre.codeblock .ln.skipped{ opacity:.35; text-decoration:line-through; }
+pre.codeblock .kw{ color:#FF8FAB; font-weight:700; }
+pre.codeblock .fn{ color:#7DD3FC; }
+pre.codeblock .bool{ color:#FDE047; font-weight:700; }
+
+/* ============================================================
+   IF SECTION — weather scene
+============================================================ */
+.scene-stage{
+  position:relative;
+  border:3px solid var(--ink); border-radius:18px;
+  height:240px; overflow:hidden;
+  display:flex; align-items:flex-end; justify-content:center;
+  background:linear-gradient(#BAE6FD, #E0F2FE 70%);
+  transition:background 1s;
+}
+.scene-stage.raining{ background:linear-gradient(#64748B, #94A3B8 70%); }
+.scene-sky-icon{
+  position:absolute; top:14px; left:18px; font-size:3rem;
+  transition:transform .4s;
+}
+.scene-kid{
+  font-size:4.2rem; margin-bottom:10px; position:relative; z-index:2;
+  transition:transform .3s;
+}
+.scene-umbrella{
+  position:absolute; font-size:3.4rem;
+  bottom:96px; z-index:3;
+  transition:transform .45s cubic-bezier(.4,1.5,.5,1), opacity .3s;
+  transform:translateY(40px) scale(0); opacity:0;
+}
+.scene-stage.raining .scene-umbrella{ transform:translateY(0) scale(1); opacity:1; }
+.scene-ground2{
+  position:absolute; bottom:0; width:100%; height:26px;
+  background:var(--mint); border-top:3px solid var(--ink);
+}
+.raindrop{
+  position:absolute; top:-30px;
+  width:5px; height:16px; border-radius:999px;
+  background:#38BDF8; border:1.5px solid var(--ink);
+  opacity:0; z-index:1;
+}
+.scene-stage.raining .raindrop{ animation:rainfall 1s linear infinite; opacity:1; }
+@keyframes rainfall{
+  0%{ transform:translateY(0); opacity:1; }
+  100%{ transform:translateY(260px); opacity:.4; }
+}
+.scene-caption{
+  position:absolute; top:12px; right:14px;
+  background:var(--white);
+  border:3px solid var(--ink); border-radius:12px;
+  padding:5px 12px; font-weight:900; font-size:.9rem;
+  box-shadow:3px 3px 0 var(--ink); z-index:4;
+}
+.center-toggle{ display:flex; align-items:center; justify-content:center; gap:14px; margin:18px 0; font-weight:900; font-size:1.05rem; flex-wrap:wrap; }
+
+/* ============================================================
+   TEMPERATURE / IF-ELSE SECTION
+============================================================ */
+.temp-stage{
+  border:3px solid var(--ink); border-radius:18px;
+  height:230px; position:relative; overflow:hidden;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px;
+  transition:background 1s;
+}
+.temp-stage.hot { background:linear-gradient(#FDBA74,#FEF08A); }
+.temp-stage.warm{ background:linear-gradient(#BAE6FD,#FEF9C3); }
+.temp-stage.cool{ background:linear-gradient(#A5B4FC,#E0E7FF); }
+.temp-stage.cold{ background:linear-gradient(#93C5FD,#F0F9FF); }
+.temp-emoji{ font-size:4.4rem; transition:transform .35s; }
+.temp-stage .outfit-label{
+  background:var(--white); border:3px solid var(--ink);
+  border-radius:999px; padding:6px 18px;
+  font-weight:900; font-size:1rem;
+  box-shadow:3px 3px 0 var(--ink);
+}
+.temp-display{
+  position:absolute; top:12px; left:14px;
+  font-family:'Fira Code', monospace; font-weight:700; font-size:1.4rem;
+  background:var(--white); border:3px solid var(--ink);
+  border-radius:14px; padding:2px 14px;
+  box-shadow:3px 3px 0 var(--ink);
+  direction:ltr;
+}
+.snowflake{ position:absolute; top:-20px; font-size:1.1rem; opacity:0; }
+.temp-stage.cold .snowflake{ animation:snowfall 4s linear infinite; opacity:1; }
+@keyframes snowfall{
+  0%{ transform:translateY(0) rotate(0deg); }
+  100%{ transform:translateY(260px) rotate(220deg); }
+}
+.sunray{ position:absolute; top:10px; right:14px; font-size:2.6rem; display:none; }
+.temp-stage.hot .sunray{ display:block; animation:spin 9s linear infinite; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
+
+/* ============================================================
+   AND / OR — circuits
+============================================================ */
+.circuit{
+  display:flex; align-items:center; justify-content:center;
+  gap:0; margin:18px 0 6px; flex-wrap:wrap;
+}
+.wire{ width:34px; height:6px; background:var(--ink); border-radius:99px; }
+.circuit-node{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+}
+.circuit-switch{
+  width:74px; height:74px;
+  border:3px solid var(--ink); border-radius:18px;
+  background:var(--false-bg);
+  font-size:2rem; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:4px 4px 0 var(--ink);
+  transition:background .25s, transform .12s;
+  user-select:none;
+}
+.circuit-switch:active{ transform:scale(.93); }
+.circuit-switch.on{ background:var(--true-bg); }
+.circuit-label{ font-weight:900; font-size:.8rem; text-align:center; max-width:90px; }
+.circuit-bulb{
+  font-size:3.4rem;
+  filter:grayscale(1) opacity(.45);
+  transition:filter .3s, transform .3s;
+}
+.circuit-bulb.lit{
+  filter:grayscale(0) drop-shadow(0 0 16px var(--yellow));
+  transform:scale(1.2);
+  animation:pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse{ 0%,100%{ transform:scale(1.15);} 50%{ transform:scale(1.25);} }
+
+.gate-result{
+  text-align:center; margin-top:10px;
+  font-weight:800; font-size:1.05rem;
+  border:3px solid var(--ink); border-radius:16px;
+  padding:10px; transition:background .3s;
+  line-height:1.9;
+}
+.gate-result.ok  { background:var(--true-bg); }
+.gate-result.nope{ background:var(--false-bg); }
+.gate-result code{ font-size:.95rem; }
+
+table.truth{
+  width:100%; border-collapse:separate; border-spacing:0;
+  margin-top:16px;
+  direction:ltr;
+  font-family:'Fira Code', monospace; font-size:.85rem; font-weight:700;
+}
+table.truth th, table.truth td{
+  border:2px solid var(--ink); padding:7px 6px; text-align:center;
+}
+table.truth th{ background:var(--ink); color:var(--paper); font-family:'Rubik', sans-serif; font-weight:900; }
+table.truth tr td:last-child{ font-weight:900; }
+table.truth tr.hl td{ background:var(--yellow); }
+table.truth td.tt{ color:#15803d; }
+table.truth td.ff{ color:#be123c; }
+
+/* ============================================================
+   QUIZ
+============================================================ */
+.quiz-card{ text-align:center; }
+.quiz-progress{
+  display:flex; gap:8px; justify-content:center; margin-bottom:20px;
+}
+.quiz-dot{
+  width:18px; height:18px; border-radius:50%;
+  border:3px solid var(--ink); background:var(--white);
+  transition:background .3s;
+}
+.quiz-dot.done-right{ background:var(--mint); }
+.quiz-dot.done-wrong{ background:var(--coral); }
+.quiz-dot.current{ background:var(--yellow); }
+
+.quiz-q{
+  font-family:'Fira Code', monospace; font-weight:700;
+  font-size:1.25rem;
+  direction:ltr;
+  background:var(--ink); color:#FDE047;
+  border-radius:16px; padding:18px;
+  margin-bottom:8px;
+}
+.quiz-prompt{ font-weight:900; font-size:1.05rem; margin:14px 0 18px; }
+.quiz-btns{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.btn{
+  font-family:'Rubik', sans-serif; font-weight:900; font-size:1.1rem;
+  border:3px solid var(--ink); border-radius:16px;
+  box-shadow:5px 5px 0 var(--ink);
+  padding:12px 34px; cursor:pointer;
+  transition:transform .12s, box-shadow .12s;
+  color:var(--ink);
+}
+.btn:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink); }
+.btn:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--ink); }
+.btn.true-btn { background:var(--mint); }
+.btn.false-btn{ background:var(--coral); color:#fff; }
+.btn.again-btn{ background:var(--sky); color:#fff; }
+.quiz-feedback{
+  min-height:34px; font-weight:900; font-size:1.1rem; margin-top:18px; line-height:1.9;
+}
+.quiz-score{ font-family:'Fira Code', monospace; font-weight:700; font-size:2rem; margin:10px 0; direction:ltr; }
+
+/* confetti */
+.confetti-bit{
+  position:fixed; top:-20px; z-index:999;
+  width:12px; height:12px;
+  border:2px solid var(--ink);
+  pointer-events:none;
+  animation:confallin linear forwards;
+}
+@keyframes confallin{
+  0%{ transform:translateY(0) rotate(0); opacity:1; }
+  100%{ transform:translateY(110vh) rotate(720deg); opacity:.6; }
+}
+
+footer{
+  text-align:center; padding:50px 20px 70px;
+  font-weight:900; font-size:1.1rem;
+  line-height:2;
+}
+footer .hearts{ font-size:1.6rem; }
+
+@media(max-width:560px){
+  .wire{ width:16px; }
+  .circuit-switch{ width:60px; height:60px; font-size:1.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <a href="#booleans">💡 صح أم خطأ</a>
+  <a href="#compare">⚖️ المقارنة</a>
+  <a href="#if">🌧️ if</a>
+  <a href="#ifelse">🌡️ if / else</a>
+  <a href="#andor">🔌 and / or</a>
+  <a href="#quiz">🏆 الاختبار</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div>
+  <h1 id="heroTitle">مغامرة البرمجة</h1>
+  <p class="tagline">الكمبيوتر لا يستطيع التفكير... لكنه يستطيع الإجابة على نوع واحد من الأسئلة بسرعة خارقة: <br>«هل هذا <code>true</code> أم <code>false</code>؟» هيا نتعلم كيف! 🚀</p>
+  <div class="coin-wrap" id="heroCoin" title="اضغط علي!">
+    <div class="coin" id="coin">
+      <div class="coin-face front"><div class="big">✅ true</div><div class="small">نعم!</div></div>
+      <div class="coin-face back"><div class="big">❌ false</div><div class="small">لا!</div></div>
+    </div>
+  </div>
+  <div class="coin-hint">👆 اضغط على العملة، لها وجهان فقط، تماما مثل البوليان!</div>
+</header>
+
+<main>
+
+<!-- ============ 1. BOOLEANS ============ -->
+<section id="booleans">
+  <span class="badge">الخطوة 1</span>
+  <h2>تعرف على البوليان (Boolean) 💡</h2>
+  <p class="lead">
+    <b>البوليان</b> هو أبسط شيء يعرفه الكمبيوتر. إنه جواب <b>سؤال نعم أو لا</b>،
+    وله قيمتان فقط لا ثالث لهما: <b>true</b> ✅ أو <b>false</b> ❌. لا يوجد «ربما»!
+    حرك المفاتيح وشاهد البوليان يتغير:
+  </p>
+
+  <div class="grid cols-3">
+    <div class="card toggle-card">
+      <div class="scene" id="lampScene">🔌</div>
+      <h3>هل الضوء مضاء؟</h3>
+      <label class="switch">
+        <input type="checkbox" id="lampToggle">
+        <span class="slider-track"></span>
+      </label>
+      <div><span class="bool-readout is-false" id="lampReadout">light_is_on = <b class="f">False</b></span></div>
+    </div>
+
+    <div class="card toggle-card">
+      <div class="scene" id="doorScene">🔒</div>
+      <h3>هل الباب مفتوح؟</h3>
+      <label class="switch">
+        <input type="checkbox" id="doorToggle">
+        <span class="slider-track"></span>
+      </label>
+      <div><span class="bool-readout is-false" id="doorReadout">door_is_open = <b class="f">False</b></span></div>
+    </div>
+
+    <div class="card toggle-card">
+      <div class="scene" id="hungryScene">😊</div>
+      <h3>هل أنا جائع؟</h3>
+      <label class="switch">
+        <input type="checkbox" id="hungryToggle">
+        <span class="slider-track"></span>
+      </label>
+      <div><span class="bool-readout is-false" id="hungryReadout">i_am_hungry = <b class="f">False</b></span></div>
+    </div>
+  </div>
+
+  <div class="fact-strip">
+    🧠 تذكر: الرقم يمكن أن يكون <code>1</code> أو <code>42</code> أو <code>1000</code>... ملايين الاحتمالات.<br>
+    أما البوليان فله قيمتان فقط: <code>True</code> أو <code>False</code>. هذا كل شيء!
+  </div>
+</section>
+
+<!-- ============ 2. COMPARING ============ -->
+<section id="compare">
+  <span class="badge sky">الخطوة 2</span>
+  <h2>الأرقام تحسب، والبوليان يقرر! ⚖️</h2>
+  <p class="lead">
+    الأرقام لها <b>عمليات حسابية</b>: <code>4 + 3</code> تعطينا <code>7</code> (رقم).<br>
+    أما البوليان فيأتي من <b>العمليات المنطقية</b>: عندما <b>نقارن</b> بين شيئين يكون الجواب دائما
+    <b>true</b> أو <b>false</b>! حرك المؤشرات وراقب الأرجوحة، الرقم الأكبر (الأثقل) ينزل إلى الأسفل:
+  </p>
+
+  <div class="compare-wrap">
+    <div class="card">
+      <div class="seesaw-stage">
+        <div class="seesaw-plank" id="plank">
+          <div class="seesaw-box left" id="boxA">8</div>
+          <div class="seesaw-box right" id="boxB">3</div>
+        </div>
+        <div class="seesaw-pivot"></div>
+        <div class="seesaw-ground"></div>
+      </div>
+      <div class="range-row">
+        <label style="color:var(--coral)">🔴 a =</label>
+        <input type="range" id="sliderA" min="0" max="20" value="8">
+        <output id="outA">8</output>
+      </div>
+      <div class="range-row">
+        <label style="color:var(--sky)">🔵 b =</label>
+        <input type="range" id="sliderB" class="blue" min="0" max="20" value="3">
+        <output id="outB">3</output>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:14px">آلة المقارنة 🤖</h3>
+      <div class="op-chips" id="opChips"></div>
+    </div>
+  </div>
+
+  <div class="mini-note">
+    📏 <b>من الحياة:</b> «هل برجي من المكعبات أعلى من برجك؟» «هل عندنا نفس عدد الحلوى؟»
+    «هل نقاطي أكثر من 100؟» كل سؤال من هذه الأسئلة جوابه true أو false. هذه هي المقارنة!
+  </div>
+</section>
+
+<!-- ============ 3. IF ============ -->
+<section id="if">
+  <span class="badge coral">الخطوة 3</span>
+  <h2>جملة الشرط if 🌧️</h2>
+  <p class="lead">
+    الآن يبدأ السحر: الكمبيوتر يستخدم البوليان <b>ليتخذ قرارا</b>!<br>
+    <b>إذا (if)</b> كان الشرط true، نفذ الأمر. وإذا كان false، تجاهله وتابع.
+    أنت تفعل هذا كل صباح: <i>إذا كانت السماء تمطر، خذ المظلة.</i> جرب بنفسك:
+  </p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="scene-stage" id="rainStage">
+        <div class="scene-caption" id="rainCaption">☀️ يوم مشمس!</div>
+        <div class="scene-sky-icon" id="skyIcon">☀️</div>
+        <div class="scene-umbrella">☂️</div>
+        <div class="scene-kid" id="rainKid">🧍</div>
+        <div class="scene-ground2"></div>
+      </div>
+      <div class="center-toggle">
+        <span>🌧️ هل تمطر؟</span>
+        <label class="switch">
+          <input type="checkbox" id="rainToggle">
+          <span class="slider-track"></span>
+        </label>
+        <span class="bool-readout is-false" id="rainReadout" style="margin-top:0">
+          is_raining = <b class="f">False</b>
+        </span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:12px">ماذا يقرأ الكمبيوتر:</h3>
+<pre class="codeblock"><span class="ln" id="rl1"><span class="kw">if</span> is_raining:</span><span class="ln" id="rl2">    <span class="fn">take_umbrella</span>()  ☂️</span></pre>
+      <p style="font-weight:800; margin-top:14px" id="rainExplain">
+        ☀️ قيمة <code>is_raining</code> هي <b style="color:#be123c">False</b>، لذلك الكمبيوتر <b>يتخطى</b> سطر المظلة!
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. IF / ELSE / ELSE IF ============ -->
+<section id="ifelse">
+  <span class="badge mint">الخطوة 4</span>
+  <h2>...if ثم elif ثم else! 🌡️</h2>
+  <p class="lead">
+    كلمة <b>else</b> تعني «وإلا»، أي الخطة البديلة عندما يكون الشرط false.<br>
+    أما <b>elif</b> (اختصار else if) فتسمح لنا بفحص عدة أسئلة بالترتيب، مثل آلة بيع القرارات!
+    الكمبيوتر يفحصها <b>من الأعلى إلى الأسفل</b> وينفذ <b>أول شرط يكون true</b>.
+    حرك درجة الحرارة وشاهد ماذا يلبس صديقنا:
+  </p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="temp-stage warm" id="tempStage">
+        <div class="sunray">☀️</div>
+        <div class="temp-display" id="tempDisplay">22°</div>
+        <div class="temp-emoji" id="tempEmoji">😎</div>
+        <div class="outfit-label" id="outfitLabel">جو التيشيرت!</div>
+        <span class="snowflake" style="left:12%; animation-delay:0s">❄️</span>
+        <span class="snowflake" style="left:32%; animation-delay:1.4s">❄️</span>
+        <span class="snowflake" style="left:55%; animation-delay:.7s">❄️</span>
+        <span class="snowflake" style="left:76%; animation-delay:2.1s">❄️</span>
+        <span class="snowflake" style="left:90%; animation-delay:.3s">❄️</span>
+      </div>
+      <div class="range-row" style="margin-top:16px">
+        <label>🌡️ temp</label>
+        <input type="range" id="tempSlider" class="hot" min="-10" max="40" value="22">
+        <output id="tempOut">22°</output>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:12px">أول true يفوز! 🏁</h3>
+<pre class="codeblock"><span class="ln" id="tl1"><span class="kw">if</span> temp &gt;= 30:</span><span class="ln" id="tl2">    <span class="fn">eat_ice_cream</span>()  🍦</span><span class="ln" id="tl3"><span class="kw">elif</span> temp &gt;= 15:</span><span class="ln" id="tl4">    <span class="fn">wear_tshirt</span>()  👕</span><span class="ln" id="tl5"><span class="kw">elif</span> temp &gt;= 5:</span><span class="ln" id="tl6">    <span class="fn">wear_jacket</span>()  🧥</span><span class="ln" id="tl7"><span class="kw">else</span>:</span><span class="ln" id="tl8">    <span class="fn">build_snowman</span>()  ⛄</span></pre>
+      <p style="font-weight:800; margin-top:14px; line-height:1.9" id="tempExplain"></p>
+    </div>
+  </div>
+
+  <div class="mini-note">
+    🍕 <b>من الحياة:</b> «إذا كان هناك بيتزا سآكل بيتزا. وإلا، إذا كان هناك معكرونة سآكل معكرونة.
+    وإلا... سأحضر ساندويتش.» أنت تأكل عشاء واحدا فقط، أول خيار ينجح!
+  </div>
+</section>
+
+<!-- ============ 5. AND / OR ============ -->
+<section id="andor">
+  <span class="badge purple">الخطوة 5</span>
+  <h2>الكومبو الخارق: and و or 🔌</h2>
+  <p class="lead">
+    أحيانا سؤال واحد لا يكفي! يمكننا ربط البوليانات معا:<br>
+    <b>and</b> تعني يجب أن يكون <i>الاثنان</i> true. أما <b>or</b> فتعني يكفي أن يكون <i>واحد على الأقل</i> true.
+    اضغط على المفاتيح لتضيء المصابيح!
+  </p>
+
+  <div class="grid cols-2">
+    <!-- AND -->
+    <div class="card">
+      <h3>🎢 بوابة الأفعوانية: and</h3>
+      <p style="font-weight:700; margin-top:6px; line-height:1.9">لكي تركب يجب أن تكون طويلا بما يكفي <b>and</b> معك تذكرة. واحد وحده لا يكفي!</p>
+      <div class="circuit">
+        <div class="wire"></div>
+        <div class="circuit-node">
+          <div class="circuit-switch" id="andSw1">📏</div>
+          <div class="circuit-label">طويل بما يكفي؟</div>
+        </div>
+        <div class="wire"></div>
+        <div class="circuit-node">
+          <div class="circuit-switch" id="andSw2">🎟️</div>
+          <div class="circuit-label">معك تذكرة؟</div>
+        </div>
+        <div class="wire"></div>
+        <div class="circuit-node">
+          <div class="circuit-bulb" id="andBulb">🎢</div>
+          <div class="circuit-label">اللعبة</div>
+        </div>
+      </div>
+      <div class="gate-result nope" id="andResult"></div>
+      <table class="truth" id="andTable">
+        <tr><th>طويل</th><th>تذكرة</th><th>طويل and تذكرة</th></tr>
+        <tr data-a="0" data-b="0"><td class="ff">False</td><td class="ff">False</td><td class="ff">False</td></tr>
+        <tr data-a="0" data-b="1"><td class="ff">False</td><td class="tt">True</td><td class="ff">False</td></tr>
+        <tr data-a="1" data-b="0"><td class="tt">True</td><td class="ff">False</td><td class="ff">False</td></tr>
+        <tr data-a="1" data-b="1"><td class="tt">True</td><td class="tt">True</td><td class="tt">True</td></tr>
+      </table>
+    </div>
+
+    <!-- OR -->
+    <div class="card">
+      <h3>🍰 قانون الحلوى: or</h3>
+      <p style="font-weight:700; margin-top:6px; line-height:1.9">تحصل على الحلوى إذا أكلت الخضار <b>or</b> الفواكه. واحد يكفي، أو الاثنان معا!</p>
+      <div class="circuit">
+        <div class="wire"></div>
+        <div class="circuit-node">
+          <div class="circuit-switch" id="orSw1">🥦</div>
+          <div class="circuit-label">أكلت الخضار؟</div>
+        </div>
+        <div class="wire"></div>
+        <div class="circuit-node">
+          <div class="circuit-switch" id="orSw2">🍎</div>
+          <div class="circuit-label">أكلت الفواكه؟</div>
+        </div>
+        <div class="wire"></div>
+        <div class="circuit-node">
+          <div class="circuit-bulb" id="orBulb">🍰</div>
+          <div class="circuit-label">الحلوى!</div>
+        </div>
+      </div>
+      <div class="gate-result nope" id="orResult"></div>
+      <table class="truth" id="orTable">
+        <tr><th>خضار</th><th>فواكه</th><th>خضار or فواكه</th></tr>
+        <tr data-a="0" data-b="0"><td class="ff">False</td><td class="ff">False</td><td class="ff">False</td></tr>
+        <tr data-a="0" data-b="1"><td class="ff">False</td><td class="tt">True</td><td class="tt">True</td></tr>
+        <tr data-a="1" data-b="0"><td class="tt">True</td><td class="ff">False</td><td class="tt">True</td></tr>
+        <tr data-a="1" data-b="1"><td class="tt">True</td><td class="tt">True</td><td class="tt">True</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--coral)">
+    ⚡ حيلة للحفظ: <b>and صارم</b> (يجب أن يكون كل شيء true) بينما <b>or متساهل</b> (واحد true يكفي)!
+  </div>
+</section>
+
+<!-- ============ 6. QUIZ ============ -->
+<section id="quiz">
+  <span class="badge pink">المرحلة الأخيرة</span>
+  <h2>وقت الاختبار! 🏆</h2>
+  <p class="lead">فكر مثل الكمبيوتر: ماذا سيقول كل سطر، <b>True</b> أم <b>False</b>؟</p>
+
+  <div class="card quiz-card">
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div id="quizBody">
+      <div class="quiz-q" id="quizQuestion"></div>
+      <div class="quiz-prompt">بماذا سيجيب الكمبيوتر؟</div>
+      <div class="quiz-btns">
+        <button class="btn true-btn" id="btnTrue">✅ True</button>
+        <button class="btn false-btn" id="btnFalse">❌ False</button>
+      </div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+    </div>
+    <div id="quizEnd" style="display:none">
+      <div style="font-size:4rem" id="endEmoji">🎉</div>
+      <div class="quiz-score" id="endScore"></div>
+      <div style="font-weight:800; margin-bottom:18px" id="endMsg"></div>
+      <button class="btn again-btn" id="btnAgain">🔁 العب مرة أخرى</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  لقد تعلمت للتو اللغة السرية لكل تطبيق ولعبة وروبوت على الأرض.<br>
+  استمر في طرح أسئلة true/false، هكذا يفكر المبرمجون! <span class="hearts">💛💙❤️💚</span>
+</footer>
+
+<script>
+/* ============================================================
+   HERO — title words + coin flip
+============================================================ */
+(function(){
+  const h1 = document.getElementById('heroTitle');
+  const words = h1.textContent.trim().split(' ');
+  h1.textContent = '';
+  words.forEach((word, i) => {
+    const s = document.createElement('span');
+    s.textContent = word;
+    s.style.animationDelay = (i * 0.18) + 's';
+    h1.appendChild(s);
+    if (i < words.length - 1) h1.appendChild(document.createTextNode(' '));
+  });
+  document.getElementById('heroCoin').addEventListener('click', () => {
+    document.getElementById('coin').classList.toggle('flipped');
+  });
+})();
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+/* ============================================================
+   1. BOOLEAN TOGGLES
+============================================================ */
+function pyBool(v){ return v ? 'True' : 'False'; }
+
+function wireToggle(toggleId, sceneId, readoutId, varName, onEmoji, offEmoji){
+  const toggle  = document.getElementById(toggleId);
+  const scene   = document.getElementById(sceneId);
+  const readout = document.getElementById(readoutId);
+  toggle.addEventListener('change', () => {
+    const v = toggle.checked;
+    scene.textContent = v ? onEmoji : offEmoji;
+    scene.classList.toggle('glow', v);
+    readout.className = 'bool-readout ' + (v ? 'is-true' : 'is-false');
+    readout.innerHTML = varName + ' = <b class="' + (v ? 't' : 'f') + '">' + pyBool(v) + '</b>';
+  });
+}
+wireToggle('lampToggle',  'lampScene',  'lampReadout',  'light_is_on',  '💡', '🔌');
+wireToggle('doorToggle',  'doorScene',  'doorReadout',  'door_is_open', '🔓', '🔒');
+wireToggle('hungryToggle','hungryScene','hungryReadout','i_am_hungry',  '🍕', '😊');
+
+/* ============================================================
+   2. SEESAW + COMPARISON MACHINE
+============================================================ */
+const ops = [
+  { sym: '>',  label: 'أكبر من؟',         test: (a,b) => a >  b },
+  { sym: '<',  label: 'أصغر من؟',         test: (a,b) => a <  b },
+  { sym: '==', label: 'يساوي تماما؟',     test: (a,b) => a === b },
+  { sym: '!=', label: 'مختلف؟',           test: (a,b) => a !== b },
+  { sym: '>=', label: 'أكبر أو يساوي؟',   test: (a,b) => a >= b },
+  { sym: '<=', label: 'أصغر أو يساوي؟',   test: (a,b) => a <= b },
+];
+const sliderA = document.getElementById('sliderA');
+const sliderB = document.getElementById('sliderB');
+const chipsEl = document.getElementById('opChips');
+
+function renderCompare(){
+  const a = +sliderA.value, b = +sliderB.value;
+  document.getElementById('outA').textContent = a;
+  document.getElementById('outB').textContent = b;
+  document.getElementById('boxA').textContent = a;
+  document.getElementById('boxB').textContent = b;
+  // bigger side sinks: positive angle tips the right side down
+  const angle = Math.max(-13, Math.min(13, (b - a) * 1.6));
+  document.getElementById('plank').style.transform = 'rotate(' + angle + 'deg)';
+
+  chipsEl.innerHTML = '';
+  ops.forEach(op => {
+    const result = op.test(a, b);
+    const chip = document.createElement('div');
+    chip.className = 'op-chip ' + (result ? 'is-true' : 'is-false');
+    chip.innerHTML =
+      '<span>' + a + ' ' + op.sym + ' ' + b + '</span>' +
+      '<span class="verdict">' + pyBool(result) + '</span>';
+    chip.title = op.label;
+    chipsEl.appendChild(chip);
+  });
+}
+sliderA.addEventListener('input', renderCompare);
+sliderB.addEventListener('input', renderCompare);
+renderCompare();
+
+/* ============================================================
+   3. IF — rain scene
+============================================================ */
+(function(){
+  const stage   = document.getElementById('rainStage');
+  const toggle  = document.getElementById('rainToggle');
+  const readout = document.getElementById('rainReadout');
+  const caption = document.getElementById('rainCaption');
+  const skyIcon = document.getElementById('skyIcon');
+  const explain = document.getElementById('rainExplain');
+  const l1 = document.getElementById('rl1');
+  const l2 = document.getElementById('rl2');
+
+  // build raindrops
+  for (let i = 0; i < 14; i++){
+    const d = document.createElement('div');
+    d.className = 'raindrop';
+    d.style.left = (4 + Math.random() * 92) + '%';
+    d.style.animationDelay = (Math.random() * 1) + 's';
+    stage.appendChild(d);
+  }
+
+  toggle.addEventListener('change', () => {
+    const raining = toggle.checked;
+    stage.classList.toggle('raining', raining);
+    skyIcon.textContent = raining ? '🌧️' : '☀️';
+    caption.textContent = raining ? '🌧️ إنها تمطر!' : '☀️ يوم مشمس!';
+    readout.className = 'bool-readout ' + (raining ? 'is-true' : 'is-false');
+    readout.innerHTML = 'is_raining = <b class="' + (raining ? 't' : 'f') + '">' + pyBool(raining) + '</b>';
+    l1.classList.toggle('active', raining);
+    l2.classList.toggle('active', raining);
+    l2.classList.toggle('skipped', !raining);
+    explain.innerHTML = raining
+      ? '🌧️ قيمة <code>is_raining</code> هي <b style="color:#15803d">True</b>، لذلك الكمبيوتر <b>ينفذ</b> سطر المظلة. ابق جافا! ☂️'
+      : '☀️ قيمة <code>is_raining</code> هي <b style="color:#be123c">False</b>، لذلك الكمبيوتر <b>يتخطى</b> سطر المظلة!';
+  });
+  // initial state: line 2 marked as skipped
+  l2.classList.add('skipped');
+})();
+
+/* ============================================================
+   4. IF / ELIF / ELSE — temperature
+============================================================ */
+(function(){
+  const slider  = document.getElementById('tempSlider');
+  const stage   = document.getElementById('tempStage');
+  const display = document.getElementById('tempDisplay');
+  const out     = document.getElementById('tempOut');
+  const emoji   = document.getElementById('tempEmoji');
+  const outfit  = document.getElementById('outfitLabel');
+  const explain = document.getElementById('tempExplain');
+  const lines = ['tl1','tl2','tl3','tl4','tl5','tl6','tl7','tl8']
+    .map(id => document.getElementById(id));
+
+  function setActive(activeIds){
+    lines.forEach(l => l.classList.remove('active'));
+    activeIds.forEach(i => lines[i].classList.add('active'));
+  }
+
+  function render(){
+    const t = +slider.value;
+    display.textContent = t + '°';
+    out.textContent = t + '°';
+    stage.className = 'temp-stage';
+    if (t >= 30){
+      stage.classList.add('hot');
+      emoji.textContent = '🥵🍦';
+      outfit.textContent = 'طوارئ! نريد آيس كريم!';
+      setActive([0,1]);
+      explain.innerHTML = '🔥 الشرط <code>' + t + ' &gt;= 30</code> قيمته <b style="color:#15803d">True</b>، الفرع الأول يفوز. آيس كريم! 🍦';
+    } else if (t >= 15){
+      stage.classList.add('warm');
+      emoji.textContent = '😎👕';
+      outfit.textContent = 'جو التيشيرت!';
+      setActive([2,3]);
+      explain.innerHTML = '😎 الشرط <code>' + t + ' &gt;= 30</code> قيمته False... لكن <code>' + t + ' &gt;= 15</code> قيمته <b style="color:#15803d">True</b>، إذن تيشيرت! 👕';
+    } else if (t >= 5){
+      stage.classList.add('cool');
+      emoji.textContent = '🙂🧥';
+      outfit.textContent = 'وقت الجاكيت!';
+      setActive([4,5]);
+      explain.innerHTML = '🍂 لا 30 ولا 15... لكن <code>' + t + ' &gt;= 5</code> قيمته <b style="color:#15803d">True</b>، إذن جاكيت! 🧥';
+    } else {
+      stage.classList.add('cold');
+      emoji.textContent = '🥶⛄';
+      outfit.textContent = 'جو رجل الثلج!';
+      setActive([6,7]);
+      explain.innerHTML = '❄️ كل الشروط كانت False، لذلك يمسكها <b>else</b> في النهاية. وقت رجل الثلج! ⛄';
+    }
+  }
+  slider.addEventListener('input', render);
+  render();
+})();
+
+/* ============================================================
+   5. AND / OR circuits
+============================================================ */
+function wireCircuit(cfg){
+  const sw1 = document.getElementById(cfg.sw1);
+  const sw2 = document.getElementById(cfg.sw2);
+  const bulb = document.getElementById(cfg.bulb);
+  const result = document.getElementById(cfg.result);
+  const table = document.getElementById(cfg.table);
+  let a = false, b = false;
+
+  function render(){
+    sw1.classList.toggle('on', a);
+    sw2.classList.toggle('on', b);
+    const lit = cfg.combine(a, b);
+    bulb.classList.toggle('lit', lit);
+    result.className = 'gate-result ' + (lit ? 'ok' : 'nope');
+    result.innerHTML = (lit ? cfg.okIcon : '⛔') +
+      ' <code>' + pyBool(a) + ' ' + cfg.opSym + ' ' + pyBool(b) + '</code> النتيجة <code>' + pyBool(lit) + '</code> ... ' +
+      (lit ? cfg.okMsg : cfg.noMsg);
+    table.querySelectorAll('tr[data-a]').forEach(row => {
+      row.classList.toggle('hl',
+        (row.dataset.a === '1') === a && (row.dataset.b === '1') === b);
+    });
+  }
+  sw1.addEventListener('click', () => { a = !a; render(); });
+  sw2.addEventListener('click', () => { b = !b; render(); });
+  render();
+}
+wireCircuit({
+  sw1:'andSw1', sw2:'andSw2', bulb:'andBulb', result:'andResult', table:'andTable',
+  opSym:'and', combine:(a,b) => a && b,
+  okIcon:'🎢', okMsg:'البوابة مفتوحة، استمتع باللعبة!', noMsg:'البوابة مغلقة!'
+});
+wireCircuit({
+  sw1:'orSw1', sw2:'orSw2', bulb:'orBulb', result:'orResult', table:'orTable',
+  opSym:'or', combine:(a,b) => a || b,
+  okIcon:'🍰', okMsg:'فتحت الحلوى!', noMsg:'لا حلوى اليوم!'
+});
+
+/* ============================================================
+   6. QUIZ
+============================================================ */
+(function(){
+  const questions = [
+    { code: '10 > 4',                answer: true,
+      why: 'لأن 10 أكبر من 4!' },
+    { code: '3 == 5',                answer: false,
+      why: 'لأن 3 و 5 ليسا نفس الرقم.' },
+    { code: '7 >= 7',                answer: true,
+      why: 'لأن 7 «أكبر أو يساوي» 7، والتساوي يحسب!' },
+    { code: 'True and False',        answer: false,
+      why: 'لأن and صارم: يجب أن يكون الاثنان True.' },
+    { code: 'True or False',         answer: true,
+      why: 'لأن or متساهل: واحد True يكفي!' },
+    { code: '(5 > 2) and (9 > 1)',   answer: true,
+      why: 'لأن الطرفين True، لذلك and يقول True!' },
+  ];
+  let idx = 0, score = 0, locked = false;
+
+  const progress = document.getElementById('quizProgress');
+  const qEl      = document.getElementById('quizQuestion');
+  const feedback = document.getElementById('quizFeedback');
+  const body     = document.getElementById('quizBody');
+  const end      = document.getElementById('quizEnd');
+  const dots     = [];
+
+  questions.forEach(() => {
+    const d = document.createElement('div');
+    d.className = 'quiz-dot';
+    progress.appendChild(d);
+    dots.push(d);
+  });
+
+  function showQuestion(){
+    locked = false;
+    feedback.textContent = '';
+    qEl.textContent = questions[idx].code;
+    dots.forEach((d, i) => d.classList.toggle('current', i === idx));
+  }
+
+  function pick(value){
+    if (locked) return;
+    locked = true;
+    const q = questions[idx];
+    const right = value === q.answer;
+    if (right) score++;
+    dots[idx].classList.remove('current');
+    dots[idx].classList.add(right ? 'done-right' : 'done-wrong');
+    feedback.innerHTML = right
+      ? '🎉 صحيح! ' + q.why
+      : '😅 ليس تماما، الجواب هو <code>' + pyBool(q.answer) + '</code>. ' + q.why;
+    setTimeout(() => {
+      idx++;
+      if (idx < questions.length) showQuestion();
+      else finish();
+    }, 2200);
+  }
+
+  function finish(){
+    body.style.display = 'none';
+    end.style.display = 'block';
+    const perfect = score === questions.length;
+    document.getElementById('endEmoji').textContent =
+      perfect ? '🏆' : score >= questions.length - 2 ? '🎉' : '💪';
+    document.getElementById('endScore').textContent =
+      score + ' / ' + questions.length;
+    document.getElementById('endMsg').textContent = perfect
+      ? 'ممتاز! أنت رسميا تفكر مثل الكمبيوتر!'
+      : score >= questions.length - 2
+        ? 'عمل رائع! اقتربت من العلامة الكاملة!'
+        : 'محاولة جيدة! ارجع للأعلى، العب بالألعاب، وحاول مرة أخرى!';
+    if (score >= questions.length - 1) confetti();
+  }
+
+  document.getElementById('btnTrue').addEventListener('click', () => pick(true));
+  document.getElementById('btnFalse').addEventListener('click', () => pick(false));
+  document.getElementById('btnAgain').addEventListener('click', () => {
+    idx = 0; score = 0;
+    dots.forEach(d => d.className = 'quiz-dot');
+    end.style.display = 'none';
+    body.style.display = 'block';
+    showQuestion();
+  });
+
+  showQuestion();
+})();
+
+/* ============================================================
+   CONFETTI
+============================================================ */
+function confetti(){
+  const colors = ['#FF6B6B','#FFD93D','#5FD08D','#4D96FF','#9B5DE5','#FF8FAB'];
+  for (let i = 0; i < 90; i++){
+    const bit = document.createElement('div');
+    bit.className = 'confetti-bit';
+    bit.style.left = Math.random() * 100 + 'vw';
+    bit.style.background = colors[Math.floor(Math.random() * colors.length)];
+    bit.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+    bit.style.animationDelay = (Math.random() * .8) + 's';
+    if (Math.random() > .5) bit.style.borderRadius = '50%';
+    document.body.appendChild(bit);
+    setTimeout(() => bit.remove(), 6000);
+  }
+}
+</script>
+</body>
+</html>
