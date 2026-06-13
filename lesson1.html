@@ -3,1381 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>عالم البرمجة والذكاء الاصطناعي 🚀</title>
+<title>الصفحة الرئيسية · رحلة البرمجة والذكاء الاصطناعي 🚀</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Cairo',sans-serif;background:#080818;color:#fff;overflow-x:hidden}
-#progress-bar{position:fixed;top:0;right:0;height:4px;background:linear-gradient(90deg,#4A90D9,#9B59B6,#f093fb);z-index:999;width:0%;transition:width .1s}
+body{font-family:'Cairo',sans-serif;background:#050514;color:#fff;overflow-x:hidden;min-height:100vh}
+
+/* ===== BACKGROUND LAYERS ===== */
 .stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
-@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+@keyframes twinkle{0%,100%{opacity:.12;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
 
-/* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(160deg,#050515 0%,#0d0d35 50%,#05051a 100%)}
-.hero-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:.5rem 1.5rem;border-radius:50px;font-size:.9rem;margin-bottom:1.5rem;color:#a0c4ff;backdrop-filter:blur(8px)}
-.hero-icons{font-size:3.5rem;display:flex;gap:1rem;margin-bottom:1.5rem;animation:floatUD 3s ease-in-out infinite}
-@keyframes floatUD{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
-.hero h1{font-size:clamp(2rem,6vw,4.2rem);font-weight:900;line-height:1.3;margin-bottom:1.2rem;background:linear-gradient(135deg,#fff 0%,#a0c4ff 50%,#d4a0ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,.65);max-width:580px;line-height:1.9;margin-bottom:2.5rem}
-.hero-btn{background:linear-gradient(135deg,#4A90D9,#764ba2);color:#fff;border:none;padding:1rem 2.5rem;border-radius:50px;font-size:1.1rem;font-family:'Cairo',sans-serif;cursor:pointer;box-shadow:0 8px 30px rgba(74,144,217,.4);transition:transform .3s,box-shadow .3s}
-.hero-btn:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(74,144,217,.6)}
-.hero-scroll{margin-top:2.5rem;font-size:.85rem;color:rgba(255,255,255,.3);animation:fadeUD 2s ease-in-out infinite}
-@keyframes fadeUD{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.7;transform:translateY(6px)}}
+.nebula{position:fixed;border-radius:50%;filter:blur(90px);opacity:.35;pointer-events:none;z-index:0;animation:nebFloat 14s ease-in-out infinite}
+.nebula.n1{width:480px;height:480px;background:radial-gradient(circle,#4A90D9,transparent 70%);top:-140px;right:-120px}
+.nebula.n2{width:420px;height:420px;background:radial-gradient(circle,#b721ff,transparent 70%);bottom:-120px;left:-110px;animation-delay:4s}
+.nebula.n3{width:340px;height:340px;background:radial-gradient(circle,#f7971e,transparent 70%);top:40%;left:55%;animation-delay:8s;opacity:.18}
+@keyframes nebFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-30px) scale(1.12)}}
 
-/* SECTIONS */
-.section{padding:5rem 1.5rem;position:relative}
-.sec-inner{max-width:1050px;margin:0 auto}
-.sec-title{text-align:center;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:.7rem}
-.sec-sub{text-align:center;color:rgba(255,255,255,.55);margin-bottom:3rem;font-size:1rem;line-height:1.8}
-.fi{opacity:0;transform:translateY(35px);transition:opacity .65s ease,transform .65s ease}
-.fi.vis{opacity:1;transform:none}
+.shooting-star{position:fixed;width:2.5px;height:2.5px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(255,255,255,.7);z-index:0;pointer-events:none;animation:shoot 1.1s linear forwards}
+.shooting-star::after{content:'';position:absolute;top:50%;right:0;width:90px;height:1.5px;background:linear-gradient(270deg,rgba(255,255,255,.8),transparent);transform:translateY(-50%)}
+@keyframes shoot{0%{opacity:0;transform:translate(0,0)}10%{opacity:1}100%{opacity:0;transform:translate(-240px,160px)}}
 
-/* CARDS */
-.card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;margin-bottom:2rem}
-.icard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:1.8rem;text-align:center;transition:transform .3s,box-shadow .3s}
-.icard:hover{transform:translateY(-6px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
-.icard .ico{font-size:2.8rem;margin-bottom:.8rem}
-.icard h3{font-size:1.1rem;margin-bottom:.6rem}
-.icard p{color:rgba(255,255,255,.6);line-height:1.7;font-size:.92rem}
+/* ===== LAYOUT ===== */
+.wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4.5rem 1.5rem 4rem}
 
-/* PROGRAMMING */
-.prog-sec{background:linear-gradient(180deg,#080818 0%,#0d1e36 100%)}
-.prog-sec .sec-title{color:#4A90D9}
-.prog-sec .icard h3{color:#4A90D9}
-.analogy-box{background:rgba(74,144,217,.07);border:1px solid rgba(74,144,217,.25);border-radius:20px;padding:2rem;margin-top:1rem}
-.analogy-box h3{color:#4A90D9;text-align:center;font-size:1.3rem;margin-bottom:1.5rem}
-.recipe-steps{display:flex;flex-direction:column;gap:.8rem}
-.rstep{display:flex;align-items:center;gap:1rem;padding:.9rem 1.2rem;background:rgba(74,144,217,.08);border-radius:12px;border-right:4px solid rgba(74,144,217,.3);opacity:.35;transition:all .4s}
-.rstep.active{opacity:1;background:rgba(74,144,217,.18);border-right-color:#4A90D9;animation:blink .4s ease}
-@keyframes blink{0%{transform:scaleX(1)}50%{transform:scaleX(1.015)}100%{transform:scaleX(1)}}
-.rnum{background:#4A90D9;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:.9rem}
-.run-btn{display:block;margin:1.5rem auto 0;background:linear-gradient(135deg,#4A90D9,#2c5282);color:#fff;border:none;padding:.85rem 2.2rem;border-radius:50px;font-size:1rem;font-family:'Cairo',sans-serif;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.run-btn:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(74,144,217,.45)}
+/* ===== HEADER ===== */
+.badge{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);padding:.5rem 1.6rem;border-radius:50px;font-size:.9rem;margin-bottom:1.6rem;color:#a0c4ff;backdrop-filter:blur(8px);animation:fadeDown .8s ease both}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
+.head-icons{font-size:3.2rem;display:flex;gap:1.1rem;margin-bottom:1.2rem}
+.head-icons span{display:inline-block;animation:floatUD 3s ease-in-out infinite}
+.head-icons span:nth-child(2){animation-delay:.5s}
+.head-icons span:nth-child(3){animation-delay:1s}
+@keyframes floatUD{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
 
-/* AI SECTION */
-.ai-sec{background:linear-gradient(180deg,#0d1e36 0%,#160d30 100%)}
-.ai-sec .sec-title{color:#9B59B6}
-.ai-sec .icard h3{color:#9B59B6}
-.brain-wrap{text-align:center;margin-bottom:2rem}
-.brain-emoji{font-size:5rem;display:inline-block;animation:brainPulse 2.5s ease-in-out infinite}
-@keyframes brainPulse{0%,100%{transform:scale(1);filter:drop-shadow(0 0 15px rgba(155,89,182,.4))}50%{transform:scale(1.12);filter:drop-shadow(0 0 35px rgba(155,89,182,.9))}}
-.ai-learn-box{background:rgba(155,89,182,.07);border:1px solid rgba(155,89,182,.25);border-radius:20px;padding:2rem;margin-top:1rem}
-.ai-learn-box h3{color:#9B59B6;text-align:center;font-size:1.3rem;margin-bottom:.5rem}
-.ai-learn-box p.hint{text-align:center;color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:1.2rem}
-.animals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(75px,1fr));gap:.8rem;margin-bottom:1.5rem}
-.animal-item{background:rgba(255,255,255,.04);border:2px solid transparent;border-radius:14px;padding:.7rem .5rem;text-align:center;cursor:pointer;transition:all .35s;user-select:none}
-.animal-item:hover{background:rgba(155,89,182,.15);border-color:rgba(155,89,182,.4)}
-.animal-item.learned{border-color:#9B59B6;background:rgba(155,89,182,.2);animation:popIn .3s ease}
-@keyframes popIn{0%{transform:scale(.9)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
-.animal-item .ae{font-size:2rem;display:block}
-.animal-item .al{font-size:.72rem;color:rgba(255,255,255,.55);margin-top:.2rem}
-.ai-conf-label{text-align:center;font-size:.95rem;margin-bottom:.5rem}
-.conf-bar-bg{background:rgba(255,255,255,.08);border-radius:50px;height:18px;overflow:hidden}
-.conf-bar{height:100%;background:linear-gradient(90deg,#9B59B6,#e056fd);border-radius:50px;transition:width .6s ease;width:0%}
-.ai-response{text-align:center;margin-top:1rem;padding:.8rem 1.2rem;background:rgba(155,89,182,.12);border-radius:12px;font-size:1rem;min-height:46px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.8)}
+h1{font-size:clamp(2rem,5.5vw,3.8rem);font-weight:900;line-height:1.35;margin-bottom:1rem;background:linear-gradient(120deg,#fff 0%,#a0c4ff 30%,#d4a0ff 55%,#ffd200 80%,#fff 100%);background-size:220% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 5.5s linear infinite}
+@keyframes shimmer{to{background-position:220% center}}
+.sub{font-size:clamp(1rem,2.5vw,1.15rem);color:rgba(255,255,255,.6);max-width:560px;line-height:1.9;margin-bottom:2rem}
 
-/* HORSE SCAN */
-.horse-demo-box{background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.18);border-radius:20px;padding:2rem;margin-top:1.8rem}
-.horse-demo-box h3{color:#00e87a;text-align:center;font-size:1.25rem;margin-bottom:.4rem}
-.horse-demo-box .sub{text-align:center;color:rgba(255,255,255,.45);font-size:.88rem;margin-bottom:1.4rem}
-.horse-center{display:flex;flex-direction:column;align-items:center;gap:1.4rem}
-.horse-img-container{position:relative;display:inline-block;max-width:400px;width:100%;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,255,136,.15)}
-.horse-img-container img{width:100%;display:block;border-radius:14px;filter:brightness(.88)}
-.scan-bar{position:absolute;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#00ff88 30%,#afffcf 50%,#00ff88 70%,transparent);box-shadow:0 0 14px #00ff88,0 0 32px rgba(0,255,136,.3);top:0;pointer-events:none;opacity:0}
-.scan-bar.animate{opacity:1;animation:scanDown 3s linear forwards}
-@keyframes scanDown{from{top:0}to{top:calc(100% - 3px)}}
-.scan-grid-overlay{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 24px,rgba(0,255,136,.055) 25px),repeating-linear-gradient(90deg,transparent,transparent 24px,rgba(0,255,136,.055) 25px);opacity:0;transition:opacity .3s;pointer-events:none}
-.scan-grid-overlay.on{opacity:1}
-.det-frame{position:absolute;border:2.5px solid #00ff88;box-shadow:0 0 18px rgba(0,255,136,.55),inset 0 0 18px rgba(0,255,136,.06);border-radius:6px;top:4%;left:3%;right:3%;bottom:2%;opacity:0;transition:opacity .45s;pointer-events:none}
-.det-frame.show{opacity:1;animation:frameIn .45s ease}
-@keyframes frameIn{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
-.det-corner{position:absolute;width:18px;height:18px;border-color:#00ff88;border-style:solid}
-.det-corner.tl{top:-2px;right:-2px;border-width:3px 3px 0 0}
-.det-corner.tr{top:-2px;left:-2px;border-width:3px 0 0 3px}
-.det-corner.bl{bottom:-2px;right:-2px;border-width:0 3px 3px 0}
-.det-corner.br{bottom:-2px;left:-2px;border-width:0 0 3px 3px}
-.det-tag{position:absolute;top:calc(4% - 26px);right:3%;background:#00e87a;color:#001a0e;padding:3px 12px;border-radius:5px;font-weight:700;font-size:.82rem;font-family:'Cairo',sans-serif;opacity:0;transform:translateY(6px);transition:all .4s .25s;pointer-events:none;white-space:nowrap}
-.det-tag.show{opacity:1;transform:translateY(0)}
-.scan-result-panel{background:rgba(0,0,0,.4);border:1px solid rgba(0,255,136,.2);border-radius:14px;padding:1.2rem;width:100%;max-width:400px}
-.scan-result-row{display:flex;justify-content:space-between;padding:.45rem .5rem;border-bottom:1px solid rgba(255,255,255,.05);font-size:.88rem;gap:1rem}
-.scan-result-row span:first-child{color:rgba(255,255,255,.5)}
-.scan-result-row span:last-child{color:#fff;font-weight:600;text-align:left}
-.scan-result-row.hi{background:rgba(0,255,136,.07);border-radius:8px;border-color:rgba(0,255,136,.18)}
-.scan-result-row.hi span:last-child{color:#00e87a}
-.scan-action-btn{background:linear-gradient(135deg,#00cc66,#007744);color:#fff;border:none;padding:.85rem 2.2rem;border-radius:50px;font-size:1rem;font-family:'Cairo',sans-serif;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.scan-action-btn:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,204,102,.45)}
+/* ===== STATS STRIP ===== */
+.stats{display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;margin-bottom:3.2rem}
+.stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:.7rem 1.5rem;backdrop-filter:blur(6px);transition:transform .3s,border-color .3s}
+.stat:hover{transform:translateY(-4px);border-color:rgba(255,210,0,.4)}
+.stat .st-num{font-size:1.3rem;font-weight:900;color:#ffd200}
+.stat .st-lbl{font-size:.78rem;color:rgba(255,255,255,.5)}
 
-/* COMPARISON */
-.cmp-sec{background:linear-gradient(180deg,#160d30 0%,#0d2015 100%)}
-.cmp-sec .sec-title{color:#fff}
-.cmp-grid{display:grid;grid-template-columns:1fr auto 1fr;gap:1.5rem;align-items:start}
-@media(max-width:700px){.cmp-grid{grid-template-columns:1fr}}
-.cmp-card{border-radius:20px;padding:1.8rem}
-.cmp-card.prog-c{background:rgba(74,144,217,.08);border:2px solid rgba(74,144,217,.25)}
-.cmp-card.ai-c{background:rgba(155,89,182,.08);border:2px solid rgba(155,89,182,.25)}
-.cmp-card h2{font-size:1.5rem;margin-bottom:1.2rem;text-align:center}
-.prog-c h2{color:#4A90D9}.ai-c h2{color:#9B59B6}
-.cmp-list{list-style:none}
-.cmp-list li{padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.92rem;color:rgba(255,255,255,.75);line-height:1.6;display:flex;gap:.6rem;align-items:flex-start}
-.vs-badge{background:linear-gradient(135deg,#4A90D9,#9B59B6);border-radius:50%;width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;align-self:center;box-shadow:0 0 28px rgba(102,126,234,.55);flex-shrink:0}
-@media(max-width:700px){.vs-badge{margin:0 auto}}
+/* ===== LESSON GRID ===== */
+.lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1.6rem;width:100%;max-width:1180px}
 
-/* PROBLEMS */
-.probs-sec{background:linear-gradient(180deg,#0d2015 0%,#080818 100%)}
-.probs-sec .sec-title{color:#fff}
-.prob-group-label{display:flex;align-items:center;gap:1rem;margin:2.5rem 0 1.5rem;font-size:1.05rem;font-weight:700;color:rgba(255,255,255,.4)}
-.prob-group-label::before,.prob-group-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.08)}
-.prob-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:2rem;margin-bottom:2rem;overflow:hidden}
-.prob-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap}
-.prob-num{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;flex-shrink:0}
-.prob-title{font-size:1.35rem;font-weight:700}
-.prob-badge{padding:.25rem .9rem;border-radius:50px;font-size:.8rem;margin-right:auto}
-.prob-alert{background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.3);border-right:4px solid orange;border-radius:12px;padding:1rem 1.4rem;margin-bottom:1.5rem}
-.prob-alert h4{color:orange;margin-bottom:.35rem;font-size:.95rem}
-.prob-alert p{color:rgba(255,255,255,.65);font-size:.9rem;line-height:1.6}
-.prob-hint{color:rgba(255,255,255,.55);font-size:.9rem;margin-bottom:1.2rem}
+.lesson-card{position:relative;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:26px;padding:2rem 1.5rem 1.6rem;display:flex;flex-direction:column;align-items:center;gap:.45rem;transition:transform .35s,box-shadow .35s,border-color .35s;opacity:0;transform:translateY(34px);animation:cardIn .65s ease forwards;overflow:hidden}
+.lesson-card::before{content:'';position:absolute;top:0;right:0;left:0;height:4px;background:var(--lc,rgba(255,255,255,.15));opacity:.85;border-radius:26px 26px 0 0}
+.lesson-card::after{content:'';position:absolute;top:-60%;left:-60%;width:90%;height:90%;background:radial-gradient(circle,var(--lc,transparent) 0%,transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none;filter:blur(50px)}
+.lesson-card:hover::after{opacity:.22}
+.lesson-card:nth-child(1){animation-delay:.1s}
+.lesson-card:nth-child(2){animation-delay:.22s}
+.lesson-card:nth-child(3){animation-delay:.34s}
+.lesson-card:nth-child(4){animation-delay:.46s}
+@keyframes cardIn{to{opacity:1;transform:none}}
+.lesson-card:hover{transform:translateY(-10px);box-shadow:0 20px 50px rgba(0,0,0,.5);border-color:color-mix(in srgb,var(--lc) 55%,transparent)}
 
-/* TRAFFIC LIGHT */
-.tl-wrap{display:flex;gap:2rem;align-items:flex-start;flex-wrap:wrap}
-.tl-left{display:flex;flex-direction:column;align-items:center;gap:1rem;flex-shrink:0}
-.traffic-light{background:#111;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;border:3px solid #2a2a2a;box-shadow:0 10px 35px rgba(0,0,0,.6)}
-.tl-bulb{width:68px;height:68px;border-radius:50%;background:#1e1e1e;box-shadow:inset 0 3px 10px rgba(0,0,0,.6);transition:all .5s ease}
-.tl-bulb.red.lit{background:radial-gradient(circle at 35% 35%,#ff7b7b,#e63946);box-shadow:0 0 28px rgba(230,57,70,.75),inset 0 3px 10px rgba(255,255,255,.15)}
-.tl-bulb.yellow.lit{background:radial-gradient(circle at 35% 35%,#ffd166,#f4a261);box-shadow:0 0 28px rgba(244,162,97,.75),inset 0 3px 10px rgba(255,255,255,.15)}
-.tl-bulb.green.lit{background:radial-gradient(circle at 35% 35%,#9ef5b4,#2ecc71);box-shadow:0 0 28px rgba(46,204,113,.75),inset 0 3px 10px rgba(255,255,255,.15)}
-.tl-status{text-align:center;font-size:1rem;font-weight:700;padding:.45rem 1.2rem;border-radius:50px;min-width:130px;transition:all .5s}
-.code-panel{flex:1;min-width:260px;background:#0d1117;border-radius:14px;padding:1.4rem;font-family:'Courier New',monospace;direction:ltr;overflow-x:auto}
-.cline{padding:.28rem .5rem;border-radius:6px;font-size:.82rem;color:#555;transition:all .35s;line-height:1.85;white-space:nowrap}
-.cline.exec{background:rgba(74,144,217,.15);color:#7ec8e3;border-left:3px solid #4A90D9}
-.kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#3a4a5a;font-style:italic}
-.cline.exec .kw{color:#ffadad}.cline.exec .str{color:#caffbf}
+.l1{--lc:#4A90D9}
+.l2{--lc:#ffd200}
+.l3{--lc:#2ecc71}
+.l4{--lc:#777}
 
-/* SORT */
-.sort-wrap{display:flex;flex-direction:column;gap:1.2rem}
-.sort-bars-area{display:flex;align-items:flex-end;justify-content:center;gap:10px;height:210px;padding:.5rem 1rem}
-.sbar{display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .55s ease}
-.sbar-inner{width:54px;border-radius:8px 8px 0 0;transition:all .55s ease;display:flex;align-items:flex-start;justify-content:center;padding-top:5px;font-size:1.4rem}
-.sbar-lbl{font-size:.75rem;color:rgba(255,255,255,.65);font-weight:600}
-.sort-ctrls{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
-.sbtn{padding:.65rem 1.4rem;border-radius:50px;border:none;font-family:'Cairo',sans-serif;font-size:.95rem;cursor:pointer;transition:transform .2s;font-weight:600}
-.sbtn:hover{transform:translateY(-2px)}
-.sort-msg{text-align:center;padding:.75rem 1rem;background:rgba(255,255,255,.04);border-radius:10px;font-size:.95rem;min-height:48px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.75)}
-.sbar.comparing .sbar-inner{outline:3px solid #ffd166;outline-offset:2px}
-.sbar.swapping .sbar-inner{outline:3px solid #e63946;outline-offset:2px;animation:shake .3s ease}
-@keyframes shake{0%,100%{transform:translateX(0)}33%{transform:translateX(-4px)}66%{transform:translateX(4px)}}
-.sbar.sorted .sbar-inner{outline:3px solid #2ecc71;outline-offset:2px}
+.lesson-num{position:relative;z-index:1;font-size:.8rem;font-weight:700;letter-spacing:.5px;padding:.28rem 1.1rem;border-radius:50px;margin-bottom:.5rem;background:color-mix(in srgb,var(--lc) 14%,transparent);color:var(--lc);border:1px solid color-mix(in srgb,var(--lc) 35%,transparent)}
+.l4 .lesson-num{color:rgba(255,255,255,.4)}
 
-/* AI GUESSER */
-.guesser-wrap{display:flex;flex-direction:column;align-items:center;gap:1.5rem;max-width:480px;margin:0 auto}
-.guesser-robot{font-size:5rem;animation:brainPulse 2s ease-in-out infinite}
-.guess-num{font-size:4rem;font-weight:900;background:linear-gradient(135deg,#9B59B6,#e056fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-.guess-range-lbl{font-size:.85rem;color:rgba(255,255,255,.4);margin-top:.3rem;text-align:center}
-.guesser-fbk{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
-.gfbk{padding:.7rem 1.4rem;border-radius:50px;border:none;font-family:'Cairo',sans-serif;font-size:1rem;cursor:pointer;transition:transform .2s}
-.gfbk:hover{transform:scale(1.06)}
-.gfbk.bigger{background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff}
-.gfbk.smaller{background:linear-gradient(135deg,#3498db,#2980b9);color:#fff}
-.gfbk.correct{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff}
-.guesser-start{background:linear-gradient(135deg,#9B59B6,#6c3483);color:#fff;border:none;padding:.85rem 2.2rem;border-radius:50px;font-size:1rem;font-family:'Cairo',sans-serif;cursor:pointer;transition:transform .2s}
-.guesser-start:hover{transform:translateY(-3px)}
-.guess-hist{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center}
-.ghip{padding:.25rem .75rem;background:rgba(155,89,182,.18);border:1px solid rgba(155,89,182,.3);border-radius:50px;font-size:.82rem}
-.guess-win{text-align:center;font-size:1.4rem;font-weight:700;color:#2ecc71;animation:popIn .5s ease}
+.emoji-ring{position:relative;z-index:1;width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.7rem;background:color-mix(in srgb,var(--lc) 10%,transparent);border:2px solid color-mix(in srgb,var(--lc) 30%,transparent);margin-bottom:.5rem;transition:transform .35s,box-shadow .35s}
+.lesson-card:hover .emoji-ring{transform:scale(1.12) rotate(-6deg);box-shadow:0 0 28px color-mix(in srgb,var(--lc) 35%,transparent)}
 
-/* EMOTION DETECTOR */
-.emo-wrap{display:flex;flex-direction:column;gap:1.5rem;align-items:center;max-width:520px;margin:0 auto}
-.emo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;width:100%}
-.emo-btn{background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.1);border-radius:16px;padding:1.2rem .8rem;text-align:center;cursor:pointer;transition:all .3s;font-family:'Cairo',sans-serif}
-.emo-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);transform:translateY(-3px)}
-.emo-btn.selected{animation:popIn .4s ease}
-.emo-btn .ef{font-size:2.5rem;display:block;margin-bottom:.4rem}
-.emo-btn .elbl{font-size:.85rem;color:rgba(255,255,255,.6)}
-.ai-analysis{width:100%;background:rgba(155,89,182,.08);border:1px solid rgba(155,89,182,.25);border-radius:16px;padding:1.5rem;text-align:center;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem}
-.ai-analysis .ai-thinking{font-size:.9rem;color:rgba(255,255,255,.5)}
-.ai-analysis .ai-ans{font-size:1.1rem;font-weight:600}
-.dots-anim::after{content:'...';animation:dotAnim 1.2s steps(3,end) infinite}
-@keyframes dotAnim{0%{content:'.'}33%{content:'..'}66%,100%{content:'...'}}
+.lesson-card h2{position:relative;z-index:1;font-size:1.18rem;font-weight:700;line-height:1.55}
+.lesson-card .desc{position:relative;z-index:1;font-size:.86rem;color:rgba(255,255,255,.5);line-height:1.75;min-height:46px}
 
-/* WEATHER DECISION */
-.wc-demo{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:flex-start}
-.wc-left{flex:1;min-width:240px}
-.wc-conditions{display:flex;flex-direction:column;gap:.8rem;margin-bottom:1.2rem}
-.wc-row{display:flex;gap:.7rem;flex-wrap:wrap}
-.wc-btn{flex:1;min-width:120px;padding:.65rem 1rem;border-radius:12px;border:2px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);font-family:'Cairo',sans-serif;font-size:.95rem;cursor:pointer;transition:all .3s;font-weight:600;text-align:center}
-.wc-btn.active{border-color:#4A90D9;background:rgba(74,144,217,.18);color:#7ec8e3}
-.wc-result-box{background:rgba(74,144,217,.08);border:1px solid rgba(74,144,217,.2);border-radius:14px;padding:1.2rem;text-align:center;min-height:70px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem}
-.wc-outfit{font-size:1.3rem;font-weight:700;color:#7ec8e3}
-.wc-why{font-size:.82rem;color:rgba(255,255,255,.45)}
-.wc-code{flex:1;min-width:240px;background:#0d1117;border-radius:14px;padding:1.2rem;font-family:'Courier New',monospace;direction:ltr;overflow-x:auto}
-.wcline{padding:.2rem .4rem;border-radius:5px;font-size:.8rem;color:#444;transition:all .3s;line-height:1.9;white-space:nowrap}
-.wcline.exec{background:rgba(74,144,217,.14);color:#7ec8e3;border-left:3px solid #4A90D9}
+.topic-chips{position:relative;z-index:1;display:flex;gap:.4rem;flex-wrap:wrap;justify-content:center;margin:.5rem 0 1.2rem}
+.tchip{font-size:.68rem;font-weight:700;padding:.18rem .7rem;border-radius:50px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.55)}
+.lesson-card:hover .tchip{border-color:color-mix(in srgb,var(--lc) 40%,transparent);color:color-mix(in srgb,var(--lc) 80%,#fff)}
 
-/* CANDY DIVISION */
-.candy-demo{display:flex;gap:1.5rem;align-items:flex-start;flex-wrap:wrap}
-.candy-left{flex:1;min-width:200px;display:flex;flex-direction:column;gap:1rem}
-.candy-ctrl-label{font-size:.9rem;color:rgba(255,255,255,.5);margin-bottom:.3rem}
-.candy-slider{width:100%;accent-color:#f4a261}
-.candy-friends-row{display:flex;gap:.5rem;flex-wrap:wrap}
-.candy-friends-btn{width:44px;height:44px;border-radius:10px;border:2px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);font-family:'Cairo',sans-serif;font-size:1rem;cursor:pointer;transition:all .2s;font-weight:700}
-.candy-friends-btn.active{border-color:#f4a261;background:rgba(244,162,97,.2);color:#f4a261}
-.candy-visual{flex:1;min-width:220px}
-.candy-groups-wrap{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;min-height:60px;align-items:flex-start}
-.candy-group{display:flex;flex-direction:column;align-items:center;gap:.3rem}
-.candy-group-label{font-size:.7rem;color:rgba(255,255,255,.4)}
-.candy-group-items{display:flex;flex-wrap:wrap;gap:2px;max-width:90px}
-.candy-icon{font-size:1.1rem}
-.candy-remainder{font-size:.85rem;color:rgba(255,165,0,.8);margin-top:.4rem}
-.candy-formula{background:#0d1117;border-radius:10px;padding:.9rem 1rem;font-family:'Courier New',monospace;direction:ltr;font-size:.82rem}
-.candy-formula div{color:#555;padding:.12rem 0;line-height:1.7}
-.candy-formula div.hl{color:#caffbf}
+.lesson-btn{position:relative;z-index:1;width:100%;border:none;padding:.85rem 1rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;color:#fff;text-decoration:none;display:block;transition:transform .2s,box-shadow .2s}
+.l1 .lesson-btn{background:linear-gradient(135deg,#4A90D9,#764ba2);box-shadow:0 8px 24px rgba(74,144,217,.35)}
+.l1 .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(74,144,217,.55)}
+.l2 .lesson-btn{background:linear-gradient(135deg,#f7971e,#ffd200);color:#080818;box-shadow:0 8px 24px rgba(247,151,30,.35)}
+.l2 .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(247,151,30,.55)}
+.l3 .lesson-btn{background:linear-gradient(135deg,#2ecc71,#21d4fd);color:#04210f;box-shadow:0 8px 24px rgba(46,204,113,.35)}
+.l3 .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(46,204,113,.55)}
 
-/* TEXT SENTIMENT */
-.sentiment-demo{display:flex;flex-direction:column;gap:1.2rem}
-.review-cards-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem}
-.review-card{background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08);border-radius:14px;padding:1.1rem;cursor:pointer;transition:all .3s;font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.75)}
-.review-card:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);transform:translateY(-3px)}
-.review-card.selected{animation:popIn .3s ease}
-.review-card.positive.selected{border-color:#2ecc71;background:rgba(46,204,113,.1)}
-.review-card.negative.selected{border-color:#e74c3c;background:rgba(231,76,60,.1)}
-.review-card.neutral.selected{border-color:#f39c12;background:rgba(243,156,18,.1)}
-.sentiment-result-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:1.3rem;text-align:center;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6rem}
-.sent-badge{padding:.35rem 1.2rem;border-radius:50px;font-weight:700;font-size:1rem;display:inline-block}
-.sent-bar-wrap{width:100%;max-width:300px;background:rgba(255,255,255,.08);border-radius:50px;height:12px;overflow:hidden}
-.sent-bar{height:100%;border-radius:50px;transition:width .8s ease;width:0%}
-.sent-keywords{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.4rem}
-.sent-kw{padding:.2rem .7rem;border-radius:50px;font-size:.78rem;border:1px solid}
+/* exercises chip button */
+.ex-btn{position:relative;z-index:1;width:100%;margin-top:.7rem;padding:.68rem 1rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;color:#a8f0c0;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.45rem;background:rgba(46,204,113,.1);border:1.5px solid rgba(46,204,113,.35);transition:all .25s}
+.ex-btn:hover{background:rgba(46,204,113,.22);border-color:#2ecc71;transform:translateY(-2px);box-shadow:0 8px 20px rgba(46,204,113,.25)}
+.ex-btn .ex-tag{font-size:.62rem;background:rgba(46,204,113,.25);padding:.05rem .55rem;border-radius:50px}
 
-/* CONTENT RECOMMENDER */
-.rec-demo{display:flex;flex-direction:column;gap:1.3rem}
-.rec-demo p.hint{font-size:.9rem;color:rgba(255,255,255,.45);text-align:center}
-.cat-chips{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center}
-.cat-chip{padding:.5rem 1.1rem;border-radius:50px;border:2px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:rgba(255,255,255,.65);font-family:'Cairo',sans-serif;font-size:.9rem;cursor:pointer;transition:all .25s;user-select:none}
-.cat-chip:hover{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.1)}
-.cat-chip.selected{background:rgba(232,121,249,.18);border-color:#e879f9;color:#f0abfc}
-.rec-output{background:rgba(232,121,249,.06);border:1px solid rgba(232,121,249,.2);border-radius:14px;padding:1.4rem;min-height:90px}
-.rec-title{font-size:.88rem;color:rgba(255,255,255,.4);margin-bottom:.9rem;text-align:center}
-.rec-item{display:flex;align-items:flex-start;gap:.9rem;padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.rec-item:last-child{border-bottom:none}
-.rec-item-icon{font-size:1.8rem;flex-shrink:0}
-.rec-item-text h4{font-size:.95rem;color:#f0abfc;margin-bottom:.2rem}
-.rec-item-text p{font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.5}
-.rec-placeholder{text-align:center;color:rgba(255,255,255,.3);font-size:.9rem;padding:1rem 0}
+/* new ribbon on lesson 3 */
+.new-ribbon{position:absolute;top:14px;left:-34px;z-index:2;background:linear-gradient(135deg,#2ecc71,#21d4fd);color:#04210f;font-size:.7rem;font-weight:900;padding:.25rem 2.6rem;transform:rotate(-38deg);box-shadow:0 4px 14px rgba(46,204,113,.45);animation:ribbonPulse 2s ease-in-out infinite}
+@keyframes ribbonPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
 
-/* NEURAL NETWORK DEMO */
-.nn-demo{display:flex;flex-direction:column;gap:1.2rem}
-.nn-picker{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
-.nn-item-btn{background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.1);border-radius:14px;padding:.8rem .9rem;text-align:center;cursor:pointer;transition:all .3s;font-family:'Cairo',sans-serif;min-width:72px}
-.nn-item-btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);transform:translateY(-3px)}
-.nn-item-btn.selected{border-color:#2ecc71;background:rgba(46,204,113,.15);animation:popIn .3s ease}
-.nn-svg-wrap{background:#04040e;border-radius:16px;padding:1rem 1rem .6rem;border:1px solid rgba(46,204,113,.1)}
-.nn-layer-labels{display:flex;justify-content:space-between;padding:0 .5rem;margin-bottom:.6rem}
-.nn-layer-labels span{font-size:.67rem;color:rgba(255,255,255,.3);text-align:center;flex:1;line-height:1.4}
-#nnSvg{width:100%;display:block}
-.nn-status{text-align:center;padding:.7rem 1rem;background:rgba(255,255,255,.04);border-radius:10px;font-size:.92rem;color:rgba(255,255,255,.7);min-height:44px;display:flex;align-items:center;justify-content:center}
-.nn-results{display:flex;flex-direction:column;gap:.5rem}
-.nn-conf-row{display:flex;align-items:center;gap:.8rem}
-.nn-conf-label{min-width:68px;font-size:.85rem;color:rgba(255,255,255,.7);text-align:right}
-.nn-conf-bg{flex:1;background:rgba(255,255,255,.08);border-radius:50px;height:12px;overflow:hidden}
-.nn-conf-fill{height:100%;border-radius:50px;transition:width 1s ease;width:0%}
-.nn-conf-pct{min-width:38px;font-size:.82rem;color:rgba(255,255,255,.5)}
+/* locked lesson 4 */
+.l4{opacity:.8}
+.l4 .lesson-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);cursor:not-allowed;box-shadow:none}
+.l4 .lesson-btn:hover{transform:none}
+.l4 .emoji-ring{filter:grayscale(.6)}
 
-/* QUIZ */
-.quiz-sec{background:linear-gradient(160deg,#080818 0%,#0a0a25 100%);padding:5rem 1.5rem}
-.quiz-sec .sec-title{color:#fff}
-.quiz-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:2.5rem;max-width:680px;margin:0 auto}
-.q-prog{display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem}
-.q-prog-bg{flex:1;background:rgba(255,255,255,.08);border-radius:50px;height:8px}
-.q-prog-fill{height:100%;background:linear-gradient(90deg,#4A90D9,#9B59B6);border-radius:50px;transition:width .5s}
-.q-prog-lbl{font-size:.85rem;color:rgba(255,255,255,.4);white-space:nowrap}
-.q-text{font-size:1.15rem;font-weight:600;line-height:1.75;margin-bottom:1.5rem}
-.q-opts{display:flex;flex-direction:column;gap:.75rem}
-.q-opt{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:1rem 1.4rem;cursor:pointer;font-family:'Cairo',sans-serif;font-size:.98rem;text-align:right;color:#fff;transition:all .3s}
-.q-opt:hover:not(:disabled){background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.25)}
-.q-opt.correct{background:rgba(46,204,113,.18);border-color:#2ecc71;color:#2ecc71}
-.q-opt.wrong{background:rgba(231,76,60,.18);border-color:#e74c3c;color:#e74c3c}
-.q-fb{margin-top:1.2rem;padding:1rem 1.4rem;border-radius:12px;display:none;font-size:.95rem;line-height:1.7}
-.q-fb.show{display:block}
-.q-fb.ok{background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.3);color:#a8f0c0}
-.q-fb.bad{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);color:#f0a8a8}
-.q-next{margin-top:1rem;background:linear-gradient(135deg,#4A90D9,#764ba2);color:#fff;border:none;padding:.8rem 2rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.95rem;cursor:pointer;display:none}
-.q-next.show{display:inline-block}
-.q-score{text-align:center;padding:2rem 0}
-.q-score-num{font-size:4rem;font-weight:900;background:linear-gradient(135deg,#4A90D9,#9B59B6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.q-score-lbl{font-size:1.1rem;color:rgba(255,255,255,.6);margin-top:.5rem}
-.q-restart{margin-top:1.5rem;background:linear-gradient(135deg,#4A90D9,#764ba2);color:#fff;border:none;padding:.85rem 2.2rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:1rem;cursor:pointer}
+/* ===== PATH NOTE ===== */
+.path-note{margin-top:2.6rem;display:flex;align-items:center;gap:.7rem;color:rgba(255,255,255,.35);font-size:.85rem}
+.path-note .rocket{font-size:1.3rem;animation:floatUD 2.5s ease-in-out infinite}
 
-/* FOOTER */
-footer{background:#030308;padding:3.5rem 2rem;text-align:center}
-footer .big-e{font-size:3rem;margin-bottom:1rem}
-footer h3{font-size:1.2rem;color:rgba(255,255,255,.75);margin-bottom:.5rem}
-footer p{color:rgba(255,255,255,.3);font-size:.9rem}
-
-/* RESPONSIVE */
-@media(max-width:600px){
-  .tl-wrap{flex-direction:column}
-  .code-panel,.wc-code{min-width:unset;width:100%}
-  .sort-bars-area{gap:5px}
-  .sbar-inner{width:42px;font-size:1.1rem}
-  .emo-grid{grid-template-columns:repeat(2,1fr)}
-  .wc-demo,.candy-demo{flex-direction:column}
-  .cmp-grid{grid-template-columns:1fr}
-}
+footer{position:relative;z-index:1;background:#020208;padding:2rem;text-align:center;color:rgba(255,255,255,.3);font-size:.85rem}
+footer .f-hearts{font-size:1.1rem}
 </style>
 </head>
 <body>
 
-<div id="progress-bar"></div>
 <div class="stars-bg" id="starsContainer"></div>
+<div class="nebula n1"></div>
+<div class="nebula n2"></div>
+<div class="nebula n3"></div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-badge">🎓 الدرس الأول · للأطفال من ٨ إلى ١٧ سنة</div>
-  <div class="hero-icons">💻 🤖 🧠</div>
+<div class="wrap">
+  <div class="badge">🎓 الأستاذة نايلة، المخيم الصيفي، مجمع أثير</div>
+  <div class="head-icons"><span>💻</span><span>🤖</span><span>🐍</span></div>
   <h1>رحلتك في عالم<br>البرمجة والذكاء الاصطناعي</h1>
-  <p>هل تعلم أن كل تطبيق تستخدمه كل يوم صُنع بواسطة شخص مثلك تماماً؟<br>اليوم نكتشف معاً أسرار البرمجة والذكاء الاصطناعي!</p>
-  <button class="hero-btn" onclick="document.getElementById('sec-prog').scrollIntoView({behavior:'smooth'})">ابدأ الرحلة 🚀</button>
-  <div class="hero-scroll">▼ اسحب للأسفل</div>
-</section>
+  <p class="sub">اختر درسا لتبدأ التعلّم! كل درس مليء بالشروحات التفاعلية والألعاب والتجارب الممتعة 🚀</p>
 
-<!-- PROGRAMMING -->
-<section class="section prog-sec" id="sec-prog">
-<div class="sec-inner">
-  <div class="fi">
-    <div class="sec-title">💻 ما هي البرمجة؟</div>
-    <p class="sec-sub">البرمجة هي طريقة نكلّم بها الحاسوب، نعطيه تعليمات واضحة ومحددة خطوة بخطوة، وهو يتبعها بدقة مئة بالمئة!</p>
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><div class="st-num">3</div><div class="st-lbl">دروس تفاعلية</div></div>
+    <div class="stat"><div class="st-num">7+</div><div class="st-lbl">مهمات وتمارين</div></div>
+    <div class="stat"><div class="st-num">🐍</div><div class="st-lbl">لغة Python</div></div>
+    <div class="stat"><div class="st-num">100%</div><div class="st-lbl">متعة وتجربة</div></div>
   </div>
-  <div class="card-row fi">
-    <div class="icard">
-      <div class="ico">📋</div>
-      <h3>الأوامر الواضحة</h3>
-      <p>الحاسوب لا يخمّن ولا يفهم "تقريباً"، يحتاج تعليمات دقيقة مثل: "اجمع 5 + 3" وليس "اجمع شيئاً ما"</p>
+
+  <div class="lessons">
+
+    <!-- LESSON 1 -->
+    <div class="lesson-card l1">
+      <span class="lesson-num">الدرس الأول</span>
+      <div class="emoji-ring">🧠</div>
+      <h2>عالم البرمجة<br>والذكاء الاصطناعي</h2>
+      <p class="desc">ما هي البرمجة؟ وما هو الذكاء الاصطناعي؟ وما الفرق بينهما؟</p>
+      <div class="topic-chips">
+        <span class="tchip">البرمجة</span>
+        <span class="tchip">الذكاء الاصطناعي</span>
+        <span class="tchip">الخوارزميات</span>
+      </div>
+      <a class="lesson-btn" href="lesson1.html">ابدأ الدرس ▸</a>
     </div>
-    <div class="icard">
-      <div class="ico">🪜</div>
-      <h3>الخطوات المرتبة</h3>
-      <p>مثل وصفة الطبخ تماماً، كل خطوة لها مكانها الصحيح. لو عكستَ الخطوات انتهى بك الأمر بكارثة!</p>
+
+    <!-- LESSON 2 -->
+    <div class="lesson-card l2">
+      <span class="lesson-num">الدرس الثاني</span>
+      <div class="emoji-ring">🐍</div>
+      <h2>كيف تتكلّم<br>الحواسيب؟ · Python</h2>
+      <p class="desc">من الأصفار والواحدات إلى لغة Python، وأول برنامج تكتبه!</p>
+      <div class="topic-chips">
+        <span class="tchip">print()</span>
+        <span class="tchip">المتغيرات</span>
+        <span class="tchip">input()</span>
+      </div>
+      <a class="lesson-btn" href="lesson2.html">ابدأ الدرس ▸</a>
+      <a class="ex-btn" href="exercices2.html">🎮 أكاديمية المهمات <span class="ex-tag">7 مهمات</span></a>
     </div>
-    <div class="icard">
-      <div class="ico">🧩</div>
-      <h3>حل المشاكل</h3>
-      <p>البرمجة أداة نحل بها مشاكل حقيقية من حياتنا، من إشارات المرور إلى الألعاب وتطبيقات الهاتف</p>
+
+    <!-- LESSON 3 -->
+    <div class="lesson-card l3">
+      <div class="new-ribbon">جديد ✨</div>
+      <span class="lesson-num">الدرس الثالث</span>
+      <div class="emoji-ring">💡</div>
+      <h2>فكّر مثل الكمبيوتر<br>البوليان والشروط</h2>
+      <p class="desc">صح أم خطأ؟ تعلّم كيف يتخذ الكمبيوتر قراراته بنفسه!</p>
+      <div class="topic-chips">
+        <span class="tchip">Boolean</span>
+        <span class="tchip">if / else</span>
+        <span class="tchip">and / or</span>
+      </div>
+      <a class="lesson-btn" href="code-quest.html">ابدأ الدرس ▸</a>
     </div>
+
+    <!-- LESSON 4 (locked) -->
+    <div class="lesson-card l4">
+      <span class="lesson-num">الدرس الرابع</span>
+      <div class="emoji-ring">🔒</div>
+      <h2>قريبا...</h2>
+      <p class="desc">الدرس الرابع قيد الإعداد، ترقّبه قريبا!</p>
+      <div class="topic-chips">
+        <span class="tchip">؟؟؟</span>
+        <span class="tchip">؟؟؟</span>
+      </div>
+      <button class="lesson-btn" disabled>قريبا 🔜</button>
+    </div>
+
   </div>
-  <div class="analogy-box fi">
-    <h3>🎂 البرمجة مثل وصفة الكيك، اضغط تشغيل وشاهد!</h3>
-    <div class="recipe-steps" id="recipeSteps">
-      <div class="rstep" id="rs0"><div class="rnum">١</div><div>📦 <strong>اجمع المكونات:</strong> دقيق، سكر، بيض، زبدة، مسحوق خبز</div></div>
-      <div class="rstep" id="rs1"><div class="rnum">٢</div><div>🥣 <strong>اخلط العجينة:</strong> ضع كل المكونات في وعاء واخلطهم جيداً</div></div>
-      <div class="rstep" id="rs2"><div class="rnum">٣</div><div>🫙 <strong>اسكب في القالب:</strong> اسكب العجينة في قالب الكيك</div></div>
-      <div class="rstep" id="rs3"><div class="rnum">٤</div><div>🔥 <strong>ادخل الفرن:</strong> سخّن الفرن ١٨٠ درجة وضع القالب بداخله</div></div>
-      <div class="rstep" id="rs4"><div class="rnum">٥</div><div>⏱️ <strong>انتظر ٣٠ دقيقة:</strong> لا تفتح الفرن!</div></div>
-      <div class="rstep" id="rs5"><div class="rnum">٦</div><div>🎉 <strong>استمتع بالكيك!</strong> هذا ما يفعله الحاسوب بالبرامج!</div></div>
-    </div>
-    <button class="run-btn" id="recipeBtn" onclick="runRecipe()">▶ تشغيل البرنامج</button>
+
+  <div class="path-note">
+    <span class="rocket">🚀</span>
+    <span>أكمل الدروس بالترتيب لتصبح مبرمجا خارقا</span>
   </div>
 </div>
-</section>
 
-<!-- AI -->
-<section class="section ai-sec" id="sec-ai">
-<div class="sec-inner">
-  <div class="fi">
-    <div class="sec-title">🧠 ما هو الذكاء الاصطناعي؟</div>
-    <p class="sec-sub">الذكاء الاصطناعي برنامج يتعلم من الأمثلة والتجربة، تماماً مثل طفل يتعلم التعرف على الأشياء من حوله!</p>
-  </div>
-  <div class="brain-wrap fi"><span class="brain-emoji">🧠</span></div>
-  <div class="card-row fi">
-    <div class="icard">
-      <div class="ico">📚</div>
-      <h3>يتعلم من الأمثلة</h3>
-      <p>بدلاً من كتابة قواعد محددة، نُريه آلاف الأمثلة ويكتشف القواعد بنفسه</p>
-    </div>
-    <div class="icard">
-      <div class="ico">📈</div>
-      <h3>يتحسن مع الوقت</h3>
-      <p>كلما رأى أمثلة أكثر، أصبح أذكى وأكثر دقة، مثل أي طالب متجد!</p>
-    </div>
-    <div class="icard">
-      <div class="ico">🌟</div>
-      <h3>يتكيّف مع الجديد</h3>
-      <p>يستطيع التعامل مع مواقف لم يرها قبلاً لأنه فهم الفكرة العامة وليس فقط القواعد</p>
-    </div>
-  </div>
-
-  <!-- Animals Learning Demo -->
-  <div class="ai-learn-box fi">
-    <h3>🐾 علّم الذكاء الاصطناعي يتعرف على الحيوانات!</h3>
-    <p class="hint">انقر على كل حيوان لتُريه إياه، كلما علّمته أكثر زادت ثقته!</p>
-    <div class="animals-grid" id="animalsGrid"></div>
-    <div class="ai-conf-label">مستوى ذكاء النظام: <strong id="confPercent">0%</strong></div>
-    <div class="conf-bar-bg"><div class="conf-bar" id="confBar"></div></div>
-    <div class="ai-response" id="aiResponse">انقر على الحيوانات لتبدأ التدريب 👆</div>
-
-    <!-- Horse AI Vision Demo -->
-    <div class="horse-demo-box">
-      <h3>📸 الذكاء الاصطناعي يرى ويحلل صورة حقيقية!</h3>
-      <p class="sub">اضغط على زر التحليل وشاهد كيف يمسح الذكاء الاصطناعي الصورة ويتعرف على ما بداخلها</p>
-      <div class="horse-center">
-        <div class="horse-img-container" id="horseContainer">
-          <img src="horse.jpg" alt="صورة حصان" id="horseImg" onerror="this.style.minHeight='220px';this.style.background='#1a1a2e';this.alt='🐴'">
-          <div class="scan-bar" id="horseScanBar"></div>
-          <div class="scan-grid-overlay" id="horseScanGrid"></div>
-          <div class="det-frame" id="horseDetFrame">
-            <div class="det-corner tl"></div>
-            <div class="det-corner tr"></div>
-            <div class="det-corner bl"></div>
-            <div class="det-corner br"></div>
-          </div>
-          <div class="det-tag" id="horseDetTag">🐴 حصان · 98.7%</div>
-        </div>
-        <button class="scan-action-btn" id="horseScanBtn" onclick="scanHorse()">🔍 تحليل الصورة بالذكاء الاصطناعي</button>
-        <div class="scan-result-panel" id="horseScanResult" style="display:none">
-          <div class="scan-result-row"><span>📊 النوع المكتشف</span><span>حصان (Horse)</span></div>
-          <div class="scan-result-row"><span>🎯 نسبة الثقة</span><span>98.7%</span></div>
-          <div class="scan-result-row"><span>🎨 اللون الأساسي</span><span>بني داكن</span></div>
-          <div class="scan-result-row"><span>📐 الحجم المقدّر</span><span>حيوان كبير</span></div>
-          <div class="scan-result-row"><span>⚡ وقت التحليل</span><span>0.003 ثانية</span></div>
-          <div class="scan-result-row hi"><span>🧠 كيف تعلّم؟</span><span>تدرّب على 2 مليون صورة!</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</section>
-
-<!-- COMPARISON -->
-<section class="section cmp-sec" id="sec-cmp">
-<div class="sec-inner">
-  <div class="fi">
-    <div class="sec-title">🔄 ما الفرق بينهما؟</div>
-    <p class="sec-sub">البرمجة والذكاء الاصطناعي أدوات مختلفة لحل مشاكل مختلفة، كلٌّ منهما له قوته الخاصة!</p>
-  </div>
-  <div class="cmp-grid fi">
-    <div class="cmp-card prog-c">
-      <h2>💻 البرمجة</h2>
-      <ul class="cmp-list">
-        <li>📋 نكتب كل التعليمات بأنفسنا خطوة بخطوة</li>
-        <li>⚡ نتائج دقيقة وسريعة ولا تتغير</li>
-        <li>🔒 الحاسوب يفعل بالضبط ما كُتب له</li>
-        <li>🧮 ممتاز للحسابات والقواعد الثابتة</li>
-        <li>📏 مثل: حساب مجموع أرقام، إشارات المرور</li>
-      </ul>
-    </div>
-    <div class="vs-badge">VS</div>
-    <div class="cmp-card ai-c">
-      <h2>🧠 الذكاء الاصطناعي</h2>
-      <ul class="cmp-list">
-        <li>📚 يتعلم القواعد بنفسه من الأمثلة</li>
-        <li>🌱 يتحسن كلما تدرّب أكثر</li>
-        <li>🎯 يتعامل مع مواقف جديدة لم يرها</li>
-        <li>🖼️ ممتاز للصور، الصوت، والتوقعات</li>
-        <li>📏 مثل: التعرف على وجهك، ترجمة لغات</li>
-      </ul>
-    </div>
-  </div>
-  <div class="icard fi" style="margin-top:1.5rem;text-align:center;background:rgba(255,255,255,.04)">
-    <div class="ico">💡</div>
-    <h3 style="color:#ffd166">الحقيقة المدهشة!</h3>
-    <p>الذكاء الاصطناعي هو نفسه <strong>مبني بالبرمجة</strong>! البرمجة هي الأساس، والذكاء الاصطناعي هو استخدامها بطريقة ذكية جداً لتحاكي التعلم البشري.</p>
-  </div>
-</div>
-</section>
-
-<!-- PROBLEMS -->
-<section class="section probs-sec" id="sec-probs">
-<div class="sec-inner">
-  <div class="fi">
-    <div class="sec-title">🌍 مشاكل حقيقية وحلولها التقنية</div>
-    <p class="sec-sub">كيف تُحل مشاكل الحياة الواقعية بالبرمجة والذكاء الاصطناعي؟ جرّب بنفسك!</p>
-  </div>
-
-  <div class="prob-group-label fi">💻 مشاكل تُحل بالبرمجة</div>
-
-  <!-- P1: Traffic Light -->
-  <div class="prob-card fi">
-    <div class="prob-header">
-      <div class="prob-num" style="background:rgba(74,144,217,.2);color:#4A90D9">١</div>
-      <div>
-        <div class="prob-title">🚦 إشارة المرور الذكية</div>
-        <span class="prob-badge" style="background:rgba(74,144,217,.15);color:#4A90D9">برمجة</span>
-      </div>
-    </div>
-    <div class="prob-alert"><h4>🔴 المشكلة</h4><p>الشوارع مزدحمة! كيف ننظم حركة السيارات تلقائياً بدون شرطي مرور يقف ساعات طويلة؟</p></div>
-    <p class="prob-hint">💡 الحل: نكتب برنامجاً يتحكم في الأضواء بشكل آلي، شاهد الكود يتنفذ أمامك!</p>
-    <div class="tl-wrap">
-      <div class="tl-left">
-        <div class="traffic-light">
-          <div class="tl-bulb red" id="tlRed"></div>
-          <div class="tl-bulb yellow" id="tlYellow"></div>
-          <div class="tl-bulb green" id="tlGreen"></div>
-        </div>
-        <div class="tl-status" id="tlStatus" style="background:rgba(255,255,255,.08)">جاهز</div>
-        <button class="run-btn" id="tlBtn" onclick="toggleTrafficLight()" style="margin-top:.5rem">▶ تشغيل</button>
-      </div>
-      <div class="code-panel">
-        <div class="cline" id="cl0"><span class="cm">// تحكم في إشارة المرور</span></div>
-        <div class="cline" id="cl1"><span class="kw">while</span> (<span class="str">true</span>) {</div>
-        <div class="cline" id="cl2">&nbsp;&nbsp;setLight(<span class="str">"أحمر"</span>) <span class="cm">// قف!</span></div>
-        <div class="cline" id="cl3">&nbsp;&nbsp;<span class="fn">wait</span>(<span class="str">5</span>) <span class="cm">// انتظر 5 ثواني</span></div>
-        <div class="cline" id="cl4">&nbsp;&nbsp;setLight(<span class="str">"أصفر"</span>) <span class="cm">// استعد...</span></div>
-        <div class="cline" id="cl5">&nbsp;&nbsp;<span class="fn">wait</span>(<span class="str">2</span>) <span class="cm">// انتظر 2 ثانية</span></div>
-        <div class="cline" id="cl6">&nbsp;&nbsp;setLight(<span class="str">"أخضر"</span>) <span class="cm">// سِر!</span></div>
-        <div class="cline" id="cl7">&nbsp;&nbsp;<span class="fn">wait</span>(<span class="str">5</span>) <span class="cm">// انتظر 5 ثواني</span></div>
-        <div class="cline" id="cl8">}</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- P2: Bubble Sort -->
-  <div class="prob-card fi">
-    <div class="prob-header">
-      <div class="prob-num" style="background:rgba(255,165,0,.2);color:orange">٢</div>
-      <div>
-        <div class="prob-title">📊 ترتيب درجات الفصل</div>
-        <span class="prob-badge" style="background:rgba(255,165,0,.15);color:orange">برمجة</span>
-      </div>
-    </div>
-    <div class="prob-alert"><h4>🔴 المشكلة</h4><p>عندنا ٦ طلاب بدرجات مختلطة، المعلمة تريد رؤية الدرجات مرتبة من الأقل إلى الأعلى بسرعة!</p></div>
-    <p class="prob-hint">💡 الحل: خوارزمية الترتيب الفقاعي، الكمبيوتر يقارن رقمين ويبدّلهما إذا كانا في الترتيب الخطأ!</p>
-    <div class="sort-wrap">
-      <div class="sort-bars-area" id="sortBarsArea"></div>
-      <div class="sort-msg" id="sortMsg">اضغط "خطوة" لترى كيف يُرتّب الحاسوب الأرقام!</div>
-      <div class="sort-ctrls">
-        <button class="sbtn" style="background:linear-gradient(135deg,#f4a261,#e76f51);color:#fff" onclick="sortStep()">خطوة ▶</button>
-        <button class="sbtn" style="background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff" onclick="autoSort()">تشغيل تلقائي ⚡</button>
-        <button class="sbtn" style="background:rgba(255,255,255,.1);color:#fff" onclick="resetSort()">إعادة ↺</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- P5: Weather Decision -->
-  <div class="prob-card fi">
-    <div class="prob-header">
-      <div class="prob-num" style="background:rgba(52,152,219,.2);color:#3498db">٣</div>
-      <div>
-        <div class="prob-title">⛅ قرار الطقس الذكي</div>
-        <span class="prob-badge" style="background:rgba(52,152,219,.15);color:#3498db">برمجة</span>
-      </div>
-    </div>
-    <div class="prob-alert"><h4>🔴 المشكلة</h4><p>كل صباح تتساءل ماذا تلبس؟ كيف نكتب برنامجاً يقرر ذلك تلقائياً بناءً على حالة الطقس؟</p></div>
-    <p class="prob-hint">💡 الحل: جمل "إذا" (if-else)، البرنامج يتخذ قرارات بناءً على الشروط، شاهد كود يعمل فعلاً!</p>
-    <div class="wc-demo">
-      <div class="wc-left">
-        <div class="wc-conditions">
-          <p style="font-size:.85rem;color:rgba(255,255,255,.4);margin-bottom:.5rem">اختر حالة الطقس اليوم:</p>
-          <div class="wc-row">
-            <button class="wc-btn" id="wcRain" onclick="toggleWC(this,'rain','☀️ مشمس','🌧️ ممطر')">☀️ مشمس</button>
-          </div>
-          <div class="wc-row">
-            <button class="wc-btn" id="wcCold" onclick="toggleWC(this,'cold','🌡️ حار','❄️ بارد')">🌡️ حار</button>
-          </div>
-          <div class="wc-row">
-            <button class="wc-btn" id="wcWind" onclick="toggleWC(this,'wind','🌸 هادئ','💨 عاصف')">🌸 هادئ</button>
-          </div>
-        </div>
-        <div class="wc-result-box">
-          <div class="wc-outfit" id="wcOutfit">👕 اختر الطقس أولاً</div>
-          <div class="wc-why" id="wcWhy"></div>
-        </div>
-      </div>
-      <div class="wc-code">
-        <div class="wcline" id="wc0"><span class="cm"># what to wear today?</span></div>
-        <div class="wcline" id="wc1"><span class="kw">if</span> rainy:</div>
-        <div class="wcline" id="wc2">&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">take_umbrella</span>()</div>
-        <div class="wcline" id="wc3">&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> cold:</div>
-        <div class="wcline" id="wc4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">wear_coat</span>()</div>
-        <div class="wcline" id="wc5">&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else</span>:</div>
-        <div class="wcline" id="wc6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">wear_light_shirt</span>()</div>
-        <div class="wcline" id="wc7"><span class="kw">elif</span> cold:</div>
-        <div class="wcline" id="wc8">&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">wear_jacket</span>()</div>
-        <div class="wcline" id="wc9">&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> windy:</div>
-        <div class="wcline" id="wc10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">add_scarf</span>()</div>
-        <div class="wcline" id="wc11"><span class="kw">else</span>:</div>
-        <div class="wcline" id="wc12">&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">wear_summer_clothes</span>()</div>
-        <div class="wcline" id="wc13">&nbsp;&nbsp;&nbsp;&nbsp;<span class="fn">add_sunglasses</span>()</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- P6: Candy Division -->
-  <div class="prob-card fi">
-    <div class="prob-header">
-      <div class="prob-num" style="background:rgba(241,196,15,.2);color:#f1c40f">٤</div>
-      <div>
-        <div class="prob-title">🍬 آلة قسمة الحلوى العادلة</div>
-        <span class="prob-badge" style="background:rgba(241,196,15,.15);color:#f1c40f">برمجة</span>
-      </div>
-    </div>
-    <div class="prob-alert"><h4>🔴 المشكلة</h4><p>عندك حلوى كثيرة وتريد توزيعها بالتساوي على أصدقائك، كم تعطي كل شخص وكم يتبقى؟</p></div>
-    <p class="prob-hint">💡 الحل: عمليتا القسمة والباقي (÷ و %)، الكمبيوتر يحسبهما في أجزاء من الثانية!</p>
-    <div class="candy-demo">
-      <div class="candy-left">
-        <div>
-          <p class="candy-ctrl-label">عدد الحلوى الكلي: <strong id="candyTotalLbl" style="color:#f1c40f">20</strong></p>
-          <input type="range" class="candy-slider" id="candySlider" min="10" max="60" step="5" value="20" oninput="updateCandy()">
-        </div>
-        <div>
-          <p class="candy-ctrl-label">عدد الأصدقاء:</p>
-          <div class="candy-friends-row" id="friendsRow"></div>
-        </div>
-        <div class="candy-formula" id="candyFormula">
-          <div><span class="cm"># divide candies fairly</span></div>
-          <div><span class="str">each</span> = total <span class="kw">//</span> friends</div>
-          <div><span class="str">remainder</span> = total <span class="kw">%</span> friends</div>
-          <div><span class="cm"># result:</span></div>
-          <div class="hl" id="candyCalc1">each = 20 // 3  →  6</div>
-          <div class="hl" id="candyCalc2">remainder = 20 % 3  →  2</div>
-        </div>
-      </div>
-      <div class="candy-visual">
-        <div class="candy-groups-wrap" id="candyGroupsWrap"></div>
-        <div class="candy-remainder" id="candyRemainderDiv"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="prob-group-label fi">🧠 مشاكل تُحل بالذكاء الاصطناعي</div>
-
-  <!-- P3: AI Guesser -->
-  <div class="prob-card fi">
-    <div class="prob-header">
-      <div class="prob-num" style="background:rgba(155,89,182,.2);color:#9B59B6">٥</div>
-      <div>
-        <div class="prob-title">🤖 الذكاء الاصطناعي يخمّن رقمك!</div>
-        <span class="prob-badge" style="background:rgba(155,89,182,.15);color:#9B59B6">ذكاء اصطناعي</span>
-      </div>
-    </div>
-    <div class="prob-alert"><h4>🔴 المشكلة</h4><p>هل يستطيع الكمبيوتر أن يخمّن أي رقم تفكر فيه من ١ إلى ١٠٠ في أقل من ٧ محاولات فقط؟</p></div>
-    <p class="prob-hint">💡 الحل الذكي: يقسم الأرقام إلى نصفين ويختار المنتصف كل مرة، هذا يسمى "البحث الثنائي"!</p>
-    <div class="guesser-wrap">
-      <div class="guesser-robot">🤖</div>
-      <div id="guesserSetup" style="text-align:center">
-        <p style="margin-bottom:1rem;color:rgba(255,255,255,.7)">فكّر في رقم من <strong>١</strong> إلى <strong>١٠٠</strong> في ذهنك ولا تقوله!</p>
-        <button class="guesser-start" onclick="startGuesser()">جاهز، ابدأ التخمين! 🎯</button>
-      </div>
-      <div id="guesserGame" style="display:none;width:100%;display:flex;flex-direction:column;align-items:center;gap:1rem">
-        <div style="text-align:center">
-          <div style="font-size:.9rem;color:rgba(255,255,255,.5);margin-bottom:.3rem">تخميني هو...</div>
-          <div class="guess-num" id="guessNum">?</div>
-          <div class="guess-range-lbl" id="guessRange">النطاق: ١ إلى ١٠٠</div>
-        </div>
-        <div class="guesser-fbk">
-          <button class="gfbk bigger" onclick="guesserFeedback('bigger')">⬆ رقمي أكبر</button>
-          <button class="gfbk correct" onclick="guesserFeedback('correct')">✓ هذا هو!</button>
-          <button class="gfbk smaller" onclick="guesserFeedback('smaller')">⬇ رقمي أصغر</button>
-        </div>
-        <div class="guess-hist" id="guessHist"></div>
-      </div>
-      <div id="guesserWin" style="display:none">
-        <div class="guess-win" id="guessWinMsg"></div>
-        <div style="margin-top:1rem;text-align:center"><button class="guesser-start" onclick="resetGuesser()">العب مرة أخرى 🔄</button></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- P6: Neural Network Visualizer -->
-  <div class="prob-card fi">
-    <div class="prob-header">
-      <div class="prob-num" style="background:rgba(46,204,113,.2);color:#2ecc71">٦</div>
-      <div>
-        <div class="prob-title">🧠 شبكة الأعصاب الاصطناعية الحية</div>
-        <span class="prob-badge" style="background:rgba(46,204,113,.15);color:#2ecc71">ذكاء اصطناعي</span>
-      </div>
-    </div>
-    <div class="prob-alert"><h4>🔴 المشكلة</h4><p>كيف "يفكر" الذكاء الاصطناعي فعلاً من الداخل؟ ما الذي يحدث عندما يرى صورة ويقرر ما هي في أجزاء من الثانية؟</p></div>
-    <p class="prob-hint">💡 الحل: شبكات الأعصاب الاصطناعية، طبقات من الخلايا الرياضية تعمل معاً مثل الدماغ! انقر على أي كائن وشاهد البيانات تتدفق عبر الشبكة:</p>
-    <div class="nn-demo">
-      <div class="nn-picker" id="nnPicker"></div>
-      <div class="nn-svg-wrap">
-        <div class="nn-layer-labels">
-          <span>طبقة الإدخال<br><span style="color:rgba(74,144,217,.7)">بيانات الصورة</span></span>
-          <span>طبقة مخفية ١<br><span style="color:rgba(155,89,182,.7)">أنماط بسيطة</span></span>
-          <span>طبقة مخفية ٢<br><span style="color:rgba(224,86,253,.7)">أنماط معقدة</span></span>
-          <span>طبقة الإخراج<br><span style="color:rgba(46,204,113,.7)">القرار النهائي</span></span>
-        </div>
-        <svg id="nnSvg" viewBox="-8 0 516 250" preserveAspectRatio="xMidYMid meet"></svg>
-      </div>
-      <div class="nn-status" id="nnStatus">👆 انقر على أي كائن لترى كيف يفكر الذكاء الاصطناعي من الداخل!</div>
-      <div class="nn-results" id="nnResults" style="display:none"></div>
-    </div>
-  </div>
-
-  <!-- P7: Text Sentiment -->
-  <div class="prob-card fi">
-    <div class="prob-header">
-      <div class="prob-num" style="background:rgba(231,76,60,.2);color:#e74c3c">٧</div>
-      <div>
-        <div class="prob-title">💬 محلل مشاعر النصوص</div>
-        <span class="prob-badge" style="background:rgba(231,76,60,.15);color:#e74c3c">ذكاء اصطناعي</span>
-      </div>
-    </div>
-    <div class="prob-alert"><h4>🔴 المشكلة</h4><p>كيف يعرف الكمبيوتر هل التعليق الذي كتبته إيجابي أم سلبي؟ مواقع مثل أمازون تفعل هذا لملايين التعليقات!</p></div>
-    <p class="prob-hint">💡 الحل: الذكاء الاصطناعي يتعلم الكلمات الإيجابية والسلبية من ملايين التعليقات، انقر على جملة لتحليلها!</p>
-    <div class="sentiment-demo">
-      <div class="review-cards-row" id="reviewCards"></div>
-      <div class="sentiment-result-box" id="sentResultBox">
-        <div style="color:rgba(255,255,255,.35);font-size:.9rem">انقر على أي جملة لتحليل مشاعرها 👆</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- P8: Content Recommender -->
-  <div class="prob-card fi">
-    <div class="prob-header">
-      <div class="prob-num" style="background:rgba(232,121,249,.2);color:#e879f9">٨</div>
-      <div>
-        <div class="prob-title">🎯 موصي المحتوى الذكي</div>
-        <span class="prob-badge" style="background:rgba(232,121,249,.15);color:#e879f9">ذكاء اصطناعي</span>
-      </div>
-    </div>
-    <div class="prob-alert"><h4>🔴 المشكلة</h4><p>كيف تعرف يوتيوب وسبوتيفاي وتيك توك ماذا تحب؟ كيف تختار لك المحتوى المناسب تلقائياً؟</p></div>
-    <p class="prob-hint">💡 الحل: الذكاء الاصطناعي يلاحظ ما تحبه ويقارنك بملايين المستخدمين المشابهين، اختر ٣ اهتمامات وشاهد!</p>
-    <div class="rec-demo">
-      <p class="hint">اختر ٣ اهتمامات أو أكثر:</p>
-      <div class="cat-chips" id="catChips"></div>
-      <div class="rec-output" id="recOutput">
-        <div class="rec-placeholder">اختر اهتماماتك لتظهر التوصيات 🎯</div>
-      </div>
-    </div>
-  </div>
-
-</div>
-</section>
-
-<!-- QUIZ -->
-<section class="quiz-sec" id="sec-quiz">
-<div class="sec-inner">
-  <div class="fi">
-    <div class="sec-title">🎯 اختبر معلوماتك!</div>
-    <p class="sec-sub">هل أتقنت الدرس؟ أجب عن ٥ أسئلة سريعة!</p>
-  </div>
-  <div class="quiz-box fi" id="quizBox">
-    <div class="q-prog">
-      <div class="q-prog-bg"><div class="q-prog-fill" id="qProgFill" style="width:0%"></div></div>
-      <div class="q-prog-lbl" id="qProgLbl">١ من ٥</div>
-    </div>
-    <div class="q-text" id="qText"></div>
-    <div class="q-opts" id="qOpts"></div>
-    <div class="q-fb" id="qFb"></div>
-    <button class="q-next" id="qNext" onclick="nextQuestion()">السؤال التالي ←</button>
-    <div id="qScore" style="display:none" class="q-score">
-      <div class="q-score-num" id="qScoreNum"></div>
-      <div class="q-score-lbl" id="qScoreLbl"></div>
-      <button class="q-restart" onclick="restartQuiz()">حاول مجدداً 🔄</button>
-    </div>
-  </div>
-</div>
-</section>
-
-<footer>
-  <div class="big-e">🚀</div>
-  <h3>أحسنت! أنهيت الدرس الأول</h3>
-  <p>البرمجة والذكاء الاصطناعي هما مستقبلك، ابدأ اليوم والغد سيكون مختلفاً!</p>
-  <p style="margin-top:.8rem;font-size:.75rem">✨ الدرس الأول · عالم البرمجة والذكاء الاصطناعي للأطفال</p>
-</footer>
+<footer>صُنع بحب لتعليم البرمجة <span class="f-hearts">💙</span></footer>
 
 <script>
-// STARS
-(function(){
-  const c=document.getElementById('starsContainer');
-  for(let i=0;i<140;i++){
-    const s=document.createElement('div');s.className='star';
-    const sz=Math.random()*2.5+.5;
-    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${(Math.random()*4+2).toFixed(1)}s;--delay:-${(Math.random()*5).toFixed(1)}s`;
-    c.appendChild(s);
-  }
-})();
-
-// SCROLL PROGRESS
-window.addEventListener('scroll',()=>{
-  const h=document.documentElement;
-  document.getElementById('progress-bar').style.width=((h.scrollTop/(h.scrollHeight-h.clientHeight))*100)+'%';
-});
-
-// FADE IN
-const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:.1});
-document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
-
-// ── RECIPE ──
-let recipeRunning=false;
-function runRecipe(){
-  if(recipeRunning)return;
-  recipeRunning=true;
-  const btn=document.getElementById('recipeBtn');
-  btn.disabled=true;btn.textContent='⏳ جارٍ التنفيذ...';
-  let step=0;
-  const steps=document.querySelectorAll('.rstep');
-  steps.forEach(s=>s.classList.remove('active'));
-  function next(){
-    if(step>0)steps[step-1].classList.remove('active');
-    if(step<steps.length){steps[step].classList.add('active');step++;setTimeout(next,900);}
-    else{recipeRunning=false;btn.disabled=false;btn.textContent='▶ تشغيل مجدداً';}
-  }
-  next();
+// starfield
+const sc=document.getElementById('starsContainer');
+for(let i=0;i<110;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const sz=Math.random()*2+1;
+  s.style.width=sz+'px';s.style.height=sz+'px';
+  s.style.left=Math.random()*100+'%';
+  s.style.top=Math.random()*100+'%';
+  s.style.setProperty('--d',(Math.random()*3+2)+'s');
+  s.style.setProperty('--delay',(Math.random()*3)+'s');
+  sc.appendChild(s);
 }
 
-// ── ANIMALS ──
-const animals=[
-  {e:'🐶',l:'كلب'},{e:'🐱',l:'قطة'},{e:'🐘',l:'فيل'},
-  {e:'🦁',l:'أسد'},{e:'🐧',l:'بطريق'},{e:'🦋',l:'فراشة'},
-  {e:'🐸',l:'ضفدع'},{e:'🦜',l:'ببغاء'},{e:'🐠',l:'سمكة'},
-  {e:'🐻',l:'دب'},{e:'🦊',l:'ثعلب'},{e:'🐼',l:'باندا'}
-];
-const aiRespMsgs=[
-  'أنا أتعلم... أرني المزيد! 🤔','بدأت أفهم الأنماط! 🌱',
-  'أصبحت أذكى قليلاً! 📈','أستطيع الآن التعرف على بعض الحيوانات! 🎯',
-  'تدريبي يتقدم بشكل رائع! ⚡','أصبحت خبيراً في الحيوانات! 🏆',
-  'يمكنني الآن التعرف على أي حيوان بثقة! 🧠✨','أنا ذكاء اصطناعي محترف الآن! 🤖🌟'
-];
-let learnedCount=0;
-(function(){
-  const g=document.getElementById('animalsGrid');
-  animals.forEach((a,i)=>{
-    const d=document.createElement('div');d.className='animal-item';
-    d.innerHTML=`<span class="ae">${a.e}</span><span class="al">${a.l}</span>`;
-    d.onclick=()=>{
-      if(d.classList.contains('learned'))return;
-      d.classList.add('learned');learnedCount++;
-      const pct=Math.min(100,Math.round((learnedCount/animals.length)*100));
-      document.getElementById('confBar').style.width=pct+'%';
-      document.getElementById('confPercent').textContent=pct+'%';
-      document.getElementById('aiResponse').textContent=`${a.e} ${aiRespMsgs[Math.min(Math.floor(learnedCount/1.6),aiRespMsgs.length-1)]}`;
-    };
-    g.appendChild(d);
-  });
-})();
-
-// ── HORSE SCAN ──
-let horseDone=false;
-function scanHorse(){
-  const btn=document.getElementById('horseScanBtn');
-  if(horseDone){
-    horseDone=false;
-    document.getElementById('horseDetFrame').classList.remove('show');
-    document.getElementById('horseDetTag').classList.remove('show');
-    document.getElementById('horseScanResult').style.display='none';
-    const bar=document.getElementById('horseScanBar');
-    bar.classList.remove('animate');bar.style.opacity='0';
-    void bar.offsetWidth;
-    document.getElementById('horseScanGrid').classList.remove('on');
-    btn.textContent='🔍 تحليل الصورة مجدداً';btn.disabled=false;
-    return;
-  }
-  btn.disabled=true;btn.textContent='⏳ جارٍ المسح والتحليل...';
-  const grid=document.getElementById('horseScanGrid');
-  const bar=document.getElementById('horseScanBar');
-  grid.classList.add('on');
-  bar.style.opacity='0';
-  void bar.offsetWidth;
-  bar.classList.add('animate');bar.style.opacity='1';
-  setTimeout(()=>{
-    grid.classList.remove('on');
-    setTimeout(()=>{
-      document.getElementById('horseDetFrame').classList.add('show');
-      setTimeout(()=>{
-        document.getElementById('horseDetTag').classList.add('show');
-        document.getElementById('horseScanResult').style.display='block';
-        horseDone=true;btn.disabled=false;btn.textContent='🔄 إعادة التحليل';
-      },300);
-    },200);
-  },3100);
+// shooting stars every few seconds
+function spawnShootingStar(){
+  const st=document.createElement('div');
+  st.className='shooting-star';
+  st.style.top=(Math.random()*45)+'%';
+  st.style.right=(Math.random()*55)+'%';
+  document.body.appendChild(st);
+  setTimeout(()=>st.remove(),1300);
 }
-
-// ── TRAFFIC LIGHT ──
-let tlRunning=false,tlTimer=null;
-const tlPhases=[
-  {color:'Red',lines:[2,3],status:'🔴 قف!',bg:'rgba(230,57,70,.25)',col:'#ff7b7b',dur:4000},
-  {color:'Yellow',lines:[4,5],status:'🟡 استعد...',bg:'rgba(244,162,97,.25)',col:'#ffd166',dur:2000},
-  {color:'Green',lines:[6,7],status:'🟢 سِر!',bg:'rgba(46,204,113,.25)',col:'#9ef5b4',dur:4000},
-];
-let tlPhaseIdx=0;
-function setTLPhase(ph){
-  ['Red','Yellow','Green'].forEach(c=>document.getElementById('tl'+c).className='tl-bulb '+c.toLowerCase());
-  document.getElementById('tl'+ph.color).classList.add('lit');
-  for(let i=0;i<=8;i++)document.getElementById('cl'+i).classList.remove('exec');
-  ph.lines.forEach(l=>document.getElementById('cl'+l).classList.add('exec'));
-  const st=document.getElementById('tlStatus');
-  st.textContent=ph.status;st.style.background=ph.bg;st.style.color=ph.col;
-}
-function toggleTrafficLight(){
-  const btn=document.getElementById('tlBtn');
-  if(!tlRunning){
-    tlRunning=true;btn.textContent='⏹ إيقاف';runTL();
-  }else{
-    tlRunning=false;clearTimeout(tlTimer);btn.textContent='▶ تشغيل';
-    ['Red','Yellow','Green'].forEach(c=>document.getElementById('tl'+c).className='tl-bulb '+c.toLowerCase());
-    for(let i=0;i<=8;i++)document.getElementById('cl'+i).classList.remove('exec');
-    const st=document.getElementById('tlStatus');st.textContent='متوقف';st.style.background='rgba(255,255,255,.08)';st.style.color='#fff';
-  }
-}
-function runTL(){
-  if(!tlRunning)return;
-  const ph=tlPhases[tlPhaseIdx];setTLPhase(ph);
-  tlPhaseIdx=(tlPhaseIdx+1)%tlPhases.length;
-  tlTimer=setTimeout(runTL,ph.dur);
-}
-
-// ── BUBBLE SORT ──
-const students=[
-  {name:'أحمد',grade:45,color:'#e74c3c',emoji:'🔴'},
-  {name:'سارة',grade:82,color:'#e67e22',emoji:'🟠'},
-  {name:'محمد',grade:63,color:'#f1c40f',emoji:'🟡'},
-  {name:'فاطمة',grade:91,color:'#2ecc71',emoji:'🟢'},
-  {name:'علي',grade:55,color:'#3498db',emoji:'🔵'},
-  {name:'نور',grade:78,color:'#9b59b6',emoji:'🟣'},
-];
-let sortArr=[...students],sI=0,sJ=0,sortDone=false,sortAutoTimer=null,autoRunning=false;
-function renderSortBars(cmp=-1,swapping=false){
-  const area=document.getElementById('sortBarsArea');area.innerHTML='';
-  sortArr.forEach((s,idx)=>{
-    let cls='sbar';
-    if(!sortDone&&(idx===cmp||idx===cmp+1))cls+= swapping?' swapping':' comparing';
-    if(sortDone)cls+=' sorted';
-    const h=Math.round((s.grade/100)*160);
-    const div=document.createElement('div');div.className=cls;
-    div.innerHTML=`<div class="sbar-inner" style="height:${h}px;background:${s.color}aa;border:2px solid ${s.color}">${s.emoji}</div><div class="sbar-lbl">${s.grade}</div>`;
-    area.appendChild(div);
-  });
-}
-function sortStep(){
-  if(sortDone){document.getElementById('sortMsg').textContent='✅ الترتيب اكتمل! جميع الدرجات مرتبة من الأقل للأعلى.';return;}
-  if(sJ<sortArr.length-sI-1){
-    const a=sortArr[sJ],b=sortArr[sJ+1];
-    renderSortBars(sJ,false);
-    document.getElementById('sortMsg').textContent=`🔍 مقارنة: ${a.name} (${a.grade}) مع ${b.name} (${b.grade})`;
-    setTimeout(()=>{
-      if(a.grade>b.grade){
-        [sortArr[sJ],sortArr[sJ+1]]=[sortArr[sJ+1],sortArr[sJ]];
-        renderSortBars(sJ,true);
-        document.getElementById('sortMsg').textContent=`🔄 تبديل! ${b.name} (${b.grade}) قبل ${a.name} (${a.grade})`;
-      }else{
-        renderSortBars(-1);
-        document.getElementById('sortMsg').textContent=`✓ ${a.name} (${a.grade}) في مكانها الصحيح`;
-      }
-      sJ++;
-    },400);
-  }else{
-    sI++;sJ=0;
-    if(sI>=sortArr.length-1){sortDone=true;renderSortBars();document.getElementById('sortMsg').textContent='🎉 انتهى الترتيب! رأيت كيف يعمل الحاسوب خطوة بخطوة؟';}
-  }
-}
-function autoSort(){
-  if(autoRunning)return;autoRunning=true;
-  function step(){if(sortDone){autoRunning=false;return;}sortStep();sortAutoTimer=setTimeout(step,900);}
-  step();
-}
-function resetSort(){
-  clearTimeout(sortAutoTimer);autoRunning=false;sortArr=[...students];sI=0;sJ=0;sortDone=false;
-  renderSortBars();document.getElementById('sortMsg').textContent='اضغط "خطوة" لترى كيف يُرتّب الحاسوب الأرقام!';
-}
-renderSortBars();
-
-// ── WEATHER DECISION ──
-const wcState={rain:false,cold:false,wind:false};
-function toggleWC(btn,key,offText,onText){
-  wcState[key]=!wcState[key];
-  btn.textContent=wcState[key]?onText:offText;
-  btn.classList.toggle('active',wcState[key]);
-  updateWC();
-}
-const wcOutfits={
-  'rain-cold':  {outfit:'🧥 معطف ثقيل + ☔ مظلة + 👟 حذاء مطري',why:'ممطر وبارد',lines:[1,2,3,4]},
-  'rain-hot':   {outfit:'🌂 مظلة + 👕 قميص خفيف',why:'ممطر وحار',lines:[1,2,5,6]},
-  'dry-cold-wind':{outfit:'🧣 وشاح + 🧥 سترة ثقيلة + 🧤 قفازات',why:'بارد وعاصف',lines:[7,8,9,10]},
-  'dry-cold':   {outfit:'🧥 سترة دافئة',why:'بارد وغير عاصف',lines:[7,8]},
-  'dry-hot':    {outfit:'👕 ملابس خفيفة + 🕶️ نظارة شمسية',why:'جو جميل ومشمس',lines:[11,12,13]},
-};
-function updateWC(){
-  const {rain,cold,wind}=wcState;
-  let key;
-  if(rain&&cold)key='rain-cold';
-  else if(rain&&!cold)key='rain-hot';
-  else if(!rain&&cold&&wind)key='dry-cold-wind';
-  else if(!rain&&cold)key='dry-cold';
-  else key='dry-hot';
-  const d=wcOutfits[key];
-  document.getElementById('wcOutfit').textContent=d.outfit;
-  document.getElementById('wcWhy').textContent='السبب: '+d.why;
-  for(let i=0;i<=13;i++){const el=document.getElementById('wc'+i);if(el)el.classList.remove('exec');}
-  d.lines.forEach(l=>{const el=document.getElementById('wc'+l);if(el)el.classList.add('exec');});
-}
-
-// ── CANDY DIVISION ──
-let friendsCount=3;
-(function(){
-  const row=document.getElementById('friendsRow');
-  [2,3,4,5,6].forEach(n=>{
-    const btn=document.createElement('button');btn.className='candy-friends-btn'+(n===3?' active':'');
-    btn.textContent=n;
-    btn.onclick=()=>{
-      document.querySelectorAll('.candy-friends-btn').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');friendsCount=n;updateCandy();
-    };
-    row.appendChild(btn);
-  });
-})();
-function updateCandy(){
-  const total=parseInt(document.getElementById('candySlider').value);
-  document.getElementById('candyTotalLbl').textContent=total;
-  const each=Math.floor(total/friendsCount);
-  const rem=total%friendsCount;
-  document.getElementById('candyCalc1').textContent=`each = ${total} // ${friendsCount}  →  ${each}`;
-  document.getElementById('candyCalc2').textContent=`remainder = ${total} % ${friendsCount}  →  ${rem}`;
-  const wrap=document.getElementById('candyGroupsWrap');wrap.innerHTML='';
-  const colors=['#e74c3c','#3498db','#2ecc71','#f1c40f','#9b59b6','#e67e22'];
-  for(let i=0;i<friendsCount;i++){
-    const grp=document.createElement('div');grp.className='candy-group';
-    const items=document.createElement('div');items.className='candy-group-items';
-    for(let j=0;j<each;j++){const c=document.createElement('span');c.className='candy-icon';c.textContent='🍬';items.appendChild(c);}
-    const lbl=document.createElement('div');lbl.className='candy-group-label';lbl.textContent=`صديق ${i+1}`;
-    grp.appendChild(items);grp.appendChild(lbl);wrap.appendChild(grp);
-  }
-  const remDiv=document.getElementById('candyRemainderDiv');
-  remDiv.textContent=rem>0?`🍬 متبقي: ${'🍬'.repeat(rem)} (${rem} حبة)`:'✅ القسمة تامة بدون باقي!';
-}
-updateCandy();
-
-// ── AI GUESSER ──
-let gMin=1,gMax=100,gCurrent=50,gHistory=[],gCount=0;
-function startGuesser(){
-  document.getElementById('guesserSetup').style.display='none';
-  document.getElementById('guesserGame').style.display='flex';
-  document.getElementById('guesserWin').style.display='none';
-  gMin=1;gMax=100;gHistory=[];gCount=0;
-  gCurrent=Math.floor((gMin+gMax)/2);updateGuesserUI();
-}
-function updateGuesserUI(){
-  document.getElementById('guessNum').textContent=gCurrent;
-  document.getElementById('guessRange').textContent=`النطاق: ${gMin} إلى ${gMax}`;
-  document.getElementById('guessHist').innerHTML=gHistory.map(n=>`<span class="ghip">${n}</span>`).join('');
-}
-function guesserFeedback(f){
-  if(f==='correct'){
-    document.getElementById('guesserGame').style.display='none';
-    document.getElementById('guesserWin').style.display='block';
-    const msgs=['مذهل! 🎉','رائع جداً! 🏆','يا سلام! 🌟'];
-    document.getElementById('guessWinMsg').innerHTML=`${msgs[Math.floor(Math.random()*msgs.length)]}<br>خمّنت رقمك <strong>${gCurrent}</strong> في <strong>${gCount+1}</strong> محاولة فقط!<br><span style="font-size:.85rem;color:rgba(255,255,255,.5)">البحث الثنائي يحتاج أقصاه ٧ محاولات لأي رقم من ١ إلى ١٠٠</span>`;
-  }else{
-    if(f==='bigger')gMin=gCurrent+1;else gMax=gCurrent-1;
-    if(gMin>gMax){
-      document.getElementById('guesserGame').style.display='none';
-      document.getElementById('guesserWin').style.display='block';
-      document.getElementById('guessWinMsg').innerHTML='🤔 هل أعطيتني إجابات صحيحة؟ لم أجد الرقم!';
-      return;
-    }
-    gHistory.push(gCurrent);gCount++;
-    gCurrent=Math.floor((gMin+gMax)/2);updateGuesserUI();
-  }
-}
-function resetGuesser(){
-  document.getElementById('guesserSetup').style.display='block';
-  document.getElementById('guesserGame').style.display='none';
-  document.getElementById('guesserWin').style.display='none';
-}
-
-// ── NEURAL NETWORK ──
-const NN_ITEMS=[
-  {e:'🐱',l:'قطة',  idx:0},{e:'🚗',l:'سيارة',idx:1},
-  {e:'🌳',l:'شجرة', idx:2},{e:'🏠',l:'بيت',  idx:3},
-  {e:'✈️',l:'طيارة',idx:4},{e:'🐶',l:'كلب',  idx:5},
-];
-const NN_LAYERS=[
-  {count:5,x:445},
-  {count:6,x:315},
-  {count:4,x:185},
-  {count:6,x:55 },
-];
-const NN_COLORS=['#4A90D9','#9B59B6','#e056fd','#2ecc71'];
-const SVG_H=250,NODE_R=10,NN_SP=38;
-const SVG_NS='http://www.w3.org/2000/svg';
-let nnEdgeEls=[],nnNodeEls=[],nnTimers=[];
-
-function nnY(count,idx){return(SVG_H-(count-1)*NN_SP)/2+idx*NN_SP;}
-
-function buildNN(){
-  const svg=document.getElementById('nnSvg');
-  if(!svg)return;
-  svg.innerHTML='';nnEdgeEls=[];nnNodeEls=[];
-  // edges
-  for(let l=0;l<3;l++){
-    const {count:fc,x:fx}=NN_LAYERS[l];
-    const {count:tc,x:tx}=NN_LAYERS[l+1];
-    for(let f=0;f<fc;f++){
-      for(let t=0;t<tc;t++){
-        const line=document.createElementNS(SVG_NS,'line');
-        line.setAttribute('x1',fx);line.setAttribute('y1',nnY(fc,f));
-        line.setAttribute('x2',tx);line.setAttribute('y2',nnY(tc,t));
-        line.setAttribute('stroke','rgba(255,255,255,.05)');line.setAttribute('stroke-width','1');
-        line.id=`nne-${l}-${f}-${t}`;svg.appendChild(line);
-        nnEdgeEls.push({el:line,fl:l,fn:f,tl:l+1,tn:t});
-      }
-    }
-  }
-  // nodes
-  for(let l=0;l<4;l++){
-    const {count,x}=NN_LAYERS[l];
-    for(let n=0;n<count;n++){
-      const c=document.createElementNS(SVG_NS,'circle');
-      c.setAttribute('cx',x);c.setAttribute('cy',nnY(count,n));
-      c.setAttribute('r',NODE_R);c.setAttribute('fill','#080818');
-      c.setAttribute('stroke','rgba(255,255,255,.15)');c.setAttribute('stroke-width','1.5');
-      c.id=`nnn-${l}-${n}`;svg.appendChild(c);
-      nnNodeEls.push({el:c,layer:l,idx:n});
-    }
-  }
-  // output emoji labels
-  // output emoji labels — to the LEFT of output nodes (RTL: output is leftmost column)
-  NN_ITEMS.forEach((item,i)=>{
-    const t=document.createElementNS(SVG_NS,'text');
-    t.setAttribute('x',String(NN_LAYERS[3].x - NODE_R - 6));
-    t.setAttribute('y',nnY(NN_LAYERS[3].count,i)+5);
-    t.setAttribute('font-size','14');t.setAttribute('fill','rgba(255,255,255,.25)');
-    t.setAttribute('text-anchor','end');
-    t.id=`nn-lbl-${i}`;t.textContent=item.e;svg.appendChild(t);
-  });
-}
-
-function resetNN(){
-  nnNodeEls.forEach(n=>{
-    n.el.setAttribute('fill','#080818');n.el.setAttribute('stroke','rgba(255,255,255,.15)');
-    n.el.setAttribute('stroke-width','1.5');n.el.setAttribute('r',String(NODE_R));
-  });
-  nnEdgeEls.forEach(e=>{e.el.setAttribute('stroke','rgba(255,255,255,.05)');e.el.setAttribute('stroke-width','1');});
-  for(let i=0;i<NN_ITEMS.length;i++){const l=document.getElementById(`nn-lbl-${i}`);if(l)l.setAttribute('fill','rgba(255,255,255,.25)');}
-}
-
-function animateNN(correctIdx){
-  nnTimers.forEach(clearTimeout);nnTimers=[];
-  resetNN();
-  document.getElementById('nnResults').style.display='none';
-  document.getElementById('nnStatus').textContent='⚡ البيانات تتدفق عبر الشبكة العصبية...';
-  // fixed timing per layer so animation is predictable
-  const lStart=[0,560,1080,1570];
-  const eStart=[430,920,1390];
-  // activate nodes
-  for(let l=0;l<4;l++){
-    const {count}=NN_LAYERS[l];
-    for(let n=0;n<count;n++){
-      nnTimers.push(setTimeout(()=>{
-        const el=document.getElementById(`nnn-${l}-${n}`);if(!el)return;
-        const isOut=l===3,isWin=isOut&&n===correctIdx;
-        if(isWin){
-          el.setAttribute('fill','#2ecc71');el.setAttribute('stroke','#2ecc71');
-          el.setAttribute('stroke-width','3.5');el.setAttribute('r',String(NODE_R+5));
-        } else if(isOut){
-          el.setAttribute('fill',NN_COLORS[l]+'25');el.setAttribute('stroke',NN_COLORS[l]+'50');
-          el.setAttribute('stroke-width','1.5');
-        } else {
-          el.setAttribute('fill',NN_COLORS[l]+'cc');el.setAttribute('stroke',NN_COLORS[l]);
-          el.setAttribute('stroke-width','2.5');
-        }
-      },lStart[l]+n*62));
-    }
-  }
-  // activate edges (random ~65% subset per layer)
-  for(let l=0;l<3;l++){
-    nnEdgeEls.filter(e=>e.fl===l).forEach(edge=>{
-      if(Math.random()<.65){
-        nnTimers.push(setTimeout(()=>{
-          edge.el.setAttribute('stroke',NN_COLORS[l]+'80');edge.el.setAttribute('stroke-width','1.5');
-        },eStart[l]+Math.random()*220));
-      }
-    });
-  }
-  // final result
-  nnTimers.push(setTimeout(()=>{
-    const w=NN_ITEMS[correctIdx];
-    document.getElementById('nnStatus').innerHTML=`✅ قرار الذكاء الاصطناعي: <strong style="color:#2ecc71">${w.e} ${w.l}</strong> بثقة عالية!`;
-    const lbl=document.getElementById(`nn-lbl-${correctIdx}`);
-    if(lbl)lbl.setAttribute('fill','#2ecc71');
-    showNNResults(correctIdx);
-  },2200));
-}
-
-function showNNResults(cIdx){
-  const out=document.getElementById('nnResults');
-  out.style.display='flex';
-  out.innerHTML='<div style="font-size:.82rem;color:rgba(255,255,255,.35);margin-bottom:.6rem;text-align:center">نسب ثقة الشبكة لكل فئة:</div>';
-  const scores=NN_ITEMS.map((item,i)=>({
-    ...item,
-    pct:i===cIdx?88+Math.floor(Math.random()*9):Math.floor(Math.random()*13)+1
-  }));
-  scores.forEach(s=>{
-    const row=document.createElement('div');row.className='nn-conf-row';
-    const isW=s.idx===cIdx;
-    row.innerHTML=`<span class="nn-conf-label">${s.e} ${s.l}</span><div class="nn-conf-bg"><div class="nn-conf-fill" style="background:${isW?'linear-gradient(90deg,#27ae60,#2ecc71)':'linear-gradient(90deg,#2c5282,#4A90D9)'}" id="nnf-${s.idx}"></div></div><span class="nn-conf-pct" id="nnp-${s.idx}">0%</span>`;
-    out.appendChild(row);
-  });
-  setTimeout(()=>{
-    scores.forEach(s=>{
-      const f=document.getElementById(`nnf-${s.idx}`),p=document.getElementById(`nnp-${s.idx}`);
-      if(f)f.style.width=s.pct+'%';if(p)p.textContent=s.pct+'%';
-    });
-  },150);
-}
-
-(function initNN(){
-  const picker=document.getElementById('nnPicker');
-  if(!picker)return;
-  NN_ITEMS.forEach(item=>{
-    const btn=document.createElement('button');btn.className='nn-item-btn';
-    btn.innerHTML=`<span style="font-size:2.2rem">${item.e}</span><br><span style="font-size:.75rem;color:rgba(255,255,255,.5)">${item.l}</span>`;
-    btn.onclick=()=>{
-      document.querySelectorAll('.nn-item-btn').forEach(b=>b.classList.remove('selected'));
-      btn.classList.add('selected');animateNN(item.idx);
-    };
-    picker.appendChild(btn);
-  });
-  buildNN();
-})();
-
-// ── TEXT SENTIMENT ──
-const reviews=[
-  {text:'"هذه اللعبة رائعة جداً! استمتعت بكل لحظة وأنصح الجميع بها!"',type:'positive',label:'إيجابي',pct:96,color:'#2ecc71',kws:['رائعة','استمتعت','أنصح']},
-  {text:'"اليوم كان يوماً جميلاً جداً، الجو رائع والسماء صافية!"',type:'positive',label:'إيجابي',pct:89,color:'#2ecc71',kws:['جميلاً','رائع','صافية']},
-  {text:'"هذا الكتاب كان مملاً جداً ومضيعة للوقت، لم أستمتع به أبداً"',type:'negative',label:'سلبي',pct:93,color:'#e74c3c',kws:['مملاً','مضيعة','لم أستمتع']},
-  {text:'"لم يعجبني الطعام أبداً وكان الانتظار طويلاً جداً!"',type:'negative',label:'سلبي',pct:87,color:'#e74c3c',kws:['لم يعجبني','طويلاً','أبداً']},
-  {text:'"ذهبت إلى المدرسة اليوم وأكلت الغداء"',type:'neutral',label:'محايد',pct:72,color:'#f39c12',kws:['محايد','لا إيجابي','لا سلبي']},
-];
-(function(){
-  const row=document.getElementById('reviewCards');
-  reviews.forEach((r,i)=>{
-    const card=document.createElement('div');
-    card.className=`review-card ${r.type}`;card.textContent=r.text;
-    card.onclick=()=>{
-      document.querySelectorAll('.review-card').forEach(c=>c.classList.remove('selected'));
-      card.classList.add('selected');analyzeSentiment(r);
-    };
-    row.appendChild(card);
-  });
-})();
-function analyzeSentiment(r){
-  const box=document.getElementById('sentResultBox');
-  box.innerHTML='<div class="ai-thinking">🔍 يحلل الكلمات<span class="dots-anim"></span></div>';
-  setTimeout(()=>{
-    const kwHtml=r.kws.map(k=>`<span class="sent-kw" style="border-color:${r.color}55;color:${r.color}">${k}</span>`).join('');
-    box.innerHTML=`
-      <span class="sent-badge" style="background:${r.color}22;color:${r.color};border:1px solid ${r.color}55">${r.label} ${r.type==='positive'?'😊':r.type==='negative'?'😞':'😐'}</span>
-      <div style="font-size:.85rem;color:rgba(255,255,255,.5)">نسبة الثقة: ${r.pct}%</div>
-      <div class="sent-bar-wrap"><div class="sent-bar" style="width:0%;background:${r.color}" id="sentBarFill"></div></div>
-      <div style="font-size:.8rem;color:rgba(255,255,255,.4)">الكلمات المؤثرة:</div>
-      <div class="sent-keywords">${kwHtml}</div>
-    `;
-    setTimeout(()=>{const b=document.getElementById('sentBarFill');if(b)b.style.width=r.pct+'%';},100);
-  },1100);
-}
-
-// ── CONTENT RECOMMENDER ──
-const categories=[
-  {e:'🎮',l:'ألعاب فيديو'},{e:'⚽',l:'رياضة'},{e:'🔭',l:'علوم'},
-  {e:'🎵',l:'موسيقى'},{e:'🎬',l:'أفلام'},{e:'🎨',l:'رسم وفن'},
-  {e:'📚',l:'قراءة'},{e:'🤖',l:'تقنية'},{e:'🧪',l:'تجارب'},
-  {e:'🏔️',l:'مغامرات'},{e:'🍳',l:'طبخ'},{e:'✈️',l:'سفر'},
-];
-const recMap={
-  'ألعاب فيديو+تقنية':   {t:'تعلّم برمجة الألعاب',d:'تطبيق Scratch أو Unity Junior يحول أفكارك لعبة حقيقية!'},
-  'موسيقى+تقنية':        {t:'إنتاج موسيقى رقمية',d:'برامج مثل GarageBand تجمع بين الموسيقى والتقنية'},
-  'علوم+تجارب':          {t:'قناة علم بالعربي',d:'مقاطع تجارب علمية مذهلة يمكنك تجربتها في البيت'},
-  'رسم وفن+تقنية':       {t:'تصميم جرافيك رقمي',d:'تعلّم Canva أو Procreate لتحويل فنك إلى محترف'},
-  'أفلام+قراءة':         {t:'تحليل أفلام مبنية على كتب',d:'هاري بوتر، ناركيا، دورة الزمن، كلها كتب أولاً!'},
-  'رياضة+علوم':          {t:'علم الرياضة والأداء',d:'كيف يحسّن العلم مهارات اللاعبين؟ فيزياء الكرة والسرعة'},
-  'مغامرات+سفر':         {t:'قنوات المغامرات الحقيقية',d:'رحلات واكتشافات حول العالم تشاهدها من غرفتك'},
-  'طبخ+علوم':            {t:'الكيمياء في المطبخ',d:'لماذا يرتفع الكيك؟ وكيف يتغير الطعم بالحرارة؟'},
-};
-let selectedCats=new Set();
-(function(){
-  const chips=document.getElementById('catChips');
-  categories.forEach(c=>{
-    const chip=document.createElement('div');chip.className='cat-chip';
-    chip.innerHTML=`${c.e} ${c.l}`;
-    chip.onclick=()=>{
-      chip.classList.toggle('selected');
-      if(chip.classList.contains('selected'))selectedCats.add(c.l);
-      else selectedCats.delete(c.l);
-      updateRec();
-    };
-    chips.appendChild(chip);
-  });
-})();
-function updateRec(){
-  const out=document.getElementById('recOutput');
-  if(selectedCats.size<2){out.innerHTML='<div class="rec-placeholder">اختر اهتمامين على الأقل لتظهر التوصيات 🎯</div>';return;}
-  let recs=[];
-  const arr=[...selectedCats];
-  for(let i=0;i<arr.length;i++){
-    for(let j=i+1;j<arr.length;j++){
-      const key1=arr[i]+'+'+arr[j],key2=arr[j]+'+'+arr[i];
-      if(recMap[key1])recs.push({...recMap[key1],why:`لأنك تحب ${arr[i]} و${arr[j]}`});
-      else if(recMap[key2])recs.push({...recMap[key2],why:`لأنك تحب ${arr[j]} و${arr[i]}`});
-    }
-  }
-  if(recs.length===0){
-    recs=[{t:'محتوى متنوع يناسبك',d:'الذكاء الاصطناعي يحلل اهتماماتك ويبحث عن أفضل توصية',why:'بناءً على اهتماماتك المختارة'}];
-  }
-  const icons=['🎯','⭐','💡','🔥','✨'];
-  out.innerHTML=`<div class="rec-title">📡 توصيات الذكاء الاصطناعي بناءً على اهتماماتك:</div>`+
-    recs.slice(0,3).map((r,i)=>`
-      <div class="rec-item">
-        <div class="rec-item-icon">${icons[i]}</div>
-        <div class="rec-item-text">
-          <h4>${r.t}</h4>
-          <p>${r.d}<br><span style="color:rgba(232,121,249,.6);font-size:.78rem">${r.why}</span></p>
-        </div>
-      </div>
-    `).join('');
-}
-
-// ── QUIZ ──
-const questions=[
-  {q:'ما هو التعريف الأصح للبرمجة؟',opts:['إعطاء الحاسوب تعليمات دقيقة خطوة بخطوة','تعليم الكمبيوتر من الأمثلة','التحدث مع الحاسوب بالعربية','برنامج يتعلم بنفسه'],a:0,fb:'✅ البرمجة هي تعليمات واضحة ومحددة نكتبها للحاسوب كي يتبعها بدقة.'},
-  {q:'ما الذي يميز الذكاء الاصطناعي عن البرمجة العادية؟',opts:['يعمل بسرعة أكبر','يتعلم من الأمثلة ويكتشف القواعد بنفسه','يستخدم لغة برمجة خاصة','لا يحتاج لكهرباء'],a:1,fb:'✅ الذكاء الاصطناعي يتعلم من الأمثلة بدلاً من اتباع قواعد مكتوبة مسبقاً.'},
-  {q:'ما الذي تفعله خوارزمية الترتيب الفقاعي؟',opts:['تقسم الأرقام على نصفين','تقارن رقمين جانباً وتبدّلهما إن كانا مقلوبين','تمسح الأرقام الكبيرة','تجمع كل الأرقام معاً'],a:1,fb:'✅ الترتيب الفقاعي يقارن كل رقمين جانباً ويبدّلهما إذا كانا في الترتيب الخطأ، ويكرر ذلك حتى ينتهي الترتيب.'},
-  {q:'خوارزمية البحث الثنائي تخمّن رقماً من ١ إلى ١٠٠ في كم محاولة كحد أقصى؟',opts:['١٠٠ محاولة','٥٠ محاولة','٧ محاولات','محاولة واحدة'],a:2,fb:'✅ البحث الثنائي يحتاج ٧ محاولات فقط لأنه يقسم الاحتمالات إلى نصفين في كل مرة.'},
-  {q:'ما أفضل مثال لاستخدام الذكاء الاصطناعي؟',opts:['حساب مجموع ١+١','ترتيب قائمة هجائياً','التعرف على وجوه الأشخاص في الصور','إضاءة وإطفاء المصباح'],a:2,fb:'✅ التعرف على الوجوه يحتاج تعلم أنماط معقدة جداً، وهذا ما يتقنه الذكاء الاصطناعي.'},
-];
-let qIdx=0,qScore=0;
-function loadQuestion(){
-  const q=questions[qIdx];
-  document.getElementById('qText').textContent=q.q;
-  document.getElementById('qProgFill').style.width=((qIdx/questions.length)*100)+'%';
-  const nums=['١','٢','٣','٤','٥'];
-  document.getElementById('qProgLbl').textContent=`${nums[qIdx]} من ٥`;
-  const opts=document.getElementById('qOpts');opts.innerHTML='';
-  q.opts.forEach((o,i)=>{
-    const btn=document.createElement('button');btn.className='q-opt';btn.textContent=o;
-    btn.onclick=()=>{
-      document.querySelectorAll('.q-opt').forEach(b=>b.disabled=true);
-      const fb=document.getElementById('qFb');
-      if(i===q.a){btn.classList.add('correct');qScore++;fb.className='q-fb ok show';fb.textContent=q.fb;}
-      else{btn.classList.add('wrong');document.querySelectorAll('.q-opt')[q.a].classList.add('correct');fb.className='q-fb bad show';fb.textContent='❌ ليس تماماً... '+q.fb;}
-      document.getElementById('qNext').className='q-next show';
-    };
-    opts.appendChild(btn);
-  });
-  document.getElementById('qFb').className='q-fb';
-  document.getElementById('qNext').className='q-next';
-}
-function nextQuestion(){
-  qIdx++;
-  if(qIdx>=questions.length)showScore();else loadQuestion();
-}
-function showScore(){
-  document.getElementById('qProgFill').style.width='100%';
-  document.getElementById('qProgLbl').textContent='انتهى!';
-  ['qText','qOpts','qFb','qNext'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-  const sc=document.getElementById('qScore');sc.style.display='block';
-  document.getElementById('qScoreNum').textContent=`${qScore} من ٥`;
-  const lbl=['حاول مجدداً! 💪','جيد! 👍','ممتاز! ⭐','رائع جداً! 🏆','مثالي! 🥇 أنت نجم!'];
-  document.getElementById('qScoreLbl').textContent=lbl[qScore]||lbl[4];
-}
-function restartQuiz(){
-  qIdx=0;qScore=0;
-  ['qText','qOpts'].forEach(id=>document.getElementById(id).style.display='');
-  document.getElementById('qScore').style.display='none';
-  loadQuestion();
-}
-loadQuestion();
+setInterval(()=>{if(Math.random()>.4)spawnShootingStar();},2600);
+setTimeout(spawnShootingStar,900);
 </script>
 </body>
 </html>
