@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مغامرة البرمجة 2 - القرارات مع if!</title>
+<style>
+/* ============================================================
+   FONTS
+============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Rubik:wght@500;700;800;900&family=Fira+Code:wght@500;700&display=swap');
+
+/* ============================================================
+   THEME  (matches code-quest.html)
+============================================================ */
+:root{
+  --paper:   #FFF6E9;
+  --ink:     #2B2342;
+  --coral:   #FF6B6B;
+  --yellow:  #FFD93D;
+  --mint:    #5FD08D;
+  --sky:     #4D96FF;
+  --purple:  #9B5DE5;
+  --pink:    #FF8FAB;
+  --white:   #FFFFFF;
+  --true-bg: #DCFCE7;
+  --false-bg:#FFE4E6;
+  --radius:  24px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family:'Rubik', sans-serif;
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(43,35,66,.07) 2px, transparent 2px);
+  background-size:28px 28px;
+  overflow-x:hidden;
+}
+
+h1,h2,h3{ font-family:'Baloo Bhaijaan 2', 'Rubik', cursive; line-height:1.25; }
+code, pre{ font-family:'Fira Code', monospace; direction:ltr; unicode-bidi:embed; }
+
+/* ============================================================
+   STICKY NAV
+============================================================ */
+nav{
+  position:sticky; top:12px; z-index:50;
+  display:flex; justify-content:center; gap:7px;
+  flex-wrap:wrap; padding:0 12px;
+}
+nav a{
+  background:var(--white);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink);
+  padding:5px 12px;
+  font-weight:900; font-size:.8rem;
+  color:var(--ink); text-decoration:none;
+  transition:transform .15s, box-shadow .15s;
+}
+nav a:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); background:var(--yellow); }
+nav a.home{ background:var(--purple); color:#fff; }
+
+/* ============================================================
+   HERO
+============================================================ */
+header{ position:relative; text-align:center; padding:80px 20px 60px; overflow:hidden; }
+.blob{
+  position:absolute; border-radius:50%;
+  border:3px solid var(--ink);
+  animation:float 6s ease-in-out infinite; z-index:0;
+}
+.blob.b1{ width:70px; height:70px; background:var(--coral);  top:12%; left:8%;  animation-delay:0s; }
+.blob.b2{ width:46px; height:46px; background:var(--yellow); top:60%; left:14%; animation-delay:1.2s; }
+.blob.b3{ width:90px; height:90px; background:var(--sky);    top:18%; right:7%; animation-delay:.6s; }
+.blob.b4{ width:40px; height:40px; background:var(--mint);   top:65%; right:13%;animation-delay:1.8s; }
+.blob.b5{ width:30px; height:30px; background:var(--purple); top:38%; left:22%; animation-delay:2.4s; }
+@keyframes float{ 0%,100%{ transform:translateY(0) rotate(0deg);} 50%{ transform:translateY(-18px) rotate(8deg);} }
+
+header h1{ position:relative; z-index:1; font-size:clamp(2.2rem, 7vw, 4.4rem); font-weight:800; }
+header h1 span{ display:inline-block; animation:bounceIn .8s both; }
+header h1 span:nth-child(odd){ color:var(--coral); }
+header h1 span:nth-child(even){ color:var(--sky); }
+header h1 span:nth-child(3n){ color:var(--mint); }
+@keyframes bounceIn{
+  0%{ transform:translateY(-40px) scale(.3); opacity:0; }
+  60%{ transform:translateY(8px) scale(1.1); opacity:1; }
+  100%{ transform:translateY(0) scale(1); }
+}
+header p.tagline{
+  position:relative; z-index:1;
+  font-size:clamp(1.05rem, 2.5vw, 1.4rem); font-weight:800;
+  max-width:660px; margin:18px auto 14px;
+}
+.hero-bot{ font-size:5rem; position:relative; z-index:1; animation:float 4s ease-in-out infinite; }
+
+.know-chips{ position:relative; z-index:1; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:18px; }
+.know-chip{
+  background:var(--white); border:3px solid var(--ink); border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink); padding:6px 16px;
+  font-family:'Fira Code', monospace; font-weight:700; font-size:.9rem; direction:ltr;
+}
+.know-chip.on{ background:var(--mint); }
+
+/* ============================================================
+   SECTIONS / CARDS
+============================================================ */
+main{ max-width:980px; margin:0 auto; padding:0 18px 80px; }
+section{
+  margin:64px 0;
+  opacity:0; transform:translateY(40px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+section.visible{ opacity:1; transform:translateY(0); }
+
+.badge{
+  display:inline-block;
+  font-family:'Baloo Bhaijaan 2', cursive; font-weight:800; font-size:.95rem;
+  background:var(--yellow);
+  border:3px solid var(--ink); border-radius:12px;
+  box-shadow:4px 4px 0 var(--ink);
+  padding:4px 16px; transform:rotate(3deg); margin-bottom:14px;
+}
+.badge.sky{ background:var(--sky); color:#fff; }
+.badge.coral{ background:var(--coral); color:#fff; }
+.badge.mint{ background:var(--mint); }
+.badge.purple{ background:var(--purple); color:#fff; }
+.badge.pink{ background:var(--pink); }
+
+section h2{ font-size:clamp(1.6rem, 4.5vw, 2.4rem); margin-bottom:10px; }
+section .lead{ font-size:1.08rem; font-weight:700; max-width:720px; margin-bottom:24px; line-height:1.9; }
+.lead code, .mini-note code, .fact-strip code{ background:rgba(43,35,66,.08); padding:1px 7px; border-radius:7px; }
+
+.card{
+  background:var(--white);
+  border:3px solid var(--ink); border-radius:var(--radius);
+  box-shadow:7px 7px 0 var(--ink);
+  padding:24px;
+}
+.grid{ display:grid; gap:20px; }
+.grid.cols-2{ grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* ============================================================
+   CODE BLOCKS  (with running highlight)
+============================================================ */
+pre.codeblock{
+  background:var(--ink); color:#EDE9FE;
+  border-radius:18px; border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--sky);
+  padding:16px 18px; font-size:.92rem; line-height:1.95;
+  overflow-x:auto; direction:ltr; text-align:left;
+}
+pre.codeblock .ln{ display:block; padding:0 10px; border-radius:8px; transition:background .3s, opacity .3s; }
+pre.codeblock .ln.active{ background:rgba(95,208,141,.35); outline:2px dashed var(--mint); }
+pre.codeblock .ln.skipped{ opacity:.32; text-decoration:line-through; }
+pre.codeblock .kw{ color:#FF8FAB; font-weight:700; }
+pre.codeblock .fn{ color:#7DD3FC; }
+pre.codeblock .str{ color:#86EFAC; }
+pre.codeblock .num{ color:#FDE047; font-weight:700; }
+pre.codeblock .var{ color:#FCD5CE; }
+
+/* ============================================================
+   TERMINAL  (fake console output)
+============================================================ */
+.term-head{
+  display:flex; align-items:center; gap:8px;
+  background:var(--ink); color:var(--paper);
+  border:3px solid var(--ink); border-bottom:none;
+  border-radius:14px 14px 0 0; padding:8px 14px;
+  font-weight:900; font-size:.85rem;
+}
+.term-dot{ width:13px; height:13px; border-radius:50%; border:2px solid var(--paper); }
+.term-dot.r{ background:var(--coral); } .term-dot.y{ background:var(--yellow); } .term-dot.g{ background:var(--mint); }
+.term-head .title{ margin-inline-start:8px; opacity:.85; }
+.terminal{
+  background:#161126; color:#C7F9CC;
+  border:3px solid var(--ink); border-top:none;
+  border-radius:0 0 14px 14px;
+  padding:14px 16px; min-height:90px; max-height:230px; overflow-y:auto;
+  font-family:'Fira Code', monospace; font-size:.92rem; line-height:1.85;
+}
+.terminal:empty::before{ content:"اضغط زر التشغيل لترى البرنامج يعمل..."; color:#6b6386; }
+.term-line{ white-space:pre-wrap; word-break:break-word; }
+.t-prompt{ color:#7DD3FC; }
+.t-user{ color:#FDE047; font-weight:700; }
+.t-out{ color:#C7F9CC; }
+
+/* ============================================================
+   CONTROLS  (input + run button)
+============================================================ */
+.controls{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:16px 0 6px; }
+.kid-input{
+  flex:1; min-width:120px;
+  font-family:'Fira Code', monospace; font-weight:700; font-size:1rem;
+  border:3px solid var(--ink); border-radius:14px;
+  padding:10px 14px; background:var(--white); color:var(--ink);
+  box-shadow:3px 3px 0 var(--ink); outline:none; direction:rtl;
+  transition:box-shadow .15s, transform .15s;
+}
+.kid-input:focus{ box-shadow:5px 5px 0 var(--sky); transform:translate(-1px,-1px); }
+.kid-input.shake{ animation:shake .4s; border-color:var(--coral); }
+.field-label{ font-weight:900; font-size:.95rem; }
+
+.btn{
+  font-family:'Rubik', sans-serif; font-weight:900; font-size:1.05rem;
+  border:3px solid var(--ink); border-radius:16px;
+  box-shadow:5px 5px 0 var(--ink);
+  padding:11px 26px; cursor:pointer; color:var(--ink);
+  transition:transform .12s, box-shadow .12s;
+}
+.btn:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink); }
+.btn:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--ink); }
+.btn.run{ background:var(--mint); }
+.btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none; box-shadow:5px 5px 0 var(--ink); }
+
+/* ============================================================
+   DEMO STAGE  (reacting emoji)
+============================================================ */
+.demo-stage{
+  border:3px solid var(--ink); border-radius:18px;
+  height:140px; margin-bottom:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:4.6rem;
+  background:linear-gradient(#FEF9C3,#FDE68A);
+  transition:background .5s; overflow:hidden;
+}
+.demo-stage.win{ background:linear-gradient(#BBF7D0,#86EFAC); }
+.demo-stage.lose{ background:linear-gradient(#FECACA,#FCA5A5); }
+.demo-stage.shake{ animation:shake .45s; }
+.big-emoji{ display:inline-block; }
+.big-emoji.pop{ animation:popIn .5s; }
+@keyframes popIn{ 0%{ transform:scale(.3); opacity:0;} 60%{ transform:scale(1.25);} 100%{ transform:scale(1);} }
+@keyframes shake{ 0%,100%{ transform:translateX(0);} 20%{ transform:translateX(-9px);} 40%{ transform:translateX(9px);} 60%{ transform:translateX(-6px);} 80%{ transform:translateX(6px);} }
+
+/* ============================================================
+   INFO STRIPS
+============================================================ */
+.fact-strip{
+  margin-top:26px;
+  background:var(--ink); color:var(--paper);
+  border-radius:var(--radius); border:3px solid var(--ink);
+  box-shadow:7px 7px 0 var(--purple);
+  padding:20px 26px; font-weight:800; font-size:1.05rem;
+  text-align:center; line-height:2;
+}
+.fact-strip code{ background:rgba(255,255,255,.15); color:var(--paper); }
+.mini-note{
+  margin-top:18px; font-weight:800; font-size:1rem;
+  background:var(--yellow);
+  border:3px solid var(--ink); border-radius:16px;
+  box-shadow:4px 4px 0 var(--ink);
+  padding:14px 18px; line-height:1.9;
+}
+.try-hint{ font-weight:800; font-size:.92rem; opacity:.8; margin-top:10px; }
+
+/* confetti */
+.confetti-bit{
+  position:fixed; top:-20px; z-index:999;
+  width:12px; height:12px; border:2px solid var(--ink);
+  pointer-events:none; animation:confallin linear forwards;
+}
+@keyframes confallin{ 0%{ transform:translateY(0) rotate(0); opacity:1;} 100%{ transform:translateY(110vh) rotate(720deg); opacity:.6;} }
+
+footer{ text-align:center; padding:50px 20px 70px; font-weight:900; font-size:1.1rem; line-height:2; }
+footer .hearts{ font-size:1.6rem; }
+footer a{ color:var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <a href="code-quest.html" class="home">⬅️ الجزء الأول</a>
+  <a href="#recap">🧰 تذكير</a>
+  <a href="#ifonly">❓ if</a>
+  <a href="#evenodd">⚖️ زوجي/فردي</a>
+  <a href="#ifelse">🔑 كلمة السر</a>
+  <a href="#passfail">🎓 نجاح</a>
+  <a href="#pizza">🍕 بيتزا</a>
+  <a href="#elif">🏅 الميداليات</a>
+  <a href="#weather">🌡️ الطقس</a>
+  <a href="#traffic">🚦 الإشارة</a>
+  <a href="#ride">🎢 الملاهي</a>
+  <a href="#project">🏰 المشروع</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div>
+  <h1 id="heroTitle">برامج تتخذ قرارات</h1>
+  <p class="tagline">
+    أنت تعرف بالفعل كيف يتكلم الكمبيوتر ويصغي ويحفظ القيم. الآن نضيف القطعة السحرية:
+    <b>القرار</b>! سنستخدم <code>if</code> في عشرة برامج صغيرة ممتعة تفكر وتختار بنفسها. 🧠
+  </p>
+  <div class="know-chips">
+    <span class="know-chip on">print()</span>
+    <span class="know-chip on">input()</span>
+    <span class="know-chip on">المتغيرات</span>
+    <span class="know-chip">if / else ✨</span>
+  </div>
+  <div class="hero-bot">🤖</div>
+</header>
+
+<main>
+
+<!-- ============ 0. RECAP ============ -->
+<section id="recap">
+  <span class="badge">تذكير سريع</span>
+  <h2>برنامج تعرفه بالفعل 🧰</h2>
+  <p class="lead">
+    قبل أن نبدأ، لنتذكر أدواتنا الثلاث في برنامج واحد صغير:
+    <code>input()</code> يسأل ويصغي، والمتغير <code>name</code> يحفظ جوابك، و<code>print()</code> يطبع.
+    اكتب اسمك وشغّل البرنامج. هذا كله قديم بالنسبة لك! 😎
+  </p>
+
+  <div class="grid cols-2">
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="rl1"><span class="var">name</span> = <span class="fn">input</span>(<span class="str">"ما اسمك؟ "</span>)</span><span class="ln" id="rl2"><span class="fn">print</span>(<span class="str">"أهلا يا "</span> + <span class="var">name</span> + <span class="str">"! 👋"</span>)</span></pre>
+      <div class="controls">
+        <span class="field-label">😀 اسمك:</span>
+        <input class="kid-input" id="rcName" maxlength="20" placeholder="اكتب اسمك" value="سارة">
+      </div>
+      <button class="btn run" id="recapRun">▶ تشغيل</button>
+      <div class="try-hint">💡 لا جديد هنا، فقط نسخّن قبل إضافة <code>if</code>!</div>
+    </div>
+
+    <div class="card">
+      <div class="term-head">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="recapTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1. IF (alone) ============ -->
+<section id="ifonly">
+  <span class="badge coral">مثال 1</span>
+  <h2>القرار البسيط: ‏if‏ ❓</h2>
+  <p class="lead">
+    <code>if</code> تعني «<b>إذا</b>». نعطي الكمبيوتر شرطا، فإذا كان <b>صحيحا</b> ينفّذ السطر المُزاح للداخل،
+    وإذا كان <b>خاطئا</b> يتخطّاه ويكمل. لاحظ أن السطر الأخير يُطبع <b>دائما</b> لأنه خارج الـ <code>if</code>!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="ifonlyStage"><span class="big-emoji" id="ifonlyEmoji">🧒</span></div>
+      <div class="controls">
+        <span class="field-label">🎂 عمرك:</span>
+        <input class="kid-input" id="ifonlyInput" type="number" min="1" max="120" value="15" style="direction:ltr; text-align:center; max-width:120px">
+      </div>
+      <button class="btn run" id="ifonlyRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب 15 (شرط صحيح) ثم 8 (شرط خاطئ) وراقب الفرق!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="il1"><span class="var">age</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم عمرك؟ "</span>))</span><span class="ln" id="il2"><span class="kw">if</span> <span class="var">age</span> &gt;= <span class="num">13</span>:</span><span class="ln" id="il3">    <span class="fn">print</span>(<span class="str">"أنت مراهق الآن! 🎉"</span>)</span><span class="ln" id="il4"><span class="fn">print</span>(<span class="str">"سعدت بلقائك!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="ifonlyTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+  <div class="mini-note">
+    🔍 <b>المسافة مهمة!</b> السطر المُزاح للداخل ينتمي للـ <code>if</code> فيُطبع فقط إذا كان الشرط صحيحا.
+    أما السطر المحاذي لليسار فيعمل في كل الأحوال.
+  </div>
+</section>
+
+<!-- ============ 2. EVEN / ODD ============ -->
+<section id="evenodd">
+  <span class="badge sky">مثال 2</span>
+  <h2>الكمبيوتر يحسب: زوجي أم فردي؟ ⚖️</h2>
+  <p class="lead">
+    الآن نجعل الكمبيوتر <b>يقوم بعمل حقيقي</b>! العلامة <code>%</code> تعطينا باقي القسمة.
+    إذا كان باقي القسمة على 2 يساوي صفرا فالرقم زوجي، <b>وإلا</b> فهو فردي. اكتب أي رقم وجرّب!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="evenoddStage"><span class="big-emoji" id="evenoddEmoji">🔢</span></div>
+      <div class="controls">
+        <span class="field-label">🔢 رقمك:</span>
+        <input class="kid-input" id="evenoddInput" type="number" value="7" style="direction:ltr; text-align:center; max-width:120px">
+      </div>
+      <button class="btn run" id="evenoddRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب 4 و 10 (زوجي) ثم 7 و 3 (فردي)!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="eo1"><span class="var">num</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"اكتب رقما: "</span>))</span><span class="ln" id="eo2"><span class="kw">if</span> <span class="var">num</span> % <span class="num">2</span> == <span class="num">0</span>:</span><span class="ln" id="eo3">    <span class="fn">print</span>(<span class="str">"الرقم زوجي! ⚖️"</span>)</span><span class="ln" id="eo4"><span class="kw">else</span>:</span><span class="ln" id="eo5">    <span class="fn">print</span>(<span class="str">"الرقم فردي! 🎲"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="evenoddTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. SECRET DOOR ============ -->
+<section id="ifelse">
+  <span class="badge mint">مثال 3</span>
+  <h2>طريقان: ‏if / else‏ 🔑</h2>
+  <p class="lead">
+    عندما يكون الشرط خاطئا نريد أن يحدث <b>شيء آخر</b>، وهنا يأتي <b>else</b> («وإلا»)!
+    لنصنع بابا سحريا: <code>input()</code> يأخذ الكلمة، والمتغير <code>word</code> يحفظها،
+    و<code>if/else</code> يقرّر. كلمة السر هي <code>صديق</code>.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="doorStage"><span class="big-emoji" id="doorEmoji">🚪</span></div>
+      <div class="controls">
+        <span class="field-label">🔑 كلمة السر:</span>
+        <input class="kid-input" id="doorInput" maxlength="20" placeholder="اكتب كلمة السر" value="صديق">
+      </div>
+      <button class="btn run" id="doorRun">▶ جرّب الدخول</button>
+      <div class="try-hint">💡 الكلمة الصحيحة تفتح الباب 🔓، وأي كلمة أخرى تبقيه مغلقا 🔒</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="sl1"><span class="var">word</span> = <span class="fn">input</span>(<span class="str">"كلمة السر؟ "</span>)</span><span class="ln" id="sl2"><span class="kw">if</span> <span class="var">word</span> == <span class="str">"صديق"</span>:</span><span class="ln" id="sl3">    <span class="fn">print</span>(<span class="str">"🔓 الباب مفتوح! أهلا بك."</span>)</span><span class="ln" id="sl4"><span class="kw">else</span>:</span><span class="ln" id="sl5">    <span class="fn">print</span>(<span class="str">"🔒 كلمة السر خاطئة!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="doorTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+  <div class="mini-note">
+    🔍 <b>راقب الكود:</b> السطر الأخضر هو الذي ينفّذه الكمبيوتر، والمشطوب هو الذي يتخطّاه.
+    مع <code>if/else</code> يختار الكمبيوتر طريقا واحدا فقط.
+  </div>
+</section>
+
+<!-- ============ 4. PASS / FAIL ============ -->
+<section id="passfail">
+  <span class="badge coral">مثال 4</span>
+  <h2>نجاح أم رسوب؟ 🎓</h2>
+  <p class="lead">
+    برنامج مفيد جدا! يأخذ درجتك ويقارنها بـ 10 باستخدام <code>&gt;=</code>.
+    إذا كانت الدرجة 10 أو أكثر فقد نجحت، <b>وإلا</b> فعليك المذاكرة أكثر. اكتب درجتك وجرّب!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="passfailStage"><span class="big-emoji" id="passfailEmoji">📝</span></div>
+      <div class="controls">
+        <span class="field-label">📊 درجتك:</span>
+        <input class="kid-input" id="passfailInput" type="number" min="0" max="100" value="15" style="direction:ltr; text-align:center; max-width:120px">
+      </div>
+      <button class="btn run" id="passfailRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب 15 (نجاح 🎉) ثم 7 (رسوب 📚)!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="pf1"><span class="var">grade</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم درجتك؟ "</span>))</span><span class="ln" id="pf2"><span class="kw">if</span> <span class="var">grade</span> &gt;= <span class="num">10</span>:</span><span class="ln" id="pf3">    <span class="fn">print</span>(<span class="str">"🎉 نجحت! مبروك!"</span>)</span><span class="ln" id="pf4"><span class="kw">else</span>:</span><span class="ln" id="pf5">    <span class="fn">print</span>(<span class="str">"📚 لم تنجح، ذاكر وحاول مجددا."</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="passfailTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. PIZZA YES / NO ============ -->
+<section id="pizza">
+  <span class="badge sky">مثال 5</span>
+  <h2>الكمبيوتر يقارن النصوص: 🍕</h2>
+  <p class="lead">
+    لا نقارن الأرقام فقط، بل النصوص أيضا! هنا <code>input()</code> يعطينا كلاما،
+    و<code>if</code> يتحقق هل كتبت <code>"نعم"</code> بالضبط. اكتب «نعم» أو «لا» وشاهد رد الكمبيوتر!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="pizzaStage"><span class="big-emoji" id="pizzaEmoji">🤔</span></div>
+      <div class="controls">
+        <span class="field-label">🍕 جوابك:</span>
+        <input class="kid-input" id="pizzaInput" maxlength="10" placeholder="نعم أو لا" value="نعم">
+      </div>
+      <button class="btn run" id="pizzaRun">▶ تشغيل</button>
+      <div class="try-hint">💡 اكتب «نعم» بالضبط، فالكمبيوتر دقيق جدا في المقارنة!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="pz1"><span class="var">answer</span> = <span class="fn">input</span>(<span class="str">"هل تحب البيتزا؟ (نعم/لا) "</span>)</span><span class="ln" id="pz2"><span class="kw">if</span> <span class="var">answer</span> == <span class="str">"نعم"</span>:</span><span class="ln" id="pz3">    <span class="fn">print</span>(<span class="str">"🍕 أنا أيضا! لنطلب واحدة!"</span>)</span><span class="ln" id="pz4"><span class="kw">else</span>:</span><span class="ln" id="pz5">    <span class="fn">print</span>(<span class="str">"🥗 لا بأس، لكل ذوقه!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="pizzaTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. MEDALS ============ -->
+<section id="elif">
+  <span class="badge purple">مثال 6</span>
+  <h2>طرق كثيرة: ‏if / elif / else‏ 🏅</h2>
+  <p class="lead">
+    وماذا لو كان عندنا أكثر من احتمالين؟ نستخدم <code>elif</code> («وإلا إذا») لنفحص أسئلة كثيرة
+    <b>بالترتيب من الأعلى للأسفل</b>. لنبنِ آلة الميداليات. اكتب نقاطك واكتشف ميداليتك!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="medalStage"><span class="big-emoji" id="medalEmoji">🏅</span></div>
+      <div class="controls">
+        <span class="field-label">🔢 نقاطك (0-100):</span>
+        <input class="kid-input" id="medalInput" type="number" min="0" max="100" value="85" style="direction:ltr; text-align:center; max-width:120px">
+      </div>
+      <button class="btn run" id="medalRun">▶ احسب ميداليتي</button>
+      <div class="try-hint">💡 جرّب 95 ثم 72 ثم 55 ثم 30 وراقب أي سطر يفوز!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ml1"><span class="var">score</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم نقطة جمعت؟ "</span>))</span><span class="ln" id="ml2"><span class="kw">if</span> <span class="var">score</span> &gt;= <span class="num">90</span>:</span><span class="ln" id="ml3">    <span class="fn">print</span>(<span class="str">"🥇 ذهبية! بطل!"</span>)</span><span class="ln" id="ml4"><span class="kw">elif</span> <span class="var">score</span> &gt;= <span class="num">70</span>:</span><span class="ln" id="ml5">    <span class="fn">print</span>(<span class="str">"🥈 فضية! رائع!"</span>)</span><span class="ln" id="ml6"><span class="kw">elif</span> <span class="var">score</span> &gt;= <span class="num">50</span>:</span><span class="ln" id="ml7">    <span class="fn">print</span>(<span class="str">"🥉 برونزية! أحسنت!"</span>)</span><span class="ln" id="ml8"><span class="kw">else</span>:</span><span class="ln" id="ml9">    <span class="fn">print</span>(<span class="str">"💪 حاول مرة أخرى!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="medalTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+  <div class="mini-note">
+    🏁 <b>أول صحيح يفوز:</b> الكمبيوتر يفحص الأسطر واحدا واحدا. عند أول شرط صحيح ينفّذه ويتوقف فورا.
+  </div>
+</section>
+
+<!-- ============ 7. WEATHER ============ -->
+<section id="weather">
+  <span class="badge mint">مثال 7</span>
+  <h2>ماذا ألبس اليوم؟ 🌡️</h2>
+  <p class="lead">
+    برنامج يقرّر ملابسك حسب درجة الحرارة باستخدام عدة <code>elif</code>.
+    حرّك الرقم من حار جدا إلى متجمد وشاهد كيف يتغير قرار الكمبيوتر!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="weatherStage"><span class="big-emoji" id="weatherEmoji">🌡️</span></div>
+      <div class="controls">
+        <span class="field-label">🌡️ الحرارة:</span>
+        <input class="kid-input" id="weatherInput" type="number" min="-20" max="50" value="22" style="direction:ltr; text-align:center; max-width:120px">
+      </div>
+      <button class="btn run" id="weatherRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب 35 ثم 20 ثم 8 ثم 0 درجة!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="w1"><span class="var">temp</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم درجة الحرارة؟ "</span>))</span><span class="ln" id="w2"><span class="kw">if</span> <span class="var">temp</span> &gt;= <span class="num">30</span>:</span><span class="ln" id="w3">    <span class="fn">print</span>(<span class="str">"🥵 الجو حار! خذ ماء وقبعة."</span>)</span><span class="ln" id="w4"><span class="kw">elif</span> <span class="var">temp</span> &gt;= <span class="num">15</span>:</span><span class="ln" id="w5">    <span class="fn">print</span>(<span class="str">"😎 الجو لطيف! تيشيرت يكفي."</span>)</span><span class="ln" id="w6"><span class="kw">elif</span> <span class="var">temp</span> &gt;= <span class="num">5</span>:</span><span class="ln" id="w7">    <span class="fn">print</span>(<span class="str">"🧥 الجو بارد! البس جاكيت."</span>)</span><span class="ln" id="w8"><span class="kw">else</span>:</span><span class="ln" id="w9">    <span class="fn">print</span>(<span class="str">"🥶 الجو متجمد! معطف وقفازات!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="weatherTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. TRAFFIC LIGHT ============ -->
+<section id="traffic">
+  <span class="badge coral">مثال 8</span>
+  <h2>إشارة المرور 🚦</h2>
+  <p class="lead">
+    الكمبيوتر يتحكم في إشارات المرور حول العالم! اكتب لون الإشارة (<code>أحمر</code> أو
+    <code>أصفر</code> أو <code>أخضر</code>) وسيخبرك الكمبيوتر ماذا تفعل. وإذا كتبت لونا غريبا فسيحتار!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="trafficStage"><span class="big-emoji" id="trafficEmoji">🚦</span></div>
+      <div class="controls">
+        <span class="field-label">🚦 اللون:</span>
+        <input class="kid-input" id="trafficInput" maxlength="12" placeholder="أحمر / أصفر / أخضر" value="أخضر">
+      </div>
+      <button class="btn run" id="trafficRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب الألوان الثلاثة، ثم جرّب لونا غريبا مثل «بنفسجي»!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="t1"><span class="var">color</span> = <span class="fn">input</span>(<span class="str">"ما لون الإشارة؟ "</span>)</span><span class="ln" id="t2"><span class="kw">if</span> <span class="var">color</span> == <span class="str">"أحمر"</span>:</span><span class="ln" id="t3">    <span class="fn">print</span>(<span class="str">"🛑 قف! لا تتحرك."</span>)</span><span class="ln" id="t4"><span class="kw">elif</span> <span class="var">color</span> == <span class="str">"أصفر"</span>:</span><span class="ln" id="t5">    <span class="fn">print</span>(<span class="str">"⚠️ استعد! الإشارة ستتغير."</span>)</span><span class="ln" id="t6"><span class="kw">elif</span> <span class="var">color</span> == <span class="str">"أخضر"</span>:</span><span class="ln" id="t7">    <span class="fn">print</span>(<span class="str">"✅ امشِ! الطريق آمن."</span>)</span><span class="ln" id="t8"><span class="kw">else</span>:</span><span class="ln" id="t9">    <span class="fn">print</span>(<span class="str">"🤔 لا أعرف هذا اللون!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="trafficTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. AMUSEMENT RIDE ============ -->
+<section id="ride">
+  <span class="badge purple">مثال 9</span>
+  <h2>أي لعبة في الملاهي؟ 🎢</h2>
+  <p class="lead">
+    في مدينة الملاهي، عمرك يحدّد الألعاب المسموحة لك. الكمبيوتر يفحص عمرك بـ <code>if</code> و
+    <code>elif</code> ويخبرك بأكبر لعبة تستطيع ركوبها. كم عمرك؟
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="rideStage"><span class="big-emoji" id="rideEmoji">🎡</span></div>
+      <div class="controls">
+        <span class="field-label">🎂 عمرك:</span>
+        <input class="kid-input" id="rideInput" type="number" min="1" max="99" value="10" style="direction:ltr; text-align:center; max-width:120px">
+      </div>
+      <button class="btn run" id="rideRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب 14 ثم 8 ثم 4 سنوات!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="r1"><span class="var">age</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم عمرك؟ "</span>))</span><span class="ln" id="r2"><span class="kw">if</span> <span class="var">age</span> &gt;= <span class="num">12</span>:</span><span class="ln" id="r3">    <span class="fn">print</span>(<span class="str">"🎢 يمكنك ركوب كل الألعاب!"</span>)</span><span class="ln" id="r4"><span class="kw">elif</span> <span class="var">age</span> &gt;= <span class="num">6</span>:</span><span class="ln" id="r5">    <span class="fn">print</span>(<span class="str">"🎠 يمكنك ركوب الألعاب المتوسطة."</span>)</span><span class="ln" id="r6"><span class="kw">else</span>:</span><span class="ln" id="r7">    <span class="fn">print</span>(<span class="str">"🧸 ألعاب الأطفال فقط، استمتع!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="rideTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. PROJECT ============ -->
+<section id="project">
+  <span class="badge pink">المشروع الكبير 🎮</span>
+  <h2>مغامرة الكنز السحري 🏰</h2>
+  <p class="lead">
+    الآن نجمع <b>كل شيء</b> في لعبة واحدة! البرنامج يتكلم (<code>print</code>)، يصغي إليك (<code>input</code>)،
+    يحفظ اختيارك في متغير (<code>door</code>)، ثم يقرّر مصيرك (<code>if/elif/else</code>).
+    أمامك بابان، اكتب <code>1</code> أو <code>2</code> واختر بحكمة!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="projectStage"><span class="big-emoji" id="projectEmoji">🏰</span></div>
+      <div class="controls">
+        <span class="field-label">🚪 أي باب؟</span>
+        <input class="kid-input" id="projectInput" maxlength="6" placeholder="1 أو 2" value="2" style="direction:ltr; text-align:center; max-width:120px">
+      </div>
+      <button class="btn run" id="projectRun">▶ ابدأ المغامرة</button>
+      <div class="try-hint">💡 باب فيه تنين 🐉 وباب فيه كنز 💎، وأي رقم آخر لا يوجد باب!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="al1"><span class="fn">print</span>(<span class="str">"🏰 أمامك بابان..."</span>)</span><span class="ln" id="al2"><span class="var">door</span> = <span class="fn">input</span>(<span class="str">"اكتب 1 أو 2: "</span>)</span><span class="ln" id="al3"><span class="kw">if</span> <span class="var">door</span> == <span class="str">"1"</span>:</span><span class="ln" id="al4">    <span class="fn">print</span>(<span class="str">"🐉 تنين! اهرب بسرعة!"</span>)</span><span class="ln" id="al5"><span class="kw">elif</span> <span class="var">door</span> == <span class="str">"2"</span>:</span><span class="ln" id="al6">    <span class="fn">print</span>(<span class="str">"💎 وجدت الكنز! أنت غني!"</span>)</span><span class="ln" id="al7"><span class="kw">else</span>:</span><span class="ln" id="al8">    <span class="fn">print</span>(<span class="str">"🚪 لا يوجد باب بهذا الرقم!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px">
+        <span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span>
+        <span class="title">🖥️ الشاشة</span>
+      </div>
+      <div class="terminal" id="projectTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--coral)">
+    🎉 مبروك! جمعت <code>print</code> و <code>input</code> والمتغيرات مع <code>if</code> لتصنع برنامجا يقرّر بنفسه.<br>
+    هذه هي اللبنات التي تُبنى منها <b>كل</b> لعبة وتطبيق في العالم! 🌍
+  </div>
+</section>
+
+</main>
+
+<footer>
+  أنت الآن تكتب برامج <b>تتخذ قرارات</b> حقيقية! 🚀<br>
+  جرّب أن تغيّر الكلمات والأرقام والشروط، واخترع برامجك الخاصة.
+  <span class="hearts">💛💙❤️💚</span><br>
+  <a href="code-quest-logic.html">الجزء التالي: and و or و not ➡️</a>
+  &nbsp;·&nbsp;
+  <a href="code-quest.html">⬅️ ارجع إلى الجزء الأول</a>
+</footer>
+
+<script>
+/* ============================================================
+   HERO : split title into animated words
+============================================================ */
+(function(){
+  const h1 = document.getElementById('heroTitle');
+  const words = h1.textContent.trim().split(' ');
+  h1.textContent = '';
+  words.forEach((word, i) => {
+    const s = document.createElement('span');
+    s.textContent = word;
+    s.style.animationDelay = (i * 0.18) + 's';
+    h1.appendChild(s);
+    if (i < words.length - 1) h1.appendChild(document.createTextNode(' '));
+  });
+})();
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+/* ============================================================
+   SHARED HELPERS
+============================================================ */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function clearCode(pre){ pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active', 'skipped')); }
+function setActive(pre, id){
+  pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active'));
+  if (id) document.getElementById(id).classList.add('active');
+}
+function markSkip(id){ document.getElementById(id).classList.add('skipped'); }
+
+/* print() output line, typed letter by letter */
+async function typeOut(term, text){
+  const line = document.createElement('div');
+  line.className = 'term-line'; line.dir = 'auto';
+  const span = document.createElement('span'); span.className = 't-out';
+  line.appendChild(span); term.appendChild(line); term.scrollTop = term.scrollHeight;
+  for (const ch of text){ span.textContent += ch; await sleep(20); term.scrollTop = term.scrollHeight; }
+}
+
+/* input(): computer asks (blue), then "you" type the answer (yellow) */
+async function typeAsk(term, prompt, value){
+  const line = document.createElement('div');
+  line.className = 'term-line'; line.dir = 'auto';
+  const p = document.createElement('span'); p.className = 't-prompt'; line.appendChild(p);
+  term.appendChild(line); term.scrollTop = term.scrollHeight;
+  for (const ch of prompt){ p.textContent += ch; await sleep(18); term.scrollTop = term.scrollHeight; }
+  await sleep(280);
+  const u = document.createElement('span'); u.className = 't-user'; line.appendChild(u);
+  for (const ch of value){ u.textContent += ch; await sleep(55); term.scrollTop = term.scrollHeight; }
+  await sleep(200);
+}
+
+function showStage(stage, emojiEl, emoji, mood){
+  if (emoji){
+    emojiEl.textContent = emoji;
+    emojiEl.classList.remove('pop'); void emojiEl.offsetWidth; emojiEl.classList.add('pop');
+  }
+  stage.classList.remove('win', 'lose', 'shake');
+  if (mood === 'win') stage.classList.add('win');
+  if (mood === 'lose'){ stage.classList.add('lose'); void stage.offsetWidth; stage.classList.add('shake'); }
+}
+
+function shakeInput(el){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); el.focus(); }
+
+function runner(btn, fn){
+  let busy = false;
+  btn.addEventListener('click', async () => {
+    if (busy) return;
+    busy = true; btn.disabled = true;
+    try { await fn(); } finally { busy = false; btn.disabled = false; }
+  });
+}
+
+const txt = (t, v) => (typeof t === 'function' ? t(v) : t);
+
+/* ============================================================
+   GENERIC PROGRAM RUNNER
+   Animates one example: intro prints, the input(), then walks
+   the if / elif / else branches top to bottom and shows the winner.
+============================================================ */
+async function runProgram(cfg){
+  const pre     = document.querySelector(cfg.section + ' pre');
+  const term    = document.getElementById(cfg.termId);
+  const input   = document.getElementById(cfg.inputId);
+  const stage   = cfg.stageId ? document.getElementById(cfg.stageId) : null;
+  const emojiEl = cfg.emojiId ? document.getElementById(cfg.emojiId) : null;
+
+  let val = (input.value || '').trim();
+  if (val === ''){ shakeInput(input); return; }
+  let v = val;
+  if (cfg.parse === 'int'){
+    v = parseInt(val, 10);
+    if (isNaN(v)){ shakeInput(input); return; }
+    val = String(v);
+  }
+
+  term.innerHTML = ''; clearCode(pre);
+  if (stage) showStage(stage, emojiEl, cfg.baseEmoji, null);
+
+  for (const p of (cfg.intro || [])){
+    setActive(pre, p.lineId); await sleep(250);
+    await typeOut(term, txt(p.text, v)); await sleep(120);
+  }
+
+  setActive(pre, cfg.inputLineId);
+  await typeAsk(term, cfg.prompt, val);
+
+  const branches = cfg.branches || [];
+  let winner = null;
+  for (let i = 0; i < branches.length; i++){
+    const b = branches[i];
+    setActive(pre, b.condId);
+    await sleep(520);
+    if (b.test(v)){
+      winner = b;
+      for (let j = i + 1; j < branches.length; j++){ markSkip(branches[j].condId); markSkip(branches[j].bodyId); }
+      if (cfg.elseLine){ markSkip(cfg.elseLine.condId); markSkip(cfg.elseLine.bodyId); }
+      break;
+    } else {
+      markSkip(b.condId); markSkip(b.bodyId);
+    }
+  }
+  if (!winner && cfg.elseLine){
+    setActive(pre, cfg.elseLine.condId);
+    await sleep(380);
+    winner = cfg.elseLine;
+  }
+  if (winner){
+    setActive(pre, winner.bodyId);
+    await sleep(220);
+    await typeOut(term, txt(winner.msg, v));
+    if (stage) showStage(stage, emojiEl, winner.icon, winner.mood);
+    if (winner.confetti) confetti();
+  }
+  for (const p of (cfg.trailing || [])){
+    setActive(pre, p.lineId); await sleep(220);
+    await typeOut(term, txt(p.text, v));
+  }
+  setTimeout(() => clearCode(pre), 900);
+}
+
+/* ============================================================
+   THE 10 EXAMPLES (+ recap warm-up)
+============================================================ */
+const EXAMPLES = [
+  { key:'recap', section:'#recap', termId:'recapTerm', inputId:'rcName', parse:'text',
+    prompt:'ما اسمك؟ ', inputLineId:'rl1',
+    trailing:[{ lineId:'rl2', text:v => 'أهلا يا ' + v + '! 👋' }] },
+
+  { key:'ifonly', section:'#ifonly', termId:'ifonlyTerm', inputId:'ifonlyInput', parse:'int',
+    prompt:'كم عمرك؟ ', inputLineId:'il1',
+    stageId:'ifonlyStage', emojiId:'ifonlyEmoji', baseEmoji:'🧒',
+    branches:[{ condId:'il2', bodyId:'il3', test:v => v >= 13, msg:'أنت مراهق الآن! 🎉', icon:'🎉', mood:'win' }],
+    trailing:[{ lineId:'il4', text:'سعدت بلقائك!' }] },
+
+  { key:'evenodd', section:'#evenodd', termId:'evenoddTerm', inputId:'evenoddInput', parse:'int',
+    prompt:'اكتب رقما: ', inputLineId:'eo1',
+    stageId:'evenoddStage', emojiId:'evenoddEmoji', baseEmoji:'🔢',
+    branches:[{ condId:'eo2', bodyId:'eo3', test:v => v % 2 === 0, msg:'الرقم زوجي! ⚖️', icon:'⚖️', mood:'win' }],
+    elseLine:{ condId:'eo4', bodyId:'eo5', msg:'الرقم فردي! 🎲', icon:'🎲', mood:'win' } },
+
+  { key:'door', section:'#ifelse', termId:'doorTerm', inputId:'doorInput', parse:'text',
+    prompt:'كلمة السر؟ ', inputLineId:'sl1',
+    stageId:'doorStage', emojiId:'doorEmoji', baseEmoji:'🚪',
+    branches:[{ condId:'sl2', bodyId:'sl3', test:v => v === 'صديق', msg:'🔓 الباب مفتوح! أهلا بك.', icon:'🔓', mood:'win' }],
+    elseLine:{ condId:'sl4', bodyId:'sl5', msg:'🔒 كلمة السر خاطئة!', icon:'🔒', mood:'lose' } },
+
+  { key:'passfail', section:'#passfail', termId:'passfailTerm', inputId:'passfailInput', parse:'int',
+    prompt:'كم درجتك؟ ', inputLineId:'pf1',
+    stageId:'passfailStage', emojiId:'passfailEmoji', baseEmoji:'📝',
+    branches:[{ condId:'pf2', bodyId:'pf3', test:v => v >= 10, msg:'🎉 نجحت! مبروك!', icon:'🎉', mood:'win', confetti:true }],
+    elseLine:{ condId:'pf4', bodyId:'pf5', msg:'📚 لم تنجح، ذاكر وحاول مجددا.', icon:'📚', mood:'lose' } },
+
+  { key:'pizza', section:'#pizza', termId:'pizzaTerm', inputId:'pizzaInput', parse:'text',
+    prompt:'هل تحب البيتزا؟ (نعم/لا) ', inputLineId:'pz1',
+    stageId:'pizzaStage', emojiId:'pizzaEmoji', baseEmoji:'🤔',
+    branches:[{ condId:'pz2', bodyId:'pz3', test:v => v === 'نعم', msg:'🍕 أنا أيضا! لنطلب واحدة!', icon:'🍕', mood:'win' }],
+    elseLine:{ condId:'pz4', bodyId:'pz5', msg:'🥗 لا بأس، لكل ذوقه!', icon:'🥗', mood:'win' } },
+
+  { key:'medal', section:'#elif', termId:'medalTerm', inputId:'medalInput', parse:'int',
+    prompt:'كم نقطة جمعت؟ ', inputLineId:'ml1',
+    stageId:'medalStage', emojiId:'medalEmoji', baseEmoji:'🏅',
+    branches:[
+      { condId:'ml2', bodyId:'ml3', test:v => v >= 90, msg:'🥇 ذهبية! بطل!',     icon:'🥇', mood:'win', confetti:true },
+      { condId:'ml4', bodyId:'ml5', test:v => v >= 70, msg:'🥈 فضية! رائع!',     icon:'🥈', mood:'win' },
+      { condId:'ml6', bodyId:'ml7', test:v => v >= 50, msg:'🥉 برونزية! أحسنت!', icon:'🥉', mood:'win' },
+    ],
+    elseLine:{ condId:'ml8', bodyId:'ml9', msg:'💪 حاول مرة أخرى!', icon:'💪', mood:'lose' } },
+
+  { key:'weather', section:'#weather', termId:'weatherTerm', inputId:'weatherInput', parse:'int',
+    prompt:'كم درجة الحرارة؟ ', inputLineId:'w1',
+    stageId:'weatherStage', emojiId:'weatherEmoji', baseEmoji:'🌡️',
+    branches:[
+      { condId:'w2', bodyId:'w3', test:v => v >= 30, msg:'🥵 الجو حار! خذ ماء وقبعة.', icon:'🥵', mood:'win' },
+      { condId:'w4', bodyId:'w5', test:v => v >= 15, msg:'😎 الجو لطيف! تيشيرت يكفي.', icon:'😎', mood:'win' },
+      { condId:'w6', bodyId:'w7', test:v => v >= 5,  msg:'🧥 الجو بارد! البس جاكيت.', icon:'🧥', mood:'win' },
+    ],
+    elseLine:{ condId:'w8', bodyId:'w9', msg:'🥶 الجو متجمد! معطف وقفازات!', icon:'🥶', mood:'win' } },
+
+  { key:'traffic', section:'#traffic', termId:'trafficTerm', inputId:'trafficInput', parse:'text',
+    prompt:'ما لون الإشارة؟ ', inputLineId:'t1',
+    stageId:'trafficStage', emojiId:'trafficEmoji', baseEmoji:'🚦',
+    branches:[
+      { condId:'t2', bodyId:'t3', test:v => v === 'أحمر', msg:'🛑 قف! لا تتحرك.',          icon:'🛑', mood:'lose' },
+      { condId:'t4', bodyId:'t5', test:v => v === 'أصفر', msg:'⚠️ استعد! الإشارة ستتغير.', icon:'⚠️', mood:'win' },
+      { condId:'t6', bodyId:'t7', test:v => v === 'أخضر', msg:'✅ امشِ! الطريق آمن.',       icon:'✅', mood:'win' },
+    ],
+    elseLine:{ condId:'t8', bodyId:'t9', msg:'🤔 لا أعرف هذا اللون!', icon:'🤔', mood:'lose' } },
+
+  { key:'ride', section:'#ride', termId:'rideTerm', inputId:'rideInput', parse:'int',
+    prompt:'كم عمرك؟ ', inputLineId:'r1',
+    stageId:'rideStage', emojiId:'rideEmoji', baseEmoji:'🎡',
+    branches:[
+      { condId:'r2', bodyId:'r3', test:v => v >= 12, msg:'🎢 يمكنك ركوب كل الألعاب!',        icon:'🎢', mood:'win' },
+      { condId:'r4', bodyId:'r5', test:v => v >= 6,  msg:'🎠 يمكنك ركوب الألعاب المتوسطة.', icon:'🎠', mood:'win' },
+    ],
+    elseLine:{ condId:'r6', bodyId:'r7', msg:'🧸 ألعاب الأطفال فقط، استمتع!', icon:'🧸', mood:'win' } },
+
+  { key:'project', section:'#project', termId:'projectTerm', inputId:'projectInput', parse:'text',
+    prompt:'اكتب 1 أو 2: ', inputLineId:'al2',
+    stageId:'projectStage', emojiId:'projectEmoji', baseEmoji:'🏰',
+    intro:[{ lineId:'al1', text:'🏰 أمامك بابان...' }],
+    branches:[
+      { condId:'al3', bodyId:'al4', test:v => v === '1', msg:'🐉 تنين! اهرب بسرعة!',     icon:'🐉', mood:'lose' },
+      { condId:'al5', bodyId:'al6', test:v => v === '2', msg:'💎 وجدت الكنز! أنت غني!', icon:'💎', mood:'win', confetti:true },
+    ],
+    elseLine:{ condId:'al7', bodyId:'al8', msg:'🚪 لا يوجد باب بهذا الرقم!', icon:'🤷', mood:'lose' } },
+];
+
+EXAMPLES.forEach(cfg => {
+  const btn = document.getElementById(cfg.key + 'Run');
+  if (btn) runner(btn, () => runProgram(cfg));
+});
+
+/* ============================================================
+   CONFETTI
+============================================================ */
+function confetti(){
+  const colors = ['#FF6B6B','#FFD93D','#5FD08D','#4D96FF','#9B5DE5','#FF8FAB'];
+  for (let i = 0; i < 90; i++){
+    const bit = document.createElement('div');
+    bit.className = 'confetti-bit';
+    bit.style.left = Math.random() * 100 + 'vw';
+    bit.style.background = colors[Math.floor(Math.random() * colors.length)];
+    bit.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+    bit.style.animationDelay = (Math.random() * .8) + 's';
+    if (Math.random() > .5) bit.style.borderRadius = '50%';
+    document.body.appendChild(bit);
+    setTimeout(() => bit.remove(), 6000);
+  }
+}
+</script>
+</body>
+</html>
