@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدرس الرابع · الحلقات التكرارية 🔁</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#080818;color:#fff;overflow-x:hidden}
+#progress-bar{position:fixed;top:0;right:0;height:4px;background:linear-gradient(90deg,#f7971e,#ffd200,#21d4fd,#b721ff);z-index:999;width:0%;transition:width .1s}
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(160deg,#050515 0%,#1a0d35 50%,#05051a 100%)}
+.hero-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:.5rem 1.5rem;border-radius:50px;font-size:.9rem;margin-bottom:1.5rem;color:#c4a0ff;backdrop-filter:blur(8px)}
+.hero-icons{font-size:3.5rem;display:flex;gap:1rem;margin-bottom:1.5rem;animation:spinLoop 4s ease-in-out infinite}
+@keyframes spinLoop{0%,100%{transform:rotate(0)}50%{transform:rotate(360deg)}}
+.hero h1{font-size:clamp(2rem,6vw,4.2rem);font-weight:900;line-height:1.3;margin-bottom:1.2rem;background:linear-gradient(135deg,#fff 0%,#b721ff 40%,#21d4fd 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,.65);max-width:580px;line-height:1.9;margin-bottom:2.5rem}
+.hero-btn{background:linear-gradient(135deg,#b721ff,#21d4fd);color:#fff;border:none;padding:1rem 2.5rem;border-radius:50px;font-size:1.1rem;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 8px 30px rgba(183,33,255,.4);transition:transform .3s,box-shadow .3s}
+.hero-btn:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(183,33,255,.6)}
+.hero-scroll{margin-top:2.5rem;font-size:.85rem;color:rgba(255,255,255,.3);animation:fadeUD 2s ease-in-out infinite}
+@keyframes fadeUD{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.7;transform:translateY(6px)}}
+
+/* SECTIONS */
+.section{padding:5rem 1.5rem;position:relative}
+.sec-inner{max-width:1050px;margin:0 auto}
+.sec-title{text-align:center;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:.7rem}
+.sec-sub{text-align:center;color:rgba(255,255,255,.55);margin-bottom:3rem;font-size:1rem;line-height:1.8}
+.fi{opacity:0;transform:translateY(35px);transition:opacity .65s ease,transform .65s ease}
+.fi.vis{opacity:1;transform:none}
+
+/* CARDS */
+.card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;margin-bottom:2rem}
+.icard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:1.8rem;text-align:center;transition:transform .3s,box-shadow .3s}
+.icard:hover{transform:translateY(-6px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
+.icard .ico{font-size:2.8rem;margin-bottom:.8rem}
+.icard h3{font-size:1.1rem;margin-bottom:.6rem}
+.icard p{color:rgba(255,255,255,.6);line-height:1.7;font-size:.92rem}
+
+/* code colors */
+.code-panel{background:#0d1117;border-radius:14px;padding:1.4rem;font-family:'Courier New',monospace;direction:ltr;overflow-x:auto}
+.cline{padding:.28rem .5rem;border-radius:6px;font-size:.85rem;color:#cdd6e0;transition:all .35s;line-height:1.9;white-space:pre}
+.cline.exec{background:rgba(183,33,255,.18);border-left:3px solid #b721ff}
+.kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#5a6a7a;font-style:italic}.num{color:#f8c555}.op{color:#79c0ff}
+
+/* ── WHAT IS A LOOP ── */
+.loop-intro-sec{background:linear-gradient(180deg,#080818 0%,#170d2e 100%)}
+.loop-intro-sec .sec-title{background:linear-gradient(135deg,#b721ff,#21d4fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+.compare-card{border-radius:18px;padding:1.8rem}
+.compare-card.bad-card{background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.25)}
+.compare-card.good-card{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.25)}
+.compare-card h3{margin-bottom:1rem;font-size:1.1rem;text-align:center}
+.bad-card h3{color:#ff7b72}
+.good-card h3{color:#2ecc71}
+
+/* loop flow diagram */
+.flow-wrap{display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;margin:2.5rem 0}
+.flow-step{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.12);border-radius:16px;padding:1rem 1.3rem;text-align:center;min-width:120px;transition:all .4s}
+.flow-step .fs-ico{font-size:2rem;display:block;margin-bottom:.4rem}
+.flow-step .fs-lbl{font-size:.85rem;color:rgba(255,255,255,.7)}
+.flow-step.cond{border-color:rgba(255,210,0,.4);background:rgba(255,210,0,.08)}
+.flow-step.act{border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.08)}
+.flow-arrow{font-size:1.6rem;color:rgba(255,255,255,.3)}
+.flow-loopback{display:flex;align-items:center;gap:.4rem;color:#b721ff;font-size:.85rem;font-weight:700;background:rgba(183,33,255,.1);border:1px dashed rgba(183,33,255,.4);border-radius:50px;padding:.4rem 1rem}
+
+/* ── WHILE BASICS ── */
+.while-sec{background:linear-gradient(180deg,#170d2e 0%,#0d1a2e 100%)}
+.while-sec .sec-title{color:#21d4fd}
+.anatomy-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2.5rem;align-items:start}
+.anat-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.8rem}
+.anat-box h3{color:#21d4fd;margin-bottom:1.2rem;font-size:1.1rem}
+.anat-code{background:#0d1117;border-radius:12px;padding:1.2rem;font-family:'Courier New',monospace;direction:ltr;font-size:.9rem;margin-bottom:1.2rem;line-height:2;white-space:pre;overflow-x:auto}
+.anat-row{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.88rem}
+.anat-row:last-child{border-bottom:none}
+.anat-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.anat-row p{color:rgba(255,255,255,.65);line-height:1.6}
+
+/* stepper visual */
+.stepper-box{background:rgba(33,212,253,.05);border:1px solid rgba(33,212,253,.2);border-radius:20px;padding:2rem}
+.stepper-box h3{color:#21d4fd;text-align:center;margin-bottom:.3rem}
+.stepper-box .hint{text-align:center;color:rgba(255,255,255,.45);font-size:.88rem;margin-bottom:1.5rem}
+.step-state-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem}
+.state-chip{background:rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.1);border-radius:14px;padding:.8rem 1.4rem;text-align:center;min-width:110px}
+.state-chip .sc-lbl{font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:.3rem}
+.state-chip .sc-val{font-family:'Courier New',monospace;font-size:1.6rem;font-weight:700;color:#fff}
+.state-chip.cond-chip.true{border-color:#2ecc71;background:rgba(46,204,113,.12)}
+.state-chip.cond-chip.true .sc-val{color:#2ecc71}
+.state-chip.cond-chip.false{border-color:#e74c3c;background:rgba(231,76,60,.12)}
+.state-chip.cond-chip.false .sc-val{color:#ff7b72}
+.step-msg{text-align:center;min-height:28px;font-size:.95rem;color:#c4a0ff;margin-bottom:1rem;font-weight:600}
+.step-console{background:#000;border-radius:12px;padding:1rem 1.2rem;min-height:54px;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1.2rem;border:1px solid rgba(255,255,255,.06)}
+.console-label{position:absolute;font-size:.65rem;color:rgba(255,255,255,.25);margin-top:-1.7rem}
+.out-chip{width:42px;height:42px;border-radius:10px;background:rgba(33,212,253,.18);border:2px solid #21d4fd;color:#21d4fd;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-weight:700;font-size:1.2rem;animation:popIn .3s ease}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.step-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.step-btn{border:none;padding:.7rem 1.6rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:transform .2s}
+.step-btn.next{background:linear-gradient(135deg,#21d4fd,#2c5da8);color:#fff}
+.step-btn.auto{background:linear-gradient(135deg,#b721ff,#7c2cc4);color:#fff}
+.step-btn.reset{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15)}
+.step-btn:hover{transform:translateY(-2px)}
+.trace-table{width:100%;margin-top:1.5rem;border-collapse:collapse;font-size:.85rem;direction:ltr}
+.trace-table th,.trace-table td{padding:.5rem;text-align:center;border:1px solid rgba(255,255,255,.08)}
+.trace-table th{background:rgba(33,212,253,.1);color:#21d4fd;font-family:'Cairo',sans-serif}
+.trace-table td{font-family:'Courier New',monospace;color:rgba(255,255,255,.75)}
+.trace-table tr.skip td{color:#ff7b72}
+
+/* one-box demo (i = i + 1) */
+.onebox-demo{background:rgba(33,212,253,.05);border:1px solid rgba(33,212,253,.2);border-radius:20px;padding:2rem;margin-bottom:2.5rem}
+.onebox-demo h3{color:#21d4fd;text-align:center;margin-bottom:.4rem;font-size:1.2rem}
+.onebox-demo .hint{text-align:center;color:rgba(255,255,255,.55);font-size:.92rem;margin-bottom:1.8rem;line-height:1.9;max-width:620px;margin-left:auto;margin-right:auto}
+.onebox-stage{display:flex;align-items:center;justify-content:center;gap:2.5rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.ob-box-wrap{text-align:center}
+.ob-label{font-size:.9rem;color:#21d4fd;margin-bottom:.5rem;font-weight:700}
+.ob-box{width:120px;height:120px;border-radius:18px;background:rgba(33,212,253,.1);border:3px solid #21d4fd;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:3.2rem;font-weight:900;color:#fff;transition:all .35s;box-shadow:inset 0 4px 18px rgba(0,0,0,.4)}
+.ob-box.reading{border-color:#ffd200;box-shadow:0 0 26px rgba(255,210,0,.45)}
+.ob-box.writing{border-color:#f39c12;box-shadow:0 0 26px rgba(243,156,18,.45)}
+.ob-box.flash{border-color:#2ecc71;background:rgba(46,204,113,.2);box-shadow:0 0 34px rgba(46,204,113,.6);transform:scale(1.09)}
+.ob-note{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:.6rem}
+.ob-strike{text-decoration:line-through;color:#ff7b72;opacity:.65;font-size:2.2rem}
+.ob-steps{display:flex;flex-direction:column;gap:.6rem;font-family:'Courier New',monospace;direction:ltr}
+.ob-eq{font-size:1.4rem;padding:.55rem 1.3rem;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition:all .4s;color:#fff;text-align:center}
+.ob-eq.dim{opacity:.22}
+.ob-old{color:#ffd200;font-weight:900}
+.ob-new{color:#2ecc71;font-weight:900}
+.ob-msg{text-align:center;min-height:28px;font-size:1rem;color:#c4a0ff;margin-bottom:1rem;font-weight:600;line-height:1.7}
+@media(max-width:600px){.onebox-stage{gap:1.4rem}.ob-box{width:96px;height:96px;font-size:2.6rem}.ob-eq{font-size:1.15rem}}
+
+/* ── CONDITIONS / COUNTDOWN ── */
+.cond-sec{background:linear-gradient(180deg,#0d1a2e 0%,#0d2018 100%)}
+.cond-sec .sec-title{color:#2ecc71}
+.rocket-box{background:rgba(46,204,113,.05);border:1px solid rgba(46,204,113,.2);border-radius:20px;padding:2rem;text-align:center;max-width:520px;margin:0 auto 2.5rem}
+.rocket-box h3{color:#2ecc71;margin-bottom:.3rem}
+.rocket-box .hint{color:rgba(255,255,255,.45);font-size:.88rem;margin-bottom:1.5rem}
+.rocket-stage{position:relative;height:170px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;margin-bottom:.5rem}
+.rocket-pad{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:90px;height:10px;background:linear-gradient(#555,#222);border-radius:4px}
+.rocket-ship{font-size:4.5rem;position:relative;z-index:3;margin-bottom:12px;transition:transform .2s}
+.rocket-ship.rumble{animation:rumble .09s infinite}
+@keyframes rumble{0%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(2px,-1px)}75%{transform:translate(-1px,2px)}100%{transform:translate(1px,-2px)}}
+.rocket-ship.blastoff{animation:blastoff 1.7s cubic-bezier(.45,0,.85,.35) forwards}
+@keyframes blastoff{0%{transform:translateY(0) scale(1)}12%{transform:translateY(8px) scale(1.06)}100%{transform:translateY(-280px) scale(.45) rotate(-4deg);opacity:0}}
+.rocket-flame{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);width:22px;height:0;background:linear-gradient(to bottom,#fff,#ffd200 30%,#ff7b00 70%,transparent);border-radius:50% 50% 45% 45%;filter:blur(2px);opacity:0;z-index:2}
+.rocket-flame.on{animation:flame .12s infinite alternate}
+@keyframes flame{from{height:28px;opacity:.85}to{height:58px;opacity:1}}
+.rocket-smoke{position:absolute;font-size:1.6rem;bottom:6px;z-index:1;pointer-events:none;animation:smoke 1.5s ease-out forwards}
+@keyframes smoke{0%{transform:translateY(0) scale(.4);opacity:.85}100%{transform:translateY(46px) scale(2.4);opacity:0}}
+.rocket-count{font-family:'Courier New',monospace;font-size:3.5rem;font-weight:900;color:#2ecc71;min-height:60px}
+.rocket-input-row{display:flex;gap:.8rem;justify-content:center;align-items:center;margin:1.2rem 0;flex-wrap:wrap}
+.rocket-input{background:rgba(255,255,255,.07);border:2px solid rgba(46,204,113,.3);border-radius:12px;padding:.6rem 1rem;color:#fff;font-family:'Courier New',monospace;font-size:1.1rem;width:90px;text-align:center;outline:none}
+.rocket-input:focus{border-color:#2ecc71}
+.rocket-btn{background:linear-gradient(135deg,#2ecc71,#27ae60);color:#fff;border:none;padding:.7rem 1.8rem;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;transition:transform .2s}
+.rocket-btn:hover{transform:translateY(-2px)}
+/* ── STORY INTRO SECTION ── */
+.story-sec{background:#0d2018}
+.story-sec .sec-title{color:#f2b033}
+.story-frame-wrap{max-width:1000px;margin:0 auto;border-radius:22px;overflow:hidden;
+  box-shadow:0 18px 50px rgba(0,0,0,.45);border:1px solid rgba(242,176,51,.25)}
+#loopStoryFrame{width:100%;height:620px;border:0;display:block;background:#13131f}
+.story-hint{text-align:center;color:rgba(255,255,255,.5);font-size:.9rem;margin-top:1.2rem;line-height:1.8}
+
+/* ── BREAK SECTION ── */
+.break-sec{background:linear-gradient(180deg,#0d2018 0%,#2e0d1a 100%)}
+.break-sec .sec-title{color:#ff7b72}
+.box-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem}
+.tbox{width:58px;height:58px;border-radius:12px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:1.7rem;transition:all .3s}
+.tbox.checking{border-color:#ffd200;box-shadow:0 0 18px rgba(255,210,0,.45);transform:translateY(-7px) scale(1.08)}
+.tbox.empty{opacity:.35;font-size:1.1rem;color:rgba(255,255,255,.4)}
+.tbox.found{border-color:#2ecc71;background:rgba(46,204,113,.2);box-shadow:0 0 24px rgba(46,204,113,.55);transform:scale(1.12)}
+.tbox.skipped{opacity:.18}
+
+/* ── NESTED SECTION ── */
+.nest-sec{background:linear-gradient(180deg,#2e0d1a 0%,#080818 100%)}
+.nest-sec .sec-title{color:#b721ff}
+.nest-controls{display:flex;gap:.6rem;justify-content:center;align-items:center;flex-wrap:wrap;color:rgba(255,255,255,.6);font-size:.9rem;margin-bottom:1.2rem}
+.nest-grid-wrap{display:flex;justify-content:center;min-height:130px;align-items:center;margin-bottom:1rem}
+.nest-grid{display:grid;gap:.4rem}
+.ncell{width:38px;height:38px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.ncell.lit{background:rgba(183,33,255,.22);border-color:#b721ff;animation:popIn .3s}
+
+/* ── CRASH BUTTON + OVERLAY ── */
+.crash-btn{display:block;margin:1.5rem auto 0;background:linear-gradient(135deg,#e74c3c,#922);color:#fff;border:none;padding:.85rem 1.8rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.95rem;font-weight:700;cursor:pointer;box-shadow:0 6px 22px rgba(231,76,60,.4);transition:transform .2s}
+.crash-btn:hover{transform:translateY(-3px) scale(1.03)}
+#crashOverlay{position:fixed;inset:0;z-index:99999;display:none;background:#000;color:#fff;overflow:hidden;cursor:pointer}
+#crashOverlay.active{display:block}
+.crash-flood{position:absolute;inset:0;padding:1rem;color:#19ff7a;font-family:'Courier New',monospace;font-size:1.15rem;line-height:1.5;word-break:break-all;overflow:hidden}
+.crash-shake{animation:crashShake .1s infinite}
+@keyframes crashShake{0%{transform:translate(0,0)}20%{transform:translate(-5px,4px)}40%{transform:translate(6px,-4px)}60%{transform:translate(-4px,-5px)}80%{transform:translate(4px,5px)}100%{transform:translate(-3px,3px)}}
+.bsod{position:absolute;inset:0;background:#0a6cc9;color:#fff;display:flex;flex-direction:column;justify-content:center;padding:6vw;font-family:'Cairo',sans-serif;direction:rtl}
+.bsod .sad{font-size:6rem;font-family:'Courier New',monospace;margin-bottom:1rem}
+.bsod h2{font-size:clamp(1.2rem,3vw,2rem);font-weight:700;line-height:1.6;margin-bottom:1rem}
+.bsod p{font-size:1rem;color:rgba(255,255,255,.9);margin-bottom:.6rem;line-height:1.7}
+.bsod .code-tag{margin-top:1.2rem;font-family:'Courier New',monospace;font-size:.85rem;color:rgba(255,255,255,.65);direction:ltr}
+.reboot{position:absolute;inset:0;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4rem}
+.spinner{width:46px;height:46px;border:4px solid rgba(255,255,255,.18);border-top-color:#fff;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes floatUD{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.boot-dots{display:flex;gap:.5rem}
+.boot-dots span{width:10px;height:10px;border-radius:50%;background:#fff;animation:bootdot 1.2s infinite}
+.boot-dots span:nth-child(2){animation-delay:.2s}
+.boot-dots span:nth-child(3){animation-delay:.4s}
+@keyframes bootdot{0%,100%{opacity:.2}50%{opacity:1}}
+.crash-hint{position:absolute;bottom:1rem;left:0;right:0;text-align:center;font-size:.8rem;color:rgba(255,255,255,.35);font-family:'Cairo',sans-serif;z-index:5}
+#crashToast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(120%);background:rgba(20,20,40,.96);border:1px solid rgba(183,33,255,.5);color:#fff;padding:1rem 1.5rem;border-radius:16px;font-size:.92rem;max-width:90%;text-align:center;z-index:9999;transition:transform .5s cubic-bezier(.2,1.4,.4,1);box-shadow:0 10px 40px rgba(0,0,0,.6);line-height:1.7}
+#crashToast.show{transform:translateX(-50%) translateY(0)}
+.noscroll{overflow:hidden!important}
+
+/* infinite loop warning */
+.danger-box{background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.25);border-radius:20px;padding:2rem;margin-top:1rem}
+.danger-box h3{color:#ff7b72;text-align:center;margin-bottom:1.2rem}
+.danger-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.danger-grid .code-panel{font-size:.82rem}
+.warn-tag{display:inline-block;background:rgba(231,76,60,.2);color:#ff7b72;border-radius:8px;padding:.2rem .7rem;font-size:.78rem;margin-top:.8rem;font-weight:700}
+.ok-tag{display:inline-block;background:rgba(46,204,113,.2);color:#2ecc71;border-radius:8px;padding:.2rem .7rem;font-size:.78rem;margin-top:.8rem;font-weight:700}
+
+/* ── DO WHILE ── */
+.dw-sec{background:linear-gradient(180deg,#0d2018 0%,#2e0d1a 100%)}
+.dw-sec .sec-title{color:#f39c12}
+.dw-explain{background:rgba(243,156,18,.06);border:1px solid rgba(243,156,18,.2);border-radius:20px;padding:2rem;margin-bottom:2rem}
+.dw-explain p{color:rgba(255,255,255,.72);line-height:1.9;font-size:.96rem;margin-bottom:1rem}
+.dw-explain .hl{color:#f39c12;font-weight:700}
+.note-box{background:rgba(33,212,253,.08);border:1px solid rgba(33,212,253,.25);border-radius:14px;padding:1.2rem 1.4rem;margin-top:1rem;font-size:.9rem;color:#a0d8ff;line-height:1.8}
+
+/* ── DIFFERENCE ── */
+.diff-sec{background:linear-gradient(180deg,#2e0d1a 0%,#080818 100%)}
+.diff-sec .sec-title{background:linear-gradient(135deg,#21d4fd,#f39c12);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.diff-demo{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:2rem;margin-bottom:2rem}
+.diff-controls{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:1.8rem}
+.diff-controls label{font-size:.9rem;color:rgba(255,255,255,.6)}
+.diff-input{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.15);border-radius:10px;padding:.5rem .8rem;color:#fff;font-family:'Courier New',monospace;font-size:1.05rem;width:70px;text-align:center;outline:none}
+.diff-input:focus{border-color:#21d4fd}
+.diff-run-btn{background:linear-gradient(135deg,#21d4fd,#b721ff);color:#fff;border:none;padding:.65rem 1.8rem;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;transition:transform .2s}
+.diff-run-btn:hover{transform:translateY(-2px)}
+.diff-cols{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.diff-col{border-radius:18px;padding:1.6rem}
+.diff-col.while-col{background:rgba(33,212,253,.06);border:1px solid rgba(33,212,253,.25)}
+.diff-col.dowhile-col{background:rgba(243,156,18,.06);border:1px solid rgba(243,156,18,.25)}
+.diff-col h4{text-align:center;font-size:1.1rem;margin-bottom:1rem}
+.while-col h4{color:#21d4fd}
+.dowhile-col h4{color:#f39c12}
+.diff-trace{background:#000;border-radius:10px;padding:1rem;min-height:90px;font-family:'Courier New',monospace;direction:ltr;font-size:.82rem;line-height:1.9;color:rgba(255,255,255,.75);margin-bottom:.8rem}
+.diff-result{text-align:center;font-size:.9rem;font-weight:700;padding:.6rem;border-radius:10px}
+.while-col .diff-result{background:rgba(33,212,253,.12);color:#21d4fd}
+.dowhile-col .diff-result{background:rgba(243,156,18,.12);color:#f39c12}
+.diff-summary{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:.5rem}
+.diff-sum-card{border-radius:16px;padding:1.5rem}
+.diff-sum-card.s-while{background:rgba(33,212,253,.06);border:1px solid rgba(33,212,253,.2)}
+.diff-sum-card.s-do{background:rgba(243,156,18,.06);border:1px solid rgba(243,156,18,.2)}
+.diff-sum-card h4{margin-bottom:.6rem}
+.s-while h4{color:#21d4fd}.s-do h4{color:#f39c12}
+.diff-sum-card p{font-size:.9rem;color:rgba(255,255,255,.65);line-height:1.7}
+.big-badge{font-size:2.2rem;font-weight:900;display:block;margin-bottom:.4rem}
+.s-while .big-badge{color:#21d4fd}.s-do .big-badge{color:#f39c12}
+
+/* ── EXERCISES ── */
+.ex-sec{background:linear-gradient(180deg,#080818 0%,#0a0a1f 100%)}
+.ex-sec .sec-title{color:#fff}
+.ex-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:2rem;margin-bottom:1.8rem}
+.ex-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.ex-num{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;flex-shrink:0}
+.ex-title{font-size:1.2rem;font-weight:700}
+.ex-desc{color:rgba(255,255,255,.6);font-size:.92rem;line-height:1.7;margin-bottom:1.4rem}
+.ex-task-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.9rem;color:rgba(255,255,255,.75);line-height:1.7}
+.ex-task-box .task-label{font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:.3rem}
+.ex-editor-wrap{background:#0d1117;border-radius:12px;padding:.4rem;margin-bottom:.8rem}
+.ex-editor-header{display:flex;gap:.4rem;padding:.5rem .7rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.editor-dot{width:10px;height:10px;border-radius:50%}
+.ex-code{padding:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:90px;font-size:.88rem;color:#fff;outline:none;white-space:pre;caret-color:#fff;tab-size:4}
+.ex-code:empty::before{content:attr(data-placeholder);color:rgba(255,255,255,.2)}
+.ex-btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.ex-run-btn{background:linear-gradient(135deg,#21d4fd,#2c5282);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-run-btn:hover{transform:translateY(-2px)}
+.ex-check-btn{background:linear-gradient(135deg,#9B59B6,#6c3483);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-check-btn:hover{transform:translateY(-2px)}
+.ex-output{background:#000;border-radius:8px;padding:.8rem 1rem;margin-bottom:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:36px;font-size:.85rem;color:#21d4fd;border:1px solid rgba(255,255,255,.06);display:none;white-space:pre-wrap}
+.ex-output.show{display:block}
+.ex-output .output-label{font-size:.7rem;color:rgba(255,255,255,.25);margin-bottom:.3rem;direction:rtl;font-family:'Cairo',sans-serif}
+.ex-feedback{padding:.8rem 1.2rem;border-radius:10px;font-size:.9rem;margin-top:.5rem;display:none;line-height:1.6;white-space:pre-wrap}
+.ex-feedback.show{display:block}
+.ex-feedback.correct{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);color:#a8f0c0}
+.ex-feedback.wrong{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);color:#f0a8a8}
+
+/* FOOTER */
+footer{background:#030308;padding:3.5rem 2rem;text-align:center}
+footer .big-e{font-size:3rem;margin-bottom:1rem;animation:spinLoop 5s linear infinite}
+footer h3{font-size:1.2rem;color:rgba(255,255,255,.75);margin-bottom:.5rem}
+footer p{color:rgba(255,255,255,.3);font-size:.9rem}
+.next-lesson-btn{display:inline-block;margin-top:1.5rem;padding:.8rem 2rem;border-radius:50px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.35);font-family:'Cairo',sans-serif;font-size:.95rem;cursor:default}
+
+/* RESPONSIVE */
+@media(max-width:650px){
+  .compare-box,.anatomy-grid,.danger-grid,.diff-cols,.diff-summary{grid-template-columns:1fr}
+  .flow-wrap{gap:.4rem}
+  .flow-step{min-width:90px;padding:.7rem .8rem}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="stars-bg" id="starsContainer"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🎓 الدرس الرابع · Python للمبتدئين</div>
+  <div class="hero-icons">🔁</div>
+  <h1>الحلقات<br>التكرارية</h1>
+  <p>تعب الحاسوب من تكرار الأوامر يدوياً؟ تعلّم كيف تجعل الكود يكرّر نفسه آلاف المرات بسطر واحد فقط باستخدام حلقة while!</p>
+  <button class="hero-btn" onclick="document.getElementById('sec-intro').scrollIntoView({behavior:'smooth'})">ابدأ التكرار 🔄</button>
+  <div class="hero-scroll">▼ اسحب للأسفل</div>
+</section>
+
+<!-- WHAT IS A LOOP -->
+<section class="section loop-intro-sec" id="sec-intro">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🔁 ما هي الحلقة؟</div>
+    <p class="sec-sub">الحلقة (Loop) هي طريقة تجعل الحاسوب يكرّر مجموعة من الأوامر عدة مرات دون أن تكتبها مرة بعد مرة.<br>تخيّل أنك تنظّف أسنانك: نفس الحركة تتكرر حتى تنتهي  هذه حلقة!</p>
+  </div>
+
+  <div class="fi compare-box" style="transition-delay:.1s">
+    <div class="compare-card bad-card">
+      <h3>😫 بدون حلقة</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem;direction:ltr;text-align:left">لطباعة الأرقام من 1 إلى 5...</p>
+      <div class="code-panel">
+        <div class="cline"><span class="fn">print</span>(<span class="num">1</span>)</div>
+        <div class="cline"><span class="fn">print</span>(<span class="num">2</span>)</div>
+        <div class="cline"><span class="fn">print</span>(<span class="num">3</span>)</div>
+        <div class="cline"><span class="fn">print</span>(<span class="num">4</span>)</div>
+        <div class="cline"><span class="fn">print</span>(<span class="num">5</span>)</div>
+      </div>
+      <p style="color:rgba(255,255,255,.5);font-size:.84rem;margin-top:.9rem">ولو أردت من 1 إلى 1000؟ ستكتب 1000 سطر! 😱</p>
+    </div>
+    <div class="compare-card good-card">
+      <h3>✨ مع حلقة while</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem;direction:ltr;text-align:left">نفس النتيجة... بـ 3 أسطر فقط!</p>
+      <div class="code-panel">
+        <div class="cline"><span class="kw">i</span> <span class="op">=</span> <span class="num">1</span></div>
+        <div class="cline"><span class="kw">while</span> i <span class="op">&lt;=</span> <span class="num">5</span>:</div>
+        <div class="cline">    <span class="fn">print</span>(i)</div>
+        <div class="cline">    i <span class="op">=</span> i <span class="op">+</span> <span class="num">1</span></div>
+      </div>
+      <p style="color:rgba(255,255,255,.5);font-size:.84rem;margin-top:.9rem">ولو أردت 1000؟ غيّر الرقم 5 إلى 1000 فقط! 🎉</p>
+    </div>
+  </div>
+
+  <!-- Flow diagram -->
+  <div class="fi" style="transition-delay:.2s">
+    <p class="sec-sub" style="margin-bottom:1rem">كل حلقة تدور في هذه الدائرة: تفحص الشرط ← تنفّذ ← ترجع للفحص مرة أخرى</p>
+    <div class="flow-wrap">
+      <div class="flow-step cond">
+        <span class="fs-ico">❓</span>
+        <div class="fs-lbl">هل الشرط صحيح؟</div>
+      </div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-step act">
+        <span class="fs-ico">⚙️</span>
+        <div class="fs-lbl">نفّذ الأوامر</div>
+      </div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-loopback">🔄 ارجع للأعلى وكرّر</div>
+    </div>
+    <p class="sec-sub" style="margin-top:1rem;font-size:.9rem">عندما يصبح الشرط <span style="color:#ff7b72;font-weight:700">خطأ</span> ❌ تتوقف الحلقة وينتقل البرنامج لما بعدها.</p>
+  </div>
+</div>
+</section>
+
+<!-- WHILE BASICS -->
+<section class="section while-sec" id="sec-while">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🔵 حلقة while</div>
+    <p class="sec-sub">كلمة <strong>while</strong> تعني "طالما". المعنى: <strong>طالما الشرط صحيح، استمر في التكرار</strong>.</p>
+  </div>
+
+  <!-- ONE BOX (i = i + 1) -->
+  <div class="fi onebox-demo" style="transition-delay:.05s">
+    <h3>📦 صندوق واحد فقط اسمه i</h3>
+    <p class="hint">السطر <code style="direction:ltr">i = i + 1</code> يبدو غريباً.. كيف يساوي i نفسه + 1؟ 🤔<br>السرّ: عندنا <strong>صندوق واحد</strong> اسمه i. نأخذ قيمته <strong>القديمة</strong>، نضيف لها 1، ثم نُعيد الناتج إلى <strong>نفس</strong> الصندوق  فتتغيّر قيمته.</p>
+
+    <div class="onebox-stage">
+      <div class="ob-box-wrap">
+        <div class="ob-label">الصندوق i</div>
+        <div class="ob-box" id="obBox">5</div>
+        <div class="ob-note">👆 يوجد صندوق واحد فقط</div>
+      </div>
+
+      <div class="ob-steps">
+        <div class="ob-eq" id="obEq1">i = i + 1</div>
+        <div class="ob-eq dim" id="obEq2">i = <span class="ob-old">5</span> + 1</div>
+        <div class="ob-eq dim" id="obEq3">i = <span class="ob-new">6</span></div>
+      </div>
+    </div>
+
+    <div class="ob-msg" id="obMsg">اضغط "نفّذ السطر" لترى ماذا يحدث 👇</div>
+    <div class="step-btns">
+      <button class="step-btn next" onclick="oneBoxStep()">▶ نفّذ i = i + 1</button>
+      <button class="step-btn reset" onclick="oneBoxReset()">🔄 إعادة (i = 5)</button>
+    </div>
+  </div>
+
+  <div class="fi anatomy-grid" style="transition-delay:.1s">
+    <!-- anatomy -->
+    <div class="anat-box">
+      <h3>🔬 تشريح حلقة while</h3>
+      <div class="anat-code">
+<span class="kw">i</span> = <span class="num">1</span>            <span class="cm"># 1️⃣ القيمة الأولى</span>
+<span class="kw">while</span> i <span class="op">&lt;=</span> <span class="num">5</span>:    <span class="cm"># 2️⃣ الشرط</span>
+    <span class="fn">print</span>(i)         <span class="cm"># 3️⃣ الجسم</span>
+    i <span class="op">=</span> i <span class="op">+</span> <span class="num">1</span>      <span class="cm"># 4️⃣ التحديث</span>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#f8c555"></div>
+        <p><strong style="color:#f8c555">القيمة الأولى</strong>  نبدأ بعدّاد <code style="direction:ltr">i = 1</code> قبل الحلقة</p>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#ff7b72"></div>
+        <p><strong style="color:#ff7b72">while + الشرط + :</strong>  طالما <code style="direction:ltr">i &lt;= 5</code> صحيح، نكمل. لا تنسَ النقطتين <code>:</code></p>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#d2a8ff"></div>
+        <p><strong style="color:#d2a8ff">الجسم (بمسافة بادئة)</strong>  الأوامر التي تتكرر، تكتب بمسافة للداخل</p>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#2ecc71"></div>
+        <p><strong style="color:#2ecc71">التحديث</strong>  <code style="direction:ltr">i = i + 1</code> تكبّر العدّاد (تأخذ قيمته وتزيد عليها 1). بدونها تدور الحلقة للأبد! ⚠️</p>
+      </div>
+    </div>
+
+    <!-- stepper -->
+    <div class="stepper-box">
+      <h3>▶️ شغّل الحلقة خطوة بخطوة</h3>
+      <p class="hint">اضغط "خطوة" لترى ماذا يحدث في كل دورة</p>
+      <div class="step-state-row">
+        <div class="state-chip">
+          <div class="sc-lbl">العدّاد i</div>
+          <div class="sc-val" id="stI">1</div>
+        </div>
+        <div class="state-chip cond-chip" id="stCond">
+          <div class="sc-lbl">i &lt;= 5 ؟</div>
+          <div class="sc-val" id="stCondVal">؟</div>
+        </div>
+      </div>
+      <div class="step-msg" id="stMsg">اضغط "خطوة" للبدء 👇</div>
+      <div style="position:relative">
+        <div class="console-label">الإخراج 🖨️</div>
+        <div class="step-console" id="stConsole"></div>
+      </div>
+      <div class="step-btns">
+        <button class="step-btn next" onclick="loopStep()">⏭️ خطوة</button>
+        <button class="step-btn auto" onclick="loopAuto()">⚡ تشغيل تلقائي</button>
+        <button class="step-btn reset" onclick="loopReset()">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CONDITIONS + COUNTDOWN -->
+<section class="section cond-sec" id="sec-cond">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🎯 الشرط هو قلب الحلقة</div>
+    <p class="sec-sub">الشرط يقرّر متى تستمر الحلقة ومتى تتوقف. يستخدم علامات المقارنة:<br>
+      <code style="direction:ltr">&lt;</code> أصغر ·
+      <code style="direction:ltr">&gt;</code> أكبر ·
+      <code style="direction:ltr">&lt;=</code> أصغر أو يساوي ·
+      <code style="direction:ltr">&gt;=</code> أكبر أو يساوي ·
+      <code style="direction:ltr">==</code> يساوي ·
+      <code style="direction:ltr">!=</code> لا يساوي
+    </p>
+  </div>
+
+  <!-- Rocket countdown -->
+  <div class="fi rocket-box" style="transition-delay:.1s">
+    <h3>🚀 العدّ التنازلي للصاروخ</h3>
+    <p class="hint">طالما العدّاد أكبر من صفر، استمر بالعدّ.. ثم انطلق!</p>
+    <div class="rocket-stage" id="rocketStage">
+      <div class="rocket-pad"></div>
+      <div class="rocket-flame" id="rocketFlame"></div>
+      <div class="rocket-ship" id="rocketShip">🚀</div>
+    </div>
+    <div class="rocket-count" id="rocketCount">جاهز</div>
+    <div class="code-panel" style="text-align:left;margin:1rem 0">
+      <div class="cline"><span class="kw">count</span> <span class="op">=</span> <span class="num" id="rocketCodeNum">5</span></div>
+      <div class="cline"><span class="kw">while</span> count <span class="op">&gt;</span> <span class="num">0</span>:</div>
+      <div class="cline">    <span class="fn">print</span>(count)</div>
+      <div class="cline">    count <span class="op">=</span> count <span class="op">-</span> <span class="num">1</span></div>
+      <div class="cline"><span class="fn">print</span>(<span class="str">"🚀 انطلق!"</span>)</div>
+    </div>
+    <div class="rocket-input-row">
+      <label style="color:rgba(255,255,255,.6);font-size:.9rem">ابدأ من:</label>
+      <input class="rocket-input" id="rocketInput" type="number" value="5" min="1" max="10">
+      <button class="rocket-btn" onclick="launchRocket()">▶ ابدأ العدّ</button>
+    </div>
+  </div>
+
+  <!-- Infinite loop danger -->
+  <div class="fi danger-box" style="transition-delay:.2s">
+    <h3>⚠️ احذر: الحلقة اللانهائية!</h3>
+    <p style="text-align:center;color:rgba(255,255,255,.6);font-size:.92rem;margin-bottom:1.5rem">إذا نسيت تحديث العدّاد، يبقى الشرط صحيحاً دائماً.. وتدور الحلقة للأبد فيتجمّد البرنامج 🥶</p>
+    <div class="danger-grid">
+      <div>
+        <div class="code-panel">
+          <div class="cline"><span class="kw">i</span> <span class="op">=</span> <span class="num">1</span></div>
+          <div class="cline"><span class="kw">while</span> i <span class="op">&lt;=</span> <span class="num">5</span>:</div>
+          <div class="cline">    <span class="fn">print</span>(i)</div>
+          <div class="cline"><span class="cm"># نسينا i = i + 1 !!</span></div>
+        </div>
+        <span class="warn-tag">❌ i تبقى 1 للأبد → 1 1 1 1 1 ... 🔁∞</span>
+      </div>
+      <div>
+        <div class="code-panel">
+          <div class="cline"><span class="kw">i</span> <span class="op">=</span> <span class="num">1</span></div>
+          <div class="cline"><span class="kw">while</span> i <span class="op">&lt;=</span> <span class="num">5</span>:</div>
+          <div class="cline">    <span class="fn">print</span>(i)</div>
+          <div class="cline">    i <span class="op">=</span> i <span class="op">+</span> <span class="num">1</span>  <span class="cm"># ✓</span></div>
+        </div>
+        <span class="ok-tag">✅ i تكبر كل مرة → تتوقف عند 5</span>
+      </div>
+    </div>
+    <button class="crash-btn" onclick="startCrash()">💥 جرّب: شغّل حلقة لا نهائية حقيقية! (لا تخف، حاسوبك بخير 😄)</button>
+    <p style="text-align:center;color:rgba(255,255,255,.4);font-size:.82rem;margin-top:.7rem">شاهد ماذا يحدث لو دارت الحلقة للأبد ولم تتوقف أبداً...</p>
+  </div>
+</div>
+</section>
+
+<!-- STORY INTRO TO BREAK -->
+<section class="section story-sec" id="sec-story">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🎬 قصة: سامي العالِق في الحلقة</div>
+    <p class="sec-sub">قبل أن نتعلّم كلمة <strong>break</strong>، شاهد ماذا يحدث عندما تدور حلقة <strong>while True</strong> بلا توقّف!<br>كل صباح يستيقظ سامي… ثم تُعيده الحلقة إلى سريره. اضغط الزرّ لإنقاذه! 👇</p>
+  </div>
+  <div class="fi story-frame-wrap" style="transition-delay:.1s">
+    <iframe id="loopStoryFrame" src="loop-story-embed.html" title="قصة سامي العالق في الحلقة" loading="lazy" scrolling="no"></iframe>
+  </div>
+  <p class="fi story-hint" style="transition-delay:.15s">👆 لاحظ أن سامي لا يستطيع الخروج… حتى نستخدم <strong style="color:#86efac">break</strong>. والآن لنتعرّف عليها 👇</p>
+</div>
+</section>
+<script>
+window.addEventListener('message',function(e){
+  if(e.data&&e.data.loopStoryHeight){
+    var f=document.getElementById('loopStoryFrame');
+    if(f) f.style.height=(e.data.loopStoryHeight+8)+'px';
+  }
+});
+</script>
+
+<!-- BREAK -->
+<section class="section break-sec" id="sec-break">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🛑 كلمة break</div>
+    <p class="sec-sub">أحياناً نريد إيقاف الحلقة <strong>فوراً</strong> حتى لو كان الشرط ما زال صحيحاً.<br>هنا نستخدم كلمة <strong>break</strong> = «اكسر الحلقة واخرج الآن!».</p>
+  </div>
+
+  <div class="fi anatomy-grid" style="transition-delay:.1s">
+    <div class="anat-box">
+      <h3>🔬 كيف تعمل break؟</h3>
+      <div class="code-panel">
+        <div class="cline"><span class="kw">i</span> <span class="op">=</span> <span class="num">1</span></div>
+        <div class="cline"><span class="kw">while</span> i <span class="op">&lt;=</span> <span class="num">10</span>:      <span class="cm"># الشرط يسمح حتى 10</span></div>
+        <div class="cline">    <span class="fn">print</span>(i)</div>
+        <div class="cline">    <span class="kw">if</span> i <span class="op">==</span> <span class="num">3</span>:</div>
+        <div class="cline">        <span class="kw">break</span>     <span class="cm"># اخرج فوراً!</span></div>
+        <div class="cline">    i <span class="op">=</span> i <span class="op">+</span> <span class="num">1</span></div>
+      </div>
+      <p style="color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.8">رغم أن الشرط <code style="direction:ltr">i &lt;= 10</code> يسمح بالعدّ حتى 10، إلا أن <strong style="color:#ff7b72">break</strong> أوقفت الحلقة عند 3!<br>الإخراج: <code style="direction:ltr">1  2  3</code> فقط ✋</p>
+    </div>
+
+    <div class="anat-box">
+      <h3>🎁 ابحث عن الكنز!</h3>
+      <p class="hint">الحلقة تفتح الصناديق واحداً واحداً.. وحين تجد الكنز تستخدم break وتتوقف فوراً!</p>
+      <div class="box-row" id="boxRow"></div>
+      <div class="step-msg" id="breakMsg">اضغط "ابحث" للبدء 👇</div>
+      <div class="step-btns">
+        <button class="step-btn next" onclick="searchTreasure()">🔎 ابحث عن الكنز</button>
+        <button class="step-btn reset" onclick="resetTreasure()">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fi note-box" style="transition-delay:.2s">
+    💡 بدون <strong>break</strong> كانت الحلقة ستفتح كل الصناديق العشرة. مع <strong>break</strong> توقّفنا فور أن وجدنا الكنز  أسرع وأذكى! نستخدمها كثيراً مع <code style="direction:ltr">while True</code> لنخرج وقتما نريد.
+  </div>
+</div>
+</section>
+
+<!-- NESTED WHILE -->
+<section class="section nest-sec" id="sec-nested">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🪆 الحلقة داخل الحلقة</div>
+    <p class="sec-sub">يمكن أن نضع حلقة while <strong>داخل</strong> حلقة while أخرى! تُسمّى «حلقة متداخلة».<br>الحلقة الخارجية تتحكم بالصفوف، والداخلية بالأعمدة  مثل بناء شبكة 🧱</p>
+  </div>
+
+  <div class="fi anatomy-grid" style="transition-delay:.1s">
+    <div class="anat-box">
+      <h3>🔬 شكل الحلقة المتداخلة</h3>
+      <div class="code-panel">
+        <div class="cline"><span class="kw">row</span> <span class="op">=</span> <span class="num">1</span></div>
+        <div class="cline"><span class="kw">while</span> row <span class="op">&lt;=</span> <span class="num">3</span>:          <span class="cm"># الخارجية (صفوف)</span></div>
+        <div class="cline">    <span class="kw">col</span> <span class="op">=</span> <span class="num">1</span></div>
+        <div class="cline">    <span class="kw">while</span> col <span class="op">&lt;=</span> <span class="num">3</span>:      <span class="cm"># الداخلية (أعمدة)</span></div>
+        <div class="cline">        <span class="fn">print</span>(row, col)</div>
+        <div class="cline">        col <span class="op">=</span> col <span class="op">+</span> <span class="num">1</span></div>
+        <div class="cline">    row <span class="op">=</span> row <span class="op">+</span> <span class="num">1</span></div>
+      </div>
+      <p style="color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.8">الحلقة الداخلية تدور <strong>كاملةً</strong> (3 مرات) في كل دورة واحدة من الخارجية.<br>3 × 3 = <strong style="color:#b721ff">9 خطوات</strong>!</p>
+    </div>
+
+    <div class="anat-box">
+      <h3>⭐ شاهدها تبني الشبكة</h3>
+      <p class="hint">اختر عدد الصفوف والأعمدة واضغط ابدأ</p>
+      <div class="nest-controls">
+        <span>صفوف:</span><input id="nestRows" type="number" value="3" min="1" max="5" class="diff-input">
+        <span>أعمدة:</span><input id="nestCols" type="number" value="3" min="1" max="5" class="diff-input">
+      </div>
+      <div class="nest-grid-wrap"><div class="nest-grid" id="nestGrid"></div></div>
+      <div class="step-msg" id="nestMsg">اضغط ابدأ 👇</div>
+      <div class="step-btns"><button class="step-btn auto" onclick="runNested()">▶ ابدأ البناء</button></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EXERCISES -->
+<section class="section ex-sec" id="sec-exercises">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🏋️ وقت التمارين!</div>
+    <p class="sec-sub">اكتب حلقات while حقيقية وشغّلها. المحرّر يفهم الحلقات فعلاً  جرّب بنفسك!</p>
+  </div>
+
+  <!-- Exercise 1 -->
+  <div class="fi ex-card" style="transition-delay:.05s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(33,212,253,.2);color:#21d4fd;border:2px solid rgba(33,212,253,.4)">1</div>
+      <div class="ex-title">اطبع الأرقام من 1 إلى 5</div>
+    </div>
+    <p class="ex-desc">استخدم حلقة while لتطبع الأرقام 1 ثم 2 ثم 3 ثم 4 ثم 5، كل رقم في سطر</p>
+    <div class="ex-task-box">
+      <div class="task-label">تلميح:</div>
+      ابدأ بـ <code style="direction:ltr">i = 1</code>، والشرط <code style="direction:ltr">while i &lt;= 5:</code>، واطبع i، ثم لا تنسَ <code style="direction:ltr">i = i + 1</code>
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex1Code" contenteditable="true" data-placeholder="i = 1&#10;while i <= 5:&#10;    print(i)&#10;    i = i + 1"></div>
+    </div>
+    <div class="ex-output" id="ex1Output"><div class="output-label">الإخراج:</div><div id="ex1OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(1)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(1)">✅ تحقق من الإجابة</button>
+    </div>
+    <div class="ex-feedback" id="ex1Feedback"></div>
+  </div>
+
+  <!-- Exercise 2 -->
+  <div class="fi ex-card" style="transition-delay:.1s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(46,204,113,.2);color:#2ecc71;border:2px solid rgba(46,204,113,.4)">2</div>
+      <div class="ex-title">العدّ التنازلي من 5 إلى 1</div>
+    </div>
+    <p class="ex-desc">اطبع الأرقام تنازلياً: 5 ثم 4 ثم 3 ثم 2 ثم 1 باستخدام while</p>
+    <div class="ex-task-box">
+      <div class="task-label">تلميح:</div>
+      ابدأ بـ <code style="direction:ltr">i = 5</code>، الشرط <code style="direction:ltr">while i >= 1:</code>، وهذه المرة <strong>أنقص</strong> العدّاد: <code style="direction:ltr">i = i - 1</code>
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex2Code" contenteditable="true" data-placeholder="i = 5&#10;while i >= 1:&#10;    print(i)&#10;    i = i - 1"></div>
+    </div>
+    <div class="ex-output" id="ex2Output"><div class="output-label">الإخراج:</div><div id="ex2OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(2)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(2)">✅ تحقق من الإجابة</button>
+    </div>
+    <div class="ex-feedback" id="ex2Feedback"></div>
+  </div>
+
+  <!-- Exercise 3 -->
+  <div class="fi ex-card" style="transition-delay:.15s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(155,89,182,.2);color:#9B59B6;border:2px solid rgba(155,89,182,.4)">3</div>
+      <div class="ex-title">اجمع الأرقام من 1 إلى 10</div>
+    </div>
+    <p class="ex-desc">استخدم حلقة while لتجمع كل الأرقام من 1 إلى 10 (1+2+3+...+10) واطبع المجموع النهائي فقط</p>
+    <div class="ex-task-box">
+      <div class="task-label">تلميح:</div>
+      اصنع متغيراً <code style="direction:ltr">total = 0</code> وعدّاداً <code style="direction:ltr">i = 1</code>، وفي كل دورة: <code style="direction:ltr">total = total + i</code> ثم <code style="direction:ltr">i = i + 1</code>. في النهاية اطبع total (الجواب 55)
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex3Code" contenteditable="true" data-placeholder="total = 0&#10;i = 1&#10;while i <= 10:&#10;    total = total + i&#10;    i = i + 1&#10;print(total)"></div>
+    </div>
+    <div class="ex-output" id="ex3Output"><div class="output-label">الإخراج:</div><div id="ex3OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(3)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(3)">✅ تحقق من الإجابة</button>
+    </div>
+    <div class="ex-feedback" id="ex3Feedback"></div>
+  </div>
+
+  <!-- Exercise 4 -->
+  <div class="fi ex-card" style="transition-delay:.2s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(231,76,60,.2);color:#ff7b72;border:2px solid rgba(231,76,60,.4)">4</div>
+      <div class="ex-title">استخدم break للتوقّف عند 3</div>
+    </div>
+    <p class="ex-desc">اطبع الأرقام بدءاً من 1، لكن توقّف الحلقة <strong>فوراً</strong> عند الرقم 3 باستخدام <code>break</code> (الإخراج: 1 2 3)</p>
+    <div class="ex-task-box">
+      <div class="task-label">تلميح:</div>
+      اجعل الشرط <code style="direction:ltr">while i &lt;= 10:</code>، اطبع i، وإذا <code style="direction:ltr">if i == 3:</code> استخدم <code>break</code>، وإلا زد <code style="direction:ltr">i = i + 1</code>
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex4Code" contenteditable="true" data-placeholder="i = 1&#10;while i <= 10:&#10;    print(i)&#10;    if i == 3:&#10;        break&#10;    i = i + 1"></div>
+    </div>
+    <div class="ex-output" id="ex4Output"><div class="output-label">الإخراج:</div><div id="ex4OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(4)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(4)">✅ تحقق من الإجابة</button>
+    </div>
+    <div class="ex-feedback" id="ex4Feedback"></div>
+  </div>
+
+  <!-- Exercise 5 -->
+  <div class="fi ex-card" style="transition-delay:.25s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(183,33,255,.2);color:#b721ff;border:2px solid rgba(183,33,255,.4)">5</div>
+      <div class="ex-title">حلقة متداخلة: اطبع أزواج الشبكة</div>
+    </div>
+    <p class="ex-desc">استخدم حلقتين متداخلتين لتطبع كل أزواج (الصف، العمود) لشبكة 2×2. النتيجة 4 أسطر</p>
+    <div class="ex-task-box">
+      <div class="task-label">المطلوب الإخراج:</div>
+      <div style="direction:ltr;font-family:'Courier New',monospace;font-size:.88rem;color:#d2a8ff">1 1<br>1 2<br>2 1<br>2 2</div>
+      <div style="margin-top:.5rem;font-size:.84rem;color:rgba(255,255,255,.45)">حلقة <code>row</code> من 1 إلى 2، وبداخلها حلقة <code>col</code> من 1 إلى 2، واطبع <code style="direction:ltr">print(row, col)</code></div>
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex5Code" contenteditable="true" data-placeholder="row = 1&#10;while row <= 2:&#10;    col = 1&#10;    while col <= 2:&#10;        print(row, col)&#10;        col = col + 1&#10;    row = row + 1"></div>
+    </div>
+    <div class="ex-output" id="ex5Output"><div class="output-label">الإخراج:</div><div id="ex5OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(5)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(5)">✅ تحقق من الإجابة</button>
+    </div>
+    <div class="ex-feedback" id="ex5Feedback"></div>
+  </div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="big-e">🔁</div>
+  <h3>أتممت الدرس الرابع  أنت بطل الحلقات!</h3>
+  <p>تعلّمتَ: ما هي الحلقة 🔁 · حلقة while 🔵 · الشرط 🎯 · الحلقة اللانهائية ⚠️ · break 🛑 · الحلقة المتداخلة 🪆</p>
+  <div class="next-lesson-btn">الدرس الخامس  قريباً 🔒</div>
+</footer>
+
+<!-- CRASH OVERLAY (infinite loop simulation) -->
+<div id="crashOverlay" onclick="endCrash()"></div>
+<div id="crashToast">😅 رأيت؟ هذا ما يحدث لو دارت حلقة <b>while</b> للأبد بلا توقّف! لهذا نحتاج دائماً أن نُحدّث العدّاد أو نستخدم <b>break</b> 🛑</div>
+
+<script>
+/* ── Stars ── */
+(function(){
+  const c=document.getElementById('starsContainer');
+  for(let i=0;i<120;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const sz=Math.random()*2.5+.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*5}s`;
+    c.appendChild(s);
+  }
+})();
+
+/* ── Progress bar ── */
+window.addEventListener('scroll',()=>{
+  const el=document.getElementById('progress-bar');
+  const p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  el.style.width=Math.min(p,100)+'%';
+});
+
+/* ── Fade-in on scroll ── */
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:.12});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+/* ════════════════════════════════════
+   WHILE STEPPER  (i = 1; while i <= 5)
+   ════════════════════════════════════ */
+let stState={i:1,phase:'check',outputs:[],done:false,autoT:null};
+function loopRenderState(){
+  document.getElementById('stI').textContent=stState.i;
+}
+function loopStep(){
+  if(stState.done){loopReset();}
+  const condEl=document.getElementById('stCond');
+  const condValEl=document.getElementById('stCondVal');
+  const msgEl=document.getElementById('stMsg');
+  const cons=document.getElementById('stConsole');
+  loopRenderState();
+
+  if(stState.phase==='check'){
+    const ok=stState.i<=5;
+    condValEl.textContent=ok?'صحيح ✓':'خطأ ✗';
+    condEl.className='state-chip cond-chip '+(ok?'true':'false');
+    if(ok){
+      msgEl.textContent=`الشرط ${stState.i} ≤ 5 صحيح ✓ → ننفّذ الجسم`;
+      stState.phase='print';
+    }else{
+      msgEl.innerHTML=`الشرط ${stState.i} ≤ 5 <span style="color:#ff7b72">خطأ ✗</span> → نتوقف! 🛑 خرجنا من الحلقة`;
+      stState.phase='end';stState.done=true;
+    }
+  } else if(stState.phase==='print'){
+    msgEl.textContent=`نطبع i = ${stState.i} 🖨️`;
+    const chip=document.createElement('div');
+    chip.className='out-chip';chip.textContent=stState.i;
+    cons.appendChild(chip);
+    stState.outputs.push(stState.i);
+    stState.phase='update';
+  } else if(stState.phase==='update'){
+    stState.i++;
+    loopRenderState();
+    msgEl.textContent=`i = i + 1 → صار i = ${stState.i}، نرجع لفحص الشرط 🔄`;
+    document.getElementById('stCond').className='state-chip cond-chip';
+    document.getElementById('stCondVal').textContent='؟';
+    stState.phase='check';
+  }
+}
+function loopAuto(){
+  if(stState.autoT)return;
+  loopReset();
+  stState.autoT=setInterval(()=>{
+    loopStep();
+    if(stState.done){clearInterval(stState.autoT);stState.autoT=null;}
+  },850);
+}
+function loopReset(){
+  if(stState.autoT){clearInterval(stState.autoT);stState.autoT=null;}
+  stState={i:1,phase:'check',outputs:[],done:false,autoT:null};
+  document.getElementById('stI').textContent='1';
+  document.getElementById('stCond').className='state-chip cond-chip';
+  document.getElementById('stCondVal').textContent='؟';
+  document.getElementById('stMsg').textContent='اضغط "خطوة" للبدء 👇';
+  document.getElementById('stConsole').innerHTML='';
+}
+
+/* ════════════════════════════════════
+   ONE BOX  (i = i + 1)
+   ════════════════════════════════════ */
+let obVal=5, obBusy=false;
+function oneBoxReset(){
+  obBusy=false;obVal=5;
+  const box=document.getElementById('obBox');
+  box.className='ob-box';box.textContent='5';
+  document.getElementById('obEq2').className='ob-eq dim';
+  document.getElementById('obEq2').innerHTML='i = <span class="ob-old">5</span> + 1';
+  document.getElementById('obEq3').className='ob-eq dim';
+  document.getElementById('obEq3').innerHTML='i = <span class="ob-new">6</span>';
+  document.getElementById('obMsg').textContent='اضغط "نفّذ السطر" لترى ماذا يحدث 👇';
+}
+function oneBoxStep(){
+  if(obBusy)return;obBusy=true;
+  const box=document.getElementById('obBox');
+  const eq2=document.getElementById('obEq2');
+  const eq3=document.getElementById('obEq3');
+  const msg=document.getElementById('obMsg');
+  const oldV=obVal, newV=obVal+1;
+
+  // 1) read the OLD value out of the box
+  box.className='ob-box reading';
+  eq2.className='ob-eq';eq2.innerHTML=`i = <span class="ob-old">${oldV}</span> + 1`;
+  msg.innerHTML=`1️⃣ نقرأ القيمة <b>القديمة</b> من الصندوق: <b style="color:#ffd200">${oldV}</b>`;
+
+  // 2) compute old + 1
+  setTimeout(()=>{
+    eq3.className='ob-eq';eq3.innerHTML=`i = <span class="ob-new">${newV}</span>`;
+    msg.innerHTML=`2️⃣ نحسب: ${oldV} + 1 = <b style="color:#2ecc71">${newV}</b>`;
+  },1000);
+
+  // 3) write the result back into the SAME box (old value disappears)
+  setTimeout(()=>{
+    box.className='ob-box writing';
+    box.innerHTML=`<span class="ob-strike">${oldV}</span>`;
+    msg.innerHTML=`3️⃣ نضع الناتج في <b>نفس</b> الصندوق  القيمة القديمة تختفي`;
+  },2000);
+
+  setTimeout(()=>{
+    box.className='ob-box flash';box.textContent=newV;obVal=newV;
+    msg.innerHTML=`✅ صار في الصندوق i القيمة <b style="color:#2ecc71">${newV}</b>! صندوق واحد فقط.. تغيّرت قيمته. اضغط مرة أخرى ➕`;
+    setTimeout(()=>{
+      box.className='ob-box';
+      eq2.className='ob-eq dim';eq3.className='ob-eq dim';
+      obBusy=false;
+    },900);
+  },2900);
+}
+
+/* ════════════════════════════════════
+   ROCKET COUNTDOWN
+   ════════════════════════════════════ */
+let rocketBusy=false;
+function launchRocket(){
+  if(rocketBusy)return;
+  let n=parseInt(document.getElementById('rocketInput').value)||5;
+  n=Math.max(1,Math.min(10,n));
+  document.getElementById('rocketCodeNum').textContent=n;
+  const stage=document.getElementById('rocketStage');
+  const ship=document.getElementById('rocketShip');
+  const flame=document.getElementById('rocketFlame');
+  const countEl=document.getElementById('rocketCount');
+  ship.className='rocket-ship';ship.style.opacity='';
+  flame.className='rocket-flame';
+  rocketBusy=true;
+  let count=n;
+  const tick=()=>{
+    if(count>0){
+      countEl.textContent=count;
+      countEl.style.color='#2ecc71';
+      ship.classList.add('rumble');     // الصاروخ يهتزّ استعداداً
+      flame.classList.add('on');        // اللهب يشتعل
+      count--;
+      setTimeout(tick,800);
+    }else{
+      countEl.textContent='🔥 انطلق!';
+      countEl.style.color='#ffd200';
+      ship.classList.remove('rumble');
+      // دخان عند القاعدة
+      for(let k=0;k<7;k++){
+        const s=document.createElement('div');
+        s.className='rocket-smoke';s.textContent='💨';
+        s.style.left=(35+Math.random()*30)+'%';
+        s.style.animationDelay=(k*0.07)+'s';
+        stage.appendChild(s);
+        setTimeout(()=>s.remove(),1600);
+      }
+      ship.classList.add('blastoff');   // ينطلق للأعلى
+      flame.classList.remove('on');
+      setTimeout(()=>{countEl.textContent='🌙 وصل إلى الفضاء!';countEl.style.color='#21d4fd';},950);
+      setTimeout(()=>{
+        ship.className='rocket-ship';ship.style.opacity='';
+        flame.className='rocket-flame';
+        countEl.textContent='جاهز';countEl.style.color='#2ecc71';
+        rocketBusy=false;
+      },3200);
+    }
+  };
+  tick();
+}
+
+/* ════════════════════════════════════
+   BREAK  —  TREASURE SEARCH
+   ════════════════════════════════════ */
+const BOX_COUNT=7, TREASURE_POS=4;
+function buildBoxes(){
+  const row=document.getElementById('boxRow');row.innerHTML='';
+  for(let k=0;k<BOX_COUNT;k++){
+    const b=document.createElement('div');
+    b.className='tbox';b.id='tbox'+k;b.textContent='📦';
+    row.appendChild(b);
+  }
+}
+let treasureBusy=false;
+function resetTreasure(){
+  treasureBusy=false;buildBoxes();
+  document.getElementById('breakMsg').textContent='اضغط "ابحث" للبدء 👇';
+}
+function searchTreasure(){
+  if(treasureBusy)return;
+  treasureBusy=true;buildBoxes();
+  const msg=document.getElementById('breakMsg');
+  let k=0;
+  const open=()=>{
+    const b=document.getElementById('tbox'+k);
+    b.classList.add('checking');
+    setTimeout(()=>{
+      b.classList.remove('checking');
+      if(k===TREASURE_POS){
+        b.classList.add('found');b.textContent='🎁';
+        msg.innerHTML=`وجدنا الكنز في الصندوق ${k+1}! 🎉 <span style="color:#ff7b72;font-weight:700">break</span> ← توقّفنا فوراً`;
+        for(let r=k+1;r<BOX_COUNT;r++)document.getElementById('tbox'+r).classList.add('skipped');
+        treasureBusy=false;
+      }else{
+        b.classList.add('empty');b.textContent='∅';
+        msg.textContent=`الصندوق ${k+1} فارغ.. نكمل البحث 🔎`;
+        k++;setTimeout(open,520);
+      }
+    },520);
+  };
+  open();
+}
+buildBoxes();
+
+/* ════════════════════════════════════
+   NESTED WHILE  —  GRID BUILDER
+   ════════════════════════════════════ */
+let nestBusy=false;
+function runNested(){
+  if(nestBusy)return;
+  const rows=Math.max(1,Math.min(5,parseInt(document.getElementById('nestRows').value)||3));
+  const cols=Math.max(1,Math.min(5,parseInt(document.getElementById('nestCols').value)||3));
+  const grid=document.getElementById('nestGrid');
+  grid.style.gridTemplateColumns=`repeat(${cols},38px)`;
+  grid.innerHTML='';
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const d=document.createElement('div');d.className='ncell';d.id=`nc${r}_${c}`;grid.appendChild(d);
+  }
+  const msg=document.getElementById('nestMsg');
+  const seq=[];for(let r=0;r<rows;r++)for(let c=0;c<cols;c++)seq.push({r,c});
+  let idx=0;nestBusy=true;
+  const step=()=>{
+    if(idx>=seq.length){
+      msg.innerHTML=`انتهت! ${rows} × ${cols} = <b style="color:#b721ff">${rows*cols}</b> نجمة ⭐`;
+      nestBusy=false;return;
+    }
+    const {r,c}=seq[idx];
+    const cell=document.getElementById(`nc${r}_${c}`);
+    cell.classList.add('lit');cell.textContent='⭐';
+    msg.textContent=`الصف ${r+1}، العمود ${c+1}`;
+    idx++;setTimeout(step,260);
+  };
+  step();
+}
+runNested();
+
+/* ════════════════════════════════════
+   INFINITE LOOP  —  FAKE CRASH & REBOOT
+   ════════════════════════════════════ */
+let crashTimers=[],crashIntervals=[],floodInt=null;
+function ct(fn,ms){crashTimers.push(setTimeout(fn,ms));}
+function clearCrash(){
+  crashTimers.forEach(clearTimeout);crashTimers=[];
+  crashIntervals.forEach(clearInterval);crashIntervals=[];
+  if(floodInt){clearInterval(floodInt);floodInt=null;}
+}
+function startCrash(){
+  const ov=document.getElementById('crashOverlay');
+  if(ov.classList.contains('active'))return;
+  ov.style.opacity='';ov.classList.add('active');
+  document.body.classList.add('noscroll');
+  const root=document.documentElement;
+  if(root.requestFullscreen)root.requestFullscreen().catch(()=>{});
+  // STAGE 1: runaway output flood + screen shake
+  ov.innerHTML='<div class="crash-flood crash-shake" id="floodText"></div><div class="crash-hint">اضغط في أي مكان للتخطّي ⏭️</div>';
+  const ft=document.getElementById('floodText');
+  let txt='';
+  floodInt=setInterval(()=>{txt+='1 '.repeat(90);ft.textContent=txt.slice(-7000);},45);
+  ct(stageBSOD,2900);
+}
+function stageBSOD(){
+  if(floodInt){clearInterval(floodInt);floodInt=null;}
+  const ov=document.getElementById('crashOverlay');
+  ov.innerHTML=`
+    <div class="bsod">
+      <div class="sad">:(</div>
+      <h2>توقّف حاسوبك بسبب مشكلة ويحتاج إلى إعادة التشغيل</h2>
+      <p>السبب: حلقة <b>while</b> لا نهائية لا تتوقّف أبداً! 🔁∞</p>
+      <p>جارٍ جمع معلومات الخطأ: <span id="bsodPct">0</span>%</p>
+      <div class="code-tag">STOP CODE: WHILE_LOOP_NEVER_ENDS</div>
+    </div>
+    <div class="crash-hint">اضغط في أي مكان للتخطّي ⏭️</div>`;
+  let p=0;const pe=document.getElementById('bsodPct');
+  crashIntervals.push(setInterval(()=>{
+    p+=Math.floor(Math.random()*13)+4;if(p>=100){p=100;}
+    if(pe)pe.textContent=p;
+  },240));
+  ct(stageReboot,4200);
+}
+function stageReboot(){
+  const ov=document.getElementById('crashOverlay');
+  ov.innerHTML=`<div class="reboot"><div class="spinner"></div><div style="font-family:'Cairo',sans-serif;font-size:1.05rem;color:rgba(255,255,255,.7)">جارٍ إعادة تشغيل الحاسوب...</div></div>`;
+  ct(stageBoot,2200);
+}
+function stageBoot(){
+  const ov=document.getElementById('crashOverlay');
+  ov.innerHTML=`<div class="reboot"><div style="font-size:4rem;animation:floatUD 2s ease-in-out infinite">🐍</div><div class="boot-dots"><span></span><span></span><span></span></div><div style="font-family:'Cairo',sans-serif;font-size:.95rem;color:rgba(255,255,255,.55);letter-spacing:2px">Code Quest OS</div></div>`;
+  ct(endCrash,2400);
+}
+function endCrash(){
+  const ov=document.getElementById('crashOverlay');
+  if(!ov.classList.contains('active'))return;
+  clearCrash();
+  ov.style.transition='opacity .6s';ov.style.opacity='0';
+  if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});
+  setTimeout(()=>{
+    ov.className='';ov.style.opacity='';ov.style.transition='';ov.innerHTML='';
+    document.body.classList.remove('noscroll');
+    const toast=document.getElementById('crashToast');
+    toast.classList.add('show');
+    setTimeout(()=>toast.classList.remove('show'),7000);
+  },650);
+}
+
+/* ════════════════════════════════════
+   MINI PYTHON INTERPRETER (with loops)
+   ════════════════════════════════════ */
+function stripComment(line){
+  let out='',inStr=false,q='';
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(inStr){out+=ch;if(ch===q)inStr=false;continue;}
+    if(ch==='"'||ch==="'"){inStr=true;q=ch;out+=ch;continue;}
+    if(ch==='#')break;
+    out+=ch;
+  }
+  return out;
+}
+function tokenize(s){
+  const toks=[];let i=0;const two=['**','//','==','!=','<=','>=','+=','-=','*=','/='];
+  while(i<s.length){
+    const c=s[i];
+    if(c===' '||c==='\t'){i++;continue;}
+    if(c==='"'||c==="'"){let q=c,j=i+1,str='';while(j<s.length&&s[j]!==q){str+=s[j];j++;}toks.push({t:'str',v:str});i=j+1;continue;}
+    if(/[0-9]/.test(c)||(c==='.'&&/[0-9]/.test(s[i+1]||''))){let j=i,num='';while(j<s.length&&/[0-9.]/.test(s[j])){num+=s[j];j++;}toks.push({t:'num',v:parseFloat(num)});i=j;continue;}
+    if(/[A-Za-z_؀-ۿ]/.test(c)){let j=i,id='';while(j<s.length&&/[A-Za-z0-9_؀-ۿ]/.test(s[j])){id+=s[j];j++;}
+      if(['and','or','not','True','False'].includes(id))toks.push({t:'kw',v:id});else toks.push({t:'id',v:id});i=j;continue;}
+    const tw=s.substr(i,2);
+    if(two.includes(tw)){toks.push({t:'op',v:tw});i+=2;continue;}
+    toks.push({t:'op',v:c});i++;
+  }
+  return toks;
+}
+function truthy(v){if(v===true)return true;if(v===false)return false;if(typeof v==='number')return v!==0;if(typeof v==='string')return v.length>0;return !!v;}
+
+function evalExpr(src,vars,getInput){
+  const toks=tokenize(src);let pos=0;
+  const peek=()=>toks[pos];
+  const next=()=>toks[pos++];
+  function parseOr(){let l=parseAnd();while(peek()&&peek().v==='or'){next();const r=parseAnd();l=truthy(l)||truthy(r);}return l;}
+  function parseAnd(){let l=parseNot();while(peek()&&peek().v==='and'){next();const r=parseNot();l=truthy(l)&&truthy(r);}return l;}
+  function parseNot(){if(peek()&&peek().v==='not'){next();return !truthy(parseNot());}return parseCmp();}
+  function parseCmp(){let l=parseAdd();while(peek()&&['<','>','<=','>=','==','!='].includes(peek().v)){const op=next().v;const r=parseAdd();
+    if(op==='<')l=l<r;else if(op==='>')l=l>r;else if(op==='<=')l=l<=r;else if(op==='>=')l=l>=r;else if(op==='==')l=l===r;else l=l!==r;}return l;}
+  function parseAdd(){let l=parseMul();while(peek()&&(peek().v==='+'||peek().v==='-')){const op=next().v;const r=parseMul();
+    if(op==='+'){l=(typeof l==='string'||typeof r==='string')?String(l)+String(r):l+r;}else l=l-r;}return l;}
+  function parseMul(){let l=parsePow();while(peek()&&['*','/','//','%'].includes(peek().v)){const op=next().v;const r=parsePow();
+    if(op==='*'){if(typeof l==='string')l=l.repeat(Math.max(0,r));else if(typeof r==='string')l=r.repeat(Math.max(0,l));else l=l*r;}
+    else if(op==='/')l=l/r;else if(op==='//')l=Math.floor(l/r);else l=((l%r)+r)%r;}return l;}
+  function parsePow(){let l=parseUnary();if(peek()&&peek().v==='**'){next();const r=parsePow();l=Math.pow(l,r);}return l;}
+  function parseUnary(){if(peek()&&peek().v==='-'){next();return -parseUnary();}if(peek()&&peek().v==='+'){next();return parseUnary();}return parsePrimary();}
+  function parsePrimary(){
+    const t=peek();
+    if(!t)throw new Error('تعبير ناقص');
+    if(t.t==='num'){next();return t.v;}
+    if(t.t==='str'){next();return t.v;}
+    if(t.t==='kw'&&t.v==='True'){next();return true;}
+    if(t.t==='kw'&&t.v==='False'){next();return false;}
+    if(t.v==='('){next();const e=parseOr();if(peek()&&peek().v===')')next();return e;}
+    if(t.t==='id'){
+      const name=next().v;
+      if(peek()&&peek().v==='('){ // function call
+        next();const args=[];
+        if(peek()&&peek().v!==')'){args.push(parseOr());while(peek()&&peek().v===','){next();args.push(parseOr());}}
+        if(peek()&&peek().v===')')next();
+        return callFn(name,args);
+      }
+      if(name in vars)return vars[name];
+      throw new Error('متغير غير معرّف: '+name);
+    }
+    throw new Error('رمز غير متوقع');
+  }
+  function callFn(name,args){
+    switch(name){
+      case 'str':return String(args[0]);
+      case 'int':return parseInt(args[0])||0;
+      case 'float':return parseFloat(args[0])||0;
+      case 'len':return String(args[0]).length;
+      case 'abs':return Math.abs(args[0]);
+      case 'input':return getInput?getInput():'';
+      default:throw new Error('دالة غير معروفة: '+name);
+    }
+  }
+  const result=parseOr();
+  return result;
+}
+
+function splitTopLevel(str,sep){
+  const parts=[];let cur='',depth=0,inStr=false,q='';
+  for(let i=0;i<str.length;i++){
+    const c=str[i];
+    if(inStr){cur+=c;if(c===q)inStr=false;continue;}
+    if(c==='"'||c==="'"){inStr=true;q=c;cur+=c;continue;}
+    if(c==='('||c==='[')depth++;
+    else if(c===')'||c===']')depth--;
+    else if(c===sep&&depth===0){parts.push(cur);cur='';continue;}
+    cur+=c;
+  }
+  parts.push(cur);
+  return parts;
+}
+
+function runPython(code,inputs){
+  const raw=code.replace(/\t/g,'    ').split('\n');
+  const lines=[];
+  for(const r of raw){
+    const nc=stripComment(r);
+    if(nc.trim()==='')continue;
+    lines.push({indent:nc.match(/^ */)[0].length,text:nc.trim()});
+  }
+  const vars={};const out=[];const ctx={steps:0,inputs:inputs||[],inpIdx:0};
+  const getInput=()=>ctx.inputs[ctx.inpIdx++]!==undefined?ctx.inputs[ctx.inpIdx-1]:'';
+
+  function execBlock(block){
+    let i=0;
+    while(i<block.length){
+      const ln=block[i];
+      if(++ctx.steps>500000)throw new Error('البرنامج طويل جداً');
+      // gather nested body (deeper indent)
+      const gather=()=>{const body=[];let j=i+1;while(j<block.length&&block[j].indent>ln.indent){body.push(block[j]);j++;}return {body,next:j};};
+
+      if(/^while\b/.test(ln.text)){
+        const cond=ln.text.replace(/^while\s+/,'').replace(/:\s*$/,'');
+        const {body,next}=gather();
+        let guard=0;
+        while(truthy(evalExpr(cond,vars,getInput))){
+          if(++guard>5000){out.push('⚠️ حلقة لا نهائية! (أوقفناها) — هل نسيت تحديث العدّاد؟');break;}
+          try{execBlock(body);}
+          catch(sig){if(sig.__brk)break;if(sig.__cont)continue;throw sig;}
+        }
+        i=next;continue;
+      }
+      if(/^if\b/.test(ln.text)){
+        const cond=ln.text.replace(/^if\s+/,'').replace(/:\s*$/,'');
+        const {body,next}=gather();
+        let took=truthy(evalExpr(cond,vars,getInput));
+        let cursor=next;
+        if(took){execBlock(body);}
+        // optional else
+        if(cursor<block.length&&block[cursor].indent===ln.indent&&/^else\s*:/.test(block[cursor].text)){
+          const elseLn=block[cursor];const elseBody=[];let j=cursor+1;
+          while(j<block.length&&block[j].indent>elseLn.indent){elseBody.push(block[j]);j++;}
+          if(!took)execBlock(elseBody);
+          cursor=j;
+        }
+        i=cursor;continue;
+      }
+      // simple statement
+      execStmt(ln.text);
+      i++;
+    }
+  }
+
+  function execStmt(text){
+    if(text==='break')throw {__brk:true};
+    if(text==='continue')throw {__cont:true};
+    let m=text.match(/^print\s*\((.*)\)$/s);
+    if(m){
+      const inside=m[1].trim();
+      if(inside===''){out.push('');return;}
+      const args=splitTopLevel(inside,',').map(a=>evalExpr(a.trim(),vars,getInput));
+      out.push(args.map(a=>String(a)).join(' '));
+      return;
+    }
+    m=text.match(/^([A-Za-z_؀-ۿ][\w؀-ۿ]*)\s*(\+=|-=|\*=|\/=|=)\s*(.+)$/);
+    if(m){
+      const name=m[1],op=m[2],val=evalExpr(m[3],vars,getInput);
+      if(op==='='){vars[name]=val;}
+      else{
+        const cur=vars[name]||0;
+        if(op==='+=')vars[name]=(typeof cur==='string'||typeof val==='string')?String(cur)+String(val):cur+val;
+        else if(op==='-=')vars[name]=cur-val;
+        else if(op==='*=')vars[name]=cur*val;
+        else vars[name]=cur/val;
+      }
+      return;
+    }
+    throw new Error('سطر غير مفهوم: '+text);
+  }
+
+  execBlock(lines);
+  return {output:out,vars};
+}
+
+/* ── Exercises ── */
+function runEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText;
+  const outDiv=document.getElementById('ex'+n+'Output');
+  const outText=document.getElementById('ex'+n+'OutText');
+  let result;
+  try{result=runPython(code);}
+  catch(e){outText.textContent='⚠️ خطأ: '+e.message;outDiv.classList.add('show');return;}
+  outText.textContent=result.output.length?result.output.join('\n'):'(لا يوجد إخراج)';
+  outDiv.classList.add('show');
+}
+
+function checkEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText;
+  const fb=document.getElementById('ex'+n+'Feedback');
+  let result;
+  try{result=runPython(code);}
+  catch(e){fb.className='ex-feedback show wrong';fb.textContent='⚠️ في خطأ بالكود: '+e.message;return;}
+  const out=result.output.map(o=>String(o).trim());
+  const hasWhile=/\bwhile\b/.test(code);
+  let ok=false,msg='';
+
+  if(n===1){
+    ok=hasWhile&&out.join(',')==='1,2,3,4,5';
+    msg=ok?'✅ ممتاز! حلقتك طبعت 1 2 3 4 5 بنجاح 🎉':'❌ يجب أن يكون الإخراج 1 2 3 4 5 (كل رقم بسطر) باستخدام while. تأكد من i = i + 1';
+  } else if(n===2){
+    ok=hasWhile&&out.join(',')==='5,4,3,2,1';
+    msg=ok?'✅ رائع! عدّ تنازلي صحيح 5 4 3 2 1 🚀':'❌ يجب أن يكون الإخراج 5 4 3 2 1. تذكّر: ابدأ من 5 واستخدم i = i - 1';
+  } else if(n===3){
+    ok=hasWhile&&out.some(o=>o==='55');
+    msg=ok?'✅ صحيح! مجموع الأرقام من 1 إلى 10 = 55 🎉':'❌ المجموع المطلوب هو 55. استخدم total = total + i داخل الحلقة واطبع total في النهاية';
+  } else if(n===4){
+    const hasBreak=/\bbreak\b/.test(code);
+    ok=hasWhile&&hasBreak&&out.join(',')==='1,2,3';
+    msg=ok?'✅ ممتاز! استخدمت break وتوقّفت عند 3 (الإخراج 1 2 3) 🎉':'❌ يجب استخدام break ليكون الإخراج 1 2 3 فقط. تأكد من if i == 3: break';
+  } else if(n===5){
+    ok=hasWhile&&out.join('|')==='1 1|1 2|2 1|2 2';
+    msg=ok?'✅ رائع! حلقتان متداخلتان طبعتا كل الأزواج 1 1 / 1 2 / 2 1 / 2 2 🪆':'❌ المطلوب 4 أسطر: 1 1 ثم 1 2 ثم 2 1 ثم 2 2. ضع حلقة col داخل حلقة row واستخدم print(row, col)';
+  }
+  fb.className='ex-feedback show '+(ok?'correct':'wrong');
+  fb.textContent=msg;
+}
+
+/* Tab key inserts spaces in editors */
+document.querySelectorAll('.ex-code').forEach(ed=>{
+  ed.addEventListener('keydown',e=>{
+    if(e.key==='Tab'){e.preventDefault();document.execCommand('insertText',false,'    ');}
+  });
+});
+</script>
+</body>
+</html>
