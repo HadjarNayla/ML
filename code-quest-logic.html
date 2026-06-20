@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مغامرة البرمجة 3 - and و or و not!</title>
+<style>
+/* ============================================================
+   FONTS
+============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Rubik:wght@500;700;800;900&family=Fira+Code:wght@500;700&display=swap');
+
+/* ============================================================
+   THEME  (matches code-quest.html)
+============================================================ */
+:root{
+  --paper:   #FFF6E9;
+  --ink:     #2B2342;
+  --coral:   #FF6B6B;
+  --yellow:  #FFD93D;
+  --mint:    #5FD08D;
+  --sky:     #4D96FF;
+  --purple:  #9B5DE5;
+  --pink:    #FF8FAB;
+  --white:   #FFFFFF;
+  --true-bg: #DCFCE7;
+  --false-bg:#FFE4E6;
+  --radius:  24px;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family:'Rubik', sans-serif;
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(43,35,66,.07) 2px, transparent 2px);
+  background-size:28px 28px;
+  overflow-x:hidden;
+}
+
+h1,h2,h3{ font-family:'Baloo Bhaijaan 2', 'Rubik', cursive; line-height:1.25; }
+code, pre{ font-family:'Fira Code', monospace; direction:ltr; unicode-bidi:embed; }
+
+/* ============================================================
+   STICKY NAV
+============================================================ */
+nav{
+  position:sticky; top:12px; z-index:50;
+  display:flex; justify-content:center; gap:7px;
+  flex-wrap:wrap; padding:0 12px;
+}
+nav a{
+  background:var(--white);
+  border:3px solid var(--ink);
+  border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink);
+  padding:5px 12px;
+  font-weight:900; font-size:.8rem;
+  color:var(--ink); text-decoration:none;
+  transition:transform .15s, box-shadow .15s;
+}
+nav a:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); background:var(--yellow); }
+nav a.home{ background:var(--purple); color:#fff; }
+
+/* ============================================================
+   HERO
+============================================================ */
+header{ position:relative; text-align:center; padding:80px 20px 50px; overflow:hidden; }
+.blob{
+  position:absolute; border-radius:50%;
+  border:3px solid var(--ink);
+  animation:float 6s ease-in-out infinite; z-index:0;
+}
+.blob.b1{ width:70px; height:70px; background:var(--coral);  top:12%; left:8%;  animation-delay:0s; }
+.blob.b2{ width:46px; height:46px; background:var(--yellow); top:60%; left:14%; animation-delay:1.2s; }
+.blob.b3{ width:90px; height:90px; background:var(--sky);    top:18%; right:7%; animation-delay:.6s; }
+.blob.b4{ width:40px; height:40px; background:var(--mint);   top:65%; right:13%;animation-delay:1.8s; }
+.blob.b5{ width:30px; height:30px; background:var(--purple); top:38%; left:22%; animation-delay:2.4s; }
+@keyframes float{ 0%,100%{ transform:translateY(0) rotate(0deg);} 50%{ transform:translateY(-18px) rotate(8deg);} }
+
+header h1{ position:relative; z-index:1; font-size:clamp(2.1rem, 7vw, 4.2rem); font-weight:800; }
+header h1 span{ display:inline-block; animation:bounceIn .8s both; }
+header h1 span:nth-child(odd){ color:var(--coral); }
+header h1 span:nth-child(even){ color:var(--sky); }
+header h1 span:nth-child(3n){ color:var(--mint); }
+@keyframes bounceIn{
+  0%{ transform:translateY(-40px) scale(.3); opacity:0; }
+  60%{ transform:translateY(8px) scale(1.1); opacity:1; }
+  100%{ transform:translateY(0) scale(1); }
+}
+header p.tagline{
+  position:relative; z-index:1;
+  font-size:clamp(1.05rem, 2.5vw, 1.4rem); font-weight:800;
+  max-width:680px; margin:18px auto 14px;
+}
+.hero-bot{ font-size:5rem; position:relative; z-index:1; animation:float 4s ease-in-out infinite; }
+
+/* ============================================================
+   SECTIONS / CARDS
+============================================================ */
+main{ max-width:980px; margin:0 auto; padding:0 18px 80px; }
+section{
+  margin:64px 0;
+  opacity:0; transform:translateY(40px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+section.visible{ opacity:1; transform:translateY(0); }
+
+.badge{
+  display:inline-block;
+  font-family:'Baloo Bhaijaan 2', cursive; font-weight:800; font-size:.95rem;
+  background:var(--yellow);
+  border:3px solid var(--ink); border-radius:12px;
+  box-shadow:4px 4px 0 var(--ink);
+  padding:4px 16px; transform:rotate(3deg); margin-bottom:14px;
+}
+.badge.sky{ background:var(--sky); color:#fff; }
+.badge.coral{ background:var(--coral); color:#fff; }
+.badge.mint{ background:var(--mint); }
+.badge.purple{ background:var(--purple); color:#fff; }
+.badge.pink{ background:var(--pink); }
+
+section h2{ font-size:clamp(1.6rem, 4.5vw, 2.4rem); margin-bottom:10px; }
+section .lead{ font-size:1.08rem; font-weight:700; max-width:730px; margin-bottom:24px; line-height:1.9; }
+.lead code, .mini-note code, .fact-strip code, .legend code{ background:rgba(43,35,66,.08); padding:1px 7px; border-radius:7px; }
+
+.card{
+  background:var(--white);
+  border:3px solid var(--ink); border-radius:var(--radius);
+  box-shadow:7px 7px 0 var(--ink);
+  padding:24px;
+}
+.grid{ display:grid; gap:20px; }
+.grid.cols-2{ grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); }
+.grid.cols-3{ grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); }
+
+/* legend cards (and / or / not) */
+.legend{ text-align:center; }
+.legend .big{ font-family:'Fira Code', monospace; font-weight:700; font-size:1.6rem; direction:ltr; display:inline-block;
+  border:3px solid var(--ink); border-radius:14px; padding:6px 18px; box-shadow:4px 4px 0 var(--ink); margin-bottom:12px; }
+.legend.and .big{ background:var(--sky); color:#fff; }
+.legend.or  .big{ background:var(--mint); }
+.legend.not .big{ background:var(--coral); color:#fff; }
+.legend p{ font-weight:700; line-height:1.8; font-size:.98rem; }
+
+/* ============================================================
+   CODE BLOCKS  (with running highlight)
+============================================================ */
+pre.codeblock{
+  background:var(--ink); color:#EDE9FE;
+  border-radius:18px; border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--sky);
+  padding:16px 18px; font-size:.9rem; line-height:1.95;
+  overflow-x:auto; direction:ltr; text-align:left;
+}
+pre.codeblock .ln{ display:block; padding:0 10px; border-radius:8px; transition:background .3s, opacity .3s; }
+pre.codeblock .ln.active{ background:rgba(95,208,141,.35); outline:2px dashed var(--mint); }
+pre.codeblock .ln.skipped{ opacity:.32; text-decoration:line-through; }
+pre.codeblock .kw{ color:#FF8FAB; font-weight:700; }
+pre.codeblock .op{ color:#FDBA74; font-weight:700; }
+pre.codeblock .fn{ color:#7DD3FC; }
+pre.codeblock .str{ color:#86EFAC; }
+pre.codeblock .num{ color:#FDE047; font-weight:700; }
+pre.codeblock .var{ color:#FCD5CE; }
+
+/* ============================================================
+   TERMINAL
+============================================================ */
+.term-head{
+  display:flex; align-items:center; gap:8px;
+  background:var(--ink); color:var(--paper);
+  border:3px solid var(--ink); border-bottom:none;
+  border-radius:14px 14px 0 0; padding:8px 14px;
+  font-weight:900; font-size:.85rem;
+}
+.term-dot{ width:13px; height:13px; border-radius:50%; border:2px solid var(--paper); }
+.term-dot.r{ background:var(--coral); } .term-dot.y{ background:var(--yellow); } .term-dot.g{ background:var(--mint); }
+.term-head .title{ margin-inline-start:8px; opacity:.85; }
+.terminal{
+  background:#161126; color:#C7F9CC;
+  border:3px solid var(--ink); border-top:none;
+  border-radius:0 0 14px 14px;
+  padding:14px 16px; min-height:90px; max-height:240px; overflow-y:auto;
+  font-family:'Fira Code', monospace; font-size:.92rem; line-height:1.85;
+}
+.terminal:empty::before{ content:"اضغط زر التشغيل لترى البرنامج يعمل..."; color:#6b6386; }
+.term-line{ white-space:pre-wrap; word-break:break-word; }
+.t-prompt{ color:#7DD3FC; }
+.t-user{ color:#FDE047; font-weight:700; }
+.t-out{ color:#C7F9CC; }
+
+/* ============================================================
+   CONTROLS
+============================================================ */
+.controls{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:10px 0 4px; }
+.kid-input{
+  flex:1; min-width:110px;
+  font-family:'Fira Code', monospace; font-weight:700; font-size:1rem;
+  border:3px solid var(--ink); border-radius:14px;
+  padding:9px 13px; background:var(--white); color:var(--ink);
+  box-shadow:3px 3px 0 var(--ink); outline:none; direction:rtl;
+  transition:box-shadow .15s, transform .15s;
+}
+.kid-input:focus{ box-shadow:5px 5px 0 var(--sky); transform:translate(-1px,-1px); }
+.kid-input.shake{ animation:shake .4s; border-color:var(--coral); }
+.field-label{ font-weight:900; font-size:.92rem; min-width:96px; }
+
+.btn{
+  font-family:'Rubik', sans-serif; font-weight:900; font-size:1.05rem;
+  border:3px solid var(--ink); border-radius:16px;
+  box-shadow:5px 5px 0 var(--ink);
+  padding:11px 26px; cursor:pointer; color:var(--ink); margin-top:8px;
+  transition:transform .12s, box-shadow .12s;
+}
+.btn:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink); }
+.btn:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--ink); }
+.btn.run{ background:var(--mint); }
+.btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none; box-shadow:5px 5px 0 var(--ink); }
+
+/* ============================================================
+   DEMO STAGE
+============================================================ */
+.demo-stage{
+  border:3px solid var(--ink); border-radius:18px;
+  height:130px; margin-bottom:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:4.4rem;
+  background:linear-gradient(#FEF9C3,#FDE68A);
+  transition:background .5s; overflow:hidden;
+}
+.demo-stage.win{ background:linear-gradient(#BBF7D0,#86EFAC); }
+.demo-stage.lose{ background:linear-gradient(#FECACA,#FCA5A5); }
+.demo-stage.shake{ animation:shake .45s; }
+.big-emoji{ display:inline-block; }
+.big-emoji.pop{ animation:popIn .5s; }
+@keyframes popIn{ 0%{ transform:scale(.3); opacity:0;} 60%{ transform:scale(1.25);} 100%{ transform:scale(1);} }
+@keyframes shake{ 0%,100%{ transform:translateX(0);} 20%{ transform:translateX(-9px);} 40%{ transform:translateX(9px);} 60%{ transform:translateX(-6px);} 80%{ transform:translateX(6px);} }
+
+/* ============================================================
+   INFO STRIPS
+============================================================ */
+.fact-strip{
+  margin-top:26px;
+  background:var(--ink); color:var(--paper);
+  border-radius:var(--radius); border:3px solid var(--ink);
+  box-shadow:7px 7px 0 var(--purple);
+  padding:20px 26px; font-weight:800; font-size:1.05rem;
+  text-align:center; line-height:2;
+}
+.fact-strip code{ background:rgba(255,255,255,.15); color:var(--paper); }
+.mini-note{
+  margin-top:18px; font-weight:800; font-size:1rem;
+  background:var(--yellow);
+  border:3px solid var(--ink); border-radius:16px;
+  box-shadow:4px 4px 0 var(--ink);
+  padding:14px 18px; line-height:1.9;
+}
+.try-hint{ font-weight:800; font-size:.9rem; opacity:.8; margin-top:10px; }
+
+/* confetti */
+.confetti-bit{
+  position:fixed; top:-20px; z-index:999;
+  width:12px; height:12px; border:2px solid var(--ink);
+  pointer-events:none; animation:confallin linear forwards;
+}
+@keyframes confallin{ 0%{ transform:translateY(0) rotate(0); opacity:1;} 100%{ transform:translateY(110vh) rotate(720deg); opacity:.6;} }
+
+footer{ text-align:center; padding:50px 20px 70px; font-weight:900; font-size:1.1rem; line-height:2; }
+footer .hearts{ font-size:1.6rem; }
+footer a{ color:var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <a href="code-quest-examples.html" class="home">⬅️ أمثلة if</a>
+  <a href="#legend">📖 القاعدة</a>
+  <a href="#coaster">🎢 and</a>
+  <a href="#ticket">🎟️ or</a>
+  <a href="#login">🔐 دخول</a>
+  <a href="#dessert">🍰 حلوى</a>
+  <a href="#play">⚽ not</a>
+  <a href="#room">🌡️ المدى</a>
+  <a href="#vip">🌟 VIP</a>
+  <a href="#beach">🏖️ مزيج</a>
+  <a href="#license">🚗 متداخل</a>
+  <a href="#academy">🦸 الأبطال</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div>
+  <h1 id="heroTitle">الشروط الذكية</h1>
+  <p class="tagline">
+    سؤال واحد لا يكفي دائما! الآن نربط عدة شروط معا باستخدام
+    <b>and</b> و <b>or</b> و <b>not</b> لنصنع برامج <b>تفكر بذكاء حقيقي</b>. 🧠⚡
+  </p>
+  <div class="hero-bot">🤖</div>
+</header>
+
+<main>
+
+<!-- ============ LEGEND ============ -->
+<section id="legend">
+  <span class="badge">القاعدة الذهبية</span>
+  <h2>الكلمات الثلاث السحرية 📖</h2>
+  <p class="lead">
+    قبل أن نبدأ، تذكّر معاني الكلمات الثلاث. كلها تعطي في النهاية <code>True</code> أو <code>False</code>،
+    تماما مثل ما تعلمناه في الجزء الأول:
+  </p>
+  <div class="grid cols-3">
+    <div class="card legend and">
+      <div class="big">and</div>
+      <p><b>«و»</b><br>يجب أن تكون <b>كل الشروط</b> صحيحة. لو شرط واحد خاطئ، النتيجة خاطئة. <code>and</code> صارم!</p>
+    </div>
+    <div class="card legend or">
+      <div class="big">or</div>
+      <p><b>«أو»</b><br>يكفي أن يكون <b>شرط واحد</b> صحيحا لتصبح النتيجة صحيحة. <code>or</code> متساهل!</p>
+    </div>
+    <div class="card legend not">
+      <div class="big">not</div>
+      <p><b>«ليس»</b><br>تقلب الجواب رأسا على عقب: <code>True</code> تصير <code>False</code> والعكس صحيح!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 1. AND ============ -->
+<section id="coaster">
+  <span class="badge sky">مثال 1 · and</span>
+  <h2>بوابة الأفعوانية 🎢</h2>
+  <p class="lead">
+    لكي تركب الأفعوانية يجب أن يكون عمرك 12 أو أكثر <b>and</b> طولك 140 سم أو أكثر.
+    شرط واحد لا يكفي! الكمبيوتر يفحص <b>الاثنين معا</b>.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="coasterStage"><span class="big-emoji" id="coasterEmoji">🎢</span></div>
+      <div class="controls"><span class="field-label">🎂 العمر:</span>
+        <input class="kid-input" id="rcAge" type="number" min="1" max="99" value="13" style="direction:ltr;text-align:center"></div>
+      <div class="controls"><span class="field-label">📏 الطول (سم):</span>
+        <input class="kid-input" id="rcHeight" type="number" min="50" max="220" value="145" style="direction:ltr;text-align:center"></div>
+      <button class="btn run" id="coasterRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب عمر 13 وطول 130: شرط واحد يكفي ليمنعك!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="rc1"><span class="var">age</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم عمرك؟ "</span>))</span><span class="ln" id="rc2"><span class="var">height</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم طولك بالسنتيمتر؟ "</span>))</span><span class="ln" id="rc3"><span class="kw">if</span> <span class="var">age</span> &gt;= <span class="num">12</span> <span class="op">and</span> <span class="var">height</span> &gt;= <span class="num">140</span>:</span><span class="ln" id="rc4">    <span class="fn">print</span>(<span class="str">"🎢 يمكنك الركوب! استمتع!"</span>)</span><span class="ln" id="rc5"><span class="kw">else</span>:</span><span class="ln" id="rc6">    <span class="fn">print</span>(<span class="str">"🚫 يجب أن تكبر أو تطول قليلا."</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="coasterTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 2. OR ============ -->
+<section id="ticket">
+  <span class="badge mint">مثال 2 · or</span>
+  <h2>تذكرة الدخول المجانية 🎟️</h2>
+  <p class="lead">
+    الدخول مجاني للأطفال الصغار (أقل من 6) <b>or</b> لكبار السن (65 فأكثر).
+    مع <code>or</code> يكفي أن يتحقق <b>شرط واحد</b> فقط لتحصل على التذكرة المجانية!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="ticketStage"><span class="big-emoji" id="ticketEmoji">🎟️</span></div>
+      <div class="controls"><span class="field-label">🎂 العمر:</span>
+        <input class="kid-input" id="ftAge" type="number" min="1" max="120" value="70" style="direction:ltr;text-align:center"></div>
+      <button class="btn run" id="ticketRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب 4 ثم 70 (مجاني) ثم 30 (مدفوع)!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ft1"><span class="var">age</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم عمرك؟ "</span>))</span><span class="ln" id="ft2"><span class="kw">if</span> <span class="var">age</span> &lt; <span class="num">6</span> <span class="op">or</span> <span class="var">age</span> &gt;= <span class="num">65</span>:</span><span class="ln" id="ft3">    <span class="fn">print</span>(<span class="str">"🎟️ دخول مجاني!"</span>)</span><span class="ln" id="ft4"><span class="kw">else</span>:</span><span class="ln" id="ft5">    <span class="fn">print</span>(<span class="str">"💵 التذكرة بـ 5 دنانير."</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="ticketTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. AND (text) ============ -->
+<section id="login">
+  <span class="badge sky">مثال 3 · and</span>
+  <h2>شاشة تسجيل الدخول 🔐</h2>
+  <p class="lead">
+    كل التطبيقات تستخدم هذا! يجب أن يكون اسم المستخدم صحيحا <b>and</b> كلمة المرور صحيحة.
+    الاسم الصحيح هو <code>admin</code> وكلمة المرور <code>1234</code>.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="loginStage"><span class="big-emoji" id="loginEmoji">🔐</span></div>
+      <div class="controls"><span class="field-label">👤 المستخدم:</span>
+        <input class="kid-input" id="lgUser" maxlength="16" value="admin" style="direction:ltr;text-align:center"></div>
+      <div class="controls"><span class="field-label">🔑 كلمة المرور:</span>
+        <input class="kid-input" id="lgPass" maxlength="16" value="1234" style="direction:ltr;text-align:center"></div>
+      <button class="btn run" id="loginRun">▶ تسجيل الدخول</button>
+      <div class="try-hint">💡 غيّر أي حقل واحد فقط، وسيرفض الدخول لأن <code>and</code> صارم!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="lg1"><span class="var">user</span> = <span class="fn">input</span>(<span class="str">"اسم المستخدم؟ "</span>)</span><span class="ln" id="lg2"><span class="var">password</span> = <span class="fn">input</span>(<span class="str">"كلمة المرور؟ "</span>)</span><span class="ln" id="lg3"><span class="kw">if</span> <span class="var">user</span> == <span class="str">"admin"</span> <span class="op">and</span> <span class="var">password</span> == <span class="str">"1234"</span>:</span><span class="ln" id="lg4">    <span class="fn">print</span>(<span class="str">"✅ تم تسجيل الدخول!"</span>)</span><span class="ln" id="lg5"><span class="kw">else</span>:</span><span class="ln" id="lg6">    <span class="fn">print</span>(<span class="str">"❌ بيانات خاطئة، حاول مجددا."</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="loginTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. OR (text) ============ -->
+<section id="dessert">
+  <span class="badge mint">مثال 4 · or</span>
+  <h2>قانون الحلوى 🍰</h2>
+  <p class="lead">
+    تحصل على الحلوى إذا أكلت الخضار <b>or</b> الفواكه. لست مضطرا للاثنين، واحد يكفي!
+    اكتب «نعم» أو «لا» في كل حقل.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="dessertStage"><span class="big-emoji" id="dessertEmoji">🤔</span></div>
+      <div class="controls"><span class="field-label">🥦 الخضار:</span>
+        <input class="kid-input" id="dsVeg" maxlength="6" placeholder="نعم/لا" value="لا" style="text-align:center"></div>
+      <div class="controls"><span class="field-label">🍎 الفواكه:</span>
+        <input class="kid-input" id="dsFruit" maxlength="6" placeholder="نعم/لا" value="نعم" style="text-align:center"></div>
+      <button class="btn run" id="dessertRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب «لا» و«لا» معا: حينها فقط لا توجد حلوى!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ds1"><span class="var">veg</span> = <span class="fn">input</span>(<span class="str">"هل أكلت الخضار؟ (نعم/لا) "</span>)</span><span class="ln" id="ds2"><span class="var">fruit</span> = <span class="fn">input</span>(<span class="str">"هل أكلت الفواكه؟ (نعم/لا) "</span>)</span><span class="ln" id="ds3"><span class="kw">if</span> <span class="var">veg</span> == <span class="str">"نعم"</span> <span class="op">or</span> <span class="var">fruit</span> == <span class="str">"نعم"</span>:</span><span class="ln" id="ds4">    <span class="fn">print</span>(<span class="str">"🍰 تستحق الحلوى!"</span>)</span><span class="ln" id="ds5"><span class="kw">else</span>:</span><span class="ln" id="ds6">    <span class="fn">print</span>(<span class="str">"🥦 كل شيئا صحيا أولا!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="dessertTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. NOT ============ -->
+<section id="play">
+  <span class="badge coral">مثال 5 · not</span>
+  <h2>هل أخرج للعب؟ ⚽</h2>
+  <p class="lead">
+    <b>not</b> تقلب الجواب! نحفظ هل تمطر في متغير <code>is_raining</code>،
+    ثم نقول: <b>إذا (ليس) تمطر</b> اخرج والعب. فلو كانت <code>is_raining = False</code> تصبح
+    <code>not is_raining = True</code>.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="playStage"><span class="big-emoji" id="playEmoji">🌥️</span></div>
+      <div class="controls"><span class="field-label">🌧️ هل تمطر؟</span>
+        <input class="kid-input" id="plRain" maxlength="6" placeholder="نعم/لا" value="لا" style="text-align:center"></div>
+      <button class="btn run" id="playRun">▶ تشغيل</button>
+      <div class="try-hint">💡 «لا» تمطر تعني اخرج والعب، و«نعم» تعني ابق في البيت!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="pl1"><span class="var">is_raining</span> = <span class="fn">input</span>(<span class="str">"هل تمطر؟ (نعم/لا) "</span>) == <span class="str">"نعم"</span></span><span class="ln" id="pl2"><span class="kw">if</span> <span class="op">not</span> <span class="var">is_raining</span>:</span><span class="ln" id="pl3">    <span class="fn">print</span>(<span class="str">"⚽ الجو جميل، اخرج والعب!"</span>)</span><span class="ln" id="pl4"><span class="kw">else</span>:</span><span class="ln" id="pl5">    <span class="fn">print</span>(<span class="str">"🏠 تمطر، ابق في البيت اليوم."</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="playTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. AND range + elif ============ -->
+<section id="room">
+  <span class="badge purple">مثال 6 · and</span>
+  <h2>حرارة الغرفة المثالية 🌡️</h2>
+  <p class="lead">
+    لفحص أن الرقم بين قيمتين نستخدم <code>and</code> مرتين على <b>نفس المتغير</b>:
+    أكبر من 20 <b>and</b> أصغر من 28. وإن لم يكن مثاليا نستخدم <code>elif</code> لنعرف إن كان باردا أو حارا.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="roomStage"><span class="big-emoji" id="roomEmoji">🌡️</span></div>
+      <div class="controls"><span class="field-label">🌡️ الحرارة:</span>
+        <input class="kid-input" id="rtTemp" type="number" min="0" max="45" value="24" style="direction:ltr;text-align:center"></div>
+      <button class="btn run" id="roomRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب 24 (مثالي) ثم 15 (بارد) ثم 33 (حار)!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="rt1"><span class="var">temp</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم حرارة الغرفة؟ "</span>))</span><span class="ln" id="rt2"><span class="kw">if</span> <span class="var">temp</span> &gt;= <span class="num">20</span> <span class="op">and</span> <span class="var">temp</span> &lt;= <span class="num">28</span>:</span><span class="ln" id="rt3">    <span class="fn">print</span>(<span class="str">"😊 حرارة مثالية!"</span>)</span><span class="ln" id="rt4"><span class="kw">elif</span> <span class="var">temp</span> &lt; <span class="num">20</span>:</span><span class="ln" id="rt5">    <span class="fn">print</span>(<span class="str">"🥶 الغرفة باردة!"</span>)</span><span class="ln" id="rt6"><span class="kw">else</span>:</span><span class="ln" id="rt7">    <span class="fn">print</span>(<span class="str">"🥵 الغرفة حارة!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="roomTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. AND + elif (mixed types) ============ -->
+<section id="vip">
+  <span class="badge sky">مثال 7 · and + elif</span>
+  <h2>بوابة كبار الزوار 🌟</h2>
+  <p class="lead">
+    دخول VIP يحتاج أن يكون عمرك 18 فأكثر <b>and</b> أن تكون عضوا. لكن إن كنت عضوا فقط (وأصغر سنا)
+    فلك دخول عادي. وإلا، عليك الاشتراك. لاحظ كيف يجمع البرنامج بين <code>and</code> و <code>elif</code>!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="vipStage"><span class="big-emoji" id="vipEmoji">🚪</span></div>
+      <div class="controls"><span class="field-label">🎂 العمر:</span>
+        <input class="kid-input" id="vpAge" type="number" min="1" max="99" value="20" style="direction:ltr;text-align:center"></div>
+      <div class="controls"><span class="field-label">🪪 عضو؟</span>
+        <input class="kid-input" id="vpMember" maxlength="6" placeholder="نعم/لا" value="نعم" style="text-align:center"></div>
+      <button class="btn run" id="vipRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب (20، نعم) ثم (10، نعم) ثم (20، لا)!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="vp1"><span class="var">age</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم عمرك؟ "</span>))</span><span class="ln" id="vp2"><span class="var">member</span> = <span class="fn">input</span>(<span class="str">"هل أنت عضو؟ (نعم/لا) "</span>)</span><span class="ln" id="vp3"><span class="kw">if</span> <span class="var">age</span> &gt;= <span class="num">18</span> <span class="op">and</span> <span class="var">member</span> == <span class="str">"نعم"</span>:</span><span class="ln" id="vp4">    <span class="fn">print</span>(<span class="str">"🌟 دخول VIP! أهلا بك."</span>)</span><span class="ln" id="vp5"><span class="kw">elif</span> <span class="var">member</span> == <span class="str">"نعم"</span>:</span><span class="ln" id="vp6">    <span class="fn">print</span>(<span class="str">"🎫 دخول عادي للأعضاء."</span>)</span><span class="ln" id="vp7"><span class="kw">else</span>:</span><span class="ln" id="vp8">    <span class="fn">print</span>(<span class="str">"🚪 يرجى الاشتراك أولا."</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="vipTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. AND + OR combined ============ -->
+<section id="beach">
+  <span class="badge coral">مثال 8 · and + or</span>
+  <h2>هل نذهب إلى البحر؟ 🏖️</h2>
+  <p class="lead">
+    الآن نمزج <code>and</code> و <code>or</code> في شرط واحد! نذهب للبحر إذا كان الجو حارا جدا (30+)
+    <b>or</b> إذا كان دافئا (25+) <b>and</b> مشمسا. الأقواس <code>(...)</code> تجمع الشروط معا
+    تماما كما في الرياضيات.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="beachStage"><span class="big-emoji" id="beachEmoji">🌊</span></div>
+      <div class="controls"><span class="field-label">🌡️ الحرارة:</span>
+        <input class="kid-input" id="bcTemp" type="number" min="0" max="50" value="27" style="direction:ltr;text-align:center"></div>
+      <div class="controls"><span class="field-label">☁️ الطقس:</span>
+        <input class="kid-input" id="bcWeather" maxlength="8" placeholder="مشمس/غائم" value="مشمس" style="text-align:center"></div>
+      <button class="btn run" id="beachRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب (27، مشمس) و(27، غائم) و(32، غائم)!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="bc1"><span class="var">temp</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم الحرارة؟ "</span>))</span><span class="ln" id="bc2"><span class="var">weather</span> = <span class="fn">input</span>(<span class="str">"كيف الطقس؟ (مشمس/غائم) "</span>)</span><span class="ln" id="bc3"><span class="kw">if</span> <span class="var">temp</span> &gt;= <span class="num">30</span> <span class="op">or</span> (<span class="var">temp</span> &gt;= <span class="num">25</span> <span class="op">and</span> <span class="var">weather</span> == <span class="str">"مشمس"</span>):</span><span class="ln" id="bc4">    <span class="fn">print</span>(<span class="str">"🏖️ هيا إلى البحر!"</span>)</span><span class="ln" id="bc5"><span class="kw">else</span>:</span><span class="ln" id="bc6">    <span class="fn">print</span>(<span class="str">"🏠 نبقى في البيت اليوم."</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="beachTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. NESTED IF ============ -->
+<section id="license">
+  <span class="badge purple">مثال 9 · if داخل if</span>
+  <h2>هل يمكنك القيادة؟ 🚗</h2>
+  <p class="lead">
+    أحيانا نطرح سؤالا <b>داخل</b> سؤال! أولا: هل معك رخصة؟ إذا نعم، نسأل سؤالا ثانيا بداخله:
+    هل عمرك 18 فأكثر؟ هذا يسمى <b>if متداخل</b>. لاحظ كيف يدخل الكود للداخل أكثر فأكثر!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="licenseStage"><span class="big-emoji" id="licenseEmoji">🚗</span></div>
+      <div class="controls"><span class="field-label">🪪 معك رخصة؟</span>
+        <input class="kid-input" id="licenseHas" maxlength="6" placeholder="نعم/لا" value="نعم" style="text-align:center"></div>
+      <div class="controls"><span class="field-label">🎂 العمر:</span>
+        <input class="kid-input" id="licenseAge" type="number" min="1" max="99" value="20" style="direction:ltr;text-align:center"></div>
+      <button class="btn run" id="licenseRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب (نعم، 20) ثم (نعم، 15) ثم (لا، 20)!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="lc1"><span class="var">has_license</span> = <span class="fn">input</span>(<span class="str">"هل معك رخصة؟ (نعم/لا) "</span>)</span><span class="ln" id="lc2"><span class="kw">if</span> <span class="var">has_license</span> == <span class="str">"نعم"</span>:</span><span class="ln" id="lc3">    <span class="var">age</span> = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"كم عمرك؟ "</span>))</span><span class="ln" id="lc4">    <span class="kw">if</span> <span class="var">age</span> &gt;= <span class="num">18</span>:</span><span class="ln" id="lc5">        <span class="fn">print</span>(<span class="str">"🚗 يمكنك القيادة!"</span>)</span><span class="ln" id="lc6">    <span class="kw">else</span>:</span><span class="ln" id="lc7">        <span class="fn">print</span>(<span class="str">"⏳ انتظر حتى 18 سنة."</span>)</span><span class="ln" id="lc8"><span class="kw">else</span>:</span><span class="ln" id="lc9">    <span class="fn">print</span>(<span class="str">"📋 احصل على رخصة أولا!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="licenseTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. BIG COMBO PROJECT ============ -->
+<section id="academy">
+  <span class="badge pink">المشروع الكبير 🎮</span>
+  <h2>اختبار أكاديمية الأبطال 🦸</h2>
+  <p class="lead">
+    المشروع النهائي يجمع <code>and</code> و <code>or</code> والأقواس وثلاثة أسئلة!
+    تُقبل في الأكاديمية إذا كنت (شجاعا <b>and</b> ذكيا) <b>or</b> طيبا. اكتشف إن كنت بطلا!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="academyStage"><span class="big-emoji" id="academyEmoji">🦸</span></div>
+      <div class="controls"><span class="field-label">💪 شجاع؟</span>
+        <input class="kid-input" id="acBrave" maxlength="6" placeholder="نعم/لا" value="نعم" style="text-align:center"></div>
+      <div class="controls"><span class="field-label">🧠 ذكي؟</span>
+        <input class="kid-input" id="acSmart" maxlength="6" placeholder="نعم/لا" value="نعم" style="text-align:center"></div>
+      <div class="controls"><span class="field-label">💛 طيب؟</span>
+        <input class="kid-input" id="acKind" maxlength="6" placeholder="نعم/لا" value="لا" style="text-align:center"></div>
+      <button class="btn run" id="academyRun">▶ ابدأ الاختبار</button>
+      <div class="try-hint">💡 جرّب (نعم، لا، نعم): الطيبة وحدها تكفي بفضل or!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ac1"><span class="var">brave</span> = <span class="fn">input</span>(<span class="str">"هل أنت شجاع؟ (نعم/لا) "</span>)</span><span class="ln" id="ac2"><span class="var">smart</span> = <span class="fn">input</span>(<span class="str">"هل أنت ذكي؟ (نعم/لا) "</span>)</span><span class="ln" id="ac3"><span class="var">kind</span> = <span class="fn">input</span>(<span class="str">"هل أنت طيب؟ (نعم/لا) "</span>)</span><span class="ln" id="ac4"><span class="kw">if</span> (<span class="var">brave</span> == <span class="str">"نعم"</span> <span class="op">and</span> <span class="var">smart</span> == <span class="str">"نعم"</span>) <span class="op">or</span> <span class="var">kind</span> == <span class="str">"نعم"</span>:</span><span class="ln" id="ac5">    <span class="fn">print</span>(<span class="str">"🦸 مرحبا بك في أكاديمية الأبطال!"</span>)</span><span class="ln" id="ac6"><span class="kw">else</span>:</span><span class="ln" id="ac7">    <span class="fn">print</span>(<span class="str">"💪 تدرب أكثر وعد إلينا!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="academyTerm" style="min-height:80px"></div>
+    </div>
+  </div>
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--coral)">
+    🎉 رائع! أصبحت تربط الشروط مثل المبرمجين المحترفين.<br>
+    تذكّر: <b>and</b> صارم، <b>or</b> متساهل، <b>not</b> تقلب كل شيء! 🧠⚡
+  </div>
+</section>
+
+</main>
+
+<footer>
+  أنت الآن تكتب شروطا ذكية تجمع عدة أسئلة معا! 🚀<br>
+  جرّب أن تغيّر الشروط والأرقام، واخترع قواعدك الخاصة.
+  <span class="hearts">💛💙❤️💚</span><br>
+  <a href="code-quest-examples.html">⬅️ ارجع إلى أمثلة if</a>
+</footer>
+
+<script>
+/* ============================================================
+   HERO : split title into animated words
+============================================================ */
+(function(){
+  const h1 = document.getElementById('heroTitle');
+  const words = h1.textContent.trim().split(' ');
+  h1.textContent = '';
+  words.forEach((word, i) => {
+    const s = document.createElement('span');
+    s.textContent = word;
+    s.style.animationDelay = (i * 0.18) + 's';
+    h1.appendChild(s);
+    if (i < words.length - 1) h1.appendChild(document.createTextNode(' '));
+  });
+})();
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+/* ============================================================
+   SHARED HELPERS
+============================================================ */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const id = x => document.getElementById(x);
+
+function clearCode(pre){ pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active', 'skipped')); }
+function setActive(pre, lineId){
+  pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active'));
+  if (lineId) id(lineId).classList.add('active');
+}
+function markSkip(lineId){ id(lineId).classList.add('skipped'); }
+
+async function typeOut(term, text){
+  const line = document.createElement('div');
+  line.className = 'term-line'; line.dir = 'auto';
+  const span = document.createElement('span'); span.className = 't-out';
+  line.appendChild(span); term.appendChild(line); term.scrollTop = term.scrollHeight;
+  for (const ch of text){ span.textContent += ch; await sleep(20); term.scrollTop = term.scrollHeight; }
+}
+async function typeAsk(term, prompt, value){
+  const line = document.createElement('div');
+  line.className = 'term-line'; line.dir = 'auto';
+  const p = document.createElement('span'); p.className = 't-prompt'; line.appendChild(p);
+  term.appendChild(line); term.scrollTop = term.scrollHeight;
+  for (const ch of prompt){ p.textContent += ch; await sleep(16); term.scrollTop = term.scrollHeight; }
+  await sleep(250);
+  const u = document.createElement('span'); u.className = 't-user'; line.appendChild(u);
+  for (const ch of value){ u.textContent += ch; await sleep(52); term.scrollTop = term.scrollHeight; }
+  await sleep(180);
+}
+function showStage(stage, emojiEl, emoji, mood){
+  if (emoji){
+    emojiEl.textContent = emoji;
+    emojiEl.classList.remove('pop'); void emojiEl.offsetWidth; emojiEl.classList.add('pop');
+  }
+  stage.classList.remove('win', 'lose', 'shake');
+  if (mood === 'win') stage.classList.add('win');
+  if (mood === 'lose'){ stage.classList.add('lose'); void stage.offsetWidth; stage.classList.add('shake'); }
+}
+function shakeInput(el){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); el.focus(); }
+function runner(btn, fn){
+  let busy = false;
+  btn.addEventListener('click', async () => {
+    if (busy) return;
+    busy = true; btn.disabled = true;
+    try { await fn(); } finally { busy = false; btn.disabled = false; }
+  });
+}
+const txt = (t, V) => (typeof t === 'function' ? t(V) : t);
+
+/* ============================================================
+   GENERIC RUNNER  (multiple inputs + flat if / elif / else)
+============================================================ */
+async function runProgram(cfg){
+  const pre     = document.querySelector(cfg.section + ' pre');
+  const term    = id(cfg.termId);
+  const stage   = cfg.stageId ? id(cfg.stageId) : null;
+  const emojiEl = cfg.emojiId ? id(cfg.emojiId) : null;
+
+  /* read + validate every input the program needs */
+  const V = {}, disp = {};
+  for (const inp of cfg.inputs){
+    const el = id(inp.id);
+    const raw = (el.value || '').trim();
+    if (raw === ''){ shakeInput(el); return; }
+    if (inp.parse === 'int'){
+      const n = parseInt(raw, 10);
+      if (isNaN(n)){ shakeInput(el); return; }
+      V[inp.name] = n; disp[inp.name] = String(n);
+    } else if (inp.parse === 'bool'){
+      V[inp.name] = (raw === 'نعم'); disp[inp.name] = raw;
+    } else {
+      V[inp.name] = raw; disp[inp.name] = raw;
+    }
+  }
+
+  term.innerHTML = ''; clearCode(pre);
+  if (stage) showStage(stage, emojiEl, cfg.baseEmoji, null);
+
+  for (const inp of cfg.inputs){
+    setActive(pre, inp.lineId);
+    await typeAsk(term, inp.prompt, disp[inp.name]);
+  }
+
+  const branches = cfg.branches || [];
+  let winner = null;
+  for (let i = 0; i < branches.length; i++){
+    const b = branches[i];
+    setActive(pre, b.condId);
+    await sleep(580);
+    if (b.test(V)){
+      winner = b;
+      for (let j = i + 1; j < branches.length; j++){ markSkip(branches[j].condId); markSkip(branches[j].bodyId); }
+      if (cfg.elseLine){ markSkip(cfg.elseLine.condId); markSkip(cfg.elseLine.bodyId); }
+      break;
+    } else {
+      markSkip(b.condId); markSkip(b.bodyId);
+    }
+  }
+  if (!winner && cfg.elseLine){
+    setActive(pre, cfg.elseLine.condId);
+    await sleep(380);
+    winner = cfg.elseLine;
+  }
+  if (winner){
+    setActive(pre, winner.bodyId);
+    await sleep(220);
+    await typeOut(term, txt(winner.msg, V));
+    if (stage) showStage(stage, emojiEl, winner.icon, winner.mood);
+    if (winner.confetti) confetti();
+  }
+  setTimeout(() => clearCode(pre), 900);
+}
+
+/* ============================================================
+   THE EXAMPLES (flat ones)
+============================================================ */
+const EXAMPLES = [
+  { key:'coaster', section:'#coaster', termId:'coasterTerm', stageId:'coasterStage', emojiId:'coasterEmoji', baseEmoji:'🎢',
+    inputs:[
+      { id:'rcAge',    name:'age',    parse:'int', prompt:'كم عمرك؟ ',              lineId:'rc1' },
+      { id:'rcHeight', name:'height', parse:'int', prompt:'كم طولك بالسنتيمتر؟ ',   lineId:'rc2' },
+    ],
+    branches:[{ condId:'rc3', bodyId:'rc4', test:V => V.age >= 12 && V.height >= 140, msg:'🎢 يمكنك الركوب! استمتع!', icon:'🎢', mood:'win', confetti:true }],
+    elseLine:{ condId:'rc5', bodyId:'rc6', msg:'🚫 يجب أن تكبر أو تطول قليلا.', icon:'🚫', mood:'lose' } },
+
+  { key:'ticket', section:'#ticket', termId:'ticketTerm', stageId:'ticketStage', emojiId:'ticketEmoji', baseEmoji:'🎟️',
+    inputs:[{ id:'ftAge', name:'age', parse:'int', prompt:'كم عمرك؟ ', lineId:'ft1' }],
+    branches:[{ condId:'ft2', bodyId:'ft3', test:V => V.age < 6 || V.age >= 65, msg:'🎟️ دخول مجاني!', icon:'🎟️', mood:'win' }],
+    elseLine:{ condId:'ft4', bodyId:'ft5', msg:'💵 التذكرة بـ 5 دنانير.', icon:'💵', mood:'lose' } },
+
+  { key:'login', section:'#login', termId:'loginTerm', stageId:'loginStage', emojiId:'loginEmoji', baseEmoji:'🔐',
+    inputs:[
+      { id:'lgUser', name:'user', parse:'text', prompt:'اسم المستخدم؟ ', lineId:'lg1' },
+      { id:'lgPass', name:'pass', parse:'text', prompt:'كلمة المرور؟ ',  lineId:'lg2' },
+    ],
+    branches:[{ condId:'lg3', bodyId:'lg4', test:V => V.user === 'admin' && V.pass === '1234', msg:'✅ تم تسجيل الدخول!', icon:'✅', mood:'win', confetti:true }],
+    elseLine:{ condId:'lg5', bodyId:'lg6', msg:'❌ بيانات خاطئة، حاول مجددا.', icon:'❌', mood:'lose' } },
+
+  { key:'dessert', section:'#dessert', termId:'dessertTerm', stageId:'dessertStage', emojiId:'dessertEmoji', baseEmoji:'🤔',
+    inputs:[
+      { id:'dsVeg',   name:'veg',   parse:'text', prompt:'هل أكلت الخضار؟ (نعم/لا) ',  lineId:'ds1' },
+      { id:'dsFruit', name:'fruit', parse:'text', prompt:'هل أكلت الفواكه؟ (نعم/لا) ', lineId:'ds2' },
+    ],
+    branches:[{ condId:'ds3', bodyId:'ds4', test:V => V.veg === 'نعم' || V.fruit === 'نعم', msg:'🍰 تستحق الحلوى!', icon:'🍰', mood:'win' }],
+    elseLine:{ condId:'ds5', bodyId:'ds6', msg:'🥦 كل شيئا صحيا أولا!', icon:'🥦', mood:'lose' } },
+
+  { key:'play', section:'#play', termId:'playTerm', stageId:'playStage', emojiId:'playEmoji', baseEmoji:'🌥️',
+    inputs:[{ id:'plRain', name:'is_raining', parse:'bool', prompt:'هل تمطر؟ (نعم/لا) ', lineId:'pl1' }],
+    branches:[{ condId:'pl2', bodyId:'pl3', test:V => !V.is_raining, msg:'⚽ الجو جميل، اخرج والعب!', icon:'⚽', mood:'win' }],
+    elseLine:{ condId:'pl4', bodyId:'pl5', msg:'🏠 تمطر، ابق في البيت اليوم.', icon:'🏠', mood:'lose' } },
+
+  { key:'room', section:'#room', termId:'roomTerm', stageId:'roomStage', emojiId:'roomEmoji', baseEmoji:'🌡️',
+    inputs:[{ id:'rtTemp', name:'temp', parse:'int', prompt:'كم حرارة الغرفة؟ ', lineId:'rt1' }],
+    branches:[
+      { condId:'rt2', bodyId:'rt3', test:V => V.temp >= 20 && V.temp <= 28, msg:'😊 حرارة مثالية!', icon:'😊', mood:'win' },
+      { condId:'rt4', bodyId:'rt5', test:V => V.temp < 20,                  msg:'🥶 الغرفة باردة!', icon:'🥶', mood:'win' },
+    ],
+    elseLine:{ condId:'rt6', bodyId:'rt7', msg:'🥵 الغرفة حارة!', icon:'🥵', mood:'win' } },
+
+  { key:'vip', section:'#vip', termId:'vipTerm', stageId:'vipStage', emojiId:'vipEmoji', baseEmoji:'🚪',
+    inputs:[
+      { id:'vpAge',    name:'age',    parse:'int',  prompt:'كم عمرك؟ ',               lineId:'vp1' },
+      { id:'vpMember', name:'member', parse:'text', prompt:'هل أنت عضو؟ (نعم/لا) ',   lineId:'vp2' },
+    ],
+    branches:[
+      { condId:'vp3', bodyId:'vp4', test:V => V.age >= 18 && V.member === 'نعم', msg:'🌟 دخول VIP! أهلا بك.', icon:'🌟', mood:'win', confetti:true },
+      { condId:'vp5', bodyId:'vp6', test:V => V.member === 'نعم',                msg:'🎫 دخول عادي للأعضاء.', icon:'🎫', mood:'win' },
+    ],
+    elseLine:{ condId:'vp7', bodyId:'vp8', msg:'🚪 يرجى الاشتراك أولا.', icon:'🚪', mood:'lose' } },
+
+  { key:'beach', section:'#beach', termId:'beachTerm', stageId:'beachStage', emojiId:'beachEmoji', baseEmoji:'🌊',
+    inputs:[
+      { id:'bcTemp',    name:'temp',    parse:'int',  prompt:'كم الحرارة؟ ',              lineId:'bc1' },
+      { id:'bcWeather', name:'weather', parse:'text', prompt:'كيف الطقس؟ (مشمس/غائم) ',  lineId:'bc2' },
+    ],
+    branches:[{ condId:'bc3', bodyId:'bc4', test:V => V.temp >= 30 || (V.temp >= 25 && V.weather === 'مشمس'), msg:'🏖️ هيا إلى البحر!', icon:'🏖️', mood:'win', confetti:true }],
+    elseLine:{ condId:'bc5', bodyId:'bc6', msg:'🏠 نبقى في البيت اليوم.', icon:'🏠', mood:'lose' } },
+
+  { key:'academy', section:'#academy', termId:'academyTerm', stageId:'academyStage', emojiId:'academyEmoji', baseEmoji:'🦸',
+    inputs:[
+      { id:'acBrave', name:'brave', parse:'text', prompt:'هل أنت شجاع؟ (نعم/لا) ', lineId:'ac1' },
+      { id:'acSmart', name:'smart', parse:'text', prompt:'هل أنت ذكي؟ (نعم/لا) ',  lineId:'ac2' },
+      { id:'acKind',  name:'kind',  parse:'text', prompt:'هل أنت طيب؟ (نعم/لا) ',  lineId:'ac3' },
+    ],
+    branches:[{ condId:'ac4', bodyId:'ac5', test:V => (V.brave === 'نعم' && V.smart === 'نعم') || V.kind === 'نعم', msg:'🦸 مرحبا بك في أكاديمية الأبطال!', icon:'🦸', mood:'win', confetti:true }],
+    elseLine:{ condId:'ac6', bodyId:'ac7', msg:'💪 تدرب أكثر وعد إلينا!', icon:'💪', mood:'lose' } },
+];
+
+EXAMPLES.forEach(cfg => {
+  const btn = id(cfg.key + 'Run');
+  if (btn) runner(btn, () => runProgram(cfg));
+});
+
+/* ============================================================
+   NESTED IF  (driving license) - custom because the second
+   input only happens INSIDE the first branch
+============================================================ */
+runner(id('licenseRun'), async () => {
+  const pre   = document.querySelector('#license pre');
+  const term  = id('licenseTerm');
+  const stage = id('licenseStage');
+  const emoji = id('licenseEmoji');
+  const hasEl = id('licenseHas');
+  const ageEl = id('licenseAge');
+
+  const has = (hasEl.value || '').trim();
+  if (has === ''){ shakeInput(hasEl); return; }
+
+  term.innerHTML = ''; clearCode(pre);
+  showStage(stage, emoji, '🚗', null);
+
+  setActive(pre, 'lc1');
+  await typeAsk(term, 'هل معك رخصة؟ (نعم/لا) ', has);
+
+  setActive(pre, 'lc2');            // outer if
+  await sleep(560);
+
+  if (has === 'نعم'){
+    markSkip('lc8'); markSkip('lc9');  // outer else is skipped
+
+    const ageRaw = (ageEl.value || '').trim();
+    const age = parseInt(ageRaw, 10);
+    if (isNaN(age)){ shakeInput(ageEl); return; }
+
+    setActive(pre, 'lc3');          // ask age (inside the branch)
+    await typeAsk(term, 'كم عمرك؟ ', String(age));
+
+    setActive(pre, 'lc4');          // inner if
+    await sleep(560);
+    if (age >= 18){
+      markSkip('lc6'); markSkip('lc7');
+      setActive(pre, 'lc5');
+      await sleep(220);
+      await typeOut(term, '🚗 يمكنك القيادة!');
+      showStage(stage, emoji, '🚗', 'win');
+      confetti();
+    } else {
+      markSkip('lc5');
+      setActive(pre, 'lc6');        // inner else
+      await sleep(360);
+      setActive(pre, 'lc7');
+      await sleep(220);
+      await typeOut(term, '⏳ انتظر حتى 18 سنة.');
+      showStage(stage, emoji, '⏳', 'lose');
+    }
+  } else {
+    ['lc3','lc4','lc5','lc6','lc7'].forEach(markSkip); // whole inner block skipped
+    setActive(pre, 'lc8');          // outer else
+    await sleep(360);
+    setActive(pre, 'lc9');
+    await sleep(220);
+    await typeOut(term, '📋 احصل على رخصة أولا!');
+    showStage(stage, emoji, '📋', 'lose');
+  }
+  setTimeout(() => clearCode(pre), 900);
+});
+
+/* ============================================================
+   CONFETTI
+============================================================ */
+function confetti(){
+  const colors = ['#FF6B6B','#FFD93D','#5FD08D','#4D96FF','#9B5DE5','#FF8FAB'];
+  for (let i = 0; i < 90; i++){
+    const bit = document.createElement('div');
+    bit.className = 'confetti-bit';
+    bit.style.left = Math.random() * 100 + 'vw';
+    bit.style.background = colors[Math.floor(Math.random() * colors.length)];
+    bit.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+    bit.style.animationDelay = (Math.random() * .8) + 's';
+    if (Math.random() > .5) bit.style.borderRadius = '50%';
+    document.body.appendChild(bit);
+    setTimeout(() => bit.remove(), 6000);
+  }
+}
+</script>
+</body>
+</html>

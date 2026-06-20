@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مغامرة البرمجة - التكرار مع while! 🔁</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Rubik:wght@500;700;800;900&family=Fira+Code:wght@500;700&display=swap');
+
+:root{
+  --paper:#FFF6E9; --ink:#2B2342; --coral:#FF6B6B; --yellow:#FFD93D;
+  --mint:#5FD08D; --sky:#4D96FF; --purple:#9B5DE5; --pink:#FF8FAB; --white:#FFFFFF;
+  --radius:24px;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:'Rubik', sans-serif; color:var(--ink);
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(43,35,66,.07) 2px, transparent 2px);
+  background-size:28px 28px; overflow-x:hidden;
+}
+h1,h2,h3{ font-family:'Baloo Bhaijaan 2', 'Rubik', cursive; line-height:1.25; }
+code, pre{ font-family:'Fira Code', monospace; direction:ltr; unicode-bidi:embed; }
+
+/* NAV */
+nav{ position:sticky; top:12px; z-index:50; display:flex; justify-content:center; gap:7px; flex-wrap:wrap; padding:0 12px; }
+nav a{
+  background:var(--white); border:3px solid var(--ink); border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink); padding:5px 12px; font-weight:900; font-size:.8rem;
+  color:var(--ink); text-decoration:none; transition:transform .15s, box-shadow .15s;
+}
+nav a:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); background:var(--yellow); }
+nav a.home{ background:var(--purple); color:#fff; }
+
+/* HERO */
+header{ position:relative; text-align:center; padding:80px 20px 60px; overflow:hidden; }
+.blob{ position:absolute; border-radius:50%; border:3px solid var(--ink); animation:float 6s ease-in-out infinite; z-index:0; }
+.blob.b1{ width:70px; height:70px; background:var(--coral);  top:12%; left:8%;  animation-delay:0s; }
+.blob.b2{ width:46px; height:46px; background:var(--yellow); top:60%; left:14%; animation-delay:1.2s; }
+.blob.b3{ width:90px; height:90px; background:var(--sky);    top:18%; right:7%; animation-delay:.6s; }
+.blob.b4{ width:40px; height:40px; background:var(--mint);   top:65%; right:13%;animation-delay:1.8s; }
+.blob.b5{ width:30px; height:30px; background:var(--purple); top:38%; left:22%; animation-delay:2.4s; }
+@keyframes float{ 0%,100%{ transform:translateY(0) rotate(0deg);} 50%{ transform:translateY(-18px) rotate(8deg);} }
+header h1{ position:relative; z-index:1; font-size:clamp(2.2rem, 7vw, 4.4rem); font-weight:800; }
+header h1 span{ display:inline-block; animation:bounceIn .8s both; }
+header h1 span:nth-child(odd){ color:var(--purple); }
+header h1 span:nth-child(even){ color:var(--sky); }
+header h1 span:nth-child(3n){ color:var(--mint); }
+@keyframes bounceIn{ 0%{ transform:translateY(-40px) scale(.3); opacity:0; } 60%{ transform:translateY(8px) scale(1.1); opacity:1; } 100%{ transform:translateY(0) scale(1); } }
+header p.tagline{ position:relative; z-index:1; font-size:clamp(1.05rem, 2.5vw, 1.4rem); font-weight:800; max-width:680px; margin:18px auto 14px; }
+.hero-bot{ font-size:5rem; position:relative; z-index:1; animation:spin360 5s ease-in-out infinite; }
+@keyframes spin360{ 0%,100%{ transform:rotate(0);} 50%{ transform:rotate(360deg);} }
+.know-chips{ position:relative; z-index:1; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:18px; }
+.know-chip{ background:var(--white); border:3px solid var(--ink); border-radius:999px; box-shadow:3px 3px 0 var(--ink); padding:6px 16px; font-family:'Fira Code', monospace; font-weight:700; font-size:.9rem; direction:ltr; }
+.know-chip.on{ background:var(--mint); }
+
+/* SECTIONS */
+main{ max-width:980px; margin:0 auto; padding:0 18px 80px; }
+section{ margin:64px 0; opacity:0; transform:translateY(40px); transition:opacity .7s ease, transform .7s ease; }
+section.visible{ opacity:1; transform:translateY(0); }
+.badge{ display:inline-block; font-family:'Baloo Bhaijaan 2', cursive; font-weight:800; font-size:.95rem; background:var(--yellow); border:3px solid var(--ink); border-radius:12px; box-shadow:4px 4px 0 var(--ink); padding:4px 16px; transform:rotate(3deg); margin-bottom:14px; }
+.badge.sky{ background:var(--sky); color:#fff; } .badge.coral{ background:var(--coral); color:#fff; }
+.badge.mint{ background:var(--mint); } .badge.purple{ background:var(--purple); color:#fff; } .badge.pink{ background:var(--pink); }
+section h2{ font-size:clamp(1.6rem, 4.5vw, 2.4rem); margin-bottom:10px; }
+section .lead{ font-size:1.08rem; font-weight:700; max-width:740px; margin-bottom:24px; line-height:1.9; }
+.lead code, .mini-note code, .fact-strip code{ background:rgba(43,35,66,.08); padding:1px 7px; border-radius:7px; }
+.card{ background:var(--white); border:3px solid var(--ink); border-radius:var(--radius); box-shadow:7px 7px 0 var(--ink); padding:24px; }
+.grid{ display:grid; gap:20px; }
+.grid.cols-2{ grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* CODE BLOCK */
+pre.codeblock{ background:var(--ink); color:#EDE9FE; border-radius:18px; border:3px solid var(--ink); box-shadow:5px 5px 0 var(--purple); padding:16px 18px; font-size:.92rem; line-height:1.95; overflow-x:auto; direction:ltr; text-align:left; }
+pre.codeblock .ln{ display:block; padding:0 10px; border-radius:8px; transition:background .35s ease, opacity .35s ease, transform .25s ease; }
+pre.codeblock .ln.active{ background:rgba(155,93,229,.4); outline:2px dashed var(--pink); transform:translateX(-4px); }
+pre.codeblock .ln.skipped{ opacity:.3; text-decoration:line-through; }
+pre.codeblock .kw{ color:#FF8FAB; font-weight:700; }
+pre.codeblock .fn{ color:#7DD3FC; }
+pre.codeblock .str{ color:#86EFAC; }
+pre.codeblock .num{ color:#FDE047; font-weight:700; }
+pre.codeblock .var{ color:#FCD5CE; }
+
+/* TERMINAL */
+.term-head{ display:flex; align-items:center; gap:8px; background:var(--ink); color:var(--paper); border:3px solid var(--ink); border-bottom:none; border-radius:14px 14px 0 0; padding:8px 14px; font-weight:900; font-size:.85rem; }
+.term-dot{ width:13px; height:13px; border-radius:50%; border:2px solid var(--paper); }
+.term-dot.r{ background:var(--coral); } .term-dot.y{ background:var(--yellow); } .term-dot.g{ background:var(--mint); }
+.term-head .title{ margin-inline-start:8px; opacity:.85; }
+.terminal{ background:#161126; color:#C7F9CC; border:3px solid var(--ink); border-top:none; border-radius:0 0 14px 14px; padding:14px 16px; min-height:90px; max-height:230px; overflow-y:auto; font-family:'Fira Code', monospace; font-size:.92rem; line-height:1.85; }
+.terminal:empty::before{ content:"اضغط زر التشغيل لترى الحلقة تعمل..."; color:#6b6386; }
+.term-line{ white-space:pre-wrap; word-break:break-word; animation:lineIn .28s ease both; }
+@keyframes lineIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none;} }
+.t-out{ color:#C7F9CC; }
+.t-sys{ color:#FDE047; font-weight:700; }
+
+/* CONTROLS */
+.controls{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:16px 0 6px; }
+.kid-input{ flex:0 0 auto; font-family:'Fira Code', monospace; font-weight:700; font-size:1rem; border:3px solid var(--ink); border-radius:14px; padding:10px 14px; background:var(--white); color:var(--ink); box-shadow:3px 3px 0 var(--ink); outline:none; direction:ltr; text-align:center; max-width:120px; transition:box-shadow .15s, transform .15s; }
+.kid-input:focus{ box-shadow:5px 5px 0 var(--sky); transform:translate(-1px,-1px); }
+.kid-input.shake{ animation:shake .4s; border-color:var(--coral); }
+.field-label{ font-weight:900; font-size:.95rem; }
+.btn{ font-family:'Rubik', sans-serif; font-weight:900; font-size:1.05rem; border:3px solid var(--ink); border-radius:16px; box-shadow:5px 5px 0 var(--ink); padding:11px 26px; cursor:pointer; color:var(--ink); transition:transform .12s, box-shadow .12s; }
+.btn:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink); }
+.btn:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--ink); }
+.btn.run{ background:var(--mint); }
+.btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none; box-shadow:5px 5px 0 var(--ink); }
+
+/* DEMO STAGE + LOOP VISUALS */
+.demo-stage{ border:3px solid var(--ink); border-radius:18px; min-height:152px; margin-bottom:6px; display:flex; align-items:center; justify-content:center; background:linear-gradient(#FEF9C3,#FDE68A); transition:background .5s; overflow:hidden; }
+.demo-stage.shake{ animation:shake .5s; }
+@keyframes shake{ 0%,100%{ transform:translateX(0);} 15%{ transform:translateX(-10px) rotate(-1deg);} 35%{ transform:translateX(9px) rotate(1deg);} 55%{ transform:translateX(-7px);} 75%{ transform:translateX(6px);} 90%{ transform:translateX(-3px);} }
+@keyframes popIn{ 0%{ transform:scale(.2); opacity:0;} 55%{ transform:scale(1.2);} 100%{ transform:scale(1); opacity:1;} }
+@keyframes numPulse{ 0%{ transform:scale(.45); opacity:.25;} 55%{ transform:scale(1.22);} 100%{ transform:scale(1); opacity:1;} }
+.loopviz{ font-size:1rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; width:100%; padding:8px 14px; color:var(--ink); animation:lineIn .3s ease both; }
+.lv-emoji{ font-size:2.4rem; line-height:1; }
+.lv-count{ display:flex; flex-direction:column; align-items:center; gap:2px; }
+.lv-num{ font-family:'Fira Code', monospace; font-weight:800; font-size:2.9rem; color:var(--ink); }
+.lv-num.pulse{ animation:numPulse .45s ease; }
+.lv-cap{ font-family:'Fira Code', monospace; font-weight:700; font-size:.9rem; color:var(--ink); transition:color .3s; }
+.lv-bar{ position:relative; width:82%; height:26px; background:#fff; border:3px solid var(--ink); border-radius:999px; overflow:hidden; box-shadow:2px 2px 0 var(--ink); }
+.lv-fill{ height:100%; width:0; border-radius:999px; transition:width .6s cubic-bezier(.22,1,.36,1), background .4s; }
+.lv-pct{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Fira Code', monospace; font-weight:800; font-size:.78rem; color:var(--ink); }
+.lv-stack{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; align-items:center; font-size:1.95rem; max-width:100%; max-height:116px; overflow:hidden; }
+.lv-slot{ display:inline-block; opacity:.22; transform:scale(.72); filter:grayscale(.4); transition:opacity .4s ease, transform .4s cubic-bezier(.34,1.56,.64,1), filter .4s ease; }
+.lv-slot.on{ opacity:1; transform:scale(1); filter:none; }
+.lv-slot.eaten{ opacity:.18; transform:scale(.55) rotate(-14deg); filter:grayscale(1); }
+.lv-slot.sister{ opacity:1; transform:scale(1.05); filter:none; outline:3px solid var(--pink); outline-offset:2px; border-radius:10px; }
+.lv-item{ display:inline-block; animation:popIn .4s; }
+.lv-cup{ width:76px; height:88px; border:3px solid var(--ink); border-bottom-width:5px; border-radius:0 0 18px 18px; position:relative; overflow:hidden; background:#fff; box-shadow:2px 2px 0 var(--ink); }
+.lv-water{ position:absolute; bottom:0; left:0; right:0; height:0; background:linear-gradient(var(--sky),#2f78e0); transition:height .6s cubic-bezier(.22,1,.36,1); }
+.lv-water::before{ content:''; position:absolute; top:-4px; left:0; right:0; height:8px; background:#bfe0ff; border-radius:50%; opacity:.7; }
+.lv-batt{ width:118px; height:48px; border:3px solid var(--ink); border-radius:8px; position:relative; background:#fff; box-shadow:2px 2px 0 var(--ink); overflow:hidden; }
+.lv-batt::after{ content:''; position:absolute; left:-9px; top:14px; width:6px; height:18px; background:var(--ink); border-radius:3px; }
+.lv-batt-fill{ height:100%; width:0; border-radius:4px; transition:width .6s cubic-bezier(.22,1,.36,1), background .4s; }
+.lv-balloon{ font-size:1.4rem; transition:font-size .55s cubic-bezier(.34,1.56,.64,1); }
+.lv-plant{ font-size:3rem; display:inline-block; }
+.lv-plant.pop{ animation:popIn .5s ease; }
+.lv-track{ position:relative; width:88%; height:48px; border-bottom:4px dashed var(--ink); direction:ltr; }
+.lv-robot{ position:absolute; bottom:4px; font-size:2rem; transition:left .55s cubic-bezier(.22,1,.36,1); transform:translateX(-50%); }
+.lv-goal{ position:absolute; bottom:4px; right:0; font-size:1.8rem; }
+
+/* INFO STRIPS */
+.fact-strip{ margin-top:26px; background:var(--ink); color:var(--paper); border-radius:var(--radius); border:3px solid var(--ink); box-shadow:7px 7px 0 var(--purple); padding:20px 26px; font-weight:800; font-size:1.05rem; text-align:center; line-height:2; }
+.fact-strip code{ background:rgba(255,255,255,.15); color:var(--paper); }
+.mini-note{ margin-top:18px; font-weight:800; font-size:1rem; background:var(--yellow); border:3px solid var(--ink); border-radius:16px; box-shadow:4px 4px 0 var(--ink); padding:14px 18px; line-height:1.9; }
+.try-hint{ font-weight:800; font-size:.92rem; opacity:.8; margin-top:10px; }
+
+/* WHY cards */
+.why-grid{ display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+.why-card{ border:3px solid var(--ink); border-radius:var(--radius); padding:20px; box-shadow:6px 6px 0 var(--ink); }
+.why-card.bad{ background:#FFE4E6; } .why-card.good{ background:#DCFCE7; }
+.why-card h3{ margin-bottom:10px; font-size:1.2rem; }
+.flow{ display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:8px; }
+.flow .step{ background:var(--white); border:3px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); padding:10px 14px; font-weight:800; font-size:.92rem; text-align:center; }
+.flow .step.cond{ background:var(--yellow); } .flow .step.act{ background:var(--mint); }
+.flow .arr{ font-size:1.4rem; font-weight:900; }
+.flow .loopback{ background:var(--purple); color:#fff; border:3px solid var(--ink); border-radius:999px; padding:8px 14px; font-weight:800; font-size:.88rem; box-shadow:3px 3px 0 var(--ink); }
+
+/* confetti */
+.confetti-bit{ position:fixed; top:-20px; z-index:999; width:12px; height:12px; border:2px solid var(--ink); pointer-events:none; animation:confallin linear forwards; }
+@keyframes confallin{ 0%{ transform:translateY(0) rotate(0); opacity:1;} 100%{ transform:translateY(110vh) rotate(720deg); opacity:.6;} }
+
+footer{ text-align:center; padding:50px 20px 70px; font-weight:900; font-size:1.1rem; line-height:2; }
+footer .hearts{ font-size:1.6rem; }
+footer a{ color:var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="lesson4.html" class="home">📘 درس while</a>
+  <a href="#why">🤔 لماذا؟</a>
+  <a href="#clap">👏 صفّق</a>
+  <a href="#stairs">🧗 السلّم</a>
+  <a href="#water">💧 الكوب</a>
+  <a href="#battery">🔋 الشحن</a>
+  <a href="#cookies">🍪 البسكويت</a>
+  <a href="#rocket">🚀 الصاروخ</a>
+  <a href="#save">💰 التوفير</a>
+  <a href="#balloon">🎈 البالون</a>
+  <a href="#plant">🌱 النبتة</a>
+  <a href="#project">🤖 المشروع</a>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div>
+  <h1 id="heroTitle">برامج تكرّر نفسها</h1>
+  <p class="tagline">
+    بعض الأشياء نكرّرها مرة بعد مرة <b>حتى</b> يحدث شيء ما: نصعد الدرج حتى نصل، نشحن الهاتف حتى يمتلئ،
+    ننفخ البالون حتى ينفجر! 🎈 هذه هي مهمة حلقة <code>while</code>  أن تكرّر <b>طالما</b> الشرط صحيح.
+  </p>
+  <div class="know-chips">
+    <span class="know-chip on">print()</span>
+    <span class="know-chip on">المتغيرات</span>
+    <span class="know-chip on">if</span>
+    <span class="know-chip">while ✨</span>
+  </div>
+  <div class="hero-bot">🔁</div>
+</header>
+
+<main>
+
+<!-- WHY -->
+<section id="why">
+  <span class="badge purple">الفكرة الكبيرة</span>
+  <h2>لماذا نحتاج حلقة while؟ 🤔</h2>
+  <p class="lead">
+    تخيّل أنك تريد طباعة الأرقام من 1 إلى 5.. سهل! لكن ماذا لو أردت من 1 إلى <b>1000</b>؟
+    هل ستكتب ألف سطر؟ 😱 الحلقة تكرّر العمل لك  وتتوقف وحدها عندما يصبح الشرط خطأ.
+  </p>
+
+  <div class="why-grid">
+    <div class="why-card bad">
+      <h3>😫 بدون حلقة</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--coral)"><span class="ln"><span class="fn">print</span>(<span class="num">1</span>)</span><span class="ln"><span class="fn">print</span>(<span class="num">2</span>)</span><span class="ln"><span class="fn">print</span>(<span class="num">3</span>)</span><span class="ln"><span class="fn">print</span>(<span class="num">4</span>)</span><span class="ln"><span class="fn">print</span>(<span class="num">5</span>)</span></pre>
+      <p style="font-weight:800;margin-top:12px">ولو أردت 1000 رقم؟ 1000 سطر! 🥵</p>
+    </div>
+    <div class="why-card good">
+      <h3>✨ مع حلقة while</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--mint)"><span class="ln"><span class="var">i</span> = <span class="num">1</span></span><span class="ln"><span class="kw">while</span> <span class="var">i</span> &lt;= <span class="num">5</span>:</span><span class="ln">    <span class="fn">print</span>(<span class="var">i</span>)</span><span class="ln">    <span class="var">i</span> = <span class="var">i</span> + <span class="num">1</span></span></pre>
+      <p style="font-weight:800;margin-top:12px">ولو أردت 1000؟ غيّر الرقم 5 فقط! 🎉</p>
+    </div>
+  </div>
+
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--sky)">
+    🔁 الحلقة تدور هكذا:
+    <div class="flow">
+      <span class="step cond">❓ هل الشرط صحيح؟</span>
+      <span class="arr">→</span>
+      <span class="step act">⚙️ نفّذ الأوامر</span>
+      <span class="arr">→</span>
+      <span class="loopback">🔄 كرّر</span>
+    </div>
+    وعندما يصبح الشرط <b>خطأ</b> ❌ تتوقّف الحلقة. جرّب الأمثلة بالأسفل! 👇
+  </div>
+</section>
+
+<!-- 0. CLAP (warm-up) -->
+<section id="clap">
+  <span class="badge">تمرين تسخين</span>
+  <h2>صفّق عددًا من المرّات 👏</h2>
+  <p class="lead">
+    أبسط حلقة: نعدّ من صفر، و<b>طالما</b> العدّ أقل من المطلوب نصفّق ونزيد العدّ بواحد.
+    اختر كم مرة تريد أن تصفّق وشغّل!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="clapStage"></div>
+      <div class="controls">
+        <span class="field-label">👏 كم مرة؟</span>
+        <input class="kid-input" id="clapInput" type="number" min="1" max="8" value="3">
+      </div>
+      <button class="btn run" id="clapRun">▶ تشغيل</button>
+      <div class="try-hint">💡 جرّب 3 ثم 6  نفس الكود، بعدد مختلف!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="cl1"><span class="var">claps</span> = <span class="num">0</span></span><span class="ln" id="cl2"><span class="kw">while</span> <span class="var">claps</span> &lt; <span class="num" id="clN">3</span>:</span><span class="ln" id="cl3">    <span class="var">claps</span> = <span class="var">claps</span> + <span class="num">1</span></span><span class="ln" id="cl4">    <span class="fn">print</span>(<span class="str">"صفّق! 👏"</span>)</span><span class="ln" id="cl5"><span class="fn">print</span>(<span class="str">"انتهى التصفيق!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="clapTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1. STAIRS -->
+<section id="stairs">
+  <span class="badge sky">مثال 1</span>
+  <h2>اصعد الدرج حتى القمة 🧗</h2>
+  <p class="lead">
+    نبدأ من الطابق صفر، و<b>طالما</b> لم نصل للطابق المطلوب نصعد درجة. الحلقة تكرّر الصعود
+    وتتوقّف عند الوصول. كم طابقًا تريد أن تصعد؟
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="stairsStage"></div>
+      <div class="controls">
+        <span class="field-label">🏢 عدد الطوابق:</span>
+        <input class="kid-input" id="stairsInput" type="number" min="1" max="10" value="5">
+      </div>
+      <button class="btn run" id="stairsRun">▶ ابدأ الصعود</button>
+      <div class="try-hint">💡 جرّب 3 ثم 8 طوابق وراقب شريط التقدّم!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="st1"><span class="var">floor</span> = <span class="num">0</span></span><span class="ln" id="st2"><span class="kw">while</span> <span class="var">floor</span> &lt; <span class="num" id="stN">5</span>:</span><span class="ln" id="st3">    <span class="var">floor</span> = <span class="var">floor</span> + <span class="num">1</span></span><span class="ln" id="st4">    <span class="fn">print</span>(<span class="str">"صعدت إلى الطابق"</span>, <span class="var">floor</span>)</span><span class="ln" id="st5"><span class="fn">print</span>(<span class="str">"وصلت إلى القمة! 🏔️"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="stairsTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. WATER CUP -->
+<section id="water">
+  <span class="badge mint">مثال 2</span>
+  <h2>املأ كوب الماء 💧</h2>
+  <p class="lead">
+    نسكب الماء قليلًا قليلًا. <b>طالما</b> الكوب غير ممتلئ (أقل من السعة) نكمل السكب 20 وحدة في كل مرة.
+    وعندما يمتلئ، تتوقّف الحلقة وحدها.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="waterStage"></div>
+      <div class="controls">
+        <span class="field-label">🥤 سعة الكوب:</span>
+        <input class="kid-input" id="waterInput" type="number" min="20" max="200" value="100">
+      </div>
+      <button class="btn run" id="waterRun">▶ ابدأ السكب</button>
+      <div class="try-hint">💡 السكب 20 في كل مرة  جرّب سعة 100 ثم 60!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="wa1"><span class="var">level</span> = <span class="num">0</span></span><span class="ln" id="wa2"><span class="kw">while</span> <span class="var">level</span> &lt; <span class="num" id="waN">100</span>:</span><span class="ln" id="wa3">    <span class="var">level</span> = <span class="var">level</span> + <span class="num">20</span></span><span class="ln" id="wa4">    <span class="fn">print</span>(<span class="str">"سكبت ماء، المستوى"</span>, <span class="var">level</span>)</span><span class="ln" id="wa5"><span class="fn">print</span>(<span class="str">"الكوب ممتلئ! 💧"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="waterTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. BATTERY -->
+<section id="battery">
+  <span class="badge coral">مثال 3</span>
+  <h2>اشحن البطارية حتى 100% 🔋</h2>
+  <p class="lead">
+    البطارية تشحن بمقدار 25% في كل مرة. <b>طالما</b> لم تصل للنسبة المطلوبة نكمل الشحن.
+    هذا تمامًا ما يفعله هاتفك  حلقة تكرّر حتى يمتلئ!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="batteryStage"></div>
+      <div class="controls">
+        <span class="field-label">🔋 اشحن حتى:</span>
+        <input class="kid-input" id="batteryInput" type="number" min="25" max="100" value="100">
+      </div>
+      <button class="btn run" id="batteryRun">▶ ابدأ الشحن</button>
+      <div class="try-hint">💡 الشحن +25 في كل مرة. جرّب 100 ثم 75!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ba1"><span class="var">battery</span> = <span class="num">0</span></span><span class="ln" id="ba2"><span class="kw">while</span> <span class="var">battery</span> &lt; <span class="num" id="baN">100</span>:</span><span class="ln" id="ba3">    <span class="var">battery</span> = <span class="var">battery</span> + <span class="num">25</span></span><span class="ln" id="ba4">    <span class="fn">print</span>(<span class="str">"أشحن... البطارية"</span>, <span class="var">battery</span>)</span><span class="ln" id="ba5"><span class="fn">print</span>(<span class="str">"اكتمل الشحن! 🔋"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="batteryTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. COOKIES (leave 2 for sister) -->
+<section id="cookies">
+  <span class="badge" style="background:var(--yellow)">مثال 4</span>
+  <h2>كُل البسكويت.. واترك قطعتين لأختك! 🍪👧</h2>
+  <p class="lead">
+    قال لك والداك: «كُل ما تشاء من البسكويت، لكن اترك <b>قطعتين على الأقل</b> لأختك!»
+    لذلك نأكل واحدة <b>طالما</b> بقي أكثر من قطعتين (<code>cookies &gt; 2</code>)، وعندما يتبقّى 2 تمامًا تتوقّف الحلقة.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="cookiesStage"></div>
+      <div class="controls">
+        <span class="field-label">🍪 في الطبق:</span>
+        <input class="kid-input" id="cookiesInput" type="number" min="2" max="12" value="6">
+      </div>
+      <button class="btn run" id="cookiesRun">▶ ابدأ الأكل</button>
+      <div class="try-hint">💡 جرّب 6 (تأكل 4 ويبقى 2)، ثم جرّب 2 (لا تأكل شيئًا!) 🤭</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="co1"><span class="var">cookies</span> = <span class="num" id="coN">6</span></span><span class="ln" id="co2"><span class="kw">while</span> <span class="var">cookies</span> &gt; <span class="num">2</span>:</span><span class="ln" id="co3">    <span class="fn">print</span>(<span class="str">"آكل بسكويتة! 🍪"</span>)</span><span class="ln" id="co4">    <span class="var">cookies</span> = <span class="var">cookies</span> - <span class="num">1</span></span><span class="ln" id="co5"><span class="fn">print</span>(<span class="str">"تركت قطعتين لأختي! 👧"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="cookiesTerm"></div>
+    </div>
+  </div>
+  <div class="mini-note">
+    🔍 <b>لاحظ الشرط:</b> <code>cookies &gt; 2</code> هو ما يوقف الحلقة عند القطعتين بالضبط. لو جرّبت طبقًا فيه 2 فقط،
+    فلن تأكل ولا واحدة  لأن الشرط خطأ من البداية!
+  </div>
+</section>
+
+<!-- 5. ROCKET -->
+<section id="rocket">
+  <span class="badge sky">مثال 5</span>
+  <h2>العدّ التنازلي للصاروخ 🚀</h2>
+  <p class="lead">
+    العدّ التنازلي الشهير! نبدأ برقم، ونطبعه ثم نُنقصه واحدًا <b>طالما</b> أنه أكبر من صفر.
+    وعندما يصل صفرًا.. ينطلق الصاروخ!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="rocketStage"></div>
+      <div class="controls">
+        <span class="field-label">🚀 ابدأ من:</span>
+        <input class="kid-input" id="rocketInput" type="number" min="1" max="10" value="5">
+      </div>
+      <button class="btn run" id="rocketRun">▶ ابدأ العدّ</button>
+      <div class="try-hint">💡 جرّب 5 ثم 10  3.. 2.. 1.. انطلق!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ro1"><span class="var">count</span> = <span class="num" id="roN">5</span></span><span class="ln" id="ro2"><span class="kw">while</span> <span class="var">count</span> &gt; <span class="num">0</span>:</span><span class="ln" id="ro3">    <span class="fn">print</span>(<span class="var">count</span>)</span><span class="ln" id="ro4">    <span class="var">count</span> = <span class="var">count</span> - <span class="num">1</span></span><span class="ln" id="ro5"><span class="fn">print</span>(<span class="str">"انطلق! 🚀"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="rocketTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. SAVE MONEY -->
+<section id="save">
+  <span class="badge purple">مثال 6</span>
+  <h2>وفّر مالك لشراء دراجة 💰</h2>
+  <p class="lead">
+    هنا تظهر قوة while الحقيقية! نوفّر 10 دج كل أسبوع <b>طالما</b> لم نجمع ثمن الدراجة.
+    نحن <b>لا نعرف</b> كم أسبوعًا سنحتاج  لكن الحلقة تحسبها لنا وتعدّ الأسابيع! 🤩
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="saveStage"></div>
+      <div class="controls">
+        <span class="field-label">🚲 ثمن الدراجة:</span>
+        <input class="kid-input" id="saveInput" type="number" min="10" max="200" value="50">
+      </div>
+      <button class="btn run" id="saveRun">▶ ابدأ التوفير</button>
+      <div class="try-hint">💡 جرّب 50 ثم 90  كم أسبوعًا يلزم؟</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="sa1"><span class="var">money</span> = <span class="num">0</span></span><span class="ln" id="sa2"><span class="var">weeks</span> = <span class="num">0</span></span><span class="ln" id="sa3"><span class="kw">while</span> <span class="var">money</span> &lt; <span class="num" id="saN">50</span>:</span><span class="ln" id="sa4">    <span class="var">money</span> = <span class="var">money</span> + <span class="num">10</span></span><span class="ln" id="sa5">    <span class="var">weeks</span> = <span class="var">weeks</span> + <span class="num">1</span></span><span class="ln" id="sa6">    <span class="fn">print</span>(<span class="str">"الأسبوع"</span>, <span class="var">weeks</span>, <span class="str">"معي"</span>, <span class="var">money</span>)</span><span class="ln" id="sa7"><span class="fn">print</span>(<span class="str">"جمعت ما يكفي! 🚲"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="saveTerm"></div>
+    </div>
+  </div>
+  <div class="mini-note">
+    🌟 <b>هذا هو سبب وجود while!</b> لو سألتك «كم أسبوعًا يلزم لتجمع 90 دج؟» قد لا تعرف فورًا،
+    لكن الحلقة تكرّر التوفير حتى تصل، وتعدّ الأسابيع نيابةً عنك.
+  </div>
+</section>
+
+<!-- 7. BALLOON -->
+<section id="balloon">
+  <span class="badge coral">مثال 7</span>
+  <h2>انفخ البالون حتى ينفجر 🎈</h2>
+  <p class="lead">
+    ننفخ البالون نفخة نفخة. <b>طالما</b> حجمه أصغر من الحدّ الأقصى نكمل النفخ.
+    وعندما يصل الحدّ.. بووم! 💥 (هكذا نتعلّم أن الحلقة تتوقّف عند بلوغ الشرط).
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="balloonStage"></div>
+      <div class="controls">
+        <span class="field-label">🎈 الحجم الأقصى:</span>
+        <input class="kid-input" id="balloonInput" type="number" min="2" max="7" value="5">
+      </div>
+      <button class="btn run" id="balloonRun">▶ ابدأ النفخ</button>
+      <div class="try-hint">💡 كل نفخة تكبّر البالون  راقبه ينمو!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="bl1"><span class="var">size</span> = <span class="num">0</span></span><span class="ln" id="bl2"><span class="kw">while</span> <span class="var">size</span> &lt; <span class="num" id="blN">5</span>:</span><span class="ln" id="bl3">    <span class="var">size</span> = <span class="var">size</span> + <span class="num">1</span></span><span class="ln" id="bl4">    <span class="fn">print</span>(<span class="str">"نفخت! الحجم"</span>, <span class="var">size</span>)</span><span class="ln" id="bl5"><span class="fn">print</span>(<span class="str">"بووم! انفجر البالون 💥"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="balloonTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. PLANT -->
+<section id="plant">
+  <span class="badge mint">مثال 8</span>
+  <h2>اسقِ النبتة حتى تكبر 🌱</h2>
+  <p class="lead">
+    نسقي النبتة مرة كل يوم. <b>طالما</b> لم تكبر بعد نكمل الريّ، وفي كل مرة تكبر قليلًا
+    من 🌱 إلى 🌿 إلى 🪴 إلى 🌳!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="plantStage"></div>
+      <div class="controls">
+        <span class="field-label">💧 مرّات الريّ:</span>
+        <input class="kid-input" id="plantInput" type="number" min="1" max="5" value="4">
+      </div>
+      <button class="btn run" id="plantRun">▶ ابدأ الريّ</button>
+      <div class="try-hint">💡 راقب النبتة تتغيّر شكلها كلما سقيتها!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="pl1"><span class="var">water</span> = <span class="num">0</span></span><span class="ln" id="pl2"><span class="kw">while</span> <span class="var">water</span> &lt; <span class="num" id="plN">4</span>:</span><span class="ln" id="pl3">    <span class="var">water</span> = <span class="var">water</span> + <span class="num">1</span></span><span class="ln" id="pl4">    <span class="fn">print</span>(<span class="str">"سقيت النبتة مرة"</span>, <span class="var">water</span>)</span><span class="ln" id="pl5"><span class="fn">print</span>(<span class="str">"كبرت النبتة! 🌳"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="plantTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT: ROBOT -->
+<section id="project">
+  <span class="badge pink">المشروع الكبير 🎮</span>
+  <h2>الروبوت يمشي إلى الكنز 🤖💎</h2>
+  <p class="lead">
+    لنجمع كل شيء! الروبوت يبدأ عند خطوة صفر، و<b>طالما</b> لم يصل إلى الكنز يمشي خطوة ويطبع موقعه.
+    عندما يصل  تنتهي الحلقة ونحتفل! اختر كم خطوة تبعد الكنز.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="projectStage"></div>
+      <div class="controls">
+        <span class="field-label">💎 بُعد الكنز:</span>
+        <input class="kid-input" id="projectInput" type="number" min="1" max="12" value="7">
+      </div>
+      <button class="btn run" id="projectRun">▶ ابدأ المغامرة</button>
+      <div class="try-hint">💡 الكود نفسه يعمل لأي عدد خطوات  هذه قوة الحلقة!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="rb1"><span class="var">steps</span> = <span class="num">0</span></span><span class="ln" id="rb2"><span class="kw">while</span> <span class="var">steps</span> &lt; <span class="num" id="rbN">7</span>:</span><span class="ln" id="rb3">    <span class="var">steps</span> = <span class="var">steps</span> + <span class="num">1</span></span><span class="ln" id="rb4">    <span class="fn">print</span>(<span class="str">"الروبوت يمشي خطوة"</span>, <span class="var">steps</span>)</span><span class="ln" id="rb5"><span class="fn">print</span>(<span class="str">"🤖 وصل إلى الكنز! 💎"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="projectTerm"></div>
+    </div>
+  </div>
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--coral)">
+    🎉 رائع! تعلّمت أن حلقة <code>while</code> تكرّر العمل <b>طالما</b> الشرط صحيح، وتتوقّف وحدها.<br>
+    من العدّ، إلى الشحن، إلى التوفير  الحلقة في كل مكان حولنا! 🌍
+  </div>
+</section>
+
+</main>
+
+<footer>
+  أنت الآن تفهم <b>لماذا</b> نستخدم حلقة <code>while</code>! 🚀<br>
+  جرّب أن تغيّر الأرقام واخترع أمثلتك الخاصة من حياتك اليومية.
+  <span class="hearts">💜💙💚❤️</span><br>
+  <a href="lesson4.html">⬅️ ارجع إلى درس الحلقات</a>
+</footer>
+
+<script>
+/* HERO title split */
+(function(){
+  const h1 = document.getElementById('heroTitle');
+  const words = h1.textContent.trim().split(' ');
+  h1.textContent = '';
+  words.forEach((word, i) => {
+    const s = document.createElement('span');
+    s.textContent = word;
+    s.style.animationDelay = (i * 0.18) + 's';
+    h1.appendChild(s);
+    if (i < words.length - 1) h1.appendChild(document.createTextNode(' '));
+  });
+})();
+
+/* SCROLL REVEAL */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+/* HELPERS */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function clearCode(pre){ pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active','skipped')); }
+function setActive(pre, id){ pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active')); if(id) document.getElementById(id).classList.add('active'); }
+function markSkip(id){ const el=document.getElementById(id); if(el) el.classList.add('skipped'); }
+function shakeInput(el){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); el.focus(); }
+async function typeOut(term, text, cls){
+  const line = document.createElement('div'); line.className='term-line'; line.dir='auto';
+  const span = document.createElement('span'); span.className = cls || 't-out';
+  line.appendChild(span); term.appendChild(line); term.scrollTop = term.scrollHeight;
+  for (const ch of text){ span.textContent += ch; await sleep(16); term.scrollTop = term.scrollHeight; }
+}
+function runner(btn, fn){
+  let busy=false;
+  btn.addEventListener('click', async ()=>{ if(busy) return; busy=true; btn.disabled=true; try{ await fn(); } finally{ busy=false; btn.disabled=false; } });
+}
+
+/* LOOP VISUALS — build the DOM once, then update only what changes
+   so the CSS transitions animate smoothly instead of snapping. */
+const clampPct=(v,m)=>Math.max(0,Math.min(100,Math.round(v/m*100)));
+const Q=(stage,sel)=>stage.querySelector(sel);
+const plantEmoji=v=>['🌰','🌱','🌿','🪴','🌳','🌳','🌳'][Math.min(v,6)];
+function setCap(stage,txt){ const c=Q(stage,'[data-cap]'); if(c) c.textContent=txt; }
+function pulse(el){ if(!el) return; el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
+
+/* shells (structure built once) */
+function shellBar(stage, emoji, color){ stage.innerHTML=`<div class="loopviz"><div class="lv-emoji">${emoji}</div><div class="lv-bar"><div class="lv-fill" data-fill style="background:${color}"></div><span class="lv-pct" data-pct></span></div><div class="lv-cap" data-cap></div></div>`; }
+function shellCup(stage){ stage.innerHTML=`<div class="loopviz"><div class="lv-emoji">💧</div><div class="lv-cup"><div class="lv-water" data-water></div></div><div class="lv-cap" data-cap></div></div>`; }
+function shellBatt(stage){ stage.innerHTML=`<div class="loopviz"><div class="lv-batt"><div class="lv-batt-fill" data-fill></div></div><div class="lv-cap" data-cap></div></div>`; }
+function shellCount(stage, emoji){ stage.innerHTML=`<div class="loopviz"><div class="lv-count"><div class="lv-emoji" style="font-size:3rem">${emoji}</div><div class="lv-num" data-num>0</div></div></div>`; }
+function shellBalloon(stage){ stage.innerHTML=`<div class="loopviz"><div class="lv-balloon" data-bal>🎈</div><div class="lv-cap" data-cap></div></div>`; }
+function shellPlant(stage){ stage.innerHTML=`<div class="loopviz"><div class="lv-plant" data-plant>🌰</div><div class="lv-cap" data-cap></div></div>`; }
+function shellTrack(stage){ stage.innerHTML=`<div class="loopviz"><div class="lv-track"><span class="lv-robot" data-robot>🤖</span><span class="lv-goal">💎</span></div><div class="lv-cap" data-cap></div></div>`; }
+function shellSlots(stage, n, emoji){ let s=''; for(let i=0;i<n;i++) s+=`<span class="lv-slot" data-i="${i}">${emoji}</span>`; stage.innerHTML=`<div class="loopviz"><div class="lv-stack" data-stack>${s}</div><div class="lv-cap" data-cap></div></div>`; }
+function setFill(stage, pct, pctText, color){ const f=Q(stage,'[data-fill]'); if(f){ f.style.width=pct+'%'; if(color) f.style.background=color; } const p=Q(stage,'[data-pct]'); if(p) p.textContent=pctText; }
+function finishViz(stage, emoji, label){ stage.innerHTML=`<div class="loopviz"><div class="lv-item" style="font-size:3.4rem">${emoji}</div><div class="lv-cap" style="font-size:1rem">${label}</div></div>`; }
+
+/* GENERIC WHILE-LOOP RUNNER */
+async function runLoop(cfg){
+  const pre   = document.querySelector(cfg.section + ' pre');
+  const term  = document.getElementById(cfg.termId);
+  const stage = document.getElementById(cfg.stageId);
+  const input = document.getElementById(cfg.inputId);
+
+  let n = parseInt((input.value||'').trim(),10);
+  if (isNaN(n)){ shakeInput(input); return; }
+  n = Math.max(cfg.min, Math.min(cfg.max, n));
+  input.value = n;
+  const target = n;
+  if (cfg.numId) document.getElementById(cfg.numId).textContent = target;
+
+  term.innerHTML=''; clearCode(pre); stage.classList.remove('shake');
+  const st = cfg.init(target);
+  cfg.vizBuild(stage, st, target);
+  cfg.vizSet(stage, st, target);
+
+  for (const id of cfg.initIds){ setActive(pre, id); await sleep(440); }
+
+  let guard = 0;
+  while (true){
+    setActive(pre, cfg.whileId); await sleep(520);
+    if (!cfg.cond(st, target) || guard++ > 80){
+      cfg.body.forEach(b => markSkip(b.id));   // condition false → body skipped
+      await sleep(380);
+      break;
+    }
+    for (const b of cfg.body){
+      setActive(pre, b.id); await sleep(300);
+      if (b.type === 'print'){
+        await typeOut(term, b.text(st, target));
+      } else { // update → change state, then let the transition play
+        b.fn(st, target);
+        cfg.vizSet(stage, st, target);
+        await sleep(460);
+      }
+    }
+    await sleep(110);
+  }
+
+  if (cfg.afterId){ setActive(pre, cfg.afterId); await sleep(320); await typeOut(term, cfg.after(st, target), 't-sys'); }
+  if (cfg.finish) cfg.finish(st, stage, target);
+  setTimeout(()=>clearCode(pre), 1000);
+}
+
+/* THE EXAMPLES */
+const EXAMPLES = [
+  { key:'clap', section:'#clap', termId:'clapTerm', stageId:'clapStage', inputId:'clapInput',
+    min:1, max:8, numId:'clN', initIds:['cl1'], whileId:'cl2', afterId:'cl5',
+    init:()=>({v:0}), cond:(s,t)=>s.v<t,
+    body:[ {id:'cl3', type:'update', fn:s=>s.v++}, {id:'cl4', type:'print', text:s=>'صفّق! 👏 (رقم '+s.v+')'} ],
+    after:()=>'انتهى التصفيق! 🎉',
+    vizBuild:(st,s,t)=>shellSlots(st, t, '👏'),
+    vizSet:(st,s,t)=>{ st.querySelectorAll('.lv-slot').forEach((el,i)=>el.classList.toggle('on', i<s.v)); setCap(st, s.v+' / '+t); },
+    finish:(s,st,t)=>finishViz(st,'🎉','صفّقت '+t+' مرّات!') },
+
+  { key:'stairs', section:'#stairs', termId:'stairsTerm', stageId:'stairsStage', inputId:'stairsInput',
+    min:1, max:10, numId:'stN', initIds:['st1'], whileId:'st2', afterId:'st5',
+    init:()=>({v:0}), cond:(s,t)=>s.v<t,
+    body:[ {id:'st3', type:'update', fn:s=>s.v++}, {id:'st4', type:'print', text:s=>'صعدت إلى الطابق '+s.v} ],
+    after:()=>'وصلت إلى القمة! 🏔️',
+    vizBuild:(st)=>shellBar(st,'🧗','var(--sky)'),
+    vizSet:(st,s,t)=>{ setFill(st, clampPct(s.v,t), s.v+' / '+t); setCap(st,''); },
+    finish:(s,st)=>finishViz(st,'🏔️','وصلت إلى القمة!') },
+
+  { key:'water', section:'#water', termId:'waterTerm', stageId:'waterStage', inputId:'waterInput',
+    min:20, max:200, numId:'waN', initIds:['wa1'], whileId:'wa2', afterId:'wa5',
+    init:()=>({v:0}), cond:(s,t)=>s.v<t,
+    body:[ {id:'wa3', type:'update', fn:s=>s.v+=20}, {id:'wa4', type:'print', text:s=>'سكبت ماء، المستوى '+s.v} ],
+    after:()=>'الكوب ممتلئ! 💧',
+    vizBuild:(st)=>shellCup(st),
+    vizSet:(st,s,t)=>{ const w=Q(st,'[data-water]'); w.style.height=clampPct(s.v,t)+'%'; setCap(st, s.v+' / '+t); },
+    finish:(s,st)=>finishViz(st,'🥤','الكوب ممتلئ!') },
+
+  { key:'battery', section:'#battery', termId:'batteryTerm', stageId:'batteryStage', inputId:'batteryInput',
+    min:25, max:100, numId:'baN', initIds:['ba1'], whileId:'ba2', afterId:'ba5',
+    init:()=>({v:0}), cond:(s,t)=>s.v<t,
+    body:[ {id:'ba3', type:'update', fn:s=>s.v+=25}, {id:'ba4', type:'print', text:s=>'أشحن... البطارية '+s.v+'%'} ],
+    after:()=>'اكتمل الشحن! 🔋',
+    vizBuild:(st)=>shellBatt(st),
+    vizSet:(st,s,t)=>{ const w=clampPct(s.v,t); const col=w>=100?'var(--mint)':(w<30?'var(--coral)':'var(--yellow)'); setFill(st, w, '', col); setCap(st,'🔋 '+w+'%'); },
+    finish:(s,st)=>finishViz(st,'🔋','شحن كامل 100%!') },
+
+  { key:'cookies', section:'#cookies', termId:'cookiesTerm', stageId:'cookiesStage', inputId:'cookiesInput',
+    min:2, max:12, numId:'coN', initIds:['co1'], whileId:'co2', afterId:'co5',
+    init:(t)=>({v:t}), cond:(s)=>s.v>2,
+    body:[ {id:'co3', type:'print', text:()=>'آكل بسكويتة! 🍪'}, {id:'co4', type:'update', fn:s=>s.v--} ],
+    after:()=>'تركت قطعتين لأختي! 👧',
+    vizBuild:(st,s,t)=>shellSlots(st, t, '🍪'),
+    vizSet:(st,s,t)=>{ const eaten=t-s.v; st.querySelectorAll('.lv-slot').forEach((el,i)=>{ const isSister = i>=t-2; el.classList.toggle('eaten', i<eaten); el.classList.toggle('sister', isSister && i>=eaten); el.classList.toggle('on', !isSister && i>=eaten); }); setCap(st,'تبقّى '+s.v+'  ·  لأختك 2 👧'); },
+    finish:(s,st)=>finishViz(st,'🍪🍪','تركت قطعتين لأختك 👧') },
+
+  { key:'rocket', section:'#rocket', termId:'rocketTerm', stageId:'rocketStage', inputId:'rocketInput',
+    min:1, max:10, numId:'roN', initIds:['ro1'], whileId:'ro2', afterId:'ro5',
+    init:(t)=>({v:t}), cond:(s)=>s.v>0,
+    body:[ {id:'ro3', type:'print', text:s=>''+s.v}, {id:'ro4', type:'update', fn:s=>s.v--} ],
+    after:()=>'انطلق! 🚀',
+    vizBuild:(st)=>shellCount(st,'🚀'),
+    vizSet:(st,s)=>{ const n=Q(st,'[data-num]'); n.textContent=s.v; pulse(n); },
+    finish:(s,st)=>{ finishViz(st,'🚀','انطلق إلى الفضاء!'); confetti(); } },
+
+  { key:'save', section:'#save', termId:'saveTerm', stageId:'saveStage', inputId:'saveInput',
+    min:10, max:200, numId:'saN', initIds:['sa1','sa2'], whileId:'sa3', afterId:'sa7',
+    init:()=>({money:0, weeks:0}), cond:(s,t)=>s.money<t,
+    body:[ {id:'sa4', type:'update', fn:s=>s.money+=10}, {id:'sa5', type:'update', fn:s=>s.weeks++}, {id:'sa6', type:'print', text:s=>'الأسبوع '+s.weeks+' — معي '+s.money+' دج'} ],
+    after:(s)=>'جمعت ما يكفي بعد '+s.weeks+' أسابيع! 🚲',
+    vizBuild:(st)=>shellBar(st,'💰','var(--mint)'),
+    vizSet:(st,s,t)=>{ setFill(st, clampPct(s.money,t), s.money+' / '+t+' دج'); setCap(st,'🗓️ الأسبوع '+s.weeks); },
+    finish:(s,st)=>{ finishViz(st,'🚲','اشتريت الدراجة!'); confetti(); } },
+
+  { key:'balloon', section:'#balloon', termId:'balloonTerm', stageId:'balloonStage', inputId:'balloonInput',
+    min:2, max:7, numId:'blN', initIds:['bl1'], whileId:'bl2', afterId:'bl5',
+    init:()=>({v:0}), cond:(s,t)=>s.v<t,
+    body:[ {id:'bl3', type:'update', fn:s=>s.v++}, {id:'bl4', type:'print', text:s=>'نفخت! الحجم '+s.v} ],
+    after:()=>'بووم! انفجر البالون 💥',
+    vizBuild:(st)=>shellBalloon(st),
+    vizSet:(st,s,t)=>{ const b=Q(st,'[data-bal]'); b.style.fontSize=(1.4+s.v*0.7)+'rem'; setCap(st,'الحجم '+s.v+' / '+t); },
+    finish:(s,st)=>{ finishViz(st,'💥','بووم!'); st.classList.add('shake'); setTimeout(()=>st.classList.remove('shake'),500); } },
+
+  { key:'plant', section:'#plant', termId:'plantTerm', stageId:'plantStage', inputId:'plantInput',
+    min:1, max:5, numId:'plN', initIds:['pl1'], whileId:'pl2', afterId:'pl5',
+    init:()=>({v:0}), cond:(s,t)=>s.v<t,
+    body:[ {id:'pl3', type:'update', fn:s=>s.v++}, {id:'pl4', type:'print', text:s=>'سقيت النبتة مرة '+s.v} ],
+    after:()=>'كبرت النبتة! 🌳',
+    vizBuild:(st)=>shellPlant(st),
+    vizSet:(st,s,t)=>{ const p=Q(st,'[data-plant]'); p.textContent=plantEmoji(s.v); pulse(p); setCap(st,'سقيت '+s.v+' / '+t); },
+    finish:(s,st)=>finishViz(st,'🌳','كبرت النبتة!') },
+
+  { key:'project', section:'#project', termId:'projectTerm', stageId:'projectStage', inputId:'projectInput',
+    min:1, max:12, numId:'rbN', initIds:['rb1'], whileId:'rb2', afterId:'rb5',
+    init:()=>({v:0}), cond:(s,t)=>s.v<t,
+    body:[ {id:'rb3', type:'update', fn:s=>s.v++}, {id:'rb4', type:'print', text:s=>'الروبوت يمشي خطوة '+s.v} ],
+    after:()=>'🤖 وصل إلى الكنز! 💎',
+    vizBuild:(st)=>shellTrack(st),
+    vizSet:(st,s,t)=>{ Q(st,'[data-robot]').style.left=clampPct(s.v,t)+'%'; setCap(st,'خطوة '+s.v+' / '+t); },
+    finish:(s,st)=>{ finishViz(st,'💎','وصل إلى الكنز!'); confetti(); } },
+];
+
+EXAMPLES.forEach(cfg => {
+  const btn = document.getElementById(cfg.key + 'Run');
+  if (btn) runner(btn, () => runLoop(cfg));
+  // draw the starting visual so the stage isn't empty on load
+  const stage = document.getElementById(cfg.stageId);
+  const t = parseInt(document.getElementById(cfg.inputId).value,10) || cfg.min;
+  const st = cfg.init(t);
+  cfg.vizBuild(stage, st, t);
+  cfg.vizSet(stage, st, t);
+});
+
+/* CONFETTI */
+function confetti(){
+  const colors = ['#FF6B6B','#FFD93D','#5FD08D','#4D96FF','#9B5DE5','#FF8FAB'];
+  for (let i = 0; i < 90; i++){
+    const bit = document.createElement('div');
+    bit.className = 'confetti-bit';
+    bit.style.left = Math.random() * 100 + 'vw';
+    bit.style.background = colors[Math.floor(Math.random() * colors.length)];
+    bit.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+    bit.style.animationDelay = (Math.random() * .8) + 's';
+    if (Math.random() > .5) bit.style.borderRadius = '50%';
+    document.body.appendChild(bit);
+    setTimeout(() => bit.remove(), 6000);
+  }
+}
+</script>
+</body>
+</html>
