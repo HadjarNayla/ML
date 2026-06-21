@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نتائج الامتحان · رحلة البرمجة والذكاء الاصطناعي 🏆</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#050514;color:#fff;overflow-x:hidden;min-height:100vh}
+
+/* ===== BACKGROUND ===== */
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
+@keyframes twinkle{0%,100%{opacity:.12;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+
+.nebula{position:fixed;border-radius:50%;filter:blur(90px);opacity:.35;pointer-events:none;z-index:0;animation:nebFloat 14s ease-in-out infinite}
+.nebula.n1{width:480px;height:480px;background:radial-gradient(circle,#ffd200,transparent 70%);top:-140px;right:-120px}
+.nebula.n2{width:420px;height:420px;background:radial-gradient(circle,#b721ff,transparent 70%);bottom:-120px;left:-110px;animation-delay:4s}
+.nebula.n3{width:340px;height:340px;background:radial-gradient(circle,#4A90D9,transparent 70%);top:40%;left:55%;animation-delay:8s;opacity:.18}
+@keyframes nebFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-30px) scale(1.12)}}
+
+.shooting-star{position:fixed;width:2.5px;height:2.5px;border-radius:50%;background:#fff;box-shadow:0 0 8px 2px rgba(255,255,255,.7);z-index:0;pointer-events:none;animation:shoot 1.1s linear forwards}
+.shooting-star::after{content:'';position:absolute;top:50%;right:0;width:90px;height:1.5px;background:linear-gradient(270deg,rgba(255,255,255,.8),transparent);transform:translateY(-50%)}
+@keyframes shoot{0%{opacity:0;transform:translate(0,0)}10%{opacity:1}100%{opacity:0;transform:translate(-240px,160px)}}
+
+/* ===== LAYOUT ===== */
+.wrap{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;text-align:center;padding:4.5rem 1.5rem 4rem}
+
+/* ===== HEADER ===== */
+.badge{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);padding:.5rem 1.6rem;border-radius:50px;font-size:.9rem;margin-bottom:1.6rem;color:#ffd200;backdrop-filter:blur(8px);animation:fadeDown .8s ease both}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
+
+.trophy-icons{font-size:3.2rem;display:flex;gap:1.1rem;margin-bottom:1.2rem;justify-content:center}
+.trophy-icons span{display:inline-block;animation:floatUD 3s ease-in-out infinite}
+.trophy-icons span:nth-child(2){animation-delay:.5s}
+.trophy-icons span:nth-child(3){animation-delay:1s}
+@keyframes floatUD{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+
+h1{font-size:clamp(2rem,5.5vw,3.4rem);font-weight:900;line-height:1.35;margin-bottom:.6rem;background:linear-gradient(120deg,#fff 0%,#ffd200 30%,#ffb347 55%,#d4a0ff 80%,#fff 100%);background-size:220% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 5.5s linear infinite}
+@keyframes shimmer{to{background-position:220% center}}
+
+.sub{font-size:clamp(.9rem,2.5vw,1.05rem);color:rgba(255,255,255,.55);max-width:520px;line-height:1.9;margin-bottom:.8rem}
+
+.hard-badge{display:inline-block;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.4);color:#ff7675;padding:.35rem 1.2rem;border-radius:50px;font-size:.82rem;font-weight:700;margin-bottom:2.4rem;animation:fadeDown .9s .2s ease both}
+
+/* ===== BACK LINK ===== */
+.back-link{position:relative;z-index:2;display:inline-flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.45);font-size:.85rem;text-decoration:none;margin-bottom:2rem;border:1px solid rgba(255,255,255,.1);padding:.4rem 1.1rem;border-radius:50px;backdrop-filter:blur(6px);transition:all .25s}
+.back-link:hover{color:#fff;border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.06)}
+
+/* ===== RANKS CONTAINER ===== */
+.ranks{width:100%;max-width:860px;display:flex;flex-direction:column;gap:1.2rem}
+
+/* ===== RANK ROW ===== */
+.rank-row{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:1.4rem 1.8rem;display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;opacity:0;transform:translateY(28px);animation:cardIn .6s ease forwards;overflow:hidden;position:relative;transition:border-color .3s,box-shadow .3s}
+.rank-row::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;background:var(--rc);opacity:.8;border-radius:24px 24px 0 0}
+.rank-row:hover{border-color:color-mix(in srgb,var(--rc) 50%,transparent);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+@keyframes cardIn{to{opacity:1;transform:none}}
+
+.rank-row:nth-child(1){animation-delay:.1s;--rc:#ffd200}
+.rank-row:nth-child(2){animation-delay:.2s;--rc:#c0c0c0}
+.rank-row:nth-child(3){animation-delay:.3s;--rc:#cd7f32}
+.rank-row:nth-child(4){animation-delay:.4s;--rc:#2ecc71}
+.rank-row:nth-child(5){animation-delay:.5s;--rc:#4A90D9}
+.rank-row:nth-child(6){animation-delay:.6s;--rc:#b721ff}
+.rank-row:nth-child(7){animation-delay:.7s;--rc:#e84393}
+
+/* ===== MEDAL AREA ===== */
+.medal-area{display:flex;flex-direction:column;align-items:center;min-width:72px}
+.medal-emoji{font-size:2.4rem;animation:floatUD 3.5s ease-in-out infinite}
+.rank-num{font-size:.7rem;font-weight:700;color:var(--rc);letter-spacing:.5px;margin-top:.2rem}
+
+/* ===== DIVIDER ===== */
+.v-div{width:1px;height:56px;background:rgba(255,255,255,.1);flex-shrink:0}
+
+/* ===== STUDENTS CHIPS ===== */
+.chips{display:flex;flex-wrap:wrap;gap:.55rem;flex:1}
+.chip{font-size:.88rem;font-weight:600;padding:.42rem 1.1rem;border-radius:50px;background:color-mix(in srgb,var(--rc) 12%,transparent);border:1px solid color-mix(in srgb,var(--rc) 35%,transparent);color:#fff;transition:transform .2s,background .2s}
+.chip:hover{transform:translateY(-3px);background:color-mix(in srgb,var(--rc) 24%,transparent)}
+
+/* ===== STATS ===== */
+.stats{display:flex;gap:.9rem;flex-wrap:wrap;justify-content:center;margin-bottom:2.4rem}
+.stat{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:.65rem 1.4rem;backdrop-filter:blur(6px)}
+.stat .st-num{font-size:1.25rem;font-weight:900;color:#ffd200}
+.stat .st-lbl{font-size:.75rem;color:rgba(255,255,255,.45)}
+
+/* ===== FOOTER ===== */
+footer{position:relative;z-index:1;background:#020208;padding:2rem;text-align:center;color:rgba(255,255,255,.3);font-size:.85rem;margin-top:auto}
+</style>
+</head>
+<body>
+
+<div class="stars-bg" id="starsContainer"></div>
+<div class="nebula n1"></div>
+<div class="nebula n2"></div>
+<div class="nebula n3"></div>
+
+<div class="wrap">
+
+  <a href="index.html" class="back-link">◂ العودة للصفحة الرئيسية</a>
+
+  <div class="badge">🎓 الأستاذة نايلة · المخيم الصيفي · مجمع أثير</div>
+  <div class="trophy-icons"><span>🏆</span><span>🥇</span><span>🌟</span></div>
+  <h1>نتائج الامتحان</h1>
+  <p class="sub">رحلة البرمجة والذكاء الاصطناعي · ألف مبروك لجميع الطلاب النجباء!</p>
+  <span class="hard-badge">⚡ المستوى: صعب</span>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat"><div class="st-num">16</div><div class="st-lbl">طالب مشارك</div></div>
+    <div class="stat"><div class="st-num">7</div><div class="st-lbl">مراكز</div></div>
+    <div class="stat"><div class="st-num">🔥</div><div class="st-lbl">مستوى صعب</div></div>
+    <div class="stat"><div class="st-num">🐍</div><div class="st-lbl">Python</div></div>
+  </div>
+
+  <!-- RANKS -->
+  <div class="ranks">
+
+    <!-- 1st -->
+    <div class="rank-row">
+      <div class="medal-area">
+        <span class="medal-emoji">🥇</span>
+        <span class="rank-num">المركز الأول</span>
+      </div>
+      <div class="v-div"></div>
+      <div class="chips">
+        <span class="chip">أحمد تقي الدين</span>
+        <span class="chip">عمار يوسف</span>
+        <span class="chip">أشواق</span>
+      </div>
+    </div>
+
+    <!-- 2nd -->
+    <div class="rank-row">
+      <div class="medal-area">
+        <span class="medal-emoji">🥈</span>
+        <span class="rank-num">المركز الثاني</span>
+      </div>
+      <div class="v-div"></div>
+      <div class="chips">
+        <span class="chip">بلعربي عماد</span>
+        <span class="chip">ريان أحمد</span>
+        <span class="chip">عمالو عبد المنعم</span>
+        <span class="chip">سكراني وسيم</span>
+      </div>
+    </div>
+
+    <!-- 3rd -->
+    <div class="rank-row">
+      <div class="medal-area">
+        <span class="medal-emoji">🥉</span>
+        <span class="rank-num">المركز الثالث</span>
+      </div>
+      <div class="v-div"></div>
+      <div class="chips">
+        <span class="chip">أعمر سعيد آية</span>
+        <span class="chip">كوثر مختار</span>
+        <span class="chip">بلحاج محمد الياس</span>
+        <span class="chip">محمد أنس</span>
+      </div>
+    </div>
+
+    <!-- 4th -->
+    <div class="rank-row">
+      <div class="medal-area">
+        <span class="medal-emoji">🏅</span>
+        <span class="rank-num">المركز الرابع</span>
+      </div>
+      <div class="v-div"></div>
+      <div class="chips">
+        <span class="chip">سعيدي ياسين</span>
+        <span class="chip">تاهونزة مريم</span>
+      </div>
+    </div>
+
+    <!-- 5th -->
+    <div class="rank-row">
+      <div class="medal-area">
+        <span class="medal-emoji">⭐</span>
+        <span class="rank-num">المركز الخامس</span>
+      </div>
+      <div class="v-div"></div>
+      <div class="chips">
+        <span class="chip">بن صالح بن عيسى</span>
+      </div>
+    </div>
+
+    <!-- 6th -->
+    <div class="rank-row">
+      <div class="medal-area">
+        <span class="medal-emoji">⭐</span>
+        <span class="rank-num">المركز السادس</span>
+      </div>
+      <div class="v-div"></div>
+      <div class="chips">
+        <span class="chip">بن ساعو ياسين</span>
+        <span class="chip">نادية</span>
+      </div>
+    </div>
+
+    <!-- 7th -->
+    <div class="rank-row">
+      <div class="medal-area">
+        <span class="medal-emoji">⭐</span>
+        <span class="rank-num">المركز السابع</span>
+      </div>
+      <div class="v-div"></div>
+      <div class="chips">
+        <span class="chip">تاهونزة سيرين</span>
+      </div>
+    </div>
+
+  </div><!-- /ranks -->
+
+</div><!-- /wrap -->
+
+<footer>صُنع بحب لتعليم البرمجة 💙 · ألف مبروك لجميع الطلاب 🎉</footer>
+
+<script>
+const sc = document.getElementById('starsContainer');
+for(let i = 0; i < 110; i++){
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2 + 1;
+  s.style.width = sz + 'px';
+  s.style.height = sz + 'px';
+  s.style.left = Math.random() * 100 + '%';
+  s.style.top = Math.random() * 100 + '%';
+  s.style.setProperty('--d', (Math.random() * 3 + 2) + 's');
+  s.style.setProperty('--delay', (Math.random() * 3) + 's');
+  sc.appendChild(s);
+}
+
+function spawnShootingStar(){
+  const st = document.createElement('div');
+  st.className = 'shooting-star';
+  st.style.top = (Math.random() * 45) + '%';
+  st.style.right = (Math.random() * 55) + '%';
+  document.body.appendChild(st);
+  setTimeout(() => st.remove(), 1300);
+}
+setInterval(() => { if(Math.random() > .4) spawnShootingStar(); }, 2600);
+setTimeout(spawnShootingStar, 900);
+</script>
+</body>
+</html>
