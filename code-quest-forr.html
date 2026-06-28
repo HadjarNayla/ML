@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مغامرة البرمجة - التكرار مع for! 🔂</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Rubik:wght@500;700;800;900&family=Fira+Code:wght@500;700&display=swap');
+
+:root{
+  --paper:#FFF6E9; --ink:#2B2342; --coral:#FF6B6B; --yellow:#FFD93D;
+  --mint:#5FD08D; --sky:#4D96FF; --purple:#9B5DE5; --pink:#FF8FAB; --white:#FFFFFF;
+  --radius:24px;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:'Rubik', sans-serif; color:var(--ink);
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(43,35,66,.07) 2px, transparent 2px);
+  background-size:28px 28px; overflow-x:hidden;
+}
+h1,h2,h3{ font-family:'Baloo Bhaijaan 2', 'Rubik', cursive; line-height:1.25; }
+code, pre{ font-family:'Fira Code', monospace; direction:ltr; unicode-bidi:embed; }
+
+/* NAV */
+nav{ position:sticky; top:12px; z-index:50; display:flex; justify-content:center; gap:7px; flex-wrap:wrap; padding:0 12px; }
+nav a{
+  background:var(--white); border:3px solid var(--ink); border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink); padding:5px 12px; font-weight:900; font-size:.8rem;
+  color:var(--ink); text-decoration:none; transition:transform .15s, box-shadow .15s;
+}
+nav a:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); background:var(--yellow); }
+nav a.home{ background:var(--purple); color:#fff; }
+
+/* HERO */
+header{ position:relative; text-align:center; padding:80px 20px 60px; overflow:hidden; }
+.blob{ position:absolute; border-radius:50%; border:3px solid var(--ink); animation:float 6s ease-in-out infinite; z-index:0; }
+.blob.b1{ width:70px; height:70px; background:var(--coral);  top:12%; left:8%;  animation-delay:0s; }
+.blob.b2{ width:46px; height:46px; background:var(--yellow); top:60%; left:14%; animation-delay:1.2s; }
+.blob.b3{ width:90px; height:90px; background:var(--sky);    top:18%; right:7%; animation-delay:.6s; }
+.blob.b4{ width:40px; height:40px; background:var(--mint);   top:65%; right:13%;animation-delay:1.8s; }
+.blob.b5{ width:30px; height:30px; background:var(--purple); top:38%; left:22%; animation-delay:2.4s; }
+@keyframes float{ 0%,100%{ transform:translateY(0) rotate(0deg);} 50%{ transform:translateY(-18px) rotate(8deg);} }
+header h1{ position:relative; z-index:1; font-size:clamp(2.2rem, 7vw, 4.4rem); font-weight:800; }
+header h1 span{ display:inline-block; animation:bounceIn .8s both; }
+header h1 span:nth-child(odd){ color:var(--purple); }
+header h1 span:nth-child(even){ color:var(--sky); }
+header h1 span:nth-child(3n){ color:var(--mint); }
+@keyframes bounceIn{ 0%{ transform:translateY(-40px) scale(.3); opacity:0; } 60%{ transform:translateY(8px) scale(1.1); opacity:1; } 100%{ transform:translateY(0) scale(1); } }
+header p.tagline{ position:relative; z-index:1; font-size:clamp(1.05rem, 2.5vw, 1.4rem); font-weight:800; max-width:680px; margin:18px auto 14px; }
+.hero-bot{ font-size:5rem; position:relative; z-index:1; animation:spin360 5s ease-in-out infinite; }
+@keyframes spin360{ 0%,100%{ transform:rotate(0);} 50%{ transform:rotate(360deg);} }
+.know-chips{ position:relative; z-index:1; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:18px; }
+.know-chip{ background:var(--white); border:3px solid var(--ink); border-radius:999px; box-shadow:3px 3px 0 var(--ink); padding:6px 16px; font-family:'Fira Code', monospace; font-weight:700; font-size:.9rem; direction:ltr; }
+.know-chip.on{ background:var(--mint); }
+
+/* SECTIONS */
+main{ max-width:980px; margin:0 auto; padding:0 18px 80px; }
+section{ margin:64px 0; opacity:0; transform:translateY(40px); transition:opacity .7s ease, transform .7s ease; }
+section.visible{ opacity:1; transform:translateY(0); }
+.badge{ display:inline-block; font-family:'Baloo Bhaijaan 2', cursive; font-weight:800; font-size:.95rem; background:var(--yellow); border:3px solid var(--ink); border-radius:12px; box-shadow:4px 4px 0 var(--ink); padding:4px 16px; transform:rotate(3deg); margin-bottom:14px; }
+.badge.sky{ background:var(--sky); color:#fff; } .badge.coral{ background:var(--coral); color:#fff; }
+.badge.mint{ background:var(--mint); } .badge.purple{ background:var(--purple); color:#fff; } .badge.pink{ background:var(--pink); }
+section h2{ font-size:clamp(1.6rem, 4.5vw, 2.4rem); margin-bottom:10px; }
+section .lead{ font-size:1.08rem; font-weight:700; max-width:740px; margin-bottom:24px; line-height:1.9; }
+.lead code, .mini-note code, .fact-strip code{ background:rgba(43,35,66,.08); padding:1px 7px; border-radius:7px; }
+.card{ background:var(--white); border:3px solid var(--ink); border-radius:var(--radius); box-shadow:7px 7px 0 var(--ink); padding:24px; }
+.grid{ display:grid; gap:20px; }
+.grid.cols-2{ grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* CODE BLOCK */
+pre.codeblock{ background:var(--ink); color:#EDE9FE; border-radius:18px; border:3px solid var(--ink); box-shadow:5px 5px 0 var(--purple); padding:16px 18px; font-size:.92rem; line-height:1.95; overflow-x:auto; direction:ltr; text-align:left; }
+pre.codeblock .ln{ display:block; padding:0 10px; border-radius:8px; transition:background .35s ease, opacity .35s ease, transform .25s ease; }
+pre.codeblock .ln.active{ background:rgba(155,93,229,.4); outline:2px dashed var(--pink); transform:translateX(-4px); }
+pre.codeblock .ln.skipped{ opacity:.3; text-decoration:line-through; }
+pre.codeblock .kw{ color:#FF8FAB; font-weight:700; }
+pre.codeblock .fn{ color:#7DD3FC; }
+pre.codeblock .str{ color:#86EFAC; }
+pre.codeblock .num{ color:#FDE047; font-weight:700; }
+pre.codeblock .var{ color:#FCD5CE; }
+
+/* TERMINAL */
+.term-head{ display:flex; align-items:center; gap:8px; background:var(--ink); color:var(--paper); border:3px solid var(--ink); border-bottom:none; border-radius:14px 14px 0 0; padding:8px 14px; font-weight:900; font-size:.85rem; }
+.term-dot{ width:13px; height:13px; border-radius:50%; border:2px solid var(--paper); }
+.term-dot.r{ background:var(--coral); } .term-dot.y{ background:var(--yellow); } .term-dot.g{ background:var(--mint); }
+.term-head .title{ margin-inline-start:8px; opacity:.85; }
+.terminal{ background:#161126; color:#C7F9CC; border:3px solid var(--ink); border-top:none; border-radius:0 0 14px 14px; padding:14px 16px; min-height:90px; max-height:230px; overflow-y:auto; font-family:'Fira Code', monospace; font-size:.92rem; line-height:1.85; }
+.terminal:empty::before{ content:"اضغط زر التشغيل لترى الحلقة تعمل..."; color:#6b6386; }
+.term-line{ white-space:pre-wrap; word-break:break-word; animation:lineIn .28s ease both; }
+@keyframes lineIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none;} }
+.t-out{ color:#C7F9CC; }
+.t-sys{ color:#FDE047; font-weight:700; }
+
+/* CONTROLS */
+.controls{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:16px 0 6px; }
+.kid-input{ flex:0 0 auto; font-family:'Fira Code', monospace; font-weight:700; font-size:1rem; border:3px solid var(--ink); border-radius:14px; padding:10px 14px; background:var(--white); color:var(--ink); box-shadow:3px 3px 0 var(--ink); outline:none; direction:ltr; text-align:center; max-width:120px; transition:box-shadow .15s, transform .15s; }
+.kid-input.text{ max-width:170px; }
+.kid-input:focus{ box-shadow:5px 5px 0 var(--sky); transform:translate(-1px,-1px); }
+.kid-input.shake{ animation:shake .4s; border-color:var(--coral); }
+.field-label{ font-weight:900; font-size:.95rem; }
+.btn{ font-family:'Rubik', sans-serif; font-weight:900; font-size:1.05rem; border:3px solid var(--ink); border-radius:16px; box-shadow:5px 5px 0 var(--ink); padding:11px 26px; cursor:pointer; color:var(--ink); transition:transform .12s, box-shadow .12s; }
+.btn:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink); }
+.btn:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--ink); }
+.btn.run{ background:var(--mint); }
+.btn.run.sky{ background:var(--sky); color:#fff; }
+.btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none; box-shadow:5px 5px 0 var(--ink); }
+
+/* DEMO STAGE + FOR VISUALS */
+.demo-stage{ border:3px solid var(--ink); border-radius:18px; min-height:172px; margin-bottom:6px; display:flex; align-items:center; justify-content:center; background:linear-gradient(#DBEAFE,#BFDBFE); transition:background .5s; overflow:hidden; }
+.demo-stage.shake{ animation:shake .5s; }
+@keyframes shake{ 0%,100%{ transform:translateX(0);} 15%{ transform:translateX(-10px) rotate(-1deg);} 35%{ transform:translateX(9px) rotate(1deg);} 55%{ transform:translateX(-7px);} 75%{ transform:translateX(6px);} 90%{ transform:translateX(-3px);} }
+@keyframes popIn{ 0%{ transform:scale(.2); opacity:0;} 55%{ transform:scale(1.2);} 100%{ transform:scale(1); opacity:1;} }
+.loopviz{ font-size:1rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; width:100%; padding:10px 14px; color:var(--ink); animation:lineIn .3s ease both; }
+
+/* loop variable box: shows the CURRENT item for picks up */
+.lv-forvar{ display:flex; align-items:center; gap:10px; background:var(--white); border:3px solid var(--ink); border-radius:16px; box-shadow:3px 3px 0 var(--ink); padding:8px 16px; font-weight:900; }
+.lv-forvar .vname{ font-family:'Fira Code', monospace; color:var(--purple); font-size:1rem; }
+.lv-forvar .vbox{ min-width:54px; height:48px; display:flex; align-items:center; justify-content:center; background:var(--yellow); border:3px solid var(--ink); border-radius:12px; font-size:1.7rem; font-family:'Fira Code', monospace; font-weight:800; transition:transform .2s; }
+.lv-forvar .vbox.pulse{ animation:numPulse .4s ease; }
+@keyframes numPulse{ 0%{ transform:scale(.5);} 55%{ transform:scale(1.25);} 100%{ transform:scale(1);} }
+
+/* the strip of items the for-loop walks through */
+.for-strip{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center; max-width:100%; }
+.for-slot{ position:relative; min-width:50px; height:50px; padding:0 10px; display:inline-flex; align-items:center; justify-content:center;
+  background:var(--white); border:3px solid var(--ink); border-radius:14px; box-shadow:2px 2px 0 var(--ink);
+  font-size:1.7rem; font-family:'Fira Code', monospace; font-weight:800;
+  opacity:.45; transform:scale(.9); transition:opacity .35s, transform .35s cubic-bezier(.34,1.56,.64,1), background .35s; }
+.for-slot.current{ opacity:1; transform:scale(1.18) translateY(-6px); background:var(--sky); color:#fff; box-shadow:3px 5px 0 var(--ink); outline:3px dashed var(--pink); outline-offset:3px; }
+.for-slot.done{ opacity:1; transform:scale(1); background:#DCFCE7; }
+.for-slot.done::after{ content:'✓'; position:absolute; top:-9px; right:-7px; width:20px; height:20px; background:var(--mint); border:2px solid var(--ink); border-radius:50%; font-size:.7rem; display:flex; align-items:center; justify-content:center; color:var(--ink); }
+.lv-cap{ font-family:'Fira Code', monospace; font-weight:700; font-size:.92rem; color:var(--ink); }
+.lv-item{ display:inline-block; animation:popIn .4s; }
+
+/* INFO STRIPS */
+.fact-strip{ margin-top:26px; background:var(--ink); color:var(--paper); border-radius:var(--radius); border:3px solid var(--ink); box-shadow:7px 7px 0 var(--purple); padding:20px 26px; font-weight:800; font-size:1.05rem; text-align:center; line-height:2; }
+.fact-strip code{ background:rgba(255,255,255,.15); color:var(--paper); }
+.mini-note{ margin-top:18px; font-weight:800; font-size:1rem; background:var(--yellow); border:3px solid var(--ink); border-radius:16px; box-shadow:4px 4px 0 var(--ink); padding:14px 18px; line-height:1.9; }
+.try-hint{ font-weight:800; font-size:.92rem; opacity:.8; margin-top:10px; }
+
+/* WHY cards */
+.why-grid{ display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+.why-card{ border:3px solid var(--ink); border-radius:var(--radius); padding:20px; box-shadow:6px 6px 0 var(--ink); }
+.why-card.bad{ background:#FFE4E6; } .why-card.good{ background:#DCFCE7; }
+.why-card h3{ margin-bottom:10px; font-size:1.2rem; }
+.flow{ display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:8px; }
+.flow .step{ background:var(--white); border:3px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); padding:10px 14px; font-weight:800; font-size:.92rem; text-align:center; }
+.flow .step.cond{ background:var(--yellow); } .flow .step.act{ background:var(--mint); }
+.flow .arr{ font-size:1.4rem; font-weight:900; }
+.flow .loopback{ background:var(--purple); color:#fff; border:3px solid var(--ink); border-radius:999px; padding:8px 14px; font-weight:800; font-size:.88rem; box-shadow:3px 3px 0 var(--ink); }
+
+/* VERSUS (for vs while) */
+.vs-head{ text-align:center; }
+.vs-grid{ display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); margin-top:6px; }
+.vs-card{ border:3px solid var(--ink); border-radius:var(--radius); padding:18px; box-shadow:6px 6px 0 var(--ink); }
+.vs-card.forc{ background:#E0F2FE; } .vs-card.whilec{ background:#F3E8FF; }
+.vs-card h3{ font-size:1.15rem; margin-bottom:12px; text-align:center; }
+.vs-card .term-head{ margin-top:14px; }
+.verdict{ margin-top:18px; background:var(--mint); border:3px solid var(--ink); border-radius:16px; box-shadow:4px 4px 0 var(--ink); padding:14px 18px; font-weight:900; font-size:1.02rem; text-align:center; line-height:1.8; }
+.verdict.purple{ background:var(--purple); color:#fff; }
+.verdict .win{ display:inline-block; background:var(--white); color:var(--ink); border:3px solid var(--ink); border-radius:999px; padding:2px 12px; margin:0 4px; }
+
+/* confetti */
+.confetti-bit{ position:fixed; top:-20px; z-index:999; width:12px; height:12px; border:2px solid var(--ink); pointer-events:none; animation:confallin linear forwards; }
+@keyframes confallin{ 0%{ transform:translateY(0) rotate(0); opacity:1;} 100%{ transform:translateY(110vh) rotate(720deg); opacity:.6;} }
+
+footer{ text-align:center; padding:50px 20px 70px; font-weight:900; font-size:1.1rem; line-height:2; }
+footer .hearts{ font-size:1.6rem; }
+footer a{ color:var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="lesson5_for_no_lists.html" class="home">📘 درس for</a>
+  <a href="#why">🤔 لماذا؟</a>
+  <a href="#highfive">🙌 المصافحة</a>
+  <a href="#cupcakes">🧁 الكب كيك</a>
+  <a href="#stairs">🪜 الدرج</a>
+  <a href="#name">🔤 اسمك</a>
+  <a href="#pets">🐾 الحيوانات</a>
+  <a href="#stars">⭐ النجوم</a>
+  <a href="#laps">🏁 السباق</a>
+  <a href="#vs">⚔️ for أم while؟</a>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div>
+  <h1 id="heroTitle">كرّر لكل عنصر</h1>
+  <p class="tagline">
+    أحيانًا نريد أن نفعل الشيء نفسه <b>لكل</b> واحد في مجموعة: نصافح كل صديق، نضع كرزة على كل كب كيك،
+    نصعد كل درجة! 🪜 هذه مهمة حلقة <code>for</code>  أن تمرّ على العناصر <b>واحدًا واحدًا</b> وتتوقف وحدها.
+  </p>
+  <div class="know-chips">
+    <span class="know-chip on">print()</span>
+    <span class="know-chip on">المتغيرات</span>
+    <span class="know-chip on">while</span>
+    <span class="know-chip">for ✨</span>
+  </div>
+  <div class="hero-bot">🔂</div>
+</header>
+
+<main>
+
+<!-- WHY -->
+<section id="why">
+  <span class="badge purple">الفكرة الكبيرة</span>
+  <h2>لماذا نحتاج حلقة for؟ 🤔</h2>
+  <p class="lead">
+    في <code>while</code> نقول «كرّر <b>طالما</b> الشرط صحيح». لكن كثيرًا نعرف <b>بالضبط</b> ما نريد المرور عليه:
+    5 أصدقاء، حروف اسمك، 3 لفّات. هنا تأتي <code>for</code>: تأخذ كل عنصر بنفسها، وتعطيك إيّاه في صندوق صغير،
+    وتتوقّف تلقائيًا عند آخر عنصر  بلا عدّاد ولا <code>i = i + 1</code>!
+  </p>
+
+  <div class="why-grid">
+    <div class="why-card bad">
+      <h3>😫 بـ while (أطول)</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--coral)"><span class="ln"><span class="var">i</span> = <span class="num">0</span></span><span class="ln"><span class="kw">while</span> <span class="var">i</span> &lt; <span class="num">5</span>:</span><span class="ln">    <span class="fn">print</span>(<span class="str">"مرحبًا"</span>)</span><span class="ln">    <span class="var">i</span> = <span class="var">i</span> + <span class="num">1</span></span></pre>
+      <p style="font-weight:800;margin-top:12px">عدّاد + شرط + تحديث يدوي 😓</p>
+    </div>
+    <div class="why-card good">
+      <h3>✨ بـ for (أقصر وأوضح)</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--mint)"><span class="ln"><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):</span><span class="ln">    <span class="fn">print</span>(<span class="str">"مرحبًا"</span>)</span></pre>
+      <p style="font-weight:800;margin-top:12px">سطران فقط  for تعدّ لك! 🎉</p>
+    </div>
+  </div>
+
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--sky)">
+    🔂 الحلقة <code>for</code> تدور هكذا:
+    <div class="flow">
+      <span class="step cond">📦 خذ العنصر التالي</span>
+      <span class="arr">→</span>
+      <span class="step act">⚙️ نفّذ الأوامر</span>
+      <span class="arr">→</span>
+      <span class="loopback">🔄 بقي عنصر؟ كرّر</span>
+    </div>
+    وعندما <b>لا يبقى أي عنصر</b> ❌ تتوقّف وحدها. جرّب الأمثلة بالأسفل! 👇
+  </div>
+</section>
+
+<!-- 0. HIGH FIVE (warm-up) -->
+<section id="highfive">
+  <span class="badge">تمرين تسخين</span>
+  <h2>صافح كل صديق! 🙌</h2>
+  <p class="lead">
+    عندك قائمة أصدقاء، وتريد أن تصافح <b>كل</b> واحد منهم. حلقة <code>for</code> تأخذ صديقًا واحدًا في كل دورة
+    وتضعه في الصندوق <code>friend</code>، وتنتقل للتالي حتى تنتهي القائمة.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="highfiveStage"></div>
+      <div class="controls">
+        <span class="field-label">👫 عدد الأصدقاء:</span>
+        <input class="kid-input" id="highfiveInput" type="number" min="1" max="6" value="4">
+      </div>
+      <button class="btn run sky" id="highfiveRun">▶ ابدأ المصافحة</button>
+      <div class="try-hint">💡 لاحظ: الكود نفسه يصافح 3 أو 6  for تتولّى العدّ!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="hf1"><span class="var">friends</span> = [<span class="str">"👦"</span>, <span class="str">"👧"</span>, <span class="str">"🧒"</span>, <span class="str">"👶"</span>]</span><span class="ln" id="hf2"><span class="kw">for</span> <span class="var">friend</span> <span class="kw">in</span> <span class="var">friends</span>:</span><span class="ln" id="hf3">    <span class="fn">print</span>(<span class="str">"مرحبًا"</span>, <span class="var">friend</span>, <span class="str">"🙌"</span>)</span><span class="ln" id="hf4"><span class="fn">print</span>(<span class="str">"صافحت الجميع!"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="highfiveTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 1. CUPCAKES -->
+<section id="cupcakes">
+  <span class="badge sky">مثال 1</span>
+  <h2>ضع كرزة على كل كب كيك 🧁🍒</h2>
+  <p class="lead">
+    أمامك صينية كب كيك، وتريد كرزة فوق <b>كل</b> واحدة. نستعمل <code>range</code> لتوليد رقم لكل كب كيك،
+    وفي كل دورة نزيّن واحدة. كم كب كيك في الصينية؟
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="cupcakesStage"></div>
+      <div class="controls">
+        <span class="field-label">🧁 عدد الكب كيك:</span>
+        <input class="kid-input" id="cupcakesInput" type="number" min="1" max="8" value="5">
+      </div>
+      <button class="btn run sky" id="cupcakesRun">▶ ابدأ التزيين</button>
+      <div class="try-hint">💡 range(5) يعطي 0 1 2 3 4  خمس دورات!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="cu1"><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num" id="cuN">5</span>):</span><span class="ln" id="cu2">    <span class="fn">print</span>(<span class="str">"كرزة على كب كيك 🍒"</span>)</span><span class="ln" id="cu3"><span class="fn">print</span>(<span class="str">"صينية جاهزة! 🧁"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="cupcakesTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. STAIRS -->
+<section id="stairs">
+  <span class="badge mint">مثال 2</span>
+  <h2>اصعد كل درجة في الدرج 🪜</h2>
+  <p class="lead">
+    نريد أن نصعد <b>كل</b> درجة بالترتيب: الدرجة 1، 2، 3... نستعمل <code>range(1, n+1)</code> لتبدأ من 1.
+    لاحظ كيف يأخذ الصندوق <code>step</code> رقمًا جديدًا في كل دورة.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="stairsStage"></div>
+      <div class="controls">
+        <span class="field-label">🏢 عدد الدرجات:</span>
+        <input class="kid-input" id="stairsInput" type="number" min="1" max="8" value="5">
+      </div>
+      <button class="btn run sky" id="stairsRun">▶ ابدأ الصعود</button>
+      <div class="try-hint">💡 range(1, 6) يعطي 1 2 3 4 5  يبدأ من 1!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="st1"><span class="kw">for</span> <span class="var">step</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num" id="stN">6</span>):</span><span class="ln" id="st2">    <span class="fn">print</span>(<span class="str">"صعدت الدرجة"</span>, <span class="var">step</span>)</span><span class="ln" id="st3"><span class="fn">print</span>(<span class="str">"وصلت إلى الأعلى! 🏔️"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="stairsTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. NAME LETTERS -->
+<section id="name">
+  <span class="badge coral">مثال 3</span>
+  <h2>تهجّى اسمك حرفًا حرفًا 🔤</h2>
+  <p class="lead">
+    حلقة <code>for</code> لا تمرّ على الأرقام فقط  تمرّ أيضًا على <b>حروف كلمة</b>! كل دورة تأخذ حرفًا في الصندوق
+    <code>letter</code>. اكتب اسمك وشاهد!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="nameStage"></div>
+      <div class="controls">
+        <span class="field-label">✍️ اكتب اسمك:</span>
+        <input class="kid-input text" id="nameInput" type="text" maxlength="9" value="سارة">
+      </div>
+      <button class="btn run sky" id="nameRun">▶ ابدأ التهجئة</button>
+      <div class="try-hint">💡 جرّب اسمك أو اسم صديقك  كل حرف دورة!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="na1"><span class="var">name</span> = <span class="str">"سارة"</span></span><span class="ln" id="na2"><span class="kw">for</span> <span class="var">letter</span> <span class="kw">in</span> <span class="var">name</span>:</span><span class="ln" id="na3">    <span class="fn">print</span>(<span class="var">letter</span>)</span><span class="ln" id="na4"><span class="fn">print</span>(<span class="str">"هذا اسمي! 😄"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="nameTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. PETS -->
+<section id="pets">
+  <span class="badge purple">مثال 4</span>
+  <h2>أطعم كل حيوان أليف 🐾</h2>
+  <p class="lead">
+    عندك قائمة حيوانات، وكلٌّ منها جائع! حلقة <code>for</code> تأخذ حيوانًا في كل دورة وتطعمه،
+    ثم تنتقل للتالي حتى يشبع الجميع.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="petsStage"></div>
+      <div class="controls">
+        <span class="field-label">🐶 كم حيوانًا؟</span>
+        <input class="kid-input" id="petsInput" type="number" min="1" max="5" value="4">
+      </div>
+      <button class="btn run sky" id="petsRun">▶ ابدأ الإطعام</button>
+      <div class="try-hint">💡 القائمة فيها 🐶 🐱 🐰 🐹 🐦  for تمرّ عليها كلها!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="pe1"><span class="var">pets</span> = [<span class="str">"🐶"</span>, <span class="str">"🐱"</span>, <span class="str">"🐰"</span>, <span class="str">"🐹"</span>]</span><span class="ln" id="pe2"><span class="kw">for</span> <span class="var">pet</span> <span class="kw">in</span> <span class="var">pets</span>:</span><span class="ln" id="pe3">    <span class="fn">print</span>(<span class="str">"أطعمت"</span>, <span class="var">pet</span>, <span class="str">"🍖"</span>)</span><span class="ln" id="pe4"><span class="fn">print</span>(<span class="str">"الجميع شبعان! 😊"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="petsTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. STARS -->
+<section id="stars">
+  <span class="badge" style="background:var(--yellow)">مثال 5</span>
+  <h2>ارسم نجومًا في السماء ⭐</h2>
+  <p class="lead">
+    نريد رسم عدد معيّن من النجوم. لا يهمنا قيمة الرقم في كل دورة  فقط نريد التكرار <b>عددًا معروفًا</b> من المرّات.
+    <code>range</code> ممتازة لهذا!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="starsStage"></div>
+      <div class="controls">
+        <span class="field-label">⭐ كم نجمة؟</span>
+        <input class="kid-input" id="starsInput" type="number" min="1" max="9" value="6">
+      </div>
+      <button class="btn run sky" id="starsRun">▶ ابدأ الرسم</button>
+      <div class="try-hint">💡 نستعمل <code>_</code> لأننا لا نحتاج الرقم  فقط نكرّر!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="sr1"><span class="kw">for</span> <span class="var">_</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num" id="srN">6</span>):</span><span class="ln" id="sr2">    <span class="fn">print</span>(<span class="str">"⭐"</span>)</span><span class="ln" id="sr3"><span class="fn">print</span>(<span class="str">"سماء جميلة! 🌌"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="starsTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. LAPS -->
+<section id="laps">
+  <span class="badge mint">مثال 6</span>
+  <h2>اركض لفّات حول الملعب 🏁</h2>
+  <p class="lead">
+    المدرّب قال: «اركض 3 لفّات!» نحن <b>نعرف العدد مسبقًا</b>، لذلك <code>for</code> هي الأنسب.
+    في كل دورة نطبع رقم اللفّة الحالية.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="lapsStage"></div>
+      <div class="controls">
+        <span class="field-label">🏃 عدد اللفّات:</span>
+        <input class="kid-input" id="lapsInput" type="number" min="1" max="8" value="3">
+      </div>
+      <button class="btn run sky" id="lapsRun">▶ ابدأ السباق</button>
+      <div class="try-hint">💡 جرّب 3 ثم 6  العدد معروف، فـ for مثالية!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="la1"><span class="kw">for</span> <span class="var">lap</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num" id="laN">4</span>):</span><span class="ln" id="la2">    <span class="fn">print</span>(<span class="str">"اللفّة"</span>, <span class="var">lap</span>, <span class="str">"🏃"</span>)</span><span class="ln" id="la3"><span class="fn">print</span>(<span class="str">"انتهى السباق! 🏆"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="lapsTerm"></div>
+    </div>
+  </div>
+  <div class="mini-note">
+    🔍 <b>القاعدة الذهبية:</b> إذا كنت <b>تعرف</b> كم مرة ستكرّر (3 لفّات، 5 كب كيك، حروف اسمك) → استعمل <code>for</code>.
+    إذا كنت <b>لا تعرف</b> وتنتظر حدوث شيء → استعمل <code>while</code>. والآن لنرى الفرق بأمثلة! 👇
+  </div>
+</section>
+
+<!-- ===================== FOR vs WHILE ===================== -->
+<section id="vs">
+  <span class="badge pink">المواجهة الكبرى ⚔️</span>
+  <div class="vs-head">
+    <h2>for أم while؟ 🤔</h2>
+    <p class="lead" style="margin:0 auto 10px">
+      الاثنتان تكرّران  لكن لكلٍّ وقتها! إليك 3 مواقف، شغّل كل واحد وشاهد <b>متى</b> تكون كل حلقة هي الأفضل.
+    </p>
+  </div>
+
+  <!-- CASE 1: for wins -->
+  <h3 style="margin:30px 0 6px">الموقف 1: اطبع الأرقام 1 إلى 5 🔢</h3>
+  <p class="lead" style="margin-bottom:14px">العدد معروف تمامًا (5 أرقام). أيّهما أقصر؟</p>
+  <div class="vs-grid">
+    <div class="vs-card forc">
+      <h3>🔂 بـ for</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--sky)"><span class="ln"><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">6</span>):</span><span class="ln">    <span class="fn">print</span>(<span class="var">i</span>)</span></pre>
+      <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ for</span></div>
+      <div class="terminal" id="case1ForTerm"></div>
+    </div>
+    <div class="vs-card whilec">
+      <h3>🔁 بـ while</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--purple)"><span class="ln"><span class="var">i</span> = <span class="num">1</span></span><span class="ln"><span class="kw">while</span> <span class="var">i</span> &lt;= <span class="num">5</span>:</span><span class="ln">    <span class="fn">print</span>(<span class="var">i</span>)</span><span class="ln">    <span class="var">i</span> = <span class="var">i</span> + <span class="num">1</span></span></pre>
+      <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ while</span></div>
+      <div class="terminal" id="case1WhileTerm"></div>
+    </div>
+  </div>
+  <button class="btn run" id="case1Run" style="margin-top:14px">▶ شغّل الاثنين معًا</button>
+  <div class="verdict">
+    👈 نفس النتيجة! لكن <span class="win">for</span> سطران فقط، بينما <span class="win">while</span> أربعة أسطر مع عدّاد.
+    🏆 الفائز هنا: <b>for</b>  لأن العدد <b>معروف</b>.
+  </div>
+
+  <!-- CASE 2: while wins -->
+  <h3 style="margin:40px 0 6px">الموقف 2: كُل البسكويت حتى يبقى 2 لأختك 🍪</h3>
+  <p class="lead" style="margin-bottom:14px">الطبق قد يكون فيه أي عدد  أنت <b>لا تعرف</b> كم بسكويتة ستأكل!</p>
+  <div class="vs-grid">
+    <div class="vs-card whilec">
+      <h3>🔁 بـ while (الأنسب!)</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--purple)"><span class="ln"><span class="var">cookies</span> = <span class="num">6</span></span><span class="ln"><span class="kw">while</span> <span class="var">cookies</span> &gt; <span class="num">2</span>:</span><span class="ln">    <span class="fn">print</span>(<span class="str">"آكل بسكويتة 🍪"</span>)</span><span class="ln">    <span class="var">cookies</span> = <span class="var">cookies</span> - <span class="num">1</span></span></pre>
+      <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ while</span></div>
+      <div class="terminal" id="case2WhileTerm"></div>
+    </div>
+    <div class="vs-card forc">
+      <h3>🔂 بـ for (محرج 😅)</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--sky)"><span class="ln"><span class="cm" style="color:#9ca3af"># كم مرة؟ لا نعرف!</span></span><span class="ln"><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">?</span>):</span><span class="ln">    <span class="cm" style="color:#9ca3af"># كم سنأكل؟ 🤷</span></span><span class="ln">    <span class="fn">print</span>(<span class="str">"..."</span>)</span></pre>
+      <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ for</span></div>
+      <div class="terminal" id="case2ForTerm"></div>
+    </div>
+  </div>
+  <button class="btn run" id="case2Run" style="margin-top:14px">▶ شغّل المثال</button>
+  <div class="verdict purple">
+    🍪 الحلقة تتوقّف عند <b>شرط</b> (يبقى 2)، والعدد يتغيّر حسب الطبق.
+    🏆 الفائز هنا: <b>while</b>  لأنك <b>لا تعرف</b> العدد، بل تنتظر شرطًا!
+  </div>
+
+  <!-- CASE 3: for wins -->
+  <h3 style="margin:40px 0 6px">الموقف 3: قُل صباح الخير لكل صديق 👋</h3>
+  <p class="lead" style="margin-bottom:14px">عندك <b>قائمة</b> جاهزة من الأصدقاء  تريد المرور على كل واحد بالاسم.</p>
+  <div class="vs-grid">
+    <div class="vs-card forc">
+      <h3>🔂 بـ for (الأنسب!)</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--sky)"><span class="ln"><span class="var">friends</span> = [<span class="str">"علي"</span>, <span class="str">"ليلى"</span>, <span class="str">"آدم"</span>]</span><span class="ln"><span class="kw">for</span> <span class="var">friend</span> <span class="kw">in</span> <span class="var">friends</span>:</span><span class="ln">    <span class="fn">print</span>(<span class="str">"صباح الخير"</span>, <span class="var">friend</span>)</span></pre>
+      <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ for</span></div>
+      <div class="terminal" id="case3ForTerm"></div>
+    </div>
+    <div class="vs-card whilec">
+      <h3>🔁 بـ while (متعب 😓)</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--purple)"><span class="ln"><span class="var">friends</span> = [<span class="str">"علي"</span>, <span class="str">"ليلى"</span>, <span class="str">"آدم"</span>]</span><span class="ln"><span class="var">i</span> = <span class="num">0</span></span><span class="ln"><span class="kw">while</span> <span class="var">i</span> &lt; <span class="fn">len</span>(<span class="var">friends</span>):</span><span class="ln">    <span class="fn">print</span>(<span class="str">"صباح الخير"</span>, <span class="var">friends</span>[<span class="var">i</span>])</span><span class="ln">    <span class="var">i</span> = <span class="var">i</span> + <span class="num">1</span></span></pre>
+      <div class="term-head"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ while</span></div>
+      <div class="terminal" id="case3WhileTerm"></div>
+    </div>
+  </div>
+  <button class="btn run" id="case3Run" style="margin-top:14px">▶ شغّل الاثنين معًا</button>
+  <div class="verdict">
+    👋 نفس النتيجة! لكن <span class="win">for</span> تأخذ الصديق مباشرة، بينما <span class="win">while</span> يحتاج عدّاد و<code>[i]</code> و<code>len()</code>.
+    🏆 الفائز هنا: <b>for</b>  لأن عندك <b>قائمة</b> تمرّ عليها.
+  </div>
+
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--coral); margin-top:34px">
+    🎉 الخلاصة البسيطة:<br>
+    🔂 <b>for</b> = «لكل عنصر في مجموعة معروفة» (عدد، قائمة، حروف).<br>
+    🔁 <b>while</b> = «كرّر طالما الشرط صحيح» (لا تعرف العدد مسبقًا).<br>
+    كلاهما صديقك  فقط اختر الأنسب! 🌟
+  </div>
+</section>
+
+</main>
+
+<footer>
+  أنت الآن تفهم <b>متى</b> تستخدم حلقة <code>for</code> ومتى <code>while</code>! 🚀<br>
+  جرّب أن تغيّر الأرقام والأسماء واخترع أمثلتك الخاصة.
+  <span class="hearts">💙💚💜❤️</span><br>
+  <a href="lesson5_for_no_lists.html">⬅️ ارجع إلى درس حلقة for</a>
+</footer>
+
+<script>
+/* HERO title split */
+(function(){
+  const h1 = document.getElementById('heroTitle');
+  const words = h1.textContent.trim().split(' ');
+  h1.textContent = '';
+  words.forEach((word, i) => {
+    const s = document.createElement('span');
+    s.textContent = word;
+    s.style.animationDelay = (i * 0.18) + 's';
+    h1.appendChild(s);
+    if (i < words.length - 1) h1.appendChild(document.createTextNode(' '));
+  });
+})();
+
+/* SCROLL REVEAL */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+/* HELPERS */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function clearCode(pre){ pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active','skipped')); }
+function setActive(pre, id){ pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active')); if(id) document.getElementById(id).classList.add('active'); }
+function shakeInput(el){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); el.focus(); }
+async function typeOut(term, text, cls){
+  const line = document.createElement('div'); line.className='term-line'; line.dir='auto';
+  const span = document.createElement('span'); span.className = cls || 't-out';
+  line.appendChild(span); term.appendChild(line); term.scrollTop = term.scrollHeight;
+  for (const ch of text){ span.textContent += ch; await sleep(15); term.scrollTop = term.scrollHeight; }
+}
+function runner(btn, fn){
+  let busy=false;
+  btn.addEventListener('click', async ()=>{ if(busy) return; busy=true; btn.disabled=true; try{ await fn(); } finally{ busy=false; btn.disabled=false; } });
+}
+const Q=(stage,sel)=>stage.querySelector(sel);
+
+/* ── FOR-LOOP VISUAL ──
+   Build a "loop variable" box + a strip of item-slots once,
+   then move the highlight through them as the loop walks. */
+function buildForViz(stage, seq, varName){
+  let slots='';
+  seq.forEach((it,i)=>{ slots += `<span class="for-slot" data-i="${i}">${it.show}</span>`; });
+  stage.innerHTML = `<div class="loopviz">
+      <div class="lv-forvar"><span class="vname">${varName} =</span><span class="vbox" data-var>؟</span></div>
+      <div class="for-strip" data-strip>${slots}</div>
+      <div class="lv-cap" data-cap></div>
+    </div>`;
+}
+function forSetVar(stage, val){ const b=Q(stage,'[data-var]'); if(b){ b.textContent=val; b.classList.remove('pulse'); void b.offsetWidth; b.classList.add('pulse'); } }
+function forMarkCurrent(stage, i){
+  stage.querySelectorAll('.for-slot').forEach((el,idx)=>{
+    el.classList.toggle('current', idx===i);
+    el.classList.toggle('done', idx<i);
+  });
+}
+function forMarkAllDone(stage){ stage.querySelectorAll('.for-slot').forEach(el=>{ el.classList.remove('current'); el.classList.add('done'); }); }
+function forFinish(stage, emoji, label){ stage.innerHTML=`<div class="loopviz"><div class="lv-item" style="font-size:3.2rem">${emoji}</div><div class="lv-cap" style="font-size:1rem">${label}</div></div>`; }
+
+/* GENERIC FOR-LOOP RUNNER */
+async function runFor(cfg){
+  const pre   = document.querySelector(cfg.section + ' pre');
+  const term  = document.getElementById(cfg.termId);
+  const stage = document.getElementById(cfg.stageId);
+  const input = cfg.inputId ? document.getElementById(cfg.inputId) : null;
+
+  // figure out the sequence to walk over
+  let seq;
+  if (cfg.text){
+    let txt = (input.value||'').trim();
+    if (!txt){ shakeInput(input); return; }
+    txt = [...txt].slice(0, 9).join('');
+    input.value = txt;
+    seq = [...txt].map(ch => ({ show: ch, say: ch }));
+  } else {
+    let n = parseInt((input.value||'').trim(),10);
+    if (isNaN(n)){ shakeInput(input); return; }
+    n = Math.max(cfg.min, Math.min(cfg.max, n));
+    input.value = n;
+    if (cfg.numId) document.getElementById(cfg.numId).textContent = cfg.numText ? cfg.numText(n) : n;
+    seq = cfg.seq(n);
+  }
+
+  term.innerHTML=''; clearCode(pre); stage.classList.remove('shake');
+  buildForViz(stage, seq, cfg.varName);
+  await sleep(250);
+
+  for (let i=0; i<seq.length; i++){
+    setActive(pre, cfg.forId);                 // the "for ... in ..." line
+    forMarkCurrent(stage, i);
+    forSetVar(stage, seq[i].show);
+    Q(stage,'[data-cap]').textContent = cfg.cap ? cfg.cap(seq[i], i, seq.length) : '';
+    await sleep(440);
+    for (const b of cfg.body){
+      setActive(pre, b.id); await sleep(280);
+      await typeOut(term, b.text(seq[i], i));
+    }
+    await sleep(120);
+  }
+
+  // loop ends automatically once items run out
+  setActive(pre, cfg.forId); await sleep(360);
+  forMarkAllDone(stage);
+  if (cfg.afterId){ setActive(pre, cfg.afterId); await sleep(300); await typeOut(term, cfg.after(seq), 't-sys'); }
+  await sleep(350);
+  if (cfg.finish) cfg.finish(stage, seq);
+  setTimeout(()=>clearCode(pre), 1000);
+}
+
+/* THE EXAMPLES */
+const EXAMPLES = [
+  { key:'highfive', section:'#highfive', termId:'highfiveTerm', stageId:'highfiveStage', inputId:'highfiveInput',
+    min:1, max:6, varName:'friend', forId:'hf2', afterId:'hf4',
+    seq:n=>['👦','👧','🧒','👶','🧑','👦'].slice(0,n).map(e=>({show:e,say:e})),
+    body:[ {id:'hf3', type:'print', text:it=>'مرحبًا '+it.say+' 🙌'} ],
+    after:()=>'صافحت الجميع! 🎉',
+    cap:(it,i,n)=>'الصديق '+(i+1)+' / '+n,
+    finish:(st)=>forFinish(st,'🙌','صافحت كل الأصدقاء!') },
+
+  { key:'cupcakes', section:'#cupcakes', termId:'cupcakesTerm', stageId:'cupcakesStage', inputId:'cupcakesInput',
+    min:1, max:8, numId:'cuN', varName:'i', forId:'cu1', afterId:'cu3',
+    seq:n=>Array.from({length:n},(_,i)=>({show:'🧁',say:String(i)})),
+    body:[ {id:'cu2', type:'print', text:()=>'كرزة على كب كيك 🍒'} ],
+    after:()=>'صينية جاهزة! 🧁',
+    cap:(it,i,n)=>'i = '+i+'  ·  '+(i+1)+' / '+n,
+    finish:(st)=>forFinish(st,'🧁🍒','كل الكب كيك مزيّن!') },
+
+  { key:'stairs', section:'#stairs', termId:'stairsTerm', stageId:'stairsStage', inputId:'stairsInput',
+    min:1, max:8, numId:'stN', numText:n=>n+1, varName:'step', forId:'st1', afterId:'st3',
+    seq:n=>Array.from({length:n},(_,i)=>({show:String(i+1),say:String(i+1)})),
+    body:[ {id:'st2', type:'print', text:it=>'صعدت الدرجة '+it.say} ],
+    after:()=>'وصلت إلى الأعلى! 🏔️',
+    cap:(it,i,n)=>'الدرجة '+it.say+' / '+n,
+    finish:(st)=>forFinish(st,'🏔️','وصلت إلى القمة!') },
+
+  { key:'name', section:'#name', termId:'nameTerm', stageId:'nameStage', inputId:'nameInput',
+    text:true, varName:'letter', forId:'na2', afterId:'na4',
+    body:[ {id:'na3', type:'print', text:it=>it.say} ],
+    after:()=>'هذا اسمي! 😄',
+    cap:(it,i,n)=>'الحرف '+(i+1)+' / '+n,
+    finish:(st)=>forFinish(st,'🔤','تهجّيت كل الحروف!') },
+
+  { key:'pets', section:'#pets', termId:'petsTerm', stageId:'petsStage', inputId:'petsInput',
+    min:1, max:5, varName:'pet', forId:'pe2', afterId:'pe4',
+    seq:n=>['🐶','🐱','🐰','🐹','🐦'].slice(0,n).map(e=>({show:e,say:e})),
+    body:[ {id:'pe3', type:'print', text:it=>'أطعمت '+it.say+' 🍖'} ],
+    after:()=>'الجميع شبعان! 😊',
+    cap:(it,i,n)=>'حيوان '+(i+1)+' / '+n,
+    finish:(st)=>forFinish(st,'🐾','أطعمت كل الحيوانات!') },
+
+  { key:'stars', section:'#stars', termId:'starsTerm', stageId:'starsStage', inputId:'starsInput',
+    min:1, max:9, numId:'srN', varName:'_', forId:'sr1', afterId:'sr3',
+    seq:n=>Array.from({length:n},(_,i)=>({show:'⭐',say:'⭐'})),
+    body:[ {id:'sr2', type:'print', text:()=>'⭐'} ],
+    after:()=>'سماء جميلة! 🌌',
+    cap:(it,i,n)=>(i+1)+' / '+n+' نجمة',
+    finish:(st)=>forFinish(st,'🌌','رسمت كل النجوم!') },
+
+  { key:'laps', section:'#laps', termId:'lapsTerm', stageId:'lapsStage', inputId:'lapsInput',
+    min:1, max:8, numId:'laN', numText:n=>n+1, varName:'lap', forId:'la1', afterId:'la3',
+    seq:n=>Array.from({length:n},(_,i)=>({show:String(i+1),say:String(i+1)})),
+    body:[ {id:'la2', type:'print', text:it=>'اللفّة '+it.say+' 🏃'} ],
+    after:()=>'انتهى السباق! 🏆',
+    cap:(it,i,n)=>'اللفّة '+it.say+' / '+n,
+    finish:(st)=>{ forFinish(st,'🏆','أكملت كل اللفّات!'); confetti(); } },
+];
+
+EXAMPLES.forEach(cfg => {
+  const btn = document.getElementById(cfg.key + 'Run');
+  if (btn) runner(btn, () => runFor(cfg));
+  // draw the starting visual so the stage isn't empty on load
+  const stage = document.getElementById(cfg.stageId);
+  const input = document.getElementById(cfg.inputId);
+  let seq;
+  if (cfg.text){ seq = [...(input.value||'سارة')].slice(0,9).map(ch=>({show:ch,say:ch})); }
+  else { const t = parseInt(input.value,10) || cfg.min; seq = cfg.seq(t); }
+  buildForViz(stage, seq, cfg.varName);
+});
+
+/* ── FOR vs WHILE comparison runners ──
+   Just type pre-known output lines into the two terminals side by side. */
+async function typeLines(term, lines, cls){
+  term.innerHTML='';
+  for (const ln of lines){ await typeOut(term, ln, cls); await sleep(170); }
+}
+async function runBoth(forTerm, forLines, whileTerm, whileLines){
+  await Promise.all([ typeLines(forTerm, forLines), typeLines(whileTerm, whileLines) ]);
+}
+
+runner(document.getElementById('case1Run'), async ()=>{
+  const out = ['1','2','3','4','5'];
+  await runBoth(
+    document.getElementById('case1ForTerm'), out,
+    document.getElementById('case1WhileTerm'), out
+  );
+});
+
+runner(document.getElementById('case2Run'), async ()=>{
+  const fTerm = document.getElementById('case2ForTerm');
+  const wTerm = document.getElementById('case2WhileTerm');
+  fTerm.innerHTML=''; wTerm.innerHTML='';
+  await Promise.all([
+    typeLines(wTerm, ['آكل بسكويتة 🍪','آكل بسكويتة 🍪','آكل بسكويتة 🍪','آكل بسكويتة 🍪','بقي 2 لأختي! 👧']),
+    (async()=>{ await sleep(300); await typeOut(fTerm, '🤔 كم مرة أكرّر؟ لا أعرف!', 't-sys'); await typeOut(fTerm, 'for لا تناسب هنا ❌', 't-sys'); })()
+  ]);
+});
+
+runner(document.getElementById('case3Run'), async ()=>{
+  const out = ['صباح الخير علي','صباح الخير ليلى','صباح الخير آدم'];
+  await runBoth(
+    document.getElementById('case3ForTerm'), out,
+    document.getElementById('case3WhileTerm'), out
+  );
+});
+
+/* CONFETTI */
+function confetti(){
+  const colors = ['#FF6B6B','#FFD93D','#5FD08D','#4D96FF','#9B5DE5','#FF8FAB'];
+  for (let i = 0; i < 90; i++){
+    const bit = document.createElement('div');
+    bit.className = 'confetti-bit';
+    bit.style.left = Math.random() * 100 + 'vw';
+    bit.style.background = colors[Math.floor(Math.random() * colors.length)];
+    bit.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+    bit.style.animationDelay = (Math.random() * .8) + 's';
+    if (Math.random() > .5) bit.style.borderRadius = '50%';
+    document.body.appendChild(bit);
+    setTimeout(() => bit.remove(), 6000);
+  }
+}
+</script>
+</body>
+</html>
