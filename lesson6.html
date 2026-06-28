@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدرس السادس · القوائم (Lists) 📦</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#0a0610;color:#fff;overflow-x:hidden}
+#progress-bar{position:fixed;top:0;right:0;height:4px;background:linear-gradient(90deg,#ff9f43,#ffd200,#ee5a6f,#21d4fd);z-index:999;width:0%;transition:width .1s}
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(160deg,#0a0610 0%,#1f1107 50%,#150510 100%)}
+.hero-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:.5rem 1.5rem;border-radius:50px;font-size:.9rem;margin-bottom:1.5rem;color:#ffce9e;backdrop-filter:blur(8px)}
+.hero-icons{font-size:3.5rem;display:flex;gap:1rem;margin-bottom:1.5rem;animation:floaty 2.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.hero h1{font-size:clamp(2rem,6vw,4.2rem);font-weight:900;line-height:1.3;margin-bottom:1.2rem;background:linear-gradient(135deg,#fff 0%,#ff9f43 40%,#ee5a6f 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,.65);max-width:600px;line-height:1.9;margin-bottom:2.5rem}
+.hero-btn{background:linear-gradient(135deg,#ff9f43,#ee5a6f);color:#fff;border:none;padding:1rem 2.5rem;border-radius:50px;font-size:1.1rem;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 8px 30px rgba(255,159,67,.4);transition:transform .3s,box-shadow .3s}
+.hero-btn:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(255,159,67,.6)}
+.hero-scroll{margin-top:2.5rem;font-size:.85rem;color:rgba(255,255,255,.3);animation:fadeUD 2s ease-in-out infinite}
+@keyframes fadeUD{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.7;transform:translateY(6px)}}
+
+/* SECTIONS */
+.section{padding:5rem 1.5rem;position:relative}
+.sec-inner{max-width:1050px;margin:0 auto}
+.sec-title{text-align:center;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:.7rem}
+.sec-sub{text-align:center;color:rgba(255,255,255,.55);margin-bottom:3rem;font-size:1rem;line-height:1.8}
+.fi{opacity:0;transform:translateY(35px);transition:opacity .65s ease,transform .65s ease}
+.fi.vis{opacity:1;transform:none}
+
+/* CARDS */
+.card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:2rem}
+.icard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:1.8rem;text-align:center;transition:transform .3s,box-shadow .3s}
+.icard:hover{transform:translateY(-6px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
+.icard .ico{font-size:2.8rem;margin-bottom:.8rem}
+.icard h3{font-size:1.1rem;margin-bottom:.6rem}
+.icard p{color:rgba(255,255,255,.6);line-height:1.7;font-size:.92rem}
+
+/* CODE */
+.code-panel{background:#0d1117;border-radius:14px;padding:1.4rem;font-family:'Courier New',monospace;direction:ltr;overflow-x:auto}
+.cline{padding:.28rem .5rem;border-radius:6px;font-size:.85rem;color:#cdd6e0;line-height:1.9;white-space:pre}
+.kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#5a6a7a;font-style:italic}.num{color:#f8c555}.op{color:#79c0ff}.it{color:#ffb86b}.br{color:#f8c555;font-weight:700}
+
+/* COMPARE */
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+.compare-card{border-radius:18px;padding:1.8rem}
+.compare-card.bad-card{background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.25)}
+.compare-card.good-card{background:rgba(255,159,67,.07);border:1px solid rgba(255,159,67,.3)}
+.compare-card h3{margin-bottom:1rem;font-size:1.1rem;text-align:center}
+.bad-card h3{color:#ff7b72}.good-card h3{color:#ff9f43}
+
+/* NOTE BOX */
+.note-box{background:rgba(255,159,67,.08);border:1px solid rgba(255,159,67,.28);border-radius:14px;padding:1.2rem 1.4rem;margin-top:1rem;font-size:.92rem;color:#ffd9b0;line-height:1.9}
+.note-box.blue{background:rgba(33,212,253,.08);border-color:rgba(33,212,253,.28);color:#bfe9ff}
+.note-box.pink{background:rgba(238,90,111,.08);border-color:rgba(238,90,111,.28);color:#ffc2cc}
+
+/* ===== SHELF (list visualizer) ===== */
+.shelf-wrap{background:rgba(255,159,67,.05);border:1px solid rgba(255,159,67,.2);border-radius:20px;padding:2rem 1.4rem;margin-bottom:2rem}
+.shelf-name{text-align:center;font-family:'Courier New',monospace;direction:ltr;color:#ffb86b;font-size:1.05rem;margin-bottom:1.5rem}
+.shelf{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;direction:ltr}
+.cell{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.cell .box{width:64px;height:64px;border-radius:14px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:1.9rem;transition:all .3s}
+.cell .idx{font-family:'Courier New',monospace;font-size:1rem;font-weight:700;color:#ff9f43;background:rgba(255,159,67,.12);border:1px solid rgba(255,159,67,.3);border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center}
+.cell .idx-lbl{font-size:.62rem;color:rgba(255,255,255,.35)}
+.cell.hot .box{border-color:#ff9f43;background:rgba(255,159,67,.22);transform:translateY(-6px) scale(1.08);box-shadow:0 10px 26px rgba(255,159,67,.4)}
+.cell.hot .idx{background:#ff9f43;color:#1a0d00}
+
+/* ===== INDEX EXPLORER ===== */
+.idx-explorer{background:rgba(33,212,253,.05);border:1px solid rgba(33,212,253,.2);border-radius:20px;padding:2rem 1.4rem;margin-bottom:2rem}
+.idx-explorer h3{color:#21d4fd;text-align:center;margin-bottom:.4rem}
+.idx-explorer .hint{text-align:center;color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:1.6rem}
+.idx-btns{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin:1.4rem 0 1rem}
+.idx-btn{min-width:46px;height:46px;border-radius:12px;border:2px solid rgba(33,212,253,.3);background:rgba(33,212,253,.08);color:#bfe9ff;font-family:'Courier New',monospace;font-weight:700;font-size:1.05rem;cursor:pointer;transition:all .2s}
+.idx-btn:hover{transform:translateY(-3px)}
+.idx-btn.on{background:#21d4fd;color:#04222b;border-color:#21d4fd}
+.idx-btn.neg{border-color:rgba(238,90,111,.4);background:rgba(238,90,111,.08);color:#ffc2cc}
+.idx-btn.neg.on{background:#ee5a6f;color:#2a0008;border-color:#ee5a6f}
+.idx-result{text-align:center;font-family:'Courier New',monospace;direction:ltr;font-size:1.4rem;min-height:42px;color:#fff;background:#000;border-radius:12px;padding:.8rem;border:1px solid rgba(255,255,255,.08)}
+.idx-result .code{color:#ffb86b}.idx-result .eq{color:rgba(255,255,255,.4)}.idx-result .val{color:#7ee787}
+.idx-msg{text-align:center;font-size:.95rem;color:#bfe9ff;margin-top:1rem;min-height:26px;font-weight:600}
+
+/* ===== ZERO / OFFSET ===== */
+.zero-sec{background:linear-gradient(180deg,#0a0610 0%,#150a14 100%)}
+.zero-sec .sec-title{color:#ee5a6f}
+.offset-row{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;direction:ltr;margin:1.5rem 0}
+.offset-cell{display:flex;flex-direction:column;align-items:center;gap:.4rem;min-width:84px}
+.offset-cell .obox{width:62px;height:62px;border-radius:14px;background:rgba(238,90,111,.08);border:2px solid rgba(238,90,111,.25);display:flex;align-items:center;justify-content:center;font-size:1.7rem}
+.offset-cell .steps{font-size:.74rem;color:rgba(255,255,255,.55);line-height:1.4;text-align:center}
+.offset-cell .steps b{color:#ee5a6f;font-size:1.1rem;font-family:'Courier New',monospace}
+.start-flag{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;min-width:60px;color:#ff9f43;font-size:.78rem;font-weight:700}
+.start-flag .fa{font-size:1.8rem}
+
+/* ===== STRING SECTION ===== */
+.str-sec{background:linear-gradient(180deg,#150a14 0%,#0a1020 100%)}
+.str-sec .sec-title{color:#a5d6ff}
+.str-demo{background:rgba(33,212,253,.05);border:1px solid rgba(33,212,253,.2);border-radius:20px;padding:2rem 1.4rem;margin-bottom:2rem}
+.str-demo h3{color:#a5d6ff;text-align:center;margin-bottom:.4rem}
+.str-box{display:flex;gap:.45rem;justify-content:center;flex-wrap:wrap;margin:1.8rem 0 1rem;min-height:70px;align-items:flex-end;direction:ltr}
+.char-cell{display:flex;flex-direction:column;align-items:center;gap:.45rem}
+.char-cell .cbox{width:46px;height:54px;border-radius:10px;background:rgba(33,212,253,.1);border:2px solid rgba(33,212,253,.25);display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:1.4rem;color:rgba(255,255,255,.7);transition:all .3s}
+.char-cell .cidx{font-family:'Courier New',monospace;font-size:.85rem;font-weight:700;color:#a5d6ff;background:rgba(165,214,255,.12);border:1px solid rgba(165,214,255,.3);border-radius:6px;width:26px;height:24px;display:flex;align-items:center;justify-content:center}
+.char-cell.current .cbox{border-color:#a5d6ff;background:rgba(165,214,255,.25);color:#fff;transform:translateY(-6px) scale(1.1);box-shadow:0 8px 22px rgba(33,212,253,.35)}
+.char-cell.current .cidx{background:#a5d6ff;color:#04222b}
+.str-input{background:rgba(255,255,255,.07);border:2px solid rgba(33,212,253,.3);border-radius:12px;padding:.6rem 1rem;color:#fff;font-family:'Courier New',monospace;font-size:1.1rem;width:180px;text-align:center;outline:none;direction:ltr}
+.str-input:focus{border-color:#a5d6ff}
+.str-btn{background:linear-gradient(135deg,#a5d6ff,#4d96ff);color:#fff;border:none;padding:.7rem 1.8rem;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;transition:transform .2s}
+.str-btn:hover{transform:translateY(-2px)}
+.str-msg{text-align:center;font-size:.95rem;color:#a5d6ff;min-height:26px;font-weight:600}
+
+/* ===== OPERATIONS (append / etc.) ===== */
+.ops-sec{background:linear-gradient(180deg,#0a1020 0%,#0a0610 100%)}
+.ops-sec .sec-title{color:#ff9f43}
+.op-demo{background:rgba(255,159,67,.05);border:1px solid rgba(255,159,67,.2);border-radius:20px;padding:2rem 1.4rem;margin-bottom:2rem}
+.op-demo h3{color:#ff9f43;text-align:center;margin-bottom:1.2rem}
+.op-list{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;min-height:64px;align-items:center;direction:ltr;margin-bottom:1rem}
+.op-item{min-width:58px;height:58px;border-radius:14px;background:rgba(255,159,67,.15);border:2px solid rgba(255,159,67,.4);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:1.5rem;animation:popIn .3s ease;position:relative}
+.op-item .oi-idx{font-size:.6rem;color:#ffb86b;font-family:'Courier New',monospace}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.op-btns{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap}
+.op-btn{border:none;padding:.65rem 1.4rem;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:transform .2s;color:#fff}
+.op-btn:hover{transform:translateY(-2px)}
+.op-btn.add{background:linear-gradient(135deg,#ff9f43,#f7691e)}
+.op-btn.rem{background:linear-gradient(135deg,#ee5a6f,#c0392b)}
+.op-btn.rst{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+.op-code{text-align:center;font-family:'Courier New',monospace;direction:ltr;color:#ffd9b0;font-size:.95rem;min-height:24px;margin-top:.9rem}
+
+/* method table */
+.m-table{width:100%;border-collapse:collapse;margin-top:1.5rem;font-size:.9rem}
+.m-table th,.m-table td{padding:.7rem 1rem;border:1px solid rgba(255,255,255,.08);text-align:center}
+.m-table th{background:rgba(255,159,67,.12);color:#ff9f43}
+.m-table td:first-child{font-family:'Courier New',monospace;direction:ltr;color:#ffb86b}
+.m-table td{color:rgba(255,255,255,.78)}
+
+/* ===== EXERCISES ===== */
+.ex-sec{background:linear-gradient(180deg,#0a0610 0%,#0a081a 100%)}
+.ex-sec .sec-title{color:#fff}
+.ex-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:2rem;margin-bottom:1.8rem}
+.ex-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.ex-num{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;flex-shrink:0}
+.ex-title{font-size:1.18rem;font-weight:700}
+.ex-desc{color:rgba(255,255,255,.6);font-size:.92rem;line-height:1.7;margin-bottom:1.4rem}
+.ex-task-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.9rem;color:rgba(255,255,255,.75);line-height:1.8}
+.ex-task-box .task-label{font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:.3rem}
+.ex-editor-wrap{background:#0d1117;border-radius:12px;padding:.4rem;margin-bottom:.8rem}
+.ex-editor-header{display:flex;gap:.4rem;padding:.5rem .7rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.editor-dot{width:10px;height:10px;border-radius:50%}
+.ex-code{padding:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:90px;font-size:.88rem;color:#fff;outline:none;white-space:pre;caret-color:#fff;tab-size:4}
+.ex-code:empty::before{content:attr(data-placeholder);color:rgba(255,255,255,.2)}
+.ex-btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.ex-run-btn{background:linear-gradient(135deg,#ff9f43,#f7691e);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-run-btn:hover{transform:translateY(-2px)}
+.ex-check-btn{background:linear-gradient(135deg,#9B59B6,#6c3483);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-check-btn:hover{transform:translateY(-2px)}
+.ex-output{background:#000;border-radius:8px;padding:.8rem 1rem;margin-bottom:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:36px;font-size:.85rem;color:#ff9f43;border:1px solid rgba(255,255,255,.06);display:none;white-space:pre-wrap}
+.ex-output.show{display:block}
+.ex-output .output-label{font-size:.7rem;color:rgba(255,255,255,.25);margin-bottom:.3rem;direction:rtl;font-family:'Cairo',sans-serif}
+.ex-feedback{padding:.8rem 1.2rem;border-radius:10px;font-size:.9rem;margin-top:.5rem;display:none;line-height:1.7;white-space:pre-wrap}
+.ex-feedback.show{display:block}
+.ex-feedback.correct{background:rgba(255,159,67,.12);border:1px solid rgba(255,159,67,.35);color:#ffd9b0}
+.ex-feedback.wrong{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);color:#f0a8a8}
+
+/* FOOTER */
+footer{background:#040208;padding:3.5rem 2rem;text-align:center}
+footer .big-e{font-size:3rem;margin-bottom:1rem;animation:floaty 3s ease-in-out infinite}
+footer h3{font-size:1.2rem;color:rgba(255,255,255,.75);margin-bottom:.5rem}
+footer p{color:rgba(255,255,255,.3);font-size:.9rem}
+.next-lesson-btn{display:inline-block;margin-top:1.5rem;padding:.8rem 2rem;border-radius:50px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);font-family:'Cairo',sans-serif;font-size:.95rem;text-decoration:none}
+.home-btn{display:inline-block;margin-top:1.5rem;margin-right:.8rem;padding:.8rem 2rem;border-radius:50px;background:linear-gradient(135deg,#ff9f43,#ee5a6f);color:#fff;font-family:'Cairo',sans-serif;font-weight:700;font-size:.95rem;text-decoration:none}
+
+@media(max-width:650px){
+  .compare-box{grid-template-columns:1fr}
+  .cell .box{width:54px;height:54px;font-size:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="stars-bg" id="starsContainer"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🎓 الدرس السادس · Python للمبتدئين</div>
+  <div class="hero-icons">📦</div>
+  <h1>القوائم<br>Lists</h1>
+  <p>تخيّل صندوقاً واحداً فيه عدّة خانات، كل خانة تحفظ شيئاً 🍎🍌🍇. بدل أن تصنع متغيّراً لكل شيء، تضع كل الأشياء في <strong>قائمة واحدة</strong> مرتّبة! تعلّم الفهرس (index) ولماذا يبدأ من الصفر 🚀</p>
+  <button class="hero-btn" onclick="document.getElementById('sec-intro').scrollIntoView({behavior:'smooth'})">اكتشف القوائم 📦</button>
+  <div class="hero-scroll">▼ اسحب للأسفل</div>
+</section>
+
+<!-- WHAT IS A LIST -->
+<section class="section" id="sec-intro" style="background:linear-gradient(180deg,#0a0610 0%,#150a06 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#ff9f43">📦 ما هي القائمة؟</div>
+    <p class="sec-sub">القائمة (List) هي <strong>صندوق واحد فيه خانات كثيرة مرتّبة بالترتيب</strong>. تضع فيها أشياء متعدّدة، أرقاماً أو كلمات أو رموزاً، وتصل إلى أيّ شيء منها برقم مكانه.</p>
+  </div>
+
+  <div class="fi compare-box" style="transition-delay:.1s">
+    <div class="compare-card bad-card">
+      <h3>😫 بدون قائمة (متغيّر لكل شيء)</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem">3 فواكه = 3 متغيّرات منفصلة</p>
+      <div class="code-panel">
+        <div class="cline"><span class="kw">fruit1</span> <span class="op">=</span> <span class="str">"🍎"</span></div>
+        <div class="cline"><span class="kw">fruit2</span> <span class="op">=</span> <span class="str">"🍌"</span></div>
+        <div class="cline"><span class="kw">fruit3</span> <span class="op">=</span> <span class="str">"🍇"</span></div>
+      </div>
+      <p style="color:rgba(255,255,255,.5);font-size:.84rem;margin-top:.9rem">ولو عندك 100 فاكهة؟ 100 متغيّر؟! 😱</p>
+    </div>
+    <div class="compare-card good-card">
+      <h3>✨ بقائمة واحدة (أسهل بكثير!)</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem">كل الفواكه في صندوق واحد</p>
+      <div class="code-panel">
+        <div class="cline"><span class="kw">fruits</span> <span class="op">=</span> <span class="br">[</span><span class="str">"🍎"</span>, <span class="str">"🍌"</span>, <span class="str">"🍇"</span><span class="br">]</span></div>
+      </div>
+      <p style="color:rgba(255,255,255,.5);font-size:.84rem;margin-top:.9rem">اسم واحد فقط، ومرتّب 🎉</p>
+    </div>
+  </div>
+
+  <div class="fi card-row" style="transition-delay:.15s">
+    <div class="icard"><div class="ico">🔢</div><h3>مرتّبة</h3><p>العناصر تبقى بالترتيب الذي وضعتها فيه، الأول يبقى أوّلاً.</p></div>
+    <div class="icard"><div class="ico">🏷️</div><h3>لكل عنصر رقم</h3><p>كل خانة لها رقم يُسمّى <strong>الفهرس (index)</strong> للوصول إليها.</p></div>
+    <div class="icard"><div class="ico">✏️</div><h3>قابلة للتغيير</h3><p>تستطيع إضافة عناصر، حذفها، أو تبديلها في أي وقت.</p></div>
+  </div>
+
+  <div class="fi note-box" style="transition-delay:.2s">
+    💡 القائمة تُكتب دائماً بين قوسين مربّعين <code style="direction:ltr;color:#f8c555">[ ]</code> والعناصر بينها يفصلها <strong>فاصلة</strong> <code style="direction:ltr;color:#f8c555">,</code>.
+  </div>
+</div>
+</section>
+
+<!-- WHAT GOES INSIDE A LIST -->
+<section class="section" id="sec-types" style="background:linear-gradient(180deg,#150a06 0%,#130a14 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#f8c555">🎨 ماذا نضع داخل القائمة؟</div>
+    <p class="sec-sub">القائمة لا تحفظ الرموز والكلمات فقط! تستطيع أن تضع فيها <strong>أرقاماً (ints)</strong>، أو كلمات، أو حتى تخلط بينها في قائمة واحدة.</p>
+  </div>
+
+  <!-- numbers -->
+  <div class="fi shelf-wrap" style="transition-delay:.1s;background:rgba(248,197,85,.05);border-color:rgba(248,197,85,.25)">
+    <div class="shelf-name" style="color:#f8c555">ages = [ 7, 9, 10, 12, 15 ]</div>
+    <div class="shelf">
+      <div class="cell"><div class="box" style="color:#f8c555;font-size:1.7rem">7</div><div class="idx">0</div></div>
+      <div class="cell"><div class="box" style="color:#f8c555;font-size:1.7rem">9</div><div class="idx">1</div></div>
+      <div class="cell"><div class="box" style="color:#f8c555;font-size:1.7rem">10</div><div class="idx">2</div></div>
+      <div class="cell"><div class="box" style="color:#f8c555;font-size:1.7rem">12</div><div class="idx">3</div></div>
+      <div class="cell"><div class="box" style="color:#f8c555;font-size:1.7rem">15</div><div class="idx">4</div></div>
+    </div>
+    <p style="text-align:center;color:rgba(255,255,255,.55);font-size:.9rem;margin-top:1rem">🔢 قائمة <strong>أرقام</strong> (أعمار). لاحظ: الأرقام تُكتب بلا علامات تنصيص!</p>
+  </div>
+
+  <!-- words -->
+  <div class="fi shelf-wrap" style="transition-delay:.15s">
+    <div class="shelf-name">fruits = [ "تفاح", "موز", "عنب", "فراولة" ]</div>
+    <div class="shelf">
+      <div class="cell"><div class="box" style="width:auto;min-width:64px;padding:0 14px;font-size:1rem">تفاح</div><div class="idx">0</div></div>
+      <div class="cell"><div class="box" style="width:auto;min-width:64px;padding:0 14px;font-size:1rem">موز</div><div class="idx">1</div></div>
+      <div class="cell"><div class="box" style="width:auto;min-width:64px;padding:0 14px;font-size:1rem">عنب</div><div class="idx">2</div></div>
+      <div class="cell"><div class="box" style="width:auto;min-width:64px;padding:0 14px;font-size:1rem">فراولة</div><div class="idx">3</div></div>
+    </div>
+    <p style="text-align:center;color:rgba(255,255,255,.55);font-size:.9rem;margin-top:1rem">📝 قائمة <strong>كلمات</strong>. كل كلمة محاطة بعلامتي تنصيص <code style="direction:ltr;color:#a5d6ff">" "</code></p>
+  </div>
+
+  <!-- mixed -->
+  <div class="fi shelf-wrap" style="transition-delay:.2s;background:rgba(238,90,111,.05);border-color:rgba(238,90,111,.25)">
+    <div class="shelf-name" style="color:#ffc2cc">player = [ "علي", 12, "🥇" ]</div>
+    <div class="shelf">
+      <div class="cell"><div class="box" style="width:auto;min-width:64px;padding:0 14px;font-size:1rem">علي</div><div class="idx">0</div></div>
+      <div class="cell"><div class="box" style="color:#f8c555;font-size:1.7rem">12</div><div class="idx">1</div></div>
+      <div class="cell"><div class="box">🥇</div><div class="idx">2</div></div>
+    </div>
+    <p style="text-align:center;color:rgba(255,255,255,.55);font-size:.9rem;margin-top:1rem">🌈 قائمة <strong>مختلطة</strong>: اسم (كلمة) ورقم ورمز، كلها معاً!</p>
+  </div>
+
+  <div class="fi note-box" style="transition-delay:.25s">
+    ⚠️ <strong>الفرق المهم بين الرقم والكلمة:</strong>
+    <br>الرقم يُكتب هكذا <code style="direction:ltr;color:#f8c555">10</code> (بلا علامات تنصيص).
+    أما الكلمة فتُحاط بعلامتي تنصيص: <code style="direction:ltr;color:#a5d6ff">"تفاح"</code>.
+    لو نسيت العلامات على كلمة، سيظنّها الكمبيوتر اسم متغيّر ويحدث خطأ!
+  </div>
+
+  <div class="fi note-box blue" style="transition-delay:.3s">
+    💡 وبما أن القائمة قد تحوي <strong>أرقاماً</strong>، نستطيع أن نجمعها بـ <code style="direction:ltr">sum()</code> أو نجد أكبرها بـ <code style="direction:ltr">max()</code> أو أصغرها بـ <code style="direction:ltr">min()</code>! (ستجرّب ذلك في التمارين 🏋️)
+  </div>
+</div>
+</section>
+
+<!-- ANATOMY + SHELF -->
+<section class="section" id="sec-anatomy" style="background:linear-gradient(180deg,#150a06 0%,#0a0e1a 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#ff9f43">🔬 تشريح القائمة</div>
+    <p class="sec-sub">القائمة مثل رفّ فيه صناديق صغيرة. هذه قائمة فواكه، كل صندوق فيه فاكهة، وتحته <strong>رقمه (الفهرس)</strong>.</p>
+  </div>
+
+  <div class="fi shelf-wrap" style="transition-delay:.1s">
+    <div class="shelf-name">fruits = [ "🍎", "🍌", "🍇", "🍊", "🍓" ]</div>
+    <div class="shelf" id="anatomyShelf">
+      <div class="cell"><div class="box">🍎</div><div class="idx">0</div><div class="idx-lbl">الفهرس</div></div>
+      <div class="cell"><div class="box">🍌</div><div class="idx">1</div><div class="idx-lbl">الفهرس</div></div>
+      <div class="cell"><div class="box">🍇</div><div class="idx">2</div><div class="idx-lbl">الفهرس</div></div>
+      <div class="cell"><div class="box">🍊</div><div class="idx">3</div><div class="idx-lbl">الفهرس</div></div>
+      <div class="cell"><div class="box">🍓</div><div class="idx">4</div><div class="idx-lbl">الفهرس</div></div>
+    </div>
+    <div class="note-box" style="margin-top:1.6rem">
+      📦 عندنا <strong>5 فواكه</strong>، لكن أرقام الفهرس هي <strong>0 و1 و2 و3 و4</strong>، لاحظ أن أكبر فهرس <strong>(4)</strong> أصغر من العدد <strong>(5)</strong> بواحد. سنفهم السبب بعد قليل! 👇
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- INDEX EXPLORER -->
+<section class="section" id="sec-index" style="background:linear-gradient(180deg,#0a0e1a 0%,#0a1220 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#21d4fd">🏷️ الفهرس (Index): كيف نصل لعنصر؟</div>
+    <p class="sec-sub">لتأخذ عنصراً من القائمة، تكتب اسمها ثم رقم مكانه بين قوسين مربّعين: <code style="direction:ltr;color:#ffb86b">fruits[2]</code><br>جرّب بنفسك: اضغط رقماً وشاهد أيّ فاكهة يعطيك!</p>
+  </div>
+
+  <div class="fi idx-explorer" style="transition-delay:.1s">
+    <h3>🎛️ مستكشف الفهرس</h3>
+    <p class="hint">fruits = [ "🍎", "🍌", "🍇", "🍊", "🍓" ]</p>
+    <div class="shelf" id="idxShelf"></div>
+    <div class="idx-btns" id="idxBtns"></div>
+    <div class="idx-result" id="idxResult"><span class="code">fruits[?]</span></div>
+    <div class="idx-msg" id="idxMsg">👆 اضغط رقم فهرس لتشاهد العنصر</div>
+    <div class="note-box pink" style="margin-top:1.4rem">
+      ✨ <strong>سر إضافي:</strong> الأرقام السالبة تعدّ من <strong>النهاية</strong>! <code style="direction:ltr">fruits[-1]</code> تعني <strong>آخر عنصر</strong> 🍓، و<code style="direction:ltr">fruits[-2]</code> العنصر قبل الأخير. مفيدة جداً!
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- WHY ZERO -->
+<section class="section zero-sec" id="sec-zero">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">0️⃣ لماذا يبدأ الترقيم من الصفر؟</div>
+    <p class="sec-sub">هذا أكثر سؤال يحيّر المبتدئين! الجواب بسيط جداً عندما تفهم الفكرة:</p>
+  </div>
+
+  <div class="fi note-box pink" style="transition-delay:.05s;text-align:center;font-size:1.05rem">
+    🧠 الفهرس ليس "ترتيب العنصر"، بل هو <strong>كم خطوة يبعد العنصر عن بداية القائمة</strong>.
+  </div>
+
+  <div class="fi" style="transition-delay:.1s">
+    <p class="sec-sub" style="margin:2rem 0 0">تخيّل أنك واقف عند <strong>بداية</strong> القائمة. كم خطوة تمشي لتصل لكل عنصر؟</p>
+    <div class="offset-row">
+      <div class="start-flag"><span class="fa">🚩</span><span>البداية</span></div>
+      <div class="offset-cell"><div class="obox">🍎</div><div class="steps"><b>0</b><br>صفر خطوات<br>(هو عند البداية!)</div></div>
+      <div class="offset-cell"><div class="obox">🍌</div><div class="steps"><b>1</b><br>خطوة واحدة</div></div>
+      <div class="offset-cell"><div class="obox">🍇</div><div class="steps"><b>2</b><br>خطوتان</div></div>
+      <div class="offset-cell"><div class="obox">🍊</div><div class="steps"><b>3</b><br>ثلاث خطوات</div></div>
+    </div>
+    <p class="sec-sub" style="margin-top:1rem">العنصر الأوّل 🍎 موجود تماماً عند البداية، لا تحتاج أن تمشي أبداً، لذلك فهرسه <strong style="color:#ee5a6f">صفر</strong>! 🎯</p>
+  </div>
+
+  <div class="fi card-row" style="transition-delay:.15s">
+    <div class="icard"><div class="ico">🛗</div><h3>مثل الأرضية</h3><p>الطابق الأرضي رقمه 0، ثم تصعد طابقاً = 1، طابقين = 2.</p></div>
+    <div class="icard"><div class="ico">📏</div><h3>مثل المسطرة</h3><p>المسطرة تبدأ من 0، ليس من 1. النقطة الأولى عند الصفر.</p></div>
+    <div class="icard"><div class="ico">🎂</div><h3>مثل عمرك</h3><p>عند الولادة عمرك 0 سنة، لا تصبح "1" إلا بعد أن تمشي سنة كاملة!</p></div>
+  </div>
+
+  <div class="fi note-box" style="transition-delay:.2s">
+    💡 قاعدة سهلة: إذا كان في القائمة <strong>5 عناصر</strong>، فإن الفهارس تكون من <strong>0 إلى 4</strong> (أي <code style="direction:ltr">5 - 1</code>). آخر فهرس = <strong>عدد العناصر ناقص واحد</strong>.
+    <br>⚠️ لو طلبت <code style="direction:ltr;color:#ff7b72">fruits[5]</code> في قائمة فيها 5 عناصر → يحدث <strong>خطأ</strong> لأن لا يوجد خانة رقمها 5!
+  </div>
+</div>
+</section>
+
+<!-- STRING IS A LIST OF LETTERS -->
+<section class="section str-sec" id="sec-strings">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🔤 النص = قائمة من الحروف!</div>
+    <p class="sec-sub">سرٌّ جميل: أيّ كلمة (string) هي في الحقيقة <strong>قائمة من الحروف</strong> مرتّبة! لكل حرف فهرس يبدأ من الصفر، تماماً مثل القائمة.</p>
+  </div>
+
+  <div class="fi str-demo" style="transition-delay:.1s">
+    <h3>اكتب كلمة وشاهد حروفها وفهارسها 🔠</h3>
+    <p class="hint" style="text-align:center;color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:.5rem">كل حرف صندوق، وتحته رقمه (index)</p>
+    <div style="display:flex;gap:.8rem;justify-content:center;align-items:center;margin:1.2rem 0;flex-wrap:wrap">
+      <input class="str-input" id="strInput" type="text" value="HELLO" maxlength="10" placeholder="اكتب كلمة...">
+      <button class="str-btn" onclick="renderString()">▶ اعرض</button>
+    </div>
+    <div class="str-box" id="strBox"></div>
+    <div class="str-msg" id="strMsg">اكتب كلمة واضغط اعرض 👆</div>
+  </div>
+
+  <div class="fi" style="transition-delay:.15s">
+    <div class="code-panel">
+      <div class="cline"><span class="kw">word</span> <span class="op">=</span> <span class="str">"HELLO"</span></div>
+      <div class="cline"><span class="cm"># كل حرف له فهرس مثل القائمة تماماً</span></div>
+      <div class="cline"><span class="fn">print</span>(word[<span class="num">0</span>])   <span class="cm"># H  (الحرف الأول)</span></div>
+      <div class="cline"><span class="fn">print</span>(word[<span class="num">4</span>])   <span class="cm"># O  (الحرف الخامس)</span></div>
+      <div class="cline"><span class="fn">print</span>(<span class="fn">len</span>(word)) <span class="cm"># 5  (عدد الحروف)</span></div>
+    </div>
+    <div class="note-box blue" style="margin-top:1.2rem">
+      💙 لهذا السبب تستطيع المرور على حروف كلمة بحلقة <code style="direction:ltr">for</code> تماماً كما تمرّ على قائمة، لأن الكلمة هي قائمة حروف في الأصل!
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- OPERATIONS -->
+<section class="section ops-sec" id="sec-ops">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🛠️ ماذا نفعل بالقوائم؟</div>
+    <p class="sec-sub">القائمة حيّة! نضيف إليها، نحذف منها، نعدّ عناصرها، ونمرّ عليها كلها. جرّب الإضافة والحذف بنفسك:</p>
+  </div>
+
+  <div class="fi op-demo" style="transition-delay:.1s">
+    <h3>🎮 جرّب: أضف واحذف من القائمة</h3>
+    <div class="op-list" id="opList"></div>
+    <div class="op-code" id="opCode">fruits = [ ... ]</div>
+    <div class="op-btns" style="margin-top:1rem">
+      <button class="op-btn add" onclick="opAppend()">➕ append (أضف)</button>
+      <button class="op-btn rem" onclick="opPop()">➖ pop (احذف الأخير)</button>
+      <button class="op-btn rst" onclick="opReset()">🔄 إعادة</button>
+    </div>
+    <p style="text-align:center;color:rgba(255,255,255,.4);font-size:.82rem;margin-top:1rem">لاحظ كيف تكبر الفهارس عند الإضافة وتصغر عند الحذف 👀</p>
+  </div>
+
+  <div class="fi" style="transition-delay:.15s">
+    <table class="m-table">
+      <tr><th>الأمر</th><th>ماذا يفعل؟</th><th>مثال</th></tr>
+      <tr><td>len(fruits)</td><td>يعطي عدد العناصر</td><td>5</td></tr>
+      <tr><td>fruits[0]</td><td>يأخذ العنصر الأول</td><td>"🍎"</td></tr>
+      <tr><td>fruits[-1]</td><td>يأخذ العنصر الأخير</td><td>"🍓"</td></tr>
+      <tr><td>fruits.append("🍉")</td><td>يضيف عنصراً في النهاية</td><td>القائمة تكبر</td></tr>
+      <tr><td>fruits.pop()</td><td>يحذف العنصر الأخير</td><td>القائمة تصغر</td></tr>
+      <tr><td>fruits[0] = "🥝"</td><td>يغيّر قيمة عنصر موجود</td><td>تبديل الأول</td></tr>
+    </table>
+  </div>
+
+  <div class="fi" style="transition-delay:.2s;margin-top:1.5rem">
+    <p class="sec-sub" style="margin-bottom:1.2rem">وأجمل شيء: نمرّ على كل عناصر القائمة بحلقة <code style="direction:ltr">for</code> 🔂</p>
+    <div class="code-panel">
+      <div class="cline"><span class="kw">fruits</span> <span class="op">=</span> <span class="br">[</span><span class="str">"🍎"</span>, <span class="str">"🍌"</span>, <span class="str">"🍇"</span><span class="br">]</span></div>
+      <div class="cline"><span class="kw">for</span> <span class="it">fruit</span> <span class="kw">in</span> fruits:</div>
+      <div class="cline">    <span class="fn">print</span>(<span class="it">fruit</span>)</div>
+      <div class="cline"><span class="cm"># يطبع كل فاكهة: 🍎 ثم 🍌 ثم 🍇</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EXERCISES -->
+<section class="section ex-sec" id="sec-exercises">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🏋️ وقت التمارين!</div>
+    <p class="sec-sub">اكتب قوائم حقيقية وشغّلها. المحرّر يفهم الكود فعلاً ويطبع النتيجة!</p>
+  </div>
+
+  <!-- Ex 1 -->
+  <div class="fi ex-card" style="transition-delay:.05s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(255,159,67,.2);color:#ff9f43;border:2px solid rgba(255,159,67,.4)">1</div>
+      <div class="ex-title">أنشئ قائمة واطبعها كاملة</div>
+    </div>
+    <p class="ex-desc">اصنع قائمة اسمها <code style="direction:ltr">fruits</code> فيها 3 فواكه على الأقل، ثم اطبع القائمة كلها بـ <code style="direction:ltr">print(fruits)</code>.</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div>القائمة بين <code style="direction:ltr">[ ]</code> والعناصر يفصلها فاصلة. مثال: <code style="direction:ltr">["تفاح", "موز", "عنب"]</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex1Code" contenteditable="true" data-placeholder='fruits = ["تفاح", "موز", "عنب"]&#10;print(fruits)'></div></div>
+    <div class="ex-output" id="ex1Output"><div class="output-label">الإخراج:</div><div id="ex1OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(1)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(1)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex1Feedback"></div>
+  </div>
+
+  <!-- Ex 2 -->
+  <div class="fi ex-card" style="transition-delay:.1s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(33,212,253,.2);color:#21d4fd;border:2px solid rgba(33,212,253,.4)">2</div>
+      <div class="ex-title">اطبع العنصر الأول والأخير بالفهرس</div>
+    </div>
+    <p class="ex-desc">عندك القائمة <code style="direction:ltr">fruits = ["تفاح", "موز", "عنب"]</code>. اطبع <strong>أول</strong> فاكهة (الفهرس 0) ثم <strong>آخر</strong> فاكهة (الفهرس 2).</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div>الأول هو <code style="direction:ltr">fruits[0]</code> والأخير هو <code style="direction:ltr">fruits[2]</code> (لأن عددها 3، آخر فهرس = 3 - 1).</div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex2Code" contenteditable="true" data-placeholder='fruits = ["تفاح", "موز", "عنب"]&#10;print(fruits[0])&#10;print(fruits[2])'></div></div>
+    <div class="ex-output" id="ex2Output"><div class="output-label">الإخراج:</div><div id="ex2OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(2)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(2)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex2Feedback"></div>
+  </div>
+
+  <!-- Ex 3 -->
+  <div class="fi ex-card" style="transition-delay:.15s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(248,197,85,.2);color:#f8c555;border:2px solid rgba(248,197,85,.4)">3</div>
+      <div class="ex-title">كم عنصراً في القائمة؟ استخدم len</div>
+    </div>
+    <p class="ex-desc">عندك القائمة <code style="direction:ltr">colors = ["أحمر", "أخضر", "أزرق", "أصفر"]</code>. اطبع عدد عناصرها باستخدام <code style="direction:ltr">len()</code> (الجواب 4).</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div>استخدم <code style="direction:ltr">print(len(colors))</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex3Code" contenteditable="true" data-placeholder='colors = ["أحمر", "أخضر", "أزرق", "أصفر"]&#10;print(len(colors))'></div></div>
+    <div class="ex-output" id="ex3Output"><div class="output-label">الإخراج:</div><div id="ex3OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(3)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(3)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex3Feedback"></div>
+  </div>
+
+  <!-- Ex 4 -->
+  <div class="fi ex-card" style="transition-delay:.2s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(46,204,113,.2);color:#2ecc71;border:2px solid rgba(46,204,113,.4)">4</div>
+      <div class="ex-title">مُرّ على القائمة بحلقة for</div>
+    </div>
+    <p class="ex-desc">استخدم <code style="direction:ltr">for</code> للمرور على القائمة <code style="direction:ltr">animals = ["قطة", "كلب", "أسد"]</code> واطبع كل حيوان في سطر.</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div><code style="direction:ltr">for animal in animals:</code> ثم <code style="direction:ltr">print(animal)</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex4Code" contenteditable="true" data-placeholder='animals = ["قطة", "كلب", "أسد"]&#10;for animal in animals:&#10;    print(animal)'></div></div>
+    <div class="ex-output" id="ex4Output"><div class="output-label">الإخراج:</div><div id="ex4OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(4)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(4)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex4Feedback"></div>
+  </div>
+
+  <!-- Ex 5 -->
+  <div class="fi ex-card" style="transition-delay:.25s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(238,90,111,.2);color:#ee5a6f;border:2px solid rgba(238,90,111,.4)">5</div>
+      <div class="ex-title">أضف عنصراً جديداً بـ append</div>
+    </div>
+    <p class="ex-desc">عندك <code style="direction:ltr">fruits = ["تفاح", "موز"]</code>. أضف <code style="direction:ltr">"عنب"</code> بـ <code style="direction:ltr">append</code> ثم اطبع القائمة (يجب أن تصبح 3 عناصر).</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div><code style="direction:ltr">fruits.append("عنب")</code> ثم <code style="direction:ltr">print(fruits)</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex5Code" contenteditable="true" data-placeholder='fruits = ["تفاح", "موز"]&#10;fruits.append("عنب")&#10;print(fruits)'></div></div>
+    <div class="ex-output" id="ex5Output"><div class="output-label">الإخراج:</div><div id="ex5OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(5)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(5)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex5Feedback"></div>
+  </div>
+
+  <!-- Ex 6 -->
+  <div class="fi ex-card" style="transition-delay:.3s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(165,214,255,.2);color:#a5d6ff;border:2px solid rgba(165,214,255,.4)">6</div>
+      <div class="ex-title">النص قائمة حروف: اطبع أول حرف</div>
+    </div>
+    <p class="ex-desc">عندك <code style="direction:ltr">word = "برمجة"</code>. بما أن النص قائمة حروف، اطبع <strong>أول حرف</strong> فيه باستخدام الفهرس 0.</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div><code style="direction:ltr">print(word[0])</code> ← يطبع "ب"</div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex6Code" contenteditable="true" data-placeholder='word = "برمجة"&#10;print(word[0])'></div></div>
+    <div class="ex-output" id="ex6Output"><div class="output-label">الإخراج:</div><div id="ex6OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(6)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(6)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex6Feedback"></div>
+  </div>
+
+  <!-- Ex 7 -->
+  <div class="fi ex-card" style="transition-delay:.35s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(248,197,85,.2);color:#f8c555;border:2px solid rgba(248,197,85,.4)">7</div>
+      <div class="ex-title">قائمة أرقام: اجمعها كلها</div>
+    </div>
+    <p class="ex-desc">عندك قائمة <strong>أرقام</strong> <code style="direction:ltr">numbers = [10, 20, 30, 40]</code>. مُرّ عليها بحلقة <code style="direction:ltr">for</code> واجمعها في <code style="direction:ltr">total</code> ثم اطبع المجموع (الجواب 100).</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div><code style="direction:ltr">total = 0</code> ثم <code style="direction:ltr">for n in numbers:</code> ثم <code style="direction:ltr">total = total + n</code>، وأخيراً <code style="direction:ltr">print(total)</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex7Code" contenteditable="true" data-placeholder='numbers = [10, 20, 30, 40]&#10;total = 0&#10;for n in numbers:&#10;    total = total + n&#10;print(total)'></div></div>
+    <div class="ex-output" id="ex7Output"><div class="output-label">الإخراج:</div><div id="ex7OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(7)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(7)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex7Feedback"></div>
+  </div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="big-e">📦</div>
+  <h3>أتممت الدرس السادس، أنت الآن خبير القوائم! 🎉</h3>
+  <p>تعلّمتَ: القائمة 📦 · أرقام وكلمات 🎨 · الفهرس 🏷️ · لماذا يبدأ من صفر 0️⃣ · النص = قائمة حروف 🔤 · append و len و for 🛠️</p>
+  <div>
+    <a class="home-btn" href="index.html">🏠 الصفحة الرئيسية</a>
+    <a class="next-lesson-btn" href="#">الدرس السابع قريباً 🔒</a>
+  </div>
+</footer>
+
+<script>
+/* ── Stars ── */
+(function(){
+  const c=document.getElementById('starsContainer');
+  for(let i=0;i<120;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*2.5+.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*5}s`;
+    c.appendChild(s);
+  }
+})();
+
+/* ── Progress bar ── */
+window.addEventListener('scroll',()=>{
+  const p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  document.getElementById('progress-bar').style.width=Math.min(p,100)+'%';
+});
+
+/* ── Fade-in ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:.12});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+/* ══════════════════════════════
+   INDEX EXPLORER
+   ══════════════════════════════ */
+const IDX_FRUITS=['🍎','🍌','🍇','🍊','🍓'];
+function buildIdxShelf(){
+  const shelf=document.getElementById('idxShelf');
+  const btns=document.getElementById('idxBtns');
+  shelf.innerHTML='';btns.innerHTML='';
+  IDX_FRUITS.forEach((f,i)=>{
+    const cell=document.createElement('div');cell.className='cell';cell.id='idxCell'+i;
+    cell.innerHTML=`<div class="box">${f}</div><div class="idx">${i}</div><div class="idx-lbl">الفهرس</div>`;
+    shelf.appendChild(cell);
+  });
+  // positive buttons
+  for(let i=0;i<IDX_FRUITS.length;i++){
+    const b=document.createElement('button');b.className='idx-btn';b.textContent=i;
+    b.onclick=()=>pickIdx(i,b);btns.appendChild(b);
+  }
+  // negative bonus buttons
+  [-1,-2].forEach(n=>{
+    const b=document.createElement('button');b.className='idx-btn neg';b.textContent=n;
+    b.onclick=()=>pickIdx(n,b);btns.appendChild(b);
+  });
+}
+function pickIdx(i,btn){
+  document.querySelectorAll('#idxBtns .idx-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  IDX_FRUITS.forEach((_,j)=>document.getElementById('idxCell'+j).classList.remove('hot'));
+  const real=i<0?IDX_FRUITS.length+i:i;
+  const val=IDX_FRUITS[real];
+  if(real>=0&&real<IDX_FRUITS.length){
+    document.getElementById('idxCell'+real).classList.add('hot');
+    document.getElementById('idxResult').innerHTML=`<span class="code">fruits[${i}]</span> <span class="eq">→</span> <span class="val">"${val}"</span>`;
+    let msg;
+    if(i===0)msg='🎯 الفهرس 0 = العنصر الأول (عند البداية تماماً)';
+    else if(i<0)msg=`✨ الأرقام السالبة تعدّ من النهاية: ${i} = العنصر رقم ${-i} من الآخر`;
+    else if(real===IDX_FRUITS.length-1)msg='🏁 هذا آخر عنصر! آخر فهرس = العدد - 1';
+    else msg=`📌 العنصر يبعد ${i} خطوة عن البداية`;
+    document.getElementById('idxMsg').textContent=msg;
+  }
+}
+buildIdxShelf();
+
+/* ══════════════════════════════
+   STRING = LIST OF LETTERS
+   ══════════════════════════════ */
+function renderString(){
+  const word=(document.getElementById('strInput').value||'').trim()||'HELLO';
+  const box=document.getElementById('strBox');
+  box.innerHTML='';
+  const chars=[...word];
+  chars.forEach((ch,i)=>{
+    const cell=document.createElement('div');cell.className='char-cell';
+    cell.innerHTML=`<div class="cbox">${ch===' '?'␣':ch}</div><div class="cidx">${i}</div>`;
+    cell.onmouseenter=()=>{
+      document.querySelectorAll('.char-cell').forEach(c=>c.classList.remove('current'));
+      cell.classList.add('current');
+      document.getElementById('strMsg').textContent=`word[${i}] = "${ch}"  (الحرف رقم ${i})`;
+    };
+    box.appendChild(cell);
+  });
+  document.getElementById('strMsg').innerHTML=`الكلمة "<span style="font-family:monospace">${word}</span>" فيها <b>${chars.length}</b> حروف، مرّر الفأرة فوق كل حرف 👆`;
+}
+renderString();
+
+/* ══════════════════════════════
+   OPERATIONS DEMO (append / pop)
+   ══════════════════════════════ */
+const OP_POOL=['🍉','🥝','🍑','🍍','🥭','🍒','🍐'];
+let opData=['🍎','🍌','🍇'];
+function renderOps(codeMsg){
+  const list=document.getElementById('opList');
+  list.innerHTML='';
+  if(opData.length===0){list.innerHTML='<span style="color:rgba(255,255,255,.35)">القائمة فارغة []</span>';}
+  opData.forEach((f,i)=>{
+    const d=document.createElement('div');d.className='op-item';
+    d.innerHTML=`${f}<span class="oi-idx">${i}</span>`;
+    list.appendChild(d);
+  });
+  document.getElementById('opCode').textContent=codeMsg||('fruits = [ '+opData.map(x=>'"'+x+'"').join(', ')+' ]');
+}
+function opAppend(){
+  if(opData.length>=8)return;
+  const next=OP_POOL[(opData.length-3+OP_POOL.length)%OP_POOL.length];
+  opData.push(next);
+  renderOps(`fruits.append("${next}")  →  الآن ${opData.length} عناصر`);
+}
+function opPop(){
+  if(opData.length===0)return;
+  const removed=opData.pop();
+  renderOps(`fruits.pop()  →  حذفنا "${removed}"  →  الآن ${opData.length} عناصر`);
+}
+function opReset(){opData=['🍎','🍌','🍇'];renderOps();}
+renderOps();
+
+/* ══════════════════════════════
+   MINI PYTHON INTERPRETER
+   ══════════════════════════════ */
+function stripComment(line){
+  let out='',inStr=false,q='';
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(inStr){out+=ch;if(ch===q)inStr=false;continue;}
+    if(ch==='"'||ch==="'"){inStr=true;q=ch;out+=ch;continue;}
+    if(ch==='#')break;
+    out+=ch;
+  }
+  return out;
+}
+function tokenize(s){
+  const toks=[];let i=0;const two=['**','//','==','!=','<=','>=','+=','-=','*=','/='];
+  while(i<s.length){
+    const c=s[i];
+    if(c===' '||c==='\t'){i++;continue;}
+    if(c==='"'||c==="'"){
+      let q=c,j=i+1,str='';
+      while(j<s.length&&s[j]!==q){
+        if(s[j]==='\\'&&j+1<s.length){
+          const esc=s[j+1];
+          if(esc==='n')str+='\n';else if(esc==='t')str+='\t';else str+=esc;
+          j+=2;
+        }else{str+=s[j];j++;}
+      }
+      toks.push({t:'str',v:str});i=j+1;continue;
+    }
+    if(/[0-9]/.test(c)||(c==='.'&&/[0-9]/.test(s[i+1]||''))){
+      let j=i,num='';while(j<s.length&&/[0-9.]/.test(s[j])){num+=s[j];j++;}
+      toks.push({t:'num',v:parseFloat(num)});i=j;continue;
+    }
+    if(/[A-Za-z_؀-ۿ]/.test(c)){
+      let j=i,id='';while(j<s.length&&/[A-Za-z0-9_؀-ۿ]/.test(s[j])){id+=s[j];j++;}
+      if(['and','or','not','True','False','in'].includes(id))toks.push({t:'kw',v:id});
+      else toks.push({t:'id',v:id});i=j;continue;
+    }
+    const tw=s.substr(i,2);
+    if(two.includes(tw)){toks.push({t:'op',v:tw});i+=2;continue;}
+    toks.push({t:'op',v:c});i++;
+  }
+  return toks;
+}
+function truthy(v){if(v===true)return true;if(v===false)return false;if(typeof v==='number')return v!==0;if(typeof v==='string')return v.length>0;if(Array.isArray(v))return v.length>0;return !!v;}
+function splitTopLevel(str,sep){
+  const parts=[];let cur='',depth=0,inStr=false,q='';
+  for(let i=0;i<str.length;i++){
+    const c=str[i];
+    if(inStr){cur+=c;if(c===q)inStr=false;continue;}
+    if(c==='"'||c==="'"){inStr=true;q=c;cur+=c;continue;}
+    if(c==='('||c==='['||c==='{')depth++;
+    else if(c===')'||c===']'||c==='}')depth--;
+    else if(c===sep&&depth===0){parts.push(cur);cur='';continue;}
+    cur+=c;
+  }
+  parts.push(cur);return parts;
+}
+/* Python-style display of a value */
+function pyStr(v,top){
+  if(v===null||v===undefined)return 'None';
+  if(v===true)return 'True';
+  if(v===false)return 'False';
+  if(Array.isArray(v))return '['+v.map(x=>pyStr(x,false)).join(', ')+']';
+  if(typeof v==='string')return top?v:"'"+v+"'";
+  return String(v);
+}
+/* read index from a string/array with Python negative-index support */
+function indexInto(obj,idx,name){
+  if(obj===undefined)throw new Error('متغير غير معرّف: '+name);
+  let k=idx;
+  if((Array.isArray(obj)||typeof obj==='string')&&k<0)k=obj.length+k;
+  if((Array.isArray(obj)||typeof obj==='string')&&(k<0||k>=obj.length))
+    throw new Error('الفهرس '+idx+' خارج حدود القائمة (الطول '+obj.length+')');
+  return obj[k];
+}
+
+function evalExpr(src,vars){
+  const toks=tokenize(src);let pos=0;
+  const peek=()=>toks[pos];
+  const next=()=>toks[pos++];
+  function parseOr(){let l=parseAnd();while(peek()&&peek().v==='or'){next();const r=parseAnd();l=truthy(l)||truthy(r);}return l;}
+  function parseAnd(){let l=parseNot();while(peek()&&peek().v==='and'){next();const r=parseNot();l=truthy(l)&&truthy(r);}return l;}
+  function parseNot(){if(peek()&&peek().v==='not'){next();return !truthy(parseNot());}return parseCmp();}
+  function parseCmp(){let l=parseAdd();
+    while(peek()&&['<','>','<=','>=','==','!=','in'].includes(peek().v)){
+      const op=next().v;
+      if(op==='in'){
+        const r=parseAdd();
+        if(Array.isArray(r))l=r.includes(l);
+        else if(typeof r==='string')l=String(r).includes(String(l));
+        else l=false;
+      }else{
+        const r=parseAdd();
+        if(op==='<')l=l<r;else if(op==='>')l=l>r;else if(op==='<=')l=l<=r;else if(op==='>=')l=l>=r;else if(op==='==')l=l===r;else l=l!==r;
+      }
+    }return l;}
+  function parseAdd(){let l=parseMul();while(peek()&&(peek().v==='+'||peek().v==='-')){const op=next().v;const r=parseMul();
+    if(op==='+'){
+      if(Array.isArray(l)&&Array.isArray(r))l=l.concat(r);
+      else l=(typeof l==='string'||typeof r==='string')?String(l)+String(r):l+r;
+    }else l=l-r;}return l;}
+  function parseMul(){let l=parsePow();while(peek()&&['*','/','//','%'].includes(peek().v)){const op=next().v;const r=parsePow();
+    if(op==='*'){if(typeof l==='string')l=l.repeat(Math.max(0,r));else if(typeof r==='string')l=r.repeat(Math.max(0,l));else l=l*r;}
+    else if(op==='/')l=l/r;else if(op==='//')l=Math.floor(l/r);else l=((l%r)+r)%r;}return l;}
+  function parsePow(){let l=parseUnary();if(peek()&&peek().v==='**'){next();const r=parsePow();l=Math.pow(l,r);}return l;}
+  function parseUnary(){if(peek()&&peek().v==='-'){next();return -parseUnary();}if(peek()&&peek().v==='+'){next();return parseUnary();}return parsePrimary();}
+  function parsePrimary(){
+    const t=peek();if(!t)throw new Error('تعبير ناقص');
+    if(t.t==='num'){next();return t.v;}
+    if(t.t==='str'){next();return t.v;}
+    if(t.t==='kw'&&t.v==='True'){next();return true;}
+    if(t.t==='kw'&&t.v==='False'){next();return false;}
+    if(t.v==='['){
+      next();const arr=[];
+      if(peek()&&peek().v!==']'){arr.push(parseOr());while(peek()&&peek().v===','){next();arr.push(parseOr());}}
+      if(peek()&&peek().v===']')next();return arr;
+    }
+    if(t.v==='('){next();const e=parseOr();if(peek()&&peek().v===')')next();return e;}
+    if(t.t==='id'){
+      const name=next().v;
+      if(peek()&&peek().v==='('){
+        next();const args=[];
+        if(peek()&&peek().v!==')'){args.push(parseOr());while(peek()&&peek().v===','){next();args.push(parseOr());}}
+        if(peek()&&peek().v===')')next();
+        return callFn(name,args,vars);
+      }
+      if(peek()&&peek().v==='['){
+        next();const idx=parseOr();if(peek()&&peek().v===']')next();
+        return indexInto(vars[name],idx,name);
+      }
+      if(name in vars)return vars[name];
+      throw new Error('متغير غير معرّف: '+name);
+    }
+    throw new Error('رمز غير متوقع: '+(t.v||t.t));
+  }
+  function callFn(name,args,vars){
+    switch(name){
+      case 'str':return pyStr(args[0],true);
+      case 'int':return parseInt(args[0])||0;
+      case 'float':return parseFloat(args[0])||0;
+      case 'len':return Array.isArray(args[0])?args[0].length:String(args[0]).length;
+      case 'abs':return Math.abs(args[0]);
+      case 'sum':return Array.isArray(args[0])?args[0].reduce((a,b)=>a+b,0):0;
+      case 'max':return Array.isArray(args[0])?Math.max(...args[0]):Math.max(...args);
+      case 'min':return Array.isArray(args[0])?Math.min(...args[0]):Math.min(...args);
+      case 'range':{
+        const s=args.length>=2?args[0]:0,e=args.length>=2?args[1]:args[0],st=args[2]||1;
+        const r=[];if(st>0){for(let i=s;i<e;i+=st)r.push(i);}else{for(let i=s;i>e;i+=st)r.push(i);}return r;
+      }
+      case 'list':return Array.isArray(args[0])?args[0].slice():[...String(args[0]||'')];
+      case 'sorted':return Array.isArray(args[0])?args[0].slice().sort((a,b)=>a>b?1:a<b?-1:0):[...String(args[0])].sort();
+      default:throw new Error('دالة غير معروفة: '+name);
+    }
+  }
+  return parseOr();
+}
+
+function runPython(code){
+  const raw=code.replace(/\t/g,'    ').split('\n');
+  const lines=[];
+  for(const r of raw){
+    const nc=stripComment(r);if(nc.trim()==='')continue;
+    lines.push({indent:nc.match(/^ */)[0].length,text:nc.trim()});
+  }
+  const vars={};const out=[];const ctx={steps:0};
+  function execBlock(block){
+    let i=0;
+    while(i<block.length){
+      const ln=block[i];if(++ctx.steps>200000)throw new Error('البرنامج طويل جداً');
+      const gather=()=>{const body=[];let j=i+1;while(j<block.length&&block[j].indent>ln.indent){body.push(block[j]);j++;}return{body,next:j};};
+      if(/^for\b/.test(ln.text)){
+        const m=ln.text.match(/^for\s+(.+?)\s+in\s+(.+?):\s*$/);
+        if(!m)throw new Error('صيغة for غير صحيحة');
+        const varPart=m[1].trim(),iterExpr=m[2].trim();
+        const {body,next}=gather();
+        const iterVal=evalExpr(iterExpr,vars);
+        const items=Array.isArray(iterVal)?iterVal:[...String(iterVal)];
+        for(const item of items){
+          if(varPart.includes(',')){
+            const parts=varPart.split(',').map(p=>p.trim());
+            if(Array.isArray(item)){parts.forEach((p,idx)=>{vars[p]=item[idx]!==undefined?item[idx]:null;});}
+            else{parts.forEach((p,idx)=>{vars[p]=idx===0?item:null;});}
+          }else{vars[varPart]=item;}
+          try{execBlock(body);}
+          catch(sig){if(sig.__brk)break;if(sig.__cont)continue;throw sig;}
+        }
+        i=next;continue;
+      }
+      if(/^while\b/.test(ln.text)){
+        const cond=ln.text.replace(/^while\s+/,'').replace(/:\s*$/,'');
+        const {body,next}=gather();
+        let guard=0;
+        while(truthy(evalExpr(cond,vars))){
+          if(++guard>5000){out.push('⚠️ حلقة لا نهائية! (أوقفناها)');break;}
+          try{execBlock(body);}catch(sig){if(sig.__brk)break;if(sig.__cont)continue;throw sig;}
+        }
+        i=next;continue;
+      }
+      if(/^if\b/.test(ln.text)){
+        const cond=ln.text.replace(/^if\s+/,'').replace(/:\s*$/,'');
+        const {body,next}=gather();
+        let took=truthy(evalExpr(cond,vars));
+        let cursor=next;
+        if(took)execBlock(body);
+        if(cursor<block.length&&block[cursor].indent===ln.indent&&/^else\s*:/.test(block[cursor].text)){
+          const eb=block[cursor],elseBody=[];let j=cursor+1;
+          while(j<block.length&&block[j].indent>eb.indent){elseBody.push(block[j]);j++;}
+          if(!took)execBlock(elseBody);cursor=j;
+        }
+        i=cursor;continue;
+      }
+      execStmt(ln.text);i++;
+    }
+  }
+  function execStmt(text){
+    if(text==='break')throw{__brk:true};
+    if(text==='continue')throw{__cont:true};
+    // print(...)
+    let m=text.match(/^print\s*\((.*)\)$/s);
+    if(m){
+      const inside=m[1].trim();
+      if(inside===''){out.push('');return;}
+      const args=splitTopLevel(inside,',').map(a=>pyStr(evalExpr(a.trim(),vars),true));
+      out.push(args.join(' '));return;
+    }
+    // list method: name.append(x) / name.pop() / name.remove(x)
+    m=text.match(/^([A-Za-z_؀-ۿ][\w؀-ۿ]*)\.(append|pop|remove)\s*\((.*)\)$/);
+    if(m){
+      const name=m[1],method=m[2],argStr=m[3].trim();
+      const lst=vars[name];
+      if(!Array.isArray(lst))throw new Error(name+' ليست قائمة');
+      if(method==='append'){lst.push(evalExpr(argStr,vars));}
+      else if(method==='pop'){if(lst.length===0)throw new Error('القائمة فارغة، لا يمكن pop');lst.pop();}
+      else if(method==='remove'){const val=evalExpr(argStr,vars);const idx=lst.indexOf(val);if(idx>=0)lst.splice(idx,1);}
+      return;
+    }
+    // index assignment: name[idx] = value
+    m=text.match(/^([A-Za-z_؀-ۿ][\w؀-ۿ]*)\s*\[(.+?)\]\s*=\s*(.+)$/);
+    if(m){
+      const name=m[1];const lst=vars[name];
+      if(!Array.isArray(lst))throw new Error(name+' ليست قائمة');
+      let k=evalExpr(m[2],vars);if(k<0)k=lst.length+k;
+      if(k<0||k>=lst.length)throw new Error('الفهرس خارج الحدود');
+      lst[k]=evalExpr(m[3],vars);return;
+    }
+    // assignment (simple or tuple unpack)
+    m=text.match(/^([A-Za-z_؀-ۿ][\w؀-ۿ]*(?:\s*,\s*[A-Za-z_؀-ۿ][\w؀-ۿ]*)*)\s*(\+=|-=|\*=|\/=|=)\s*(.+)$/);
+    if(m){
+      const lhsRaw=m[1],op=m[2],val=evalExpr(m[3],vars);
+      const lhsParts=lhsRaw.split(',').map(p=>p.trim());
+      if(lhsParts.length>1){
+        if(Array.isArray(val)){lhsParts.forEach((p,i)=>{vars[p]=val[i]!==undefined?val[i]:null;});}
+        else{lhsParts.forEach((p,i)=>{vars[p]=i===0?val:null;});}
+      }else{
+        const name=lhsParts[0];
+        if(op==='='){vars[name]=val;}
+        else{const cur=vars[name]||0;
+          if(op==='+=')vars[name]=(typeof cur==='string'||typeof val==='string')?String(cur)+String(val):cur+val;
+          else if(op==='-=')vars[name]=cur-val;else if(op==='*=')vars[name]=cur*val;else vars[name]=cur/val;
+        }
+      }
+      return;
+    }
+    throw new Error('سطر غير مفهوم: '+text);
+  }
+  execBlock(lines);
+  return{output:out,vars};
+}
+
+/* ── Exercises ── */
+function runEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText;
+  const outDiv=document.getElementById('ex'+n+'Output');
+  const outText=document.getElementById('ex'+n+'OutText');
+  let result;
+  try{result=runPython(code);}
+  catch(e){outText.textContent='⚠️ خطأ: '+e.message;outDiv.classList.add('show');return;}
+  outText.textContent=result.output.length?result.output.join('\n'):'(لا يوجد إخراج)';
+  outDiv.classList.add('show');
+}
+
+function checkEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText;
+  const fb=document.getElementById('ex'+n+'Feedback');
+  let result;
+  try{result=runPython(code);}
+  catch(e){fb.className='ex-feedback show wrong';fb.textContent='⚠️ في خطأ بالكود: '+e.message;return;}
+  const out=result.output.map(o=>String(o).trim());
+  const vars=result.vars;
+  const lists=Object.values(vars).filter(v=>Array.isArray(v));
+  let ok=false,msg='';
+
+  if(n===1){
+    ok=lists.some(l=>l.length>=3)&&out.some(o=>o.startsWith('['));
+    msg=ok?'✅ ممتاز! أنشأت قائمة فيها 3 عناصر وطبعتها كاملة 🎉':'❌ اصنع قائمة بين [ ] فيها 3 عناصر على الأقل ثم اطبعها بـ print(fruits)';
+  }else if(n===2){
+    ok=out.some(o=>o.includes('تفاح'))&&out.some(o=>o.includes('عنب'));
+    msg=ok?'✅ رائع! وصلت للعنصر الأول fruits[0] والأخير fruits[2] بالفهرس 🎉':'❌ اطبع fruits[0] (الأول) و fruits[2] (الأخير)';
+  }else if(n===3){
+    ok=out.some(o=>o==='4');
+    msg=ok?'✅ صحيح! len أعطتك عدد العناصر = 4 🎉':'❌ استخدم print(len(colors)) ليطبع 4';
+  }else if(n===4){
+    ok=/\bfor\b/.test(code)&&out.some(o=>o.includes('قطة'))&&out.some(o=>o.includes('كلب'))&&out.some(o=>o.includes('أسد'));
+    msg=ok?'✅ ممتاز! مررت على كل عناصر القائمة بحلقة for 🎉':'❌ استخدم for animal in animals: ثم print(animal) لطباعة كل حيوان';
+  }else if(n===5){
+    ok=/\.append\s*\(/.test(code)&&lists.some(l=>l.length>=3&&l.some(x=>String(x).includes('عنب')));
+    msg=ok?'✅ رائع! أضفت "عنب" بـ append فصارت القائمة 3 عناصر 🎉':'❌ استخدم fruits.append("عنب") ثم print(fruits) لتصبح القائمة 3 عناصر';
+  }else if(n===6){
+    ok=out.some(o=>o==='ب');
+    msg=ok?'✅ ممتاز! وصلت لأول حرف word[0] = "ب"، النص قائمة حروف! 🎉':'❌ استخدم print(word[0]) ليطبع أول حرف "ب"';
+  }else if(n===7){
+    ok=/\bfor\b/.test(code)&&out.some(o=>o==='100');
+    msg=ok?'✅ رائع! جمعت كل أرقام القائمة، المجموع = 100 🎉':'❌ الجواب يجب أن يكون 100. استخدم total = 0 ثم for n in numbers: ثم total = total + n';
+  }
+  fb.className='ex-feedback show '+(ok?'correct':'wrong');
+  fb.textContent=msg;
+}
+
+/* Tab key in editors */
+document.querySelectorAll('.ex-code').forEach(ed=>{
+  ed.addEventListener('keydown',e=>{
+    if(e.key==='Tab'){e.preventDefault();document.execCommand('insertText',false,'    ');}
+  });
+});
+</script>
+</body>
+</html>

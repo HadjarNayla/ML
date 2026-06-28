@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدرس الخامس · حلقة for 🔂</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#080818;color:#fff;overflow-x:hidden}
+#progress-bar{position:fixed;top:0;right:0;height:4px;background:linear-gradient(90deg,#f39c12,#ffd200,#2ecc71,#21d4fd);z-index:999;width:0%;transition:width .1s}
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(160deg,#050515 0%,#0d1f10 50%,#051205 100%)}
+.hero-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:.5rem 1.5rem;border-radius:50px;font-size:.9rem;margin-bottom:1.5rem;color:#86efac;backdrop-filter:blur(8px)}
+.hero-icons{font-size:3.5rem;display:flex;gap:1rem;margin-bottom:1.5rem;animation:forBounce 2.5s ease-in-out infinite}
+@keyframes forBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.hero h1{font-size:clamp(2rem,6vw,4.2rem);font-weight:900;line-height:1.3;margin-bottom:1.2rem;background:linear-gradient(135deg,#fff 0%,#2ecc71 40%,#21d4fd 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,.65);max-width:580px;line-height:1.9;margin-bottom:2.5rem}
+.hero-btn{background:linear-gradient(135deg,#2ecc71,#21d4fd);color:#fff;border:none;padding:1rem 2.5rem;border-radius:50px;font-size:1.1rem;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 8px 30px rgba(46,204,113,.4);transition:transform .3s,box-shadow .3s}
+.hero-btn:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(46,204,113,.6)}
+.hero-scroll{margin-top:2.5rem;font-size:.85rem;color:rgba(255,255,255,.3);animation:fadeUD 2s ease-in-out infinite}
+@keyframes fadeUD{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.7;transform:translateY(6px)}}
+
+/* SECTIONS */
+.section{padding:5rem 1.5rem;position:relative}
+.sec-inner{max-width:1050px;margin:0 auto}
+.sec-title{text-align:center;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:.7rem}
+.sec-sub{text-align:center;color:rgba(255,255,255,.55);margin-bottom:3rem;font-size:1rem;line-height:1.8}
+.fi{opacity:0;transform:translateY(35px);transition:opacity .65s ease,transform .65s ease}
+.fi.vis{opacity:1;transform:none}
+
+/* CARDS */
+.card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.5rem;margin-bottom:2rem}
+.icard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:1.8rem;text-align:center;transition:transform .3s,box-shadow .3s}
+.icard:hover{transform:translateY(-6px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
+.icard .ico{font-size:2.8rem;margin-bottom:.8rem}
+.icard h3{font-size:1.1rem;margin-bottom:.6rem}
+.icard p{color:rgba(255,255,255,.6);line-height:1.7;font-size:.92rem}
+
+/* CODE */
+.code-panel{background:#0d1117;border-radius:14px;padding:1.4rem;font-family:'Courier New',monospace;direction:ltr;overflow-x:auto}
+.cline{padding:.28rem .5rem;border-radius:6px;font-size:.85rem;color:#cdd6e0;transition:all .35s;line-height:1.9;white-space:pre}
+.cline.exec{background:rgba(46,204,113,.18);border-left:3px solid #2ecc71}
+.kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#5a6a7a;font-style:italic}.num{color:#f8c555}.op{color:#79c0ff}.it{color:#86efac}
+
+/* COMPARE */
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+.compare-card{border-radius:18px;padding:1.8rem}
+.compare-card.bad-card{background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.25)}
+.compare-card.good-card{background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.25)}
+.compare-card h3{margin-bottom:1rem;font-size:1.1rem;text-align:center}
+.bad-card h3{color:#ff7b72}.good-card h3{color:#2ecc71}
+
+/* FLOW */
+.flow-wrap{display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;margin:2.5rem 0}
+.flow-step{background:rgba(255,255,255,.05);border:2px solid rgba(255,255,255,.12);border-radius:16px;padding:1rem 1.3rem;text-align:center;min-width:120px;transition:all .4s}
+.flow-step .fs-ico{font-size:2rem;display:block;margin-bottom:.4rem}
+.flow-step .fs-lbl{font-size:.85rem;color:rgba(255,255,255,.7)}
+.flow-step.cond{border-color:rgba(46,204,113,.4);background:rgba(46,204,113,.08)}
+.flow-step.act{border-color:rgba(33,212,253,.4);background:rgba(33,212,253,.08)}
+.flow-arrow{font-size:1.6rem;color:rgba(255,255,255,.3)}
+.flow-loopback{display:flex;align-items:center;gap:.4rem;color:#2ecc71;font-size:.85rem;font-weight:700;background:rgba(46,204,113,.1);border:1px dashed rgba(46,204,113,.4);border-radius:50px;padding:.4rem 1rem}
+
+/* ANATOMY */
+.anatomy-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2.5rem;align-items:start}
+.anat-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.8rem}
+.anat-box h3{color:#2ecc71;margin-bottom:1.2rem;font-size:1.1rem}
+.anat-code{background:#0d1117;border-radius:12px;padding:1.2rem;font-family:'Courier New',monospace;direction:ltr;font-size:.9rem;margin-bottom:1.2rem;line-height:2;white-space:pre;overflow-x:auto}
+.anat-row{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.88rem}
+.anat-row:last-child{border-bottom:none}
+.anat-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.anat-row p{color:rgba(255,255,255,.65);line-height:1.6}
+
+/* STEPPER */
+.stepper-box{background:rgba(46,204,113,.05);border:1px solid rgba(46,204,113,.2);border-radius:20px;padding:2rem}
+.stepper-box h3{color:#2ecc71;text-align:center;margin-bottom:.3rem}
+.stepper-box .hint{text-align:center;color:rgba(255,255,255,.45);font-size:.88rem;margin-bottom:1.5rem}
+.step-state-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem}
+.state-chip{background:rgba(0,0,0,.35);border:2px solid rgba(255,255,255,.1);border-radius:14px;padding:.8rem 1.4rem;text-align:center;min-width:110px}
+.state-chip .sc-lbl{font-size:.72rem;color:rgba(255,255,255,.4);margin-bottom:.3rem}
+.state-chip .sc-val{font-family:'Courier New',monospace;font-size:1.3rem;font-weight:700;color:#fff}
+.state-chip.active-item{border-color:#2ecc71;background:rgba(46,204,113,.15)}
+.state-chip.active-item .sc-val{color:#2ecc71}
+.step-msg{text-align:center;min-height:28px;font-size:.95rem;color:#86efac;margin-bottom:1rem;font-weight:600}
+.step-console{background:#000;border-radius:12px;padding:1rem 1.2rem;min-height:54px;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1.2rem;border:1px solid rgba(255,255,255,.06)}
+.out-chip{min-width:42px;height:42px;border-radius:10px;padding:0 10px;background:rgba(46,204,113,.18);border:2px solid #2ecc71;color:#2ecc71;display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-weight:700;font-size:1rem;animation:popIn .3s ease}
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.step-btns{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.step-btn{border:none;padding:.7rem 1.6rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer;transition:transform .2s}
+.step-btn.next{background:linear-gradient(135deg,#2ecc71,#1a8a4a);color:#fff}
+.step-btn.auto{background:linear-gradient(135deg,#21d4fd,#2c5da8);color:#fff}
+.step-btn.reset{background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.15)}
+.step-btn:hover{transform:translateY(-2px)}
+
+/* ITEMS VISUALIZER */
+.items-vis{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
+.item-box{min-width:52px;height:52px;border-radius:12px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:.9rem;color:rgba(255,255,255,.5);transition:all .35s;padding:0 8px}
+.item-box.current{border-color:#2ecc71;background:rgba(46,204,113,.2);color:#fff;font-weight:700;transform:translateY(-5px) scale(1.1);box-shadow:0 8px 24px rgba(46,204,113,.4)}
+.item-box.done{border-color:rgba(46,204,113,.3);background:rgba(46,204,113,.06);color:rgba(255,255,255,.35)}
+
+/* NOTE BOX */
+.note-box{background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.25);border-radius:14px;padding:1.2rem 1.4rem;margin-top:1rem;font-size:.9rem;color:#a0f0c0;line-height:1.8}
+
+/* RANGE SECTION */
+.range-sec{background:linear-gradient(180deg,#080818 0%,#0d1a14 100%)}
+.range-sec .sec-title{color:#2ecc71}
+
+/* RANGE DEMO */
+.range-demo{background:rgba(46,204,113,.05);border:1px solid rgba(46,204,113,.2);border-radius:20px;padding:2rem;margin-bottom:2rem}
+.range-demo h3{color:#2ecc71;text-align:center;margin-bottom:.4rem}
+.range-demo .hint{text-align:center;color:rgba(255,255,255,.55);font-size:.9rem;margin-bottom:1.8rem;line-height:1.9}
+.range-inputs{display:flex;gap:1rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+.range-input{background:rgba(255,255,255,.07);border:2px solid rgba(46,204,113,.3);border-radius:12px;padding:.6rem 1rem;color:#fff;font-family:'Courier New',monospace;font-size:1.1rem;width:80px;text-align:center;outline:none}
+.range-input:focus{border-color:#2ecc71}
+.range-btn{background:linear-gradient(135deg,#2ecc71,#1a8a4a);color:#fff;border:none;padding:.7rem 1.8rem;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;transition:transform .2s}
+.range-btn:hover{transform:translateY(-2px)}
+.range-output{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;min-height:52px;margin-bottom:.8rem}
+.range-num{width:44px;height:44px;border-radius:10px;background:rgba(46,204,113,.15);border:2px solid rgba(46,204,113,.3);display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:1rem;font-weight:700;color:#2ecc71;animation:popIn .3s ease}
+.range-lbl{text-align:center;font-size:.85rem;color:rgba(255,255,255,.45);font-family:'Courier New',monospace;direction:ltr}
+
+/* RANGE VARIANTS TABLE */
+.range-table{width:100%;border-collapse:collapse;margin-top:1.5rem;font-size:.88rem}
+.range-table th,.range-table td{padding:.65rem 1rem;border:1px solid rgba(255,255,255,.08);text-align:center}
+.range-table th{background:rgba(46,204,113,.1);color:#2ecc71;font-family:'Cairo',sans-serif}
+.range-table td:first-child{font-family:'Courier New',monospace;direction:ltr;color:#86efac}
+.range-table td{color:rgba(255,255,255,.75)}
+
+/* STRING SECTION */
+.str-sec{background:linear-gradient(180deg,#0d1a14 0%,#0a1020 100%)}
+.str-sec .sec-title{color:#a5d6ff}
+
+/* STRING DEMO */
+.str-demo{background:rgba(33,212,253,.05);border:1px solid rgba(33,212,253,.2);border-radius:20px;padding:2rem;margin-bottom:2rem}
+.str-demo h3{color:#a5d6ff;text-align:center;margin-bottom:.4rem}
+.str-box{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin:1rem 0;min-height:60px;align-items:center}
+.char-box{width:46px;height:52px;border-radius:10px;background:rgba(33,212,253,.1);border:2px solid rgba(33,212,253,.25);display:flex;align-items:center;justify-content:center;font-family:'Courier New',monospace;font-size:1.3rem;color:rgba(255,255,255,.5);transition:all .35s;position:relative}
+.char-box.current{border-color:#a5d6ff;background:rgba(165,214,255,.2);color:#fff;transform:translateY(-6px) scale(1.12);box-shadow:0 8px 22px rgba(33,212,253,.35)}
+.char-box.done{border-color:rgba(33,212,253,.2);background:rgba(33,212,253,.05);color:rgba(255,255,255,.3)}
+.char-idx{position:absolute;bottom:-18px;font-size:.6rem;color:rgba(255,255,255,.3);font-family:'Courier New',monospace}
+.str-input{background:rgba(255,255,255,.07);border:2px solid rgba(33,212,253,.3);border-radius:12px;padding:.6rem 1rem;color:#fff;font-family:'Courier New',monospace;font-size:1.1rem;width:180px;text-align:center;outline:none}
+.str-input:focus{border-color:#a5d6ff}
+.str-btn{background:linear-gradient(135deg,#a5d6ff,#4d96ff);color:#fff;border:none;padding:.7rem 1.8rem;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;transition:transform .2s}
+.str-btn:hover{transform:translateY(-2px)}
+
+/* DANGER BOX */
+.danger-box{background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.25);border-radius:20px;padding:2rem;margin-top:1rem}
+.danger-box h3{color:#ff7b72;text-align:center;margin-bottom:1.2rem}
+
+/* EXERCISES */
+.ex-sec{background:linear-gradient(180deg,#080818 0%,#0a0a1f 100%)}
+.ex-sec .sec-title{color:#fff}
+.ex-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:2rem;margin-bottom:1.8rem}
+.ex-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.ex-num{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;flex-shrink:0}
+.ex-title{font-size:1.2rem;font-weight:700}
+.ex-desc{color:rgba(255,255,255,.6);font-size:.92rem;line-height:1.7;margin-bottom:1.4rem}
+.ex-task-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.9rem;color:rgba(255,255,255,.75);line-height:1.7}
+.ex-task-box .task-label{font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:.3rem}
+.ex-editor-wrap{background:#0d1117;border-radius:12px;padding:.4rem;margin-bottom:.8rem}
+.ex-editor-header{display:flex;gap:.4rem;padding:.5rem .7rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.editor-dot{width:10px;height:10px;border-radius:50%}
+.ex-code{padding:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:90px;font-size:.88rem;color:#fff;outline:none;white-space:pre;caret-color:#fff;tab-size:4}
+.ex-code:empty::before{content:attr(data-placeholder);color:rgba(255,255,255,.2)}
+.ex-btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.ex-run-btn{background:linear-gradient(135deg,#2ecc71,#1a8a4a);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-run-btn:hover{transform:translateY(-2px)}
+.ex-check-btn{background:linear-gradient(135deg,#9B59B6,#6c3483);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-check-btn:hover{transform:translateY(-2px)}
+.ex-output{background:#000;border-radius:8px;padding:.8rem 1rem;margin-bottom:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:36px;font-size:.85rem;color:#2ecc71;border:1px solid rgba(255,255,255,.06);display:none;white-space:pre-wrap}
+.ex-output.show{display:block}
+.ex-output .output-label{font-size:.7rem;color:rgba(255,255,255,.25);margin-bottom:.3rem;direction:rtl;font-family:'Cairo',sans-serif}
+.ex-feedback{padding:.8rem 1.2rem;border-radius:10px;font-size:.9rem;margin-top:.5rem;display:none;line-height:1.6;white-space:pre-wrap}
+.ex-feedback.show{display:block}
+.ex-feedback.correct{background:rgba(46,204,113,.12);border:1px solid rgba(46,204,113,.3);color:#a8f0c0}
+.ex-feedback.wrong{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);color:#f0a8a8}
+
+/* VS SECTION */
+.vs-sec{background:linear-gradient(180deg,#0a0a1f 0%,#080818 100%)}
+.vs-sec .sec-title{background:linear-gradient(135deg,#2ecc71,#b721ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+.vs-card{border-radius:20px;padding:1.8rem}
+.vs-card.for-card{background:rgba(46,204,113,.06);border:2px solid rgba(46,204,113,.3)}
+.vs-card.while-card{background:rgba(183,33,255,.06);border:2px solid rgba(183,33,255,.3)}
+.vs-card h3{margin-bottom:1rem;font-size:1.1rem;text-align:center}
+.for-card h3{color:#2ecc71}.while-card h3{color:#b721ff}
+.vs-row{font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.8;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.vs-row:last-child{border-bottom:none}
+.vs-row .hi{font-weight:700}
+.for-card .hi{color:#2ecc71}.while-card .hi{color:#b721ff}
+
+/* FOOTER */
+footer{background:#030308;padding:3.5rem 2rem;text-align:center}
+footer .big-e{font-size:3rem;margin-bottom:1rem;animation:forBounce 3s ease-in-out infinite}
+footer h3{font-size:1.2rem;color:rgba(255,255,255,.75);margin-bottom:.5rem}
+footer p{color:rgba(255,255,255,.3);font-size:.9rem}
+.next-lesson-btn{display:inline-block;margin-top:1.5rem;padding:.8rem 2rem;border-radius:50px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.35);font-family:'Cairo',sans-serif;font-size:.95rem;cursor:default}
+
+/* WARN / OK TAGS */
+.warn-tag{display:inline-block;background:rgba(231,76,60,.2);color:#ff7b72;border-radius:8px;padding:.2rem .7rem;font-size:.78rem;margin-top:.8rem;font-weight:700}
+.ok-tag{display:inline-block;background:rgba(46,204,113,.2);color:#2ecc71;border-radius:8px;padding:.2rem .7rem;font-size:.78rem;margin-top:.8rem;font-weight:700}
+.danger-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+
+/* RESPONSIVE */
+@media(max-width:650px){
+  .compare-box,.anatomy-grid,.danger-grid,.vs-grid{grid-template-columns:1fr}
+  .flow-wrap{gap:.4rem}
+  .flow-step{min-width:90px;padding:.7rem .8rem}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="stars-bg" id="starsContainer"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🎓 الدرس الخامس · Python للمبتدئين</div>
+  <div class="hero-icons">🔂</div>
+  <h1>حلقة<br>for</h1>
+  <p>تعلّمت while تكرّر "طالما شرط صحيح".. لكن عندما تعرف مسبقاً عدد مرات التكرار — تستخدم حلقة <strong>for</strong>! أذكى وأقصر وأوضح 🚀</p>
+  <button class="hero-btn" onclick="document.getElementById('sec-intro').scrollIntoView({behavior:'smooth'})">اكتشف حلقة for 🔂</button>
+  <div class="hero-scroll">▼ اسحب للأسفل</div>
+</section>
+
+<!-- WHAT IS FOR -->
+<section class="section" id="sec-intro" style="background:linear-gradient(180deg,#080818 0%,#0d1a14 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#2ecc71">🔂 ما هي حلقة for؟</div>
+    <p class="sec-sub">حلقة <strong>for</strong> تكرّر تنفيذ الأوامر عدداً محدداً من المرّات تلقائياً. إنها أنسب من while عندما تعرف مسبقاً كم مرة تريد التكرار.</p>
+  </div>
+
+  <div class="fi compare-box" style="transition-delay:.1s">
+    <div class="compare-card bad-card">
+      <h3>😫 بـ while (أطول)</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem">لطباعة "مرحباً" 5 مرات</p>
+      <div class="code-panel">
+        <div class="cline"><span class="kw">i</span> <span class="op">=</span> <span class="num">0</span></div>
+        <div class="cline"><span class="kw">while</span> i <span class="op">&lt;</span> <span class="num">5</span>:</div>
+        <div class="cline">    <span class="fn">print</span>(<span class="str">"مرحباً"</span>)</div>
+        <div class="cline">    i <span class="op">=</span> i <span class="op">+</span> <span class="num">1</span></div>
+      </div>
+      <p style="color:rgba(255,255,255,.5);font-size:.84rem;margin-top:.9rem">نحتاج عدّاد وتحديث يدوي 😓</p>
+    </div>
+    <div class="compare-card good-card">
+      <h3>✨ بـ for (أسرع وأوضح!)</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem">نفس النتيجة، سطران فقط!</p>
+      <div class="code-panel">
+        <div class="cline"><span class="kw">for</span> <span class="it">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):</div>
+        <div class="cline">    <span class="fn">print</span>(<span class="str">"مرحباً"</span>)</div>
+      </div>
+      <p style="color:rgba(255,255,255,.5);font-size:.84rem;margin-top:.9rem">for تتولّى العدّ تلقائياً! 🎉</p>
+    </div>
+  </div>
+
+  <div class="fi" style="transition-delay:.2s">
+    <p class="sec-sub">كيف تعمل حلقة for خطوة بخطوة:</p>
+    <div class="flow-wrap">
+      <div class="flow-step cond">
+        <span class="fs-ico">📋</span>
+        <div class="fs-lbl">خذ العنصر التالي</div>
+      </div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-step act">
+        <span class="fs-ico">⚙️</span>
+        <div class="fs-lbl">نفّذ الأوامر</div>
+      </div>
+      <div class="flow-arrow">←</div>
+      <div class="flow-loopback">🔄 عنصر قادم؟ كرّر</div>
+    </div>
+    <p class="sec-sub" style="margin-top:1rem;font-size:.9rem">عندما لا يتبقّى أي عنصر <span style="color:#ff7b72;font-weight:700">تتوقف الحلقة تلقائياً</span> ❌ — بدون شرط! بدون عدّاد!</p>
+  </div>
+</div>
+</section>
+
+<!-- FOR ANATOMY + STEPPER -->
+<section class="section range-sec" id="sec-anatomy">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🔬 تشريح حلقة for</div>
+    <p class="sec-sub">كلمة <strong>for</strong> تعني "لكل". المعنى: <strong>لكل دورة، نفّذ هذا الكود.</strong></p>
+  </div>
+
+  <div class="fi anatomy-grid" style="transition-delay:.1s">
+    <div class="anat-box">
+      <h3>🔬 أجزاء الحلقة</h3>
+      <div class="anat-code">
+<span class="kw">for</span> <span class="it">i</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">3</span>):
+    <span class="cm"># الجسم (بمسافة بادئة)</span>
+    <span class="fn">print</span>(<span class="it">i</span>)
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#ff7b72"></div>
+        <p><strong style="color:#ff7b72">for</strong>  الكلمة السحرية التي تبدأ الحلقة</p>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#86efac"></div>
+        <p><strong style="color:#86efac">i</strong>  اسم المتغيّر المؤقت يأخذ قيمة جديدة تلقائياً في كل دورة</p>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#79c0ff"></div>
+        <p><strong style="color:#79c0ff">in</strong>  كلمة تعني "من داخل"، تربط المتغيّر بمصدر التكرار</p>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#f8c555"></div>
+        <p><strong style="color:#f8c555">range(3)</strong>  يولّد الأرقام 0 و1 و2 تلقائياً</p>
+      </div>
+      <div class="anat-row">
+        <div class="anat-dot" style="background:#d2a8ff"></div>
+        <p><strong style="color:#d2a8ff">: والجسم بمسافة</strong>  لا تنسَ النقطتين والمسافة البادئة!</p>
+      </div>
+    </div>
+
+    <!-- STEPPER -->
+    <div class="stepper-box">
+      <h3>▶️ شغّل حلقة for خطوة بخطوة</h3>
+      <p class="hint">المرور على حروف الكلمة: "علم"</p>
+      <div class="step-state-row">
+        <div class="state-chip" id="stpCurrentChip">
+          <div class="sc-lbl">الحرف الحالي (letter)</div>
+          <div class="sc-val" id="stpCurrent">؟</div>
+        </div>
+        <div class="state-chip" id="stpIndexChip">
+          <div class="sc-lbl">الرقم</div>
+          <div class="sc-val" id="stpIndex">-</div>
+        </div>
+      </div>
+      <div class="items-vis" id="stpItems">
+        <div class="item-box" id="stpItem0">"ع"</div>
+        <div class="item-box" id="stpItem1">"ل"</div>
+        <div class="item-box" id="stpItem2">"م"</div>
+      </div>
+      <div class="step-msg" id="stpMsg">اضغط "خطوة" للبدء 👇</div>
+      <div class="step-console" id="stpConsole"></div>
+      <div class="step-btns">
+        <button class="step-btn next" onclick="forStep()">⏭️ خطوة</button>
+        <button class="step-btn auto" onclick="forAuto()">⚡ تشغيل تلقائي</button>
+        <button class="step-btn reset" onclick="forReset()">🔄 إعادة</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="fi note-box" style="transition-delay:.2s">
+    💡 لاحظ أنك <strong>لم تكتب</strong> أي عدّاد ولم تكتب <code style="direction:ltr">i = i + 1</code> !
+    حلقة <strong>for</strong> تتولّى هذا كله تلقائياً. تمرّ بالترتيب وتنتهي وحدها.
+  </div>
+</div>
+</section>
+
+<!-- RANGE -->
+<section class="section" id="sec-range" style="background:linear-gradient(180deg,#0d1a14 0%,#0a1020 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#2ecc71">🔢 range() — الأرقام تلقائياً</div>
+    <p class="sec-sub">دالة <strong>range()</strong> تولّد تسلسلاً من الأرقام لك، فلا تحتاج أن تكتبها يدوياً.<br>كثيراً ما تستخدم مع <strong>for</strong> لتكرار الأوامر عدداً محدداً من المرات.</p>
+  </div>
+
+  <!-- Interactive range demo -->
+  <div class="fi range-demo" style="transition-delay:.1s">
+    <h3>🎛️ جرّب range() بنفسك</h3>
+    <p class="hint">غيّر القيم وشاهد ماذا تولّد <code style="direction:ltr">range(start, stop, step)</code></p>
+    <div class="range-inputs">
+      <div style="text-align:center">
+        <div style="font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:.3rem">start</div>
+        <input class="range-input" id="rangeStart" type="number" value="0">
+      </div>
+      <div style="font-size:1.5rem;color:rgba(255,255,255,.3);padding-top:1.2rem">،</div>
+      <div style="text-align:center">
+        <div style="font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:.3rem">stop</div>
+        <input class="range-input" id="rangeStop" type="number" value="10">
+      </div>
+      <div style="font-size:1.5rem;color:rgba(255,255,255,.3);padding-top:1.2rem">،</div>
+      <div style="text-align:center">
+        <div style="font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:.3rem">step</div>
+        <input class="range-input" id="rangeStep" type="number" value="1">
+      </div>
+      <button class="range-btn" onclick="showRange()">▶ أنشئ</button>
+    </div>
+    <div class="range-output" id="rangeOutput"></div>
+    <div class="range-lbl" id="rangeLbl">range(0, 10, 1)</div>
+  </div>
+
+  <div class="fi" style="transition-delay:.15s">
+    <table class="range-table">
+      <tr><th>الكود</th><th>ماذا تولّد؟</th><th>الاستخدام</th></tr>
+      <tr><td>range(5)</td><td>0 1 2 3 4</td><td>كرّر 5 مرات بدءاً من الصفر</td></tr>
+      <tr><td>range(1, 6)</td><td>1 2 3 4 5</td><td>من 1 إلى 5 شاملاً</td></tr>
+      <tr><td>range(0, 10, 2)</td><td>0 2 4 6 8</td><td>الأرقام الزوجية من 0 إلى 8</td></tr>
+      <tr><td>range(10, 0, -1)</td><td>10 9 8 7 6 5 4 3 2 1</td><td>عدّ تنازلي من 10 إلى 1</td></tr>
+    </table>
+  </div>
+
+  <div class="fi note-box" style="transition-delay:.2s;margin-top:1.5rem">
+    ⚠️ <strong>مهم:</strong> <code style="direction:ltr">range(1, 6)</code> يعطيك <strong>1 2 3 4 5</strong> — رقم stop (وهو 6) <strong>لا يُدرج</strong> في النتيجة! الحلقة تتوقف قبله بواحد.
+  </div>
+</div>
+</section>
+
+<!-- STRINGS -->
+<section class="section str-sec" id="sec-strings">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🔤 for على النصوص</div>
+    <p class="sec-sub">حلقة <strong>for</strong> تستطيع أيضاً أن تمرّ على كل حرف في نصٍّ واحداً بواحد!</p>
+  </div>
+
+  <div class="fi str-demo" style="transition-delay:.1s">
+    <h3>حرفٌ حرفٌ 🔠</h3>
+    <p class="hint" style="color:rgba(255,255,255,.55);font-size:.9rem;text-align:center;margin-bottom:1.2rem">اكتب كلمة وشاهد for تمرّ على كل حرف منها</p>
+    <div style="display:flex;gap:.8rem;justify-content:center;align-items:center;margin-bottom:1rem;flex-wrap:wrap">
+      <input class="str-input" id="strInput" type="text" value="Python" maxlength="10" placeholder="اكتب كلمة...">
+      <button class="str-btn" onclick="runStringFor()">▶ تشغيل</button>
+    </div>
+    <div class="str-box" id="strBox"></div>
+    <div class="step-msg" id="strMsg" style="color:#a5d6ff">اضغط تشغيل 👆</div>
+    <div class="step-console" id="strConsole" style="border-color:rgba(33,212,253,.1)"></div>
+  </div>
+
+  <div class="fi" style="transition-delay:.15s">
+    <div class="code-panel">
+      <div class="cline"><span class="kw">word</span> <span class="op">=</span> <span class="str">"Python"</span></div>
+      <div class="cline"><span class="kw">for</span> <span class="it">letter</span> <span class="kw">in</span> word:</div>
+      <div class="cline">    <span class="fn">print</span>(<span class="it">letter</span>)</div>
+      <div class="cline"><span class="cm"># يطبع: P ثم y ثم t ثم h ثم o ثم n</span></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FOR VS WHILE -->
+<section class="section vs-sec" id="sec-vs">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">⚔️ for مقابل while</div>
+    <p class="sec-sub">كلتاهما حلقات تكرار — لكن لكل واحدة وقتها المناسب. اعرف متى تستخدم كل واحدة!</p>
+  </div>
+
+  <div class="fi vs-grid" style="transition-delay:.1s">
+    <div class="vs-card for-card">
+      <h3>🔂 for</h3>
+      <div class="vs-row">✅ <span class="hi">تعرف مسبقاً</span> عدد مرّات التكرار</div>
+      <div class="vs-row">✅ عندك range أو نص لتمرّ عليه</div>
+      <div class="vs-row">✅ تريد كود <span class="hi">أقصر وأوضح</span></div>
+      <div class="vs-row">✅ لا حاجة لعدّاد يدوي</div>
+      <div class="vs-row">🎯 مثال: اطبع رقماً 3 مرات</div>
+      <div class="code-panel" style="margin-top:1rem;font-size:.82rem">
+        <div class="cline"><span class="kw">for</span> <span class="it">x</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="num">3</span>):</div>
+        <div class="cline">    <span class="fn">print</span>(x)</div>
+      </div>
+    </div>
+    <div class="vs-card while-card">
+      <h3>🔁 while</h3>
+      <div class="vs-row">✅ تكرار <span class="hi">حتى يتحقق شرط</span> معيّن</div>
+      <div class="vs-row">✅ لا تعرف عدد التكرارات مسبقاً</div>
+      <div class="vs-row">✅ انتظار مدخل المستخدم</div>
+      <div class="vs-row">✅ تريد التحكم الكامل بالعدّاد</div>
+      <div class="vs-row">🎯 مثال: انتظر حتى يُدخل كلمة صحيحة</div>
+      <div class="code-panel" style="margin-top:1rem;font-size:.82rem">
+        <div class="cline"><span class="kw">while</span> money <span class="op">&lt;</span> <span class="num">100</span>:</div>
+        <div class="cline">    money <span class="op">+=</span> <span class="num">10</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- EXERCISES -->
+<section class="section ex-sec" id="sec-exercises">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🏋️ وقت التمارين!</div>
+    <p class="sec-sub">اكتب حلقات for حقيقية وشغّلها. المحرّر يفهم الكود فعلاً!</p>
+  </div>
+
+  <!-- Exercise 1 -->
+  <div class="fi ex-card" style="transition-delay:.05s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(46,204,113,.2);color:#2ecc71;border:2px solid rgba(46,204,113,.4)">1</div>
+      <div class="ex-title">اطبع أرقام من 1 إلى 5 باستخدام for و range</div>
+    </div>
+    <p class="ex-desc">استخدم <code style="direction:ltr">for</code> مع <code style="direction:ltr">range()</code> لتطبع: 1 ثم 2 ثم 3 ثم 4 ثم 5</p>
+    <div class="ex-task-box">
+      <div class="task-label">تلميح:</div>
+      استخدم <code style="direction:ltr">for i in range(1, 6):</code> ثم <code style="direction:ltr">print(i)</code>. لماذا 6 وليس 5؟ لأن range تتوقف قبل رقم stop!
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex1Code" contenteditable="true" data-placeholder="for i in range(1, 6):&#10;    print(i)"></div>
+    </div>
+    <div class="ex-output" id="ex1Output"><div class="output-label">الإخراج:</div><div id="ex1OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(1)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(1)">✅ تحقق</button>
+    </div>
+    <div class="ex-feedback" id="ex1Feedback"></div>
+  </div>
+
+  <!-- Exercise 2 -->
+  <div class="fi ex-card" style="transition-delay:.1s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(33,212,253,.2);color:#21d4fd;border:2px solid rgba(33,212,253,.4)">2</div>
+      <div class="ex-title">اطبع كل حرف من كلمة "كمبيوتر"</div>
+    </div>
+    <p class="ex-desc">استخدم <code>for</code> للمرور على نص <code style="direction:ltr">word = "كمبيوتر"</code> واطبع كل حرف في سطر منفصل</p>
+    <div class="ex-task-box">
+      <div class="task-label">المطلوب:</div>
+      <code style="direction:ltr">word = "كمبيوتر"</code><br>
+      اطبع كل حرف من الكلمة، حرفاً واحداً في كل سطر
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex2Code" contenteditable="true" data-placeholder='word = "كمبيوتر"&#10;for letter in word:&#10;    print(letter)'></div>
+    </div>
+    <div class="ex-output" id="ex2Output"><div class="output-label">الإخراج:</div><div id="ex2OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(2)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(2)">✅ تحقق</button>
+    </div>
+    <div class="ex-feedback" id="ex2Feedback"></div>
+  </div>
+
+  <!-- Exercise 3 -->
+  <div class="fi ex-card" style="transition-delay:.15s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(248,197,85,.2);color:#f8c555;border:2px solid rgba(248,197,85,.4)">3</div>
+      <div class="ex-title">اجمع الأرقام الزوجية من 2 إلى 10</div>
+    </div>
+    <p class="ex-desc">استخدم <code>for</code> مع <code>range(2, 11, 2)</code> لتجمع الأرقام الزوجية (2+4+6+8+10) واطبع المجموع (الجواب: 30)</p>
+    <div class="ex-task-box">
+      <div class="task-label">تلميح:</div>
+      <code style="direction:ltr">total = 0</code> ثم <code style="direction:ltr">for n in range(2, 11, 2):</code> ثم <code style="direction:ltr">total = total + n</code>، وفي النهاية <code style="direction:ltr">print(total)</code>
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex3Code" contenteditable="true" data-placeholder="total = 0&#10;for n in range(2, 11, 2):&#10;    total = total + n&#10;print(total)"></div>
+    </div>
+    <div class="ex-output" id="ex3Output"><div class="output-label">الإخراج:</div><div id="ex3OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(3)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(3)">✅ تحقق</button>
+    </div>
+    <div class="ex-feedback" id="ex3Feedback"></div>
+  </div>
+
+  <!-- Exercise 4 -->
+  <div class="fi ex-card" style="transition-delay:.2s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(165,214,255,.2);color:#a5d6ff;border:2px solid rgba(165,214,255,.4)">4</div>
+      <div class="ex-title">اطبع جدول ضرب العدد 3</div>
+    </div>
+    <p class="ex-desc">استخدم <code>for</code> مع <code>range(1, 11)</code> لتطبع جدول ضرب 3، من "3 x 1 = 3" إلى "3 x 10 = 30"</p>
+    <div class="ex-task-box">
+      <div class="task-label">تلميح:</div>
+      <code style="direction:ltr">for i in range(1, 11):</code> ثم اطبع <code style="direction:ltr">print(3, "x", i, "=", 3 * i)</code>
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex4Code" contenteditable="true" data-placeholder='for i in range(1, 11):&#10;    print(3, "x", i, "=", 3 * i)'></div>
+    </div>
+    <div class="ex-output" id="ex4Output"><div class="output-label">الإخراج:</div><div id="ex4OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(4)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(4)">✅ تحقق</button>
+    </div>
+    <div class="ex-feedback" id="ex4Feedback"></div>
+  </div>
+
+  <!-- Exercise 5 -->
+  <div class="fi ex-card" style="transition-delay:.25s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(183,33,255,.2);color:#b721ff;border:2px solid rgba(183,33,255,.4)">5</div>
+      <div class="ex-title">عدّ تنازلي من 5 إلى 1 ثم "انطلق!"</div>
+    </div>
+    <p class="ex-desc">استخدم <code>for</code> مع <code>range</code> لتطبع 5 ثم 4 ثم 3 ثم 2 ثم 1 ثم "🚀 انطلق!"</p>
+    <div class="ex-task-box">
+      <div class="task-label">تلميح:</div>
+      العدّ التنازلي يحتاج <code style="direction:ltr">range(5, 0, -1)</code> — الخطوة سالبة! بعد الحلقة اطبع "🚀 انطلق!"
+    </div>
+    <div class="ex-editor-wrap">
+      <div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex5Code" contenteditable="true" data-placeholder='for i in range(5, 0, -1):&#10;    print(i)&#10;print("🚀 انطلق!")'></div>
+    </div>
+    <div class="ex-output" id="ex5Output"><div class="output-label">الإخراج:</div><div id="ex5OutText"></div></div>
+    <div class="ex-btns">
+      <button class="ex-run-btn" onclick="runEx(5)">▶ تشغيل</button>
+      <button class="ex-check-btn" onclick="checkEx(5)">✅ تحقق</button>
+    </div>
+    <div class="ex-feedback" id="ex5Feedback"></div>
+  </div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="big-e">🔂</div>
+  <h3>أتممت الدرس الخامس  أنت محترف حلقة for!</h3>
+  <p>تعلّمتَ: حلقة for 🔂 · تشريح الحلقة 🔬 · range() 🔢 · for على النصوص 🔤 · for vs while ⚔️</p>
+  <div class="next-lesson-btn">الدرس السادس  قريباً 🔒</div>
+</footer>
+
+<script>
+/* ── Stars ── */
+(function(){
+  const c=document.getElementById('starsContainer');
+  for(let i=0;i<120;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*2.5+.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*5}s`;
+    c.appendChild(s);
+  }
+})();
+
+/* ── Progress bar ── */
+window.addEventListener('scroll',()=>{
+  const p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  document.getElementById('progress-bar').style.width=Math.min(p,100)+'%';
+});
+
+/* ── Fade-in ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:.12});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+/* ══════════════════════════════
+   FOR STEPPER (letters of a word)
+   ══════════════════════════════ */
+const LETTERS=['"ع"','"ل"','"م"'];
+let stpState={idx:0,phase:'pick',done:false,autoT:null};
+
+function forReset(){
+  if(stpState.autoT){clearInterval(stpState.autoT);stpState.autoT=null;}
+  stpState={idx:0,phase:'pick',done:false,autoT:null};
+  document.getElementById('stpCurrent').textContent='؟';
+  document.getElementById('stpIndex').textContent='-';
+  document.getElementById('stpCurrentChip').classList.remove('active-item');
+  document.getElementById('stpMsg').textContent='اضغط "خطوة" للبدء 👇';
+  document.getElementById('stpConsole').innerHTML='';
+  LETTERS.forEach((_,i)=>{
+    const el=document.getElementById('stpItem'+i);
+    el.classList.remove('current','done');
+  });
+}
+
+function forStep(){
+  if(stpState.done){forReset();return;}
+  const msgEl=document.getElementById('stpMsg');
+  const cons=document.getElementById('stpConsole');
+  const curEl=document.getElementById('stpCurrent');
+  const idxEl=document.getElementById('stpIndex');
+  const chip=document.getElementById('stpCurrentChip');
+
+  if(stpState.phase==='pick'){
+    if(stpState.idx>=LETTERS.length){
+      // end
+      chip.classList.remove('active-item');
+      curEl.textContent='انتهى';
+      idxEl.textContent='-';
+      msgEl.textContent='انتهت الكلمة! ✅ خرجنا من الحلقة تلقائياً 🛑';
+      stpState.done=true;
+      return;
+    }
+    // highlight item
+    LETTERS.forEach((_,i)=>{
+      const el=document.getElementById('stpItem'+i);
+      el.classList.remove('current');
+      if(i<stpState.idx) el.classList.add('done');
+    });
+    document.getElementById('stpItem'+stpState.idx).classList.add('current');
+    curEl.textContent=LETTERS[stpState.idx];
+    idxEl.textContent=stpState.idx;
+    chip.classList.add('active-item');
+    msgEl.textContent=`📌 letter = ${LETTERS[stpState.idx]} (الحرف رقم ${stpState.idx})`;
+    stpState.phase='execute';
+  } else if(stpState.phase==='execute'){
+    const letter=LETTERS[stpState.idx].replace(/"/g,'');
+    const chip2=document.createElement('div');
+    chip2.className='out-chip';chip2.textContent=letter;
+    cons.appendChild(chip2);
+    msgEl.textContent=`🖨️ print(letter)  طبعنا "${letter}"`;
+    stpState.idx++;
+    stpState.phase='pick';
+  }
+}
+
+function forAuto(){
+  if(stpState.autoT)return;
+  forReset();
+  stpState.autoT=setInterval(()=>{
+    forStep();
+    if(stpState.done){clearInterval(stpState.autoT);stpState.autoT=null;}
+  },900);
+}
+
+/* ══════════════════════════════
+   RANGE DEMO
+   ══════════════════════════════ */
+function showRange(){
+  const start=parseInt(document.getElementById('rangeStart').value)||0;
+  const stop=parseInt(document.getElementById('rangeStop').value)||10;
+  const step=parseInt(document.getElementById('rangeStep').value)||1;
+  const out=document.getElementById('rangeOutput');
+  const lbl=document.getElementById('rangeLbl');
+  out.innerHTML='';
+  lbl.textContent=`range(${start}, ${stop}, ${step})`;
+  if(step===0||Math.abs((stop-start)/step)>30){
+    out.innerHTML='<span style="color:#ff7b72">خطوة غير صالحة أو ناتج كبير جداً!</span>';
+    return;
+  }
+  const nums=[];
+  if(step>0){for(let i=start;i<stop;i+=step)nums.push(i);}
+  else{for(let i=start;i>stop;i+=step)nums.push(i);}
+  nums.slice(0,25).forEach((n,j)=>{
+    const d=document.createElement('div');d.className='range-num';
+    d.textContent=n;d.style.animationDelay=(j*0.06)+'s';
+    out.appendChild(d);
+  });
+  if(nums.length===0) out.innerHTML='<span style="color:#ff7b72">لا توجد أرقام! راجع القيم.</span>';
+}
+showRange();
+
+/* ══════════════════════════════
+   STRING FOR DEMO
+   ══════════════════════════════ */
+let strBusy=false;
+async function runStringFor(){
+  if(strBusy)return;strBusy=true;
+  const word=document.getElementById('strInput').value.trim()||'Python';
+  const box=document.getElementById('strBox');
+  const cons=document.getElementById('strConsole');
+  const msg=document.getElementById('strMsg');
+  box.innerHTML='';cons.innerHTML='';
+  const chars=[...word];
+  chars.forEach((ch,i)=>{
+    const d=document.createElement('div');d.className='char-box';d.id='ch'+i;
+    d.innerHTML=ch+`<span class="char-idx">${i}</span>`;
+    box.appendChild(d);
+  });
+  for(let i=0;i<chars.length;i++){
+    if(i>0) document.getElementById('ch'+(i-1)).classList.replace('current','done');
+    document.getElementById('ch'+i).classList.add('current');
+    msg.textContent=`letter = "${chars[i]}" (الحرف رقم ${i}) 🔤`;
+    const chip=document.createElement('div');
+    chip.className='out-chip';chip.style.background='rgba(165,214,255,.18)';
+    chip.style.borderColor='#a5d6ff';chip.style.color='#a5d6ff';
+    chip.textContent=chars[i];
+    cons.appendChild(chip);
+    await new Promise(r=>setTimeout(r,480));
+  }
+  if(chars.length>0) document.getElementById('ch'+(chars.length-1)).classList.replace('current','done');
+  msg.textContent=`✅ انتهينا من كل حروف "${word}"`;
+  strBusy=false;
+}
+
+/* ══════════════════════════════
+   MINI PYTHON INTERPRETER
+   ══════════════════════════════ */
+function stripComment(line){
+  let out='',inStr=false,q='';
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(inStr){out+=ch;if(ch===q)inStr=false;continue;}
+    if(ch==='"'||ch==="'"){inStr=true;q=ch;out+=ch;continue;}
+    if(ch==='#')break;
+    out+=ch;
+  }
+  return out;
+}
+function tokenize(s){
+  const toks=[];let i=0;const two=['**','//','==','!=','<=','>=','+=','-=','*=','/='];
+  while(i<s.length){
+    const c=s[i];
+    if(c===' '||c==='\t'){i++;continue;}
+    if(c==='"'||c==="'"){
+      let q=c,j=i+1,str='';
+      while(j<s.length&&s[j]!==q){
+        if(s[j]==='\\'&&j+1<s.length){
+          const esc=s[j+1];
+          if(esc==='n')str+='\n';else if(esc==='t')str+='\t';else str+=esc;
+          j+=2;
+        }else{str+=s[j];j++;}
+      }
+      toks.push({t:'str',v:str});i=j+1;continue;
+    }
+    if(/[0-9]/.test(c)||(c==='.'&&/[0-9]/.test(s[i+1]||''))){
+      let j=i,num='';while(j<s.length&&/[0-9.]/.test(s[j])){num+=s[j];j++;}
+      toks.push({t:'num',v:parseFloat(num)});i=j;continue;
+    }
+    if(/[A-Za-z_\u0600-\u06FF]/.test(c)){
+      let j=i,id='';while(j<s.length&&/[A-Za-z0-9_\u0600-\u06FF]/.test(s[j])){id+=s[j];j++;}
+      if(['and','or','not','True','False','in','not'].includes(id))toks.push({t:'kw',v:id});
+      else toks.push({t:'id',v:id});i=j;continue;
+    }
+    const tw=s.substr(i,2);
+    if(two.includes(tw)){toks.push({t:'op',v:tw});i+=2;continue;}
+    toks.push({t:'op',v:c});i++;
+  }
+  return toks;
+}
+function truthy(v){if(v===true)return true;if(v===false)return false;if(typeof v==='number')return v!==0;if(typeof v==='string')return v.length>0;if(Array.isArray(v))return v.length>0;return !!v;}
+function splitTopLevel(str,sep){
+  const parts=[];let cur='',depth=0,inStr=false,q='';
+  for(let i=0;i<str.length;i++){
+    const c=str[i];
+    if(inStr){cur+=c;if(c===q)inStr=false;continue;}
+    if(c==='"'||c==="'"){inStr=true;q=c;cur+=c;continue;}
+    if(c==='('||c==='['||c==='{')depth++;
+    else if(c===')'||c===']'||c==='}')depth--;
+    else if(c===sep&&depth===0){parts.push(cur);cur='';continue;}
+    cur+=c;
+  }
+  parts.push(cur);return parts;
+}
+
+function evalExpr(src,vars){
+  const toks=tokenize(src);let pos=0;
+  const peek=()=>toks[pos];
+  const next=()=>toks[pos++];
+  function parseOr(){let l=parseAnd();while(peek()&&peek().v==='or'){next();const r=parseAnd();l=truthy(l)||truthy(r);}return l;}
+  function parseAnd(){let l=parseNot();while(peek()&&peek().v==='and'){next();const r=parseNot();l=truthy(l)&&truthy(r);}return l;}
+  function parseNot(){if(peek()&&peek().v==='not'){next();return !truthy(parseNot());}return parseCmp();}
+  function parseCmp(){let l=parseAdd();
+    while(peek()&&['<','>','<=','>=','==','!=','in'].includes(peek().v)){
+      const op=next().v;
+      if(op==='in'){ // special: check next token for "not" possibility already consumed
+        const r=parseAdd();
+        if(Array.isArray(r))l=r.includes(l);
+        else if(typeof r==='string')l=String(r).includes(String(l));
+        else l=false;
+      }else{
+        const r=parseAdd();
+        if(op==='<')l=l<r;else if(op==='>')l=l>r;else if(op==='<=')l=l<=r;else if(op==='>=')l=l>=r;else if(op==='==')l=l===r;else l=l!==r;
+      }
+    }return l;}
+  function parseAdd(){let l=parseMul();while(peek()&&(peek().v==='+'||peek().v==='-')){const op=next().v;const r=parseMul();
+    if(op==='+'){l=(typeof l==='string'||typeof r==='string')?String(l)+String(r):l+r;}else l=l-r;}return l;}
+  function parseMul(){let l=parsePow();while(peek()&&['*','/','//','%'].includes(peek().v)){const op=next().v;const r=parsePow();
+    if(op==='*'){if(typeof l==='string')l=l.repeat(Math.max(0,r));else if(typeof r==='string')l=r.repeat(Math.max(0,l));else l=l*r;}
+    else if(op==='/')l=l/r;else if(op==='//')l=Math.floor(l/r);else l=((l%r)+r)%r;}return l;}
+  function parsePow(){let l=parseUnary();if(peek()&&peek().v==='**'){next();const r=parsePow();l=Math.pow(l,r);}return l;}
+  function parseUnary(){if(peek()&&peek().v==='-'){next();return -parseUnary();}if(peek()&&peek().v==='+'){next();return parseUnary();}return parsePrimary();}
+  function parsePrimary(){
+    const t=peek();if(!t)throw new Error('تعبير ناقص');
+    if(t.t==='num'){next();return t.v;}
+    if(t.t==='str'){next();return t.v;}
+    if(t.t==='kw'&&t.v==='True'){next();return true;}
+    if(t.t==='kw'&&t.v==='False'){next();return false;}
+    if(t.v==='['){
+      next();const arr=[];
+      if(peek()&&peek().v!==']'){arr.push(parseOr());while(peek()&&peek().v===','){next();arr.push(parseOr());}}
+      if(peek()&&peek().v===']')next();return arr;
+    }
+    if(t.v==='('){next();const e=parseOr();if(peek()&&peek().v===')')next();return e;}
+    if(t.t==='id'){
+      const name=next().v;
+      if(peek()&&peek().v==='('){
+        next();const args=[];
+        if(peek()&&peek().v!==')'){args.push(parseOr());while(peek()&&peek().v===','){next();args.push(parseOr());}}
+        if(peek()&&peek().v===')')next();
+        return callFn(name,args,vars);
+      }
+      if(peek()&&peek().v==='['){
+        next();const idx=parseOr();if(peek()&&peek().v===']')next();
+        const obj=vars[name];if(obj===undefined)throw new Error('متغير غير معرّف: '+name);
+        return obj[idx];
+      }
+      if(name in vars)return vars[name];
+      throw new Error('متغير غير معرّف: '+name);
+    }
+    throw new Error('رمز غير متوقع: '+(t.v||t.t));
+  }
+  function callFn(name,args,vars){
+    switch(name){
+      case 'str':return String(args[0]);
+      case 'int':return parseInt(args[0])||0;
+      case 'float':return parseFloat(args[0])||0;
+      case 'len':return Array.isArray(args[0])?args[0].length:String(args[0]).length;
+      case 'abs':return Math.abs(args[0]);
+      case 'range':{
+        const s=args.length>=2?args[0]:0,e=args.length>=2?args[1]:args[0],st=args[2]||1;
+        const r=[];if(st>0){for(let i=s;i<e;i+=st)r.push(i);}else{for(let i=s;i>e;i+=st)r.push(i);}return r;
+      }
+      case 'enumerate':{
+        const lst=args[0];const start=args[1]||0;
+        return Array.isArray(lst)?lst.map((v,i)=>[i+start,v]):[...String(lst)].map((v,i)=>[i+start,v]);
+      }
+      case 'list':return Array.isArray(args[0])?args[0]:[...String(args[0])];
+      default:throw new Error('دالة غير معروفة: '+name);
+    }
+  }
+  return parseOr();
+}
+
+function runPython(code){
+  const raw=code.replace(/\t/g,'    ').split('\n');
+  const lines=[];
+  for(const r of raw){
+    const nc=stripComment(r);if(nc.trim()==='')continue;
+    lines.push({indent:nc.match(/^ */)[0].length,text:nc.trim()});
+  }
+  const vars={};const out=[];const ctx={steps:0};
+  function execBlock(block){
+    let i=0;
+    while(i<block.length){
+      const ln=block[i];if(++ctx.steps>200000)throw new Error('البرنامج طويل جداً');
+      const gather=()=>{const body=[];let j=i+1;while(j<block.length&&block[j].indent>ln.indent){body.push(block[j]);j++;}return{body,next:j};};
+      // FOR LOOP
+      if(/^for\b/.test(ln.text)){
+        const m=ln.text.match(/^for\s+(.+?)\s+in\s+(.+?):\s*$/);
+        if(!m)throw new Error('صيغة for غير صحيحة');
+        const varPart=m[1].trim(),iterExpr=m[2].trim();
+        const {body,next}=gather();
+        const iterVal=evalExpr(iterExpr,vars);
+        const items=Array.isArray(iterVal)?iterVal:[...String(iterVal)];
+        for(const item of items){
+          if(varPart.includes(',')){
+            const parts=varPart.split(',').map(p=>p.trim());
+            if(Array.isArray(item)){parts.forEach((p,idx)=>{vars[p]=item[idx]!==undefined?item[idx]:null;});}
+            else{parts.forEach((p,idx)=>{vars[p]=idx===0?item:null;});}
+          }else{vars[varPart]=item;}
+          try{execBlock(body);}
+          catch(sig){if(sig.__brk)break;if(sig.__cont)continue;throw sig;}
+        }
+        i=next;continue;
+      }
+      // WHILE LOOP
+      if(/^while\b/.test(ln.text)){
+        const cond=ln.text.replace(/^while\s+/,'').replace(/:\s*$/,'');
+        const {body,next}=gather();
+        let guard=0;
+        while(truthy(evalExpr(cond,vars))){
+          if(++guard>5000){out.push('⚠️ حلقة لا نهائية! (أوقفناها)');break;}
+          try{execBlock(body);}catch(sig){if(sig.__brk)break;if(sig.__cont)continue;throw sig;}
+        }
+        i=next;continue;
+      }
+      // IF / ELSE
+      if(/^if\b/.test(ln.text)){
+        const cond=ln.text.replace(/^if\s+/,'').replace(/:\s*$/,'');
+        const {body,next}=gather();
+        let took=truthy(evalExpr(cond,vars));
+        let cursor=next;
+        if(took)execBlock(body);
+        if(cursor<block.length&&block[cursor].indent===ln.indent&&/^else\s*:/.test(block[cursor].text)){
+          const eb=block[cursor],elseBody=[];let j=cursor+1;
+          while(j<block.length&&block[j].indent>eb.indent){elseBody.push(block[j]);j++;}
+          if(!took)execBlock(elseBody);cursor=j;
+        }
+        i=cursor;continue;
+      }
+      execStmt(ln.text);i++;
+    }
+  }
+  function execStmt(text){
+    if(text==='break')throw{__brk:true};
+    if(text==='continue')throw{__cont:true};
+    let m=text.match(/^print\s*\((.*)\)$/s);
+    if(m){
+      const inside=m[1].trim();
+      if(inside===''){out.push('');return;}
+      const args=splitTopLevel(inside,',').map(a=>evalExpr(a.trim(),vars));
+      out.push(args.map(a=>a===null?'None':String(a)).join(' '));return;
+    }
+    // assignment  (simple or tuple unpack)
+    m=text.match(/^([A-Za-z_\u0600-\u06FF][\w\u0600-\u06FF]*(?:\s*,\s*[A-Za-z_\u0600-\u06FF][\w\u0600-\u06FF]*)*)\s*(\+=|-=|\*=|\/=|=)\s*(.+)$/);
+    if(m){
+      const lhsRaw=m[1],op=m[2],val=evalExpr(m[3],vars);
+      const lhsParts=lhsRaw.split(',').map(p=>p.trim());
+      if(lhsParts.length>1){
+        if(Array.isArray(val)){lhsParts.forEach((p,i)=>{vars[p]=val[i]!==undefined?val[i]:null;});}
+        else{lhsParts.forEach((p,i)=>{vars[p]=i===0?val:null;});}
+      }else{
+        const name=lhsParts[0];
+        if(op==='='){vars[name]=val;}
+        else{const cur=vars[name]||0;
+          if(op==='+=')vars[name]=(typeof cur==='string'||typeof val==='string')?String(cur)+String(val):cur+val;
+          else if(op==='-=')vars[name]=cur-val;else if(op==='*=')vars[name]=cur*val;else vars[name]=cur/val;
+        }
+      }
+      return;
+    }
+    throw new Error('سطر غير مفهوم: '+text);
+  }
+  execBlock(lines);
+  return{output:out,vars};
+}
+
+/* ── Exercises ── */
+function runEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText;
+  const outDiv=document.getElementById('ex'+n+'Output');
+  const outText=document.getElementById('ex'+n+'OutText');
+  let result;
+  try{result=runPython(code);}
+  catch(e){outText.textContent='⚠️ خطأ: '+e.message;outDiv.classList.add('show');return;}
+  outText.textContent=result.output.length?result.output.join('\n'):'(لا يوجد إخراج)';
+  outDiv.classList.add('show');
+}
+
+function checkEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText;
+  const fb=document.getElementById('ex'+n+'Feedback');
+  let result;
+  try{result=runPython(code);}
+  catch(e){fb.className='ex-feedback show wrong';fb.textContent='⚠️ في خطأ بالكود: '+e.message;return;}
+  const out=result.output.map(o=>String(o).trim());
+  const hasFor=/\bfor\b/.test(code);
+  let ok=false,msg='';
+
+  if(n===1){
+    ok=hasFor&&out.join(',')==='1,2,3,4,5';
+    msg=ok?'✅ ممتاز! استخدمت for مع range وطبعت 1 إلى 5 🎉':'❌ يجب أن يكون الإخراج 1 2 3 4 5. استخدم for i in range(1, 6): ثم print(i)';
+  }else if(n===2){
+    ok=hasFor&&out.join('').includes('ك')&&out.join('').includes('ر');
+    msg=ok?'✅ رائع! طبعت كل حروف الكلمة بالترتيب 🎉':'❌ يجب أن تطبع كل حرف من "كمبيوتر" في سطر منفصل باستخدام for letter in word:';
+  }else if(n===3){
+    ok=hasFor&&out.some(o=>o==='30');
+    msg=ok?'✅ صحيح! مجموع الأرقام الزوجية من 2 إلى 10 = 30 🎉':'❌ الجواب يجب أن يكون 30. استخدم range(2, 11, 2) وراكم total = total + n';
+  }else if(n===4){
+    ok=hasFor&&out.some(o=>o.replace(/\s+/g,' ').includes('3 x 1 = 3'))&&out.some(o=>o.replace(/\s+/g,' ').includes('3 x 10 = 30'));
+    msg=ok?'✅ ممتاز! طبعت جدول ضرب 3 كاملاً 🎉':'❌ استخدم: for i in range(1, 11): ثم print(3, "x", i, "=", 3 * i)';
+  }else if(n===5){
+    ok=hasFor&&out.join(',').startsWith('5,4,3,2,1')&&out.some(o=>o.includes('انطلق'));
+    msg=ok?'✅ رائع! عدّ تنازلي صحيح وانطلق الصاروخ 🚀':'❌ استخدم range(5, 0, -1) للعدّ التنازلي، وبعد الحلقة اطبع "🚀 انطلق!"';
+  }
+  fb.className='ex-feedback show '+(ok?'correct':'wrong');
+  fb.textContent=msg;
+}
+
+/* Tab key in editors */
+document.querySelectorAll('.ex-code').forEach(ed=>{
+  ed.addEventListener('keydown',e=>{
+    if(e.key==='Tab'){e.preventDefault();document.execCommand('insertText',false,'    ');}
+  });
+});
+</script>
+</body>
+</html>

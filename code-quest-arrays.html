@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مغامرة البرمجة - القوائم في حياتنا! 📦</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Rubik:wght@500;700;800;900&family=Fira+Code:wght@500;700&display=swap');
+
+:root{
+  --paper:#FFF6E9; --ink:#2B2342; --coral:#FF6B6B; --yellow:#FFD93D;
+  --mint:#5FD08D; --sky:#4D96FF; --purple:#9B5DE5; --pink:#FF8FAB; --orange:#FF9F43; --white:#FFFFFF;
+  --radius:24px;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:'Rubik', sans-serif; color:var(--ink);
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(43,35,66,.07) 2px, transparent 2px);
+  background-size:28px 28px; overflow-x:hidden;
+}
+h1,h2,h3{ font-family:'Baloo Bhaijaan 2', 'Rubik', cursive; line-height:1.25; }
+code, pre{ font-family:'Fira Code', monospace; direction:ltr; unicode-bidi:embed; }
+
+/* NAV */
+nav{ position:sticky; top:12px; z-index:50; display:flex; justify-content:center; gap:7px; flex-wrap:wrap; padding:0 12px; }
+nav a{
+  background:var(--white); border:3px solid var(--ink); border-radius:999px;
+  box-shadow:3px 3px 0 var(--ink); padding:5px 12px; font-weight:900; font-size:.8rem;
+  color:var(--ink); text-decoration:none; transition:transform .15s, box-shadow .15s;
+}
+nav a:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); background:var(--yellow); }
+nav a.home{ background:var(--orange); color:#fff; }
+
+/* HERO */
+header{ position:relative; text-align:center; padding:80px 20px 60px; overflow:hidden; }
+.blob{ position:absolute; border-radius:14px; border:3px solid var(--ink); animation:float 6s ease-in-out infinite; z-index:0; box-shadow:3px 3px 0 var(--ink); display:flex; align-items:center; justify-content:center; font-family:'Fira Code',monospace; font-weight:800; font-size:1.2rem; }
+.blob.b1{ width:54px; height:54px; background:var(--coral);  top:12%; left:8%;  animation-delay:0s; }
+.blob.b2{ width:46px; height:46px; background:var(--yellow); top:60%; left:14%; animation-delay:1.2s; }
+.blob.b3{ width:54px; height:54px; background:var(--sky);    top:18%; right:7%; animation-delay:.6s; }
+.blob.b4{ width:46px; height:46px; background:var(--mint);   top:65%; right:13%;animation-delay:1.8s; }
+.blob.b5{ width:46px; height:46px; background:var(--purple); top:38%; left:22%; animation-delay:2.4s; }
+@keyframes float{ 0%,100%{ transform:translateY(0) rotate(0deg);} 50%{ transform:translateY(-18px) rotate(8deg);} }
+header h1{ position:relative; z-index:1; font-size:clamp(2.2rem, 7vw, 4.4rem); font-weight:800; }
+header h1 span{ display:inline-block; animation:bounceIn .8s both; }
+header h1 span:nth-child(odd){ color:var(--orange); }
+header h1 span:nth-child(even){ color:var(--sky); }
+header h1 span:nth-child(3n){ color:var(--mint); }
+@keyframes bounceIn{ 0%{ transform:translateY(-40px) scale(.3); opacity:0; } 60%{ transform:translateY(8px) scale(1.1); opacity:1; } 100%{ transform:translateY(0) scale(1); } }
+header p.tagline{ position:relative; z-index:1; font-size:clamp(1.05rem, 2.5vw, 1.4rem); font-weight:800; max-width:700px; margin:18px auto 14px; }
+.hero-bot{ font-size:5rem; position:relative; z-index:1; animation:floaty 3s ease-in-out infinite; }
+@keyframes floaty{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-16px);} }
+.know-chips{ position:relative; z-index:1; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:18px; }
+.know-chip{ background:var(--white); border:3px solid var(--ink); border-radius:999px; box-shadow:3px 3px 0 var(--ink); padding:6px 16px; font-family:'Fira Code', monospace; font-weight:700; font-size:.9rem; direction:ltr; }
+.know-chip.on{ background:var(--mint); }
+
+/* SECTIONS */
+main{ max-width:980px; margin:0 auto; padding:0 18px 80px; }
+section{ margin:64px 0; opacity:0; transform:translateY(40px); transition:opacity .7s ease, transform .7s ease; }
+section.visible{ opacity:1; transform:translateY(0); }
+.badge{ display:inline-block; font-family:'Baloo Bhaijaan 2', cursive; font-weight:800; font-size:.95rem; background:var(--yellow); border:3px solid var(--ink); border-radius:12px; box-shadow:4px 4px 0 var(--ink); padding:4px 16px; transform:rotate(3deg); margin-bottom:14px; }
+.badge.sky{ background:var(--sky); color:#fff; } .badge.coral{ background:var(--coral); color:#fff; }
+.badge.mint{ background:var(--mint); } .badge.purple{ background:var(--purple); color:#fff; } .badge.pink{ background:var(--pink); } .badge.orange{ background:var(--orange); color:#fff; }
+section h2{ font-size:clamp(1.6rem, 4.5vw, 2.4rem); margin-bottom:10px; }
+section .lead{ font-size:1.08rem; font-weight:700; max-width:760px; margin-bottom:24px; line-height:1.9; }
+.lead code, .mini-note code, .fact-strip code{ background:rgba(43,35,66,.08); padding:1px 7px; border-radius:7px; }
+.card{ background:var(--white); border:3px solid var(--ink); border-radius:var(--radius); box-shadow:7px 7px 0 var(--ink); padding:24px; }
+.grid{ display:grid; gap:20px; }
+.grid.cols-2{ grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* CODE BLOCK */
+pre.codeblock{ background:var(--ink); color:#EDE9FE; border-radius:18px; border:3px solid var(--ink); box-shadow:5px 5px 0 var(--purple); padding:16px 18px; font-size:.92rem; line-height:1.95; overflow-x:auto; direction:ltr; text-align:left; }
+pre.codeblock .ln{ display:block; padding:0 10px; border-radius:8px; transition:background .35s ease, opacity .35s ease, transform .25s ease; }
+pre.codeblock .ln.active{ background:rgba(255,159,67,.4); outline:2px dashed var(--pink); transform:translateX(-4px); }
+pre.codeblock .ln.skipped{ opacity:.3; text-decoration:line-through; }
+pre.codeblock .kw{ color:#FF8FAB; font-weight:700; }
+pre.codeblock .fn{ color:#7DD3FC; }
+pre.codeblock .str{ color:#86EFAC; }
+pre.codeblock .num{ color:#FDE047; font-weight:700; }
+pre.codeblock .var{ color:#FCD5CE; }
+pre.codeblock .br{ color:#FDE047; font-weight:700; }
+.live-line{ margin-top:10px; background:var(--ink); color:#86EFAC; border:3px solid var(--ink); border-radius:14px; box-shadow:4px 4px 0 var(--orange); padding:10px 14px; font-family:'Fira Code',monospace; font-size:.86rem; direction:ltr; text-align:left; overflow-x:auto; transition:transform .2s; }
+.live-line.flash{ animation:liveFlash .55s ease; }
+@keyframes liveFlash{ 0%{ transform:scale(1); box-shadow:4px 4px 0 var(--orange); } 35%{ transform:scale(1.04); box-shadow:0 0 0 3px var(--mint), 5px 5px 0 var(--orange); } 100%{ transform:scale(1); box-shadow:4px 4px 0 var(--orange); } }
+
+/* TERMINAL */
+.term-head{ display:flex; align-items:center; gap:8px; background:var(--ink); color:var(--paper); border:3px solid var(--ink); border-bottom:none; border-radius:14px 14px 0 0; padding:8px 14px; font-weight:900; font-size:.85rem; }
+.term-dot{ width:13px; height:13px; border-radius:50%; border:2px solid var(--paper); }
+.term-dot.r{ background:var(--coral); } .term-dot.y{ background:var(--yellow); } .term-dot.g{ background:var(--mint); }
+.term-head .title{ margin-inline-start:8px; opacity:.85; }
+.terminal{ background:#161126; color:#C7F9CC; border:3px solid var(--ink); border-top:none; border-radius:0 0 14px 14px; padding:14px 16px; min-height:90px; max-height:230px; overflow-y:auto; font-family:'Fira Code', monospace; font-size:.92rem; line-height:1.85; }
+.terminal:empty::before{ content:"اضغط زر التشغيل لترى القائمة تعمل..."; color:#6b6386; }
+.term-line{ white-space:pre-wrap; word-break:break-word; animation:lineIn .28s ease both; }
+@keyframes lineIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none;} }
+.t-out{ color:#C7F9CC; }
+.t-sys{ color:#FDE047; font-weight:700; }
+
+/* CONTROLS */
+.controls{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:16px 0 6px; }
+.btn{ font-family:'Rubik', sans-serif; font-weight:900; font-size:1.05rem; border:3px solid var(--ink); border-radius:16px; box-shadow:5px 5px 0 var(--ink); padding:11px 26px; cursor:pointer; color:var(--ink); transition:transform .12s, box-shadow .12s; background:var(--white); }
+.btn:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink); }
+.btn:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--ink); }
+.btn.run{ background:var(--mint); }
+.btn.add{ background:var(--orange); color:#fff; }
+.btn.rem{ background:var(--coral); color:#fff; }
+.btn.small{ font-size:.92rem; padding:9px 18px; box-shadow:4px 4px 0 var(--ink); }
+.btn[disabled]{ opacity:.55; cursor:not-allowed; transform:none; box-shadow:5px 5px 0 var(--ink); }
+.try-hint{ font-weight:800; font-size:.92rem; opacity:.8; margin-top:10px; }
+
+/* DEMO STAGE */
+.demo-stage{ border:3px solid var(--ink); border-radius:18px; min-height:172px; margin-bottom:6px; display:flex; align-items:center; justify-content:center; background:linear-gradient(#FEF3C7,#FFE0B2); transition:background .5s; overflow:hidden; }
+.demo-stage.shake{ animation:shake .5s; }
+@keyframes shake{ 0%,100%{ transform:translateX(0);} 15%{ transform:translateX(-10px) rotate(-1deg);} 35%{ transform:translateX(9px) rotate(1deg);} 55%{ transform:translateX(-7px);} 75%{ transform:translateX(6px);} 90%{ transform:translateX(-3px);} }
+@keyframes popIn{ 0%{ transform:scale(.2); opacity:0;} 55%{ transform:scale(1.2);} 100%{ transform:scale(1); opacity:1;} }
+@keyframes numPulse{ 0%{ transform:scale(.55); opacity:.5;} 55%{ transform:scale(1.22);} 100%{ transform:scale(1); opacity:1;} }
+
+/* ARRAY VISUALS */
+.arrviz{ width:100%; padding:12px 14px; display:flex; flex-direction:column; align-items:center; gap:12px; animation:lineIn .3s ease both; }
+.arr-row{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; align-items:flex-start; direction:ltr; max-width:100%; }
+.arr-cell{ display:flex; flex-direction:column; align-items:center; gap:6px; }
+.arr-box{ min-width:56px; min-height:56px; padding:6px 12px; background:#fff; border:3px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.02rem; text-align:center; white-space:nowrap; transition:transform .35s cubic-bezier(.34,1.56,.64,1), background .3s, box-shadow .3s, color .3s; }
+.arr-box.current{ background:var(--yellow); transform:translateY(-9px) scale(1.07); box-shadow:5px 8px 0 var(--purple); }
+.arr-box.playing{ background:var(--sky); color:#fff; transform:translateY(-9px) scale(1.07); box-shadow:5px 8px 0 var(--purple); }
+.arr-box.done{ background:#DCFCE7; }
+.arr-box.pop{ animation:popIn .5s; }
+.arr-idx{ font-family:'Fira Code',monospace; font-weight:800; font-size:.78rem; background:var(--white); border:2px solid var(--ink); border-radius:8px; padding:1px 8px; box-shadow:2px 2px 0 var(--ink); transition:background .3s; }
+.arr-cell.hot .arr-idx{ background:var(--orange); color:#fff; }
+.arr-total{ font-family:'Fira Code',monospace; font-weight:800; font-size:1rem; background:var(--mint); border:3px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); padding:7px 18px; }
+.arr-total b{ font-size:1.5rem; }
+.arr-total b.pulse{ display:inline-block; animation:numPulse .45s ease; }
+.lv-cap{ font-family:'Fira Code',monospace; font-weight:700; font-size:.92rem; color:var(--ink); min-height:1.2em; }
+
+/* BAR CHART (number lists) */
+.bar-row{ display:flex; gap:14px; align-items:flex-end; justify-content:center; direction:ltr; height:128px; padding-bottom:2px; }
+.bar-col{ display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:6px; }
+.bar-val{ font-family:'Fira Code',monospace; font-weight:800; font-size:1rem; }
+.bar{ width:40px; min-height:5px; background:var(--sky); border:3px solid var(--ink); border-radius:9px 9px 0 0; box-shadow:3px 3px 0 var(--ink); transition:height .6s cubic-bezier(.34,1.56,.64,1), background .3s, transform .3s; }
+.bar.current{ background:var(--orange); transform:scale(1.07); }
+.bar.done{ background:var(--mint); }
+
+/* index picker */
+.idx-pick{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:4px 0; }
+.idx-pick button{ font-family:'Fira Code',monospace; font-weight:800; font-size:1rem; border:3px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); background:#fff; padding:8px 15px; cursor:pointer; transition:transform .12s, box-shadow .12s, background .2s; }
+.idx-pick button:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); background:var(--sky); color:#fff; }
+.idx-pick button.on{ background:var(--purple); color:#fff; }
+.idx-pick button.neg{ background:#FFE4E6; }
+.idx-pick button.neg.on{ background:var(--coral); color:#fff; }
+
+/* PROJECT TRACK */
+.pj-track{ position:relative; width:92%; height:64px; border-bottom:5px dashed var(--ink); direction:ltr; margin-top:6px; }
+.pj-robot{ position:absolute; bottom:6px; left:0%; font-size:2.2rem; transition:left .55s cubic-bezier(.22,1,.36,1); transform:translateX(-50%); z-index:2; }
+.pj-star{ position:absolute; bottom:12px; font-size:1.8rem; transform:translateX(-50%); transition:opacity .4s, transform .4s; }
+.pj-star.collected{ opacity:.22; transform:translateX(-50%) scale(.55) rotate(22deg); }
+.pj-flag{ position:absolute; bottom:6px; right:0; font-size:1.9rem; }
+
+/* TRAIN (carts) */
+.train-row{ display:flex; gap:10px; align-items:flex-end; justify-content:center; direction:ltr; flex-wrap:wrap; }
+.loco{ font-size:2.7rem; line-height:1; align-self:flex-end; }
+.cart{ display:flex; flex-direction:column; align-items:center; gap:4px; transition:transform .25s; }
+.cart.hot{ transform:translateY(-7px); }
+.cart-num{ font-family:'Fira Code',monospace; font-weight:800; font-size:.76rem; background:var(--sky); color:#fff; border:3px solid var(--ink); border-radius:8px; padding:2px 10px; box-shadow:2px 2px 0 var(--ink); }
+.cart.hot .cart-num{ background:var(--orange); }
+.cart-body{ width:92px; min-height:62px; background:#fff; border:3px solid var(--ink); border-radius:10px; box-shadow:3px 3px 0 var(--ink); padding:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; cursor:pointer; transition:background .25s, transform .2s; }
+.cart-body:hover{ background:#FFE4E6; transform:translateY(-2px); }
+.cart-body.bump{ animation:popIn .4s; }
+.cart-people{ display:flex; flex-wrap:wrap; gap:1px; justify-content:center; font-size:.95rem; min-height:18px; line-height:1.1; }
+.cart-count{ font-family:'Fira Code',monospace; font-weight:800; font-size:.78rem; }
+
+/* SNAKE GAME */
+.snake-hud{ display:flex; gap:10px; justify-content:center; margin-bottom:10px; flex-wrap:wrap; }
+.snake-pill{ font-family:'Fira Code',monospace; font-weight:800; font-size:.85rem; background:var(--white); border:3px solid var(--ink); border-radius:999px; box-shadow:3px 3px 0 var(--ink); padding:5px 14px; }
+.snake-pill.green{ background:#DCFCE7; }
+#snakeCanvas{ border:3px solid var(--ink); border-radius:14px; box-shadow:5px 5px 0 var(--purple); background:#FEF3C7; touch-action:none; max-width:100%; height:auto; }
+.snake-msg{ font-weight:800; font-size:.9rem; margin:10px 0 6px; min-height:1.3em; color:var(--ink); }
+.dpad{ display:grid; grid-template-columns:repeat(3,46px); grid-template-rows:repeat(2,46px); gap:6px; justify-content:center; margin:6px 0 10px; }
+.dbtn{ font-size:1.1rem; font-weight:900; font-family:'Rubik',sans-serif; border:3px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); background:var(--white); cursor:pointer; transition:transform .1s, box-shadow .1s, background .15s; color:var(--ink); }
+.dbtn:hover{ background:var(--yellow); }
+.dbtn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--ink); }
+.dbtn.up{ grid-column:2; grid-row:1; }
+.dbtn.left{ grid-column:1; grid-row:2; }
+.dbtn.down{ grid-column:2; grid-row:2; }
+.dbtn.right{ grid-column:3; grid-row:2; }
+
+/* INFO STRIPS */
+.fact-strip{ margin-top:26px; background:var(--ink); color:var(--paper); border-radius:var(--radius); border:3px solid var(--ink); box-shadow:7px 7px 0 var(--purple); padding:20px 26px; font-weight:800; font-size:1.05rem; text-align:center; line-height:2; }
+.fact-strip code{ background:rgba(255,255,255,.15); color:var(--paper); }
+.mini-note{ margin-top:18px; font-weight:800; font-size:1rem; background:var(--yellow); border:3px solid var(--ink); border-radius:16px; box-shadow:4px 4px 0 var(--ink); padding:14px 18px; line-height:1.9; }
+
+/* WHY cards */
+.why-grid{ display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+.why-card{ border:3px solid var(--ink); border-radius:var(--radius); padding:20px; box-shadow:6px 6px 0 var(--ink); }
+.why-card.bad{ background:#FFE4E6; } .why-card.good{ background:#DCFCE7; }
+.why-card h3{ margin-bottom:10px; font-size:1.2rem; }
+.flow{ display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:8px; }
+.flow .step{ background:var(--white); border:3px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); padding:10px 14px; font-weight:800; font-size:.92rem; text-align:center; }
+.flow .step.cond{ background:var(--yellow); } .flow .step.act{ background:var(--mint); }
+.flow .arr{ font-size:1.4rem; font-weight:900; }
+.flow .loopback{ background:var(--orange); color:#fff; border:3px solid var(--ink); border-radius:999px; padding:8px 14px; font-weight:800; font-size:.88rem; box-shadow:3px 3px 0 var(--ink); }
+
+/* confetti */
+.confetti-bit{ position:fixed; top:-20px; z-index:999; width:12px; height:12px; border:2px solid var(--ink); pointer-events:none; animation:confallin linear forwards; }
+@keyframes confallin{ 0%{ transform:translateY(0) rotate(0); opacity:1;} 100%{ transform:translateY(110vh) rotate(720deg); opacity:.6;} }
+
+footer{ text-align:center; padding:50px 20px 70px; font-weight:900; font-size:1.1rem; line-height:2; }
+footer .hearts{ font-size:1.6rem; }
+footer a{ color:var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="lesson6.html" class="home">📦 درس القوائم</a>
+  <a href="#why">🤔 لماذا؟</a>
+  <a href="#shop">🛒 التسوّق</a>
+  <a href="#goals">⚽ الأهداف</a>
+  <a href="#days">📅 الأيام</a>
+  <a href="#students">🧒 الأسماء</a>
+  <a href="#scores">📊 الدرجات</a>
+  <a href="#basket">🧺 السلّة</a>
+  <a href="#train">🚂 القطار</a>
+  <a href="#snake">🐍 الأفعى</a>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="blob b1">[0]</div><div class="blob b2">[1]</div><div class="blob b3">[2]</div>
+  <div class="blob b4">[3]</div><div class="blob b5">[4]</div>
+  <h1 id="heroTitle">قوائم في كل مكان</h1>
+  <p class="tagline">
+    قائمة التسوّق 🛒، قائمة الأغاني 🎵، أيام الأسبوع 📅، أسماء أصدقائك 🧒... كلها <b>قوائم</b>!
+    القائمة (Array) تجمع أشياء كثيرة في مكان واحد مرتّب، ولكلٍّ منها رقم (فهرس). تعال نراها في حياتنا اليومية!
+  </p>
+  <div class="know-chips">
+    <span class="know-chip on">print()</span>
+    <span class="know-chip on">for</span>
+    <span class="know-chip on">القوائم [ ]</span>
+    <span class="know-chip">الفهرس ✨</span>
+  </div>
+  <div class="hero-bot">📦</div>
+</header>
+
+<main>
+
+<!-- WHY -->
+<section id="why">
+  <span class="badge orange">الفكرة الكبيرة</span>
+  <h2>لماذا نحتاج القوائم؟ 🤔</h2>
+  <p class="lead">
+    تخيّل أنك تريد حفظ أسماء 3 أصدقاء.. سهل! لكن ماذا لو كانوا <b>30</b> صديقًا؟
+    هل تصنع 30 متغيّرًا؟ 😱 القائمة تضع كل الأسماء في صندوق واحد مرتّب، وتمرّ عليها كلها بسطرٍ واحد!
+  </p>
+
+  <div class="why-grid">
+    <div class="why-card bad">
+      <h3>😫 بدون قائمة</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--coral)"><span class="ln"><span class="var">friend1</span> = <span class="str">"سارة"</span></span><span class="ln"><span class="var">friend2</span> = <span class="str">"أحمد"</span></span><span class="ln"><span class="var">friend3</span> = <span class="str">"ليلى"</span></span></pre>
+      <p style="font-weight:800;margin-top:12px">ولو كانوا 30 صديقًا؟ 30 متغيّرًا! 🥵</p>
+    </div>
+    <div class="why-card good">
+      <h3>✨ مع قائمة واحدة</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--mint)"><span class="ln"><span class="var">friends</span> = [<span class="str">"سارة"</span>, <span class="str">"أحمد"</span>, <span class="str">"ليلى"</span>]</span><span class="ln"><span class="kw">for</span> <span class="var">name</span> <span class="kw">in</span> <span class="var">friends</span>:</span><span class="ln">    <span class="fn">print</span>(<span class="var">name</span>)</span></pre>
+      <p style="font-weight:800;margin-top:12px">ولو كانوا 30؟ نفس الكود تمامًا! 🎉</p>
+    </div>
+  </div>
+
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--sky)">
+    📦 القائمة صندوق مرتّب فيه خانات، ولكل خانة <b>رقم (فهرس)</b> يبدأ من <code>0</code>:
+    <div class="flow">
+      <span class="step cond">📦 اصنع قائمة [ ]</span>
+      <span class="arr">→</span>
+      <span class="step act">🔁 مُرّ على كل عنصر</span>
+      <span class="arr">→</span>
+      <span class="loopback">✨ افعل شيئًا بكلٍّ منها</span>
+    </div>
+    شاهد القائمة في أمثلة من حياتك بالأسفل! 👇
+  </div>
+</section>
+
+<!-- 1. SHOPPING -->
+<section id="shop">
+  <span class="badge sky">مثال 1</span>
+  <h2>قائمة التسوّق 🛒</h2>
+  <p class="lead">
+    عندما تذهب للسوق، تكتب قائمة بما تريد شراءه. البرنامج يفعل المثل: نضع المشتريات في قائمة،
+    ثم نمرّ على كل عنصر <b>واحدًا واحدًا</b> ونشتريه. هذه حلقة <code>for</code> فوق قائمة!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="shopStage"></div>
+      <div class="controls"><button class="btn run" id="shopRun">▶ ابدأ التسوّق</button></div>
+      <div class="try-hint">💡 لاحظ كيف يضيء كل عنصر بدوره من أول القائمة لآخرها.</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="sh1"><span class="var">shopping</span> = [<span class="str">"خبز 🍞"</span>, <span class="str">"حليب 🥛"</span>, <span class="str">"تفاح 🍎"</span>, <span class="str">"جبن 🧀"</span>]</span><span class="ln" id="sh2"><span class="kw">for</span> <span class="var">item</span> <span class="kw">in</span> <span class="var">shopping</span>:</span><span class="ln" id="sh3">    <span class="fn">print</span>(<span class="str">"اشترِ:"</span>, <span class="var">item</span>)</span><span class="ln" id="sh4"><span class="fn">print</span>(<span class="str">"انتهى التسوّق! 🛒"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="shopTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. GOALS (numbers / ints) -->
+<section id="goals">
+  <span class="badge purple">مثال 2</span>
+  <h2>أهداف المباريات ⚽ · قوائم الأرقام</h2>
+  <p class="lead">
+    ليست القوائم للكلمات فقط! نضع فيها <b>أرقامًا (ints)</b> أيضًا. مثلًا عدد أهداف فريقك في كل مباراة.
+    لاحظ أن الأرقام تُكتب <b>بدون علامات تنصيص</b>: <code>2</code> وليس <code>"2"</code>.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="goalsStage"></div>
+      <div class="controls"><button class="btn run" id="goalsRun">▶ اعرض المباريات</button></div>
+      <div class="try-hint">💡 كل عمود ارتفاعه بحسب عدد الأهداف. المباراة الرابعة فيها <b>0</b> هدف، والصفر رقمٌ صحيح في القائمة!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="go1"><span class="var">goals</span> = [<span class="num">2</span>, <span class="num">1</span>, <span class="num">3</span>, <span class="num">0</span>, <span class="num">2</span>]</span><span class="ln" id="go2"><span class="kw">for</span> <span class="var">g</span> <span class="kw">in</span> <span class="var">goals</span>:</span><span class="ln" id="go3">    <span class="fn">print</span>(<span class="str">"سجّلنا"</span>, <span class="var">g</span>, <span class="str">"أهداف"</span>)</span><span class="ln" id="go4"><span class="fn">print</span>(<span class="str">"المجموع:"</span>, <span class="fn">sum</span>(<span class="var">goals</span>), <span class="str">"⚽"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="goalsTerm"></div>
+    </div>
+  </div>
+  <div class="mini-note">
+    🔢 لأن العناصر <b>أرقام</b>، يستطيع الكمبيوتر أن يحسبها! <code>sum(goals)</code> يجمعها كلها، و<code>max(goals)</code> يجد أكبر نتيجة. هذا لا يصلح مع الكلمات، فقط مع الأرقام.
+  </div>
+</section>
+
+<!-- 3. DAYS (interactive index) -->
+<section id="days">
+  <span class="badge mint">مثال 3</span>
+  <h2>أيام الأسبوع 📅 · الوصول بالفهرس</h2>
+  <p class="lead">
+    أيام الأسبوع قائمة ثابتة الترتيب. أحيانًا لا نريد المرور عليها كلها، بل نريد <b>يومًا واحدًا</b> بعينه.
+    نستخدم <b>الفهرس</b>: <code>days[0]</code> أول يوم، <code>days[6]</code> آخر يوم. اضغط رقمًا وشاهد!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="daysStage"></div>
+      <div class="idx-pick" id="daysPicks"></div>
+      <div class="try-hint">💡 الفهرس يبدأ من <b>0</b>! لذلك أول يوم هو <code>days[0]</code> وليس <code>days[1]</code>. جرّب <code>-1</code> ليعطيك آخر يوم 😉</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln"><span class="var">days</span> = [<span class="str">"السبت"</span>, <span class="str">"الأحد"</span>, <span class="str">"الإثنين"</span>, <span class="str">"الثلاثاء"</span>, <span class="str">"الأربعاء"</span>, <span class="str">"الخميس"</span>, <span class="str">"الجمعة"</span>]</span><span class="ln"><span class="fn">print</span>(<span class="var">days</span>[<span class="num" id="daysIdx">0</span>])</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="daysTerm"></div>
+    </div>
+  </div>
+  <div class="mini-note">
+    🔢 في القائمة 7 أيام، لكن الفهارس من <b>0 إلى 6</b> (أي عددها ناقص واحد). الفهرس = كم خانة يبعد العنصر عن البداية، لذلك أول عنصر فهرسه صفر!
+  </div>
+</section>
+
+<!-- 4. STUDENTS -->
+<section id="students">
+  <span class="badge coral">مثال 4</span>
+  <h2>نداء أسماء الطلاب 🧒</h2>
+  <p class="lead">
+    في الصباح تنادي المعلّمة أسماء الطلاب من قائمة الحضور، اسمًا اسمًا. نضع الأسماء في قائمة
+    ونمرّ عليها بحلقة <code>for</code> لنُلقي التحية على كل طالب.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="studentsStage"></div>
+      <div class="controls"><button class="btn run" id="studentsRun">▶ نادِ الأسماء</button></div>
+      <div class="try-hint">💡 نفس الكود ينادي 4 طلاب أو 40 طالبًا، لا فرق!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="su1"><span class="var">students</span> = [<span class="str">"سارة 👧"</span>, <span class="str">"أحمد 👦"</span>, <span class="str">"ليلى 👧"</span>, <span class="str">"يوسف 👦"</span>]</span><span class="ln" id="su2"><span class="kw">for</span> <span class="var">name</span> <span class="kw">in</span> <span class="var">students</span>:</span><span class="ln" id="su3">    <span class="fn">print</span>(<span class="str">"مرحباً يا"</span>, <span class="var">name</span>)</span><span class="ln" id="su4"><span class="fn">print</span>(<span class="str">"حضر الجميع! ✅"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="studentsTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. SCORES -->
+<section id="scores">
+  <span class="badge" style="background:var(--yellow)">مثال 5</span>
+  <h2>درجات الامتحان 📊 · اجمع واحسب</h2>
+  <p class="lead">
+    عندك درجات في مواد كثيرة، وتريد <b>المجموع</b> و<b>أعلى درجة</b>. القائمة تحفظ كل الدرجات،
+    ونمرّ عليها لنجمعها في متغيّر <code>total</code>. شاهد المجموع يكبر مع كل درجة!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="scoresStage"></div>
+      <div class="controls"><button class="btn run" id="scoresRun">▶ احسب المجموع</button></div>
+      <div class="try-hint">💡 <code>max(scores)</code> تعطينا أكبر رقم في القائمة تلقائيًا.</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="sc1"><span class="var">scores</span> = [<span class="num">7</span>, <span class="num">9</span>, <span class="num">10</span>, <span class="num">8</span>, <span class="num">6</span>]</span><span class="ln" id="sc2"><span class="var">total</span> = <span class="num">0</span></span><span class="ln" id="sc3"><span class="kw">for</span> <span class="var">grade</span> <span class="kw">in</span> <span class="var">scores</span>:</span><span class="ln" id="sc4">    <span class="var">total</span> = <span class="var">total</span> + <span class="var">grade</span></span><span class="ln" id="sc5"><span class="fn">print</span>(<span class="str">"المجموع:"</span>, <span class="var">total</span>)</span><span class="ln" id="sc6"><span class="fn">print</span>(<span class="str">"أعلى درجة:"</span>, <span class="fn">max</span>(<span class="var">scores</span>))</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="scoresTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. BASKET (interactive append/pop) -->
+<section id="basket">
+  <span class="badge orange">مثال 6</span>
+  <h2>سلّة الفواكه 🧺 · أضف واحذف</h2>
+  <p class="lead">
+    القائمة <b>حيّة</b>! نضيف إليها بـ <code>append</code> ونحذف منها بـ <code>pop</code>.
+    تمامًا كسلّة تسوّق: تضع فاكهة في الأعلى، أو تُخرج آخر واحدة. جرّب بنفسك وراقب الفهارس تكبر وتصغر!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="basketStage"></div>
+      <div class="controls">
+        <button class="btn add small" id="basketAdd">➕ append</button>
+        <button class="btn rem small" id="basketPop">➖ pop</button>
+        <button class="btn small" id="basketReset">🔄 إعادة</button>
+      </div>
+      <div class="try-hint">💡 <code>append</code> يضيف دائمًا في <b>النهاية</b>، و<code>pop</code> يحذف من النهاية.</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln"><span class="var">basket</span> = [<span class="str">"تفاح 🍎"</span>, <span class="str">"موز 🍌"</span>]</span><span class="ln"><span class="var">basket</span>.<span class="fn">append</span>(<span class="str">"عنب 🍇"</span>)   <span style="color:#6b6386"># ➕ يضيف في النهاية</span></span><span class="ln"><span class="var">basket</span>.<span class="fn">pop</span>()              <span style="color:#6b6386"># ➖ يحذف الأخير</span></span><span class="ln"><span class="fn">print</span>(<span class="var">basket</span>)</span></pre>
+      <div class="live-line" id="basketLive">basket = ["تفاح 🍎", "موز 🍌"]</div>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="basketTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAIN (index = ticket number) -->
+<section id="train">
+  <span class="badge sky">مثال 7</span>
+  <h2>القطار وأرقام العربات 🚂 · الفهرس هو تذكرتك</h2>
+  <p class="lead">
+    في القطار كل عربة لها <b>رقم</b>، وداخلها عددٌ من الركّاب. رقم تذكرتك يخبرك <b>أيّ عربة</b> تصعد إليها!
+    وهذا الرقم هو نفسه <b>الفهرس</b> في القائمة: نصعد راكبًا للعربة بـ <code>train[تذكرتك] = train[تذكرتك] + 1</code>.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="trainStage"></div>
+      <div class="idx-pick" id="trainPicks"></div>
+      <div class="controls"><button class="btn small" id="trainReset">🔄 إعادة</button></div>
+      <div class="try-hint">💡 اضغط رقم تذكرة ليصعد راكب لتلك العربة. واضغط على العربة نفسها لينزل منها راكب 🚪</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln"><span class="var">train</span> = [<span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>]    <span style="color:#6b6386"># عدد ركّاب كل عربة</span></span><span class="ln"><span class="var">ticket</span> = <span class="num" id="trainTicket">2</span>             <span style="color:#6b6386"># رقم تذكرتك = الفهرس</span></span><span class="ln"><span class="var">train</span>[<span class="var">ticket</span>] = <span class="var">train</span>[<span class="var">ticket</span>] + <span class="num">1</span>   <span style="color:#6b6386"># صعد راكب لعربتك</span></span></pre>
+      <div class="live-line" id="trainLive">train = [0, 0, 0, 0]</div>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="trainTerm"></div>
+    </div>
+  </div>
+  <div class="mini-note">
+    🎫 الفكرة المهمة: <b>رقم تذكرتك هو الفهرس</b>. به نصل إلى العربة الصحيحة مباشرةً دون المرور على كل العربات. وأول عربة رقمها <code>0</code>!
+  </div>
+</section>
+
+<!-- SNAKE GAME -->
+<section id="snake">
+  <span class="badge pink">المشروع الكبير 🎮</span>
+  <h2>لعبة الأفعى 🐍 · جسمها قائمة مربّعات</h2>
+  <p class="lead">
+    العبها بنفسك! جسم الأفعى <b>قائمة من المربّعات</b>. تحكّم بالأسهم (أو الأزرار) لتأكل الفئران 🐭.
+    نستخدم شرط <code>if</code>: <b>إذا</b> أكلت الأفعى فأرًا ننفّذ <code>snake.append()</code> فتطول! طول القائمة <code>len</code> = طول الأفعى.
+  </p>
+  <div class="grid cols-2">
+    <div class="card" style="text-align:center">
+      <div class="snake-hud">
+        <span class="snake-pill">🍎 النقاط <b id="snakeScore">0</b></span>
+        <span class="snake-pill green">🐍 len = <b id="snakeLen">3</b></span>
+      </div>
+      <canvas id="snakeCanvas" width="300" height="300"></canvas>
+      <div class="snake-msg" id="snakeMsg">اضغط ابدأ ثم تحكّم بالأسهم 🎮</div>
+      <div class="dpad" id="snakeDpad">
+        <button class="dbtn up" data-dir="up" aria-label="فوق">▲</button>
+        <button class="dbtn left" data-dir="left" aria-label="يسار">◀</button>
+        <button class="dbtn down" data-dir="down" aria-label="تحت">▼</button>
+        <button class="dbtn right" data-dir="right" aria-label="يمين">▶</button>
+      </div>
+      <div class="controls" style="justify-content:center">
+        <button class="btn run" id="snakeStart">▶ ابدأ</button>
+        <button class="btn small" id="snakeRestart">🔄 إعادة</button>
+      </div>
+      <div class="try-hint">💡 على الكمبيوتر استخدم أسهم لوحة المفاتيح، وعلى الجوال استخدم الأزرار.</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln"><span class="var">snake</span> = [<span class="str">"🟩"</span>, <span class="str">"🟩"</span>, <span class="str">"🟩"</span>]   <span style="color:#6b6386"># جسم الأفعى قائمة مربّعات</span></span><span class="ln"><span class="kw">if</span> <span class="var">head</span> == <span class="var">mouse</span>:           <span style="color:#6b6386"># إذا أكلت الأفعى الفأر 🐭</span></span><span class="ln">    <span class="var">snake</span>.<span class="fn">append</span>(<span class="str">"🟩"</span>)     <span style="color:#6b6386"># نضيف مربّعًا فتطول</span></span><span class="ln"><span class="fn">print</span>(<span class="str">"الطول:"</span>, <span class="fn">len</span>(<span class="var">snake</span>))</span></pre>
+      <div style="font-weight:800;font-size:.82rem;margin-top:8px">📡 قائمة مربّعات الأفعى (يُضاف مربّع كلما أكلت 🐭):</div>
+      <div class="live-line" id="snakeLive">snake = ["🟩", "🟩", "🟩"]</div>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="snakeTerm"></div>
+    </div>
+  </div>
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--coral)">
+    🎉 رائع! القائمة تجمع أشياءك في مكان واحد مرتّب: نمرّ عليها بـ <code>for</code>، ونصل لعنصر بالفهرس، ونكبّرها بـ <code>append</code>.<br>
+    من التسوّق، إلى الأهداف، إلى القطار والأفعى.. القوائم في كل مكان حولنا! 🌍
+  </div>
+</section>
+
+</main>
+
+<footer>
+  أنت الآن ترى <b>القوائم</b> في كل مكان حولك! 📦<br>
+  جرّب أن تكتب قائمة بأشياء تحبها وامْرُر عليها بحلقة for.
+  <span class="hearts">💛💙💚❤️</span><br>
+  <a href="lesson6.html">⬅️ ارجع إلى درس القوائم</a>
+</footer>
+
+<script>
+/* HERO title split */
+(function(){
+  const h1 = document.getElementById('heroTitle');
+  const words = h1.textContent.trim().split(' ');
+  h1.textContent = '';
+  words.forEach((word, i) => {
+    const s = document.createElement('span');
+    s.textContent = word;
+    s.style.animationDelay = (i * 0.18) + 's';
+    h1.appendChild(s);
+    if (i < words.length - 1) h1.appendChild(document.createTextNode(' '));
+  });
+})();
+
+/* SCROLL REVEAL */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+/* HELPERS */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function clearCode(pre){ if(pre) pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active','skipped')); }
+function setActive(pre, id){ if(!pre) return; pre.querySelectorAll('.ln').forEach(l => l.classList.remove('active')); if(id){ const el=document.getElementById(id); if(el) el.classList.add('active'); } }
+function markSkip(id){ const el=document.getElementById(id); if(el) el.classList.add('skipped'); }
+async function typeOut(term, text, cls){
+  const line = document.createElement('div'); line.className='term-line'; line.dir='auto';
+  const span = document.createElement('span'); span.className = cls || 't-out';
+  line.appendChild(span); term.appendChild(line); term.scrollTop = term.scrollHeight;
+  for (const ch of text){ span.textContent += ch; await sleep(15); term.scrollTop = term.scrollHeight; }
+}
+function runner(btn, fn){
+  let busy=false;
+  btn.addEventListener('click', async ()=>{ if(busy) return; busy=true; btn.disabled=true; try{ await fn(); } finally{ busy=false; btn.disabled=false; } });
+}
+function pulse(el){ if(!el) return; el.classList.remove('pulse'); void el.offsetWidth; el.classList.add('pulse'); }
+function setCap(stage, txt){ const c=stage.querySelector('[data-cap]'); if(c) c.textContent=txt; }
+function confetti(){
+  const colors = ['#FF6B6B','#FFD93D','#5FD08D','#4D96FF','#9B5DE5','#FF8FAB','#FF9F43'];
+  for (let i = 0; i < 90; i++){
+    const bit = document.createElement('div');
+    bit.className = 'confetti-bit';
+    bit.style.left = Math.random() * 100 + 'vw';
+    bit.style.background = colors[Math.floor(Math.random() * colors.length)];
+    bit.style.animationDuration = (2 + Math.random() * 2.5) + 's';
+    bit.style.animationDelay = (Math.random() * .8) + 's';
+    if (Math.random() > .5) bit.style.borderRadius = '50%';
+    document.body.appendChild(bit);
+    setTimeout(() => bit.remove(), 6000);
+  }
+}
+
+/* ARRAY VISUAL BUILDERS */
+function buildArr(stage, arr, opt){
+  opt = opt || {};
+  let s = '';
+  arr.forEach((it,i) => {
+    s += `<div class="arr-cell" data-cell="${i}"><div class="arr-box" data-box="${i}">${it}</div><div class="arr-idx">[${i}]</div></div>`;
+  });
+  const totalHtml = opt.total ? `<div class="arr-total">${opt.totalLabel||'المجموع'}: <b data-total>0</b></div>` : '';
+  stage.innerHTML = `<div class="arrviz"><div class="arr-row">${s}</div>${totalHtml}<div class="lv-cap" data-cap></div></div>`;
+}
+function buildBars(stage, arr, opt){
+  opt = opt || {};
+  const maxV = Math.max.apply(null, arr.concat([1]));
+  let s = '';
+  arr.forEach((v,i) => {
+    const h = Math.round(16 + (v / maxV) * 90);
+    s += `<div class="bar-col"><div class="bar-val">${v}${opt.suffix||''}</div><div class="bar" data-box="${i}" data-h="${h}" style="height:0px"></div><div class="arr-idx">[${i}]</div></div>`;
+  });
+  stage.innerHTML = `<div class="arrviz"><div class="bar-row">${s}</div><div class="lv-cap" data-cap></div></div>`;
+  requestAnimationFrame(()=>{ stage.querySelectorAll('.bar').forEach(b=>{ b.style.height = b.dataset.h + 'px'; }); });
+}
+function defHi(stage, i, cls){
+  stage.querySelectorAll('.arr-box').forEach(el => el.classList.remove('current','playing'));
+  stage.querySelectorAll('.arr-cell').forEach(el => el.classList.remove('hot'));
+  const box = stage.querySelector('[data-box="'+i+'"]');
+  const cell = stage.querySelector('[data-cell="'+i+'"]');
+  if(box) box.classList.add(cls || 'current');
+  if(cell) cell.classList.add('hot');
+}
+function defDone(stage, i){
+  const box = stage.querySelector('[data-box="'+i+'"]');
+  const cell = stage.querySelector('[data-cell="'+i+'"]');
+  if(box){ box.classList.remove('current','playing'); box.classList.add('done'); }
+  if(cell) cell.classList.remove('hot');
+}
+
+/* GENERIC FOR-EACH RUNNER */
+async function runForEach(cfg){
+  const pre = document.querySelector(cfg.section + ' pre');
+  const term = document.getElementById(cfg.termId);
+  const stage = document.getElementById(cfg.stageId);
+  term.innerHTML = ''; clearCode(pre);
+  cfg.build(stage);
+  const state = cfg.init ? cfg.init() : {};
+  for (const id of cfg.initIds){ setActive(pre, id); await sleep(440); }
+
+  const arr = cfg.arr;
+  for (let i = 0; i < arr.length; i++){
+    setActive(pre, cfg.forId); await sleep(430);
+    (cfg.highlight || defHi)(stage, i, cfg.hiClass);
+    await sleep(280);
+    for (const b of cfg.body){
+      setActive(pre, b.id); await sleep(300);
+      if (b.type === 'print'){
+        await typeOut(term, b.text(arr[i], i, state));
+      } else {
+        b.fn(state, arr[i], i);
+        if (cfg.onUpdate) cfg.onUpdate(stage, state, i, arr);
+        await sleep(380);
+      }
+    }
+    (cfg.done || defDone)(stage, i, arr);
+    await sleep(150);
+  }
+  setActive(pre, cfg.forId); await sleep(360);
+  cfg.body.forEach(b => markSkip(b.id));
+  await sleep(220);
+  for (const a of (cfg.afterSteps || [])){
+    setActive(pre, a.id); await sleep(300);
+    await typeOut(term, a.text(state), 't-sys');
+  }
+  if (cfg.finish) cfg.finish(stage, arr, state);
+  setTimeout(() => clearCode(pre), 1000);
+}
+
+/* DATA */
+const SHOP = ["خبز 🍞", "حليب 🥛", "تفاح 🍎", "جبن 🧀"];
+const GOALS = [2, 1, 3, 0, 2];
+const STUD = ["سارة 👧", "أحمد 👦", "ليلى 👧", "يوسف 👦"];
+const SCORES = [7, 9, 10, 8, 6];
+
+/* LOOP EXAMPLES */
+const EXAMPLES = [
+  { key:'shop', section:'#shop', termId:'shopTerm', stageId:'shopStage',
+    arr:SHOP, initIds:['sh1'], forId:'sh2',
+    body:[ {id:'sh3', type:'print', text:(it)=>'اشترِ: '+it} ],
+    afterSteps:[ {id:'sh4', text:()=>'انتهى التسوّق! 🛒'} ],
+    build:(st)=>buildArr(st, SHOP),
+    finish:(st)=>setCap(st, '✅ اشترينا كل شيء في القائمة') },
+
+  { key:'goals', section:'#goals', termId:'goalsTerm', stageId:'goalsStage',
+    arr:GOALS, initIds:['go1'], forId:'go2',
+    body:[ {id:'go3', type:'print', text:(v)=>'سجّلنا '+v+' أهداف'} ],
+    afterSteps:[ {id:'go4', text:()=>'المجموع: '+GOALS.reduce((a,b)=>a+b,0)+' ⚽'} ],
+    build:(st)=>buildBars(st, GOALS),
+    highlight:(st,i)=>{ st.querySelectorAll('.bar').forEach(b=>b.classList.remove('current')); const el=st.querySelector('[data-box="'+i+'"]'); if(el) el.classList.add('current'); },
+    done:(st,i)=>{ const el=st.querySelector('[data-box="'+i+'"]'); if(el){ el.classList.remove('current'); el.classList.add('done'); } },
+    finish:(st)=>setCap(st, '⚽ مجموع الأهداف '+GOALS.reduce((a,b)=>a+b,0)) },
+
+  { key:'students', section:'#students', termId:'studentsTerm', stageId:'studentsStage',
+    arr:STUD, initIds:['su1'], forId:'su2',
+    body:[ {id:'su3', type:'print', text:(it)=>'مرحباً يا '+it} ],
+    afterSteps:[ {id:'su4', text:()=>'حضر الجميع! ✅'} ],
+    build:(st)=>buildArr(st, STUD),
+    finish:(st)=>setCap(st, '✅ ناديْنا كل الأسماء') },
+
+  { key:'scores', section:'#scores', termId:'scoresTerm', stageId:'scoresStage',
+    arr:SCORES, initIds:['sc1','sc2'], forId:'sc3',
+    init:()=>({total:0}),
+    body:[ {id:'sc4', type:'update', fn:(s,it)=>{ s.total += it; }} ],
+    onUpdate:(st,s)=>{ const t=st.querySelector('[data-total]'); if(t){ t.textContent=s.total; pulse(t); } },
+    afterSteps:[
+      {id:'sc5', text:(s)=>'المجموع: '+s.total},
+      {id:'sc6', text:()=>'أعلى درجة: '+Math.max(...SCORES)} ],
+    build:(st)=>buildArr(st, SCORES, {total:true, totalLabel:'المجموع'}),
+    finish:(st,arr,s)=>setCap(st, '📊 المجموع '+s.total+'  ·  الأعلى '+Math.max(...SCORES)) },
+];
+
+EXAMPLES.forEach(cfg => {
+  const btn = document.getElementById(cfg.key + 'Run');
+  if (btn) runner(btn, () => runForEach(cfg));
+  const stage = document.getElementById(cfg.stageId);
+  cfg.build(stage);
+});
+
+/* ── DAYS: interactive index access ── */
+const DAYS = ["السبت","الأحد","الإثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"];
+(function setupDays(){
+  const stage = document.getElementById('daysStage');
+  buildArr(stage, DAYS);
+  const picks = document.getElementById('daysPicks');
+  let html = '';
+  DAYS.forEach((d,i)=>{ html += `<button data-pick="${i}">${i}</button>`; });
+  html += `<button data-pick="-1" class="neg">-1</button>`;
+  picks.innerHTML = html;
+  picks.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>pickDay(parseInt(b.dataset.pick,10), b));
+  });
+})();
+function pickDay(i, btn){
+  const stage = document.getElementById('daysStage');
+  const term = document.getElementById('daysTerm');
+  document.getElementById('daysPicks').querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+  btn.classList.add('on');
+  const real = i < 0 ? DAYS.length + i : i;
+  defHi(stage, real);
+  document.getElementById('daysIdx').textContent = i;
+  const val = DAYS[real];
+  term.innerHTML = '';
+  typeOut(term, 'days['+i+']  →  '+val);
+}
+
+/* ── BASKET: interactive append / pop ── */
+const BASKET0 = ["تفاح 🍎", "موز 🍌"];
+const POOL = ["عنب 🍇", "فراولة 🍓", "برتقال 🍊", "بطيخ 🍉", "أناناس 🍍", "كرز 🍒"];
+let basket = BASKET0.slice();
+let poolIdx = 0;
+function renderBasket(popInIndex){
+  const stage = document.getElementById('basketStage');
+  buildArr(stage, basket);
+  if (popInIndex != null){ const el = stage.querySelector('[data-box="'+popInIndex+'"]'); if(el) el.classList.add('pop'); }
+  setCap(stage, basket.length ? ('الطول  len = '+basket.length) : 'القائمة فارغة []');
+  document.getElementById('basketLive').textContent = 'basket = [' + basket.map(x=>'"'+x+'"').join(', ') + ']';
+}
+function logBasket(text){
+  const term = document.getElementById('basketTerm');
+  typeOut(term, text, 't-sys');
+}
+(function setupBasket(){
+  renderBasket();
+  document.getElementById('basketAdd').addEventListener('click', ()=>{
+    if (basket.length >= 7){ logBasket('السلّة ممتلئة! 🧺'); return; }
+    const item = POOL[poolIdx % POOL.length]; poolIdx++;
+    basket.push(item);
+    renderBasket(basket.length - 1);
+    logBasket('basket.append("'+item+'")  ✅  الطول الآن '+basket.length);
+  });
+  document.getElementById('basketPop').addEventListener('click', ()=>{
+    if (basket.length === 0){ logBasket('السلّة فارغة، لا شيء لحذفه!'); return; }
+    const removed = basket.pop();
+    renderBasket();
+    logBasket('basket.pop()  ➖  حذفنا "'+removed+'"  ·  الطول '+basket.length);
+  });
+  document.getElementById('basketReset').addEventListener('click', ()=>{
+    basket = BASKET0.slice(); poolIdx = 0;
+    document.getElementById('basketTerm').innerHTML = '';
+    renderBasket();
+  });
+})();
+
+/* ── TRAIN: ticket number = index, board / leave a cart ── */
+let train = [0, 0, 0, 0];
+function renderTrain(hot){
+  const stage = document.getElementById('trainStage');
+  let carts = '';
+  train.forEach((cnt,i)=>{
+    let ppl = ''; for (let k=0;k<Math.min(cnt,6);k++) ppl += '🧍'; if (cnt>6) ppl += '…';
+    carts += `<div class="cart ${i===hot?'hot':''}"><div class="cart-num">عربة ${i}</div><div class="cart-body ${i===hot?'bump':''}" data-body="${i}"><div class="cart-people">${ppl||'·'}</div><div class="cart-count">${cnt} راكب</div></div></div>`;
+  });
+  stage.innerHTML = `<div class="arrviz"><div class="train-row"><span class="loco">🚂</span>${carts}</div><div class="lv-cap" data-cap></div></div>`;
+  stage.querySelectorAll('[data-body]').forEach(el=>{
+    el.addEventListener('click', ()=>trainLeave(parseInt(el.dataset.body,10)));
+  });
+  document.getElementById('trainLive').textContent = 'train = [' + train.join(', ') + ']';
+}
+function logTrain(t, cls){ typeOut(document.getElementById('trainTerm'), t, cls || 't-out'); }
+function trainBoard(i){
+  train[i]++;
+  document.getElementById('trainTicket').textContent = i;
+  renderTrain(i);
+  logTrain('train['+i+'] = train['+i+'] + 1   →   العربة '+i+' فيها الآن '+train[i]+' راكب', 't-sys');
+}
+function trainLeave(i){
+  if (train[i] <= 0){ logTrain('العربة '+i+' فارغة، لا أحد لينزل!'); return; }
+  train[i]--;
+  document.getElementById('trainTicket').textContent = i;
+  renderTrain(i);
+  logTrain('🚪 نزل راكب من العربة '+i+'   →   بقي فيها '+train[i]);
+}
+(function setupTrain(){
+  renderTrain();
+  const picks = document.getElementById('trainPicks');
+  let html = '';
+  train.forEach((_,i)=>{ html += `<button data-pick="${i}">🎫 ${i}</button>`; });
+  picks.innerHTML = html;
+  picks.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      picks.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      trainBoard(parseInt(b.dataset.pick,10));
+    });
+  });
+  document.getElementById('trainReset').addEventListener('click', ()=>{
+    train = [0,0,0,0];
+    document.getElementById('trainTerm').innerHTML = '';
+    picks.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+    renderTrain();
+  });
+})();
+
+/* ── SNAKE GAME: the body IS an array; eating a mouse appends a square ── */
+(function(){
+  const cv = document.getElementById('snakeCanvas');
+  const ctx = cv.getContext('2d');
+  const COLS = 15, ROWS = 15, CELL = cv.width / COLS;
+  let snake, dir, nextDir, food, timer = null, score, alive, started, inView = false;
+
+  const rand = n => Math.floor(Math.random() * n);
+  const onSnake = (p, arr) => (arr || snake).some(s => s.x === p.x && s.y === p.y);
+  function placeFood(){ do { food = {x:rand(COLS), y:rand(ROWS)}; } while (onSnake(food)); }
+  function logSnake(t, cls){ typeOut(document.getElementById('snakeTerm'), t, cls || 't-out'); }
+  function setMsg(t){ document.getElementById('snakeMsg').textContent = t; }
+  function updatePanel(){
+    document.getElementById('snakeScore').textContent = score;
+    document.getElementById('snakeLen').textContent = snake.length;
+    document.getElementById('snakeLive').textContent =
+      'snake = [' + snake.map(() => '"🟩"').join(', ') + ']';
+  }
+  function flashLive(){
+    const el = document.getElementById('snakeLive');
+    el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+  }
+  function stopTimer(){ if (timer){ clearInterval(timer); timer = null; } }
+
+  function reset(){
+    stopTimer();
+    snake = [{x:7,y:7},{x:6,y:7},{x:5,y:7}];
+    dir = {x:1,y:0}; nextDir = {x:1,y:0};
+    score = 0; alive = true; started = false;
+    placeFood(); updatePanel(); draw();
+    setMsg('اضغط ابدأ ثم تحكّم بالأسهم 🎮');
+    document.getElementById('snakeStart').textContent = '▶ ابدأ';
+  }
+  function start(){
+    if (!alive) reset();
+    if (started){ stopTimer(); started = false; document.getElementById('snakeStart').textContent = '▶ متابعة'; setMsg('توقّفت مؤقتًا ⏸️'); return; }
+    started = true; document.getElementById('snakeStart').textContent = '⏸️ إيقاف';
+    setMsg('انطلق! كُل الفئران 🐭');
+    timer = setInterval(tick, 220);
+  }
+  function setDir(nx, ny){
+    if (snake.length > 1 && nx === -dir.x && ny === -dir.y) return; // no reversing
+    nextDir = {x:nx, y:ny};
+  }
+  function tick(){
+    dir = nextDir;
+    const head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+    if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS || onSnake(head, snake.slice(0,-1))){
+      gameOver(); return;
+    }
+    snake.unshift(head);
+    if (head.x === food.x && head.y === food.y){
+      score++;
+      placeFood();
+      logSnake('if head == mouse ✅  →  snake.append("🟩")  →  الطول ' + snake.length, 't-sys');
+      flashLive();
+      if (score % 5 === 0) confetti();
+    } else {
+      snake.pop(); // didn't eat → body length stays the same
+    }
+    updatePanel(); draw();
+  }
+  function gameOver(){
+    stopTimer(); alive = false; started = false;
+    document.getElementById('snakeStart').textContent = '🔄 العب ثانية';
+    draw();
+    ctx.fillStyle = 'rgba(43,35,66,.8)'; ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle = '#FFF6E9'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = '800 24px Rubik, sans-serif';
+    ctx.fillText('انتهت اللعبة! 🐍', cv.width/2, cv.height/2 - 10);
+    ctx.font = '700 16px Rubik, sans-serif';
+    ctx.fillText('الطول النهائي: ' + snake.length, cv.width/2, cv.height/2 + 18);
+    setMsg('💥 اصطدمت! الطول النهائي ' + snake.length + '. اضغط العب ثانية');
+    logSnake('💥 انتهت اللعبة! طول الأفعى = ' + snake.length);
+  }
+  function roundRect(x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+  function draw(){
+    ctx.fillStyle = '#FEF3C7'; ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.strokeStyle = 'rgba(43,35,66,.07)'; ctx.lineWidth = 1;
+    for (let i=1;i<COLS;i++){ ctx.beginPath(); ctx.moveTo(i*CELL,0); ctx.lineTo(i*CELL,cv.height); ctx.stroke(); }
+    for (let j=1;j<ROWS;j++){ ctx.beginPath(); ctx.moveTo(0,j*CELL); ctx.lineTo(cv.width,j*CELL); ctx.stroke(); }
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = (CELL-3) + 'px serif';
+    ctx.fillText('🐭', food.x*CELL + CELL/2, food.y*CELL + CELL/2 + 1);
+    snake.forEach((s,i) => {
+      const pad = 2;
+      ctx.fillStyle = i === 0 ? '#FFD93D' : '#5FD08D';
+      roundRect(s.x*CELL+pad, s.y*CELL+pad, CELL-2*pad, CELL-2*pad, 5);
+      ctx.fill();
+      ctx.lineWidth = 2; ctx.strokeStyle = '#2B2342'; ctx.stroke();
+    });
+  }
+
+  document.getElementById('snakeStart').addEventListener('click', start);
+  document.getElementById('snakeRestart').addEventListener('click', reset);
+  document.querySelectorAll('#snakeDpad .dbtn').forEach(b => {
+    b.addEventListener('click', () => {
+      const d = b.dataset.dir;
+      if (d === 'up') setDir(0,-1); else if (d === 'down') setDir(0,1);
+      else if (d === 'left') setDir(-1,0); else setDir(1,0);
+      if (!started && alive) start();
+    });
+  });
+  new IntersectionObserver(es => es.forEach(e => inView = e.isIntersecting), {threshold:.25})
+    .observe(document.getElementById('snake'));
+  window.addEventListener('keydown', e => {
+    if (!inView) return;
+    let used = true;
+    const k = e.key;
+    if (k === 'ArrowUp' || k === 'w' || k === 'W') setDir(0,-1);
+    else if (k === 'ArrowDown' || k === 's' || k === 'S') setDir(0,1);
+    else if (k === 'ArrowLeft' || k === 'a' || k === 'A') setDir(-1,0);
+    else if (k === 'ArrowRight' || k === 'd' || k === 'D') setDir(1,0);
+    else used = false;
+    if (used){ e.preventDefault(); if (!started && alive) start(); }
+  });
+
+  reset();
+})();
+</script>
+</body>
+</html>
