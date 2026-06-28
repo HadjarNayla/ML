@@ -47,6 +47,37 @@ h1{font-size:clamp(2rem,5.5vw,3.8rem);font-weight:900;line-height:1.35;margin-bo
 .stat .st-num{font-size:1.3rem;font-weight:900;color:#ffd200}
 .stat .st-lbl{font-size:.78rem;color:rgba(255,255,255,.5)}
 
+/* ===== STARS LEADERBOARD ===== */
+.stars-section{width:100%;max-width:780px;margin-bottom:3rem}
+.stars-title{font-size:1.5rem;font-weight:900;margin-bottom:.3rem;color:#ffd200;text-shadow:0 0 18px rgba(255,210,0,.4)}
+.stars-sub{font-size:.85rem;color:rgba(255,255,255,.4);margin-bottom:1.4rem}
+
+.podium{display:flex;justify-content:center;align-items:flex-end;gap:1rem;margin-bottom:1.6rem}
+.pod{display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.pod-medal{font-size:1.5rem}
+.pod-avatar{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff}
+.pod-1 .pod-avatar{width:68px;height:68px;font-size:1.1rem;background:linear-gradient(135deg,#f7b731,#f9ca24);box-shadow:0 0 0 3px rgba(247,183,49,.4),0 8px 22px rgba(247,183,49,.3)}
+.pod-2 .pod-avatar{width:56px;height:56px;font-size:1rem;background:linear-gradient(135deg,#90a4ae,#b0bec5);box-shadow:0 0 0 3px rgba(176,190,197,.3)}
+.pod-3 .pod-avatar{width:50px;height:50px;font-size:.95rem;background:linear-gradient(135deg,#cd8c5a,#e0a97c);box-shadow:0 0 0 3px rgba(205,140,90,.3)}
+.pod-name{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.9)}
+.pod-stars-val{font-size:.9rem;font-weight:900}
+.pod-1 .pod-stars-val{color:#ffd200}
+.pod-2 .pod-stars-val{color:#b0bec5}
+.pod-3 .pod-stars-val{color:#cd8c5a}
+.pod-bar{width:50px;border-radius:6px 6px 0 0;margin-top:.4rem}
+.pod-1 .pod-bar{height:60px;background:rgba(247,183,49,.2);border:1px solid rgba(247,183,49,.3)}
+.pod-2 .pod-bar{height:44px;background:rgba(176,190,197,.12);border:1px solid rgba(176,190,197,.2)}
+.pod-3 .pod-bar{height:32px;background:rgba(205,140,90,.12);border:1px solid rgba(205,140,90,.2)}
+
+.lb-rows{display:flex;flex-direction:column;gap:.5rem}
+.lb-row{display:flex;align-items:center;gap:.8rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:.55rem 1rem;text-align:right;transition:transform .2s,border-color .2s}
+.lb-row:hover{transform:translateX(-4px);border-color:rgba(255,210,0,.25)}
+.lb-rank{font-size:.78rem;font-weight:700;color:rgba(255,255,255,.3);min-width:1.6rem;text-align:center}
+.lb-name{flex:1;font-size:.95rem;font-weight:700;color:rgba(255,255,255,.9)}
+.lb-bar-wrap{width:100px;height:7px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}
+.lb-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#f7971e,#ffd200)}
+.lb-val{font-size:.88rem;font-weight:900;color:#ffd200;min-width:3rem;text-align:left}
+
 /* ===== LESSON GRID ===== */
 .lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:1.6rem;width:100%;max-width:1180px}
 
@@ -96,20 +127,16 @@ h1{font-size:clamp(2rem,5.5vw,3.8rem);font-weight:900;line-height:1.35;margin-bo
 .l5 .lesson-btn{background:linear-gradient(135deg,#21d4fd,#2ecc71);color:#04210f;box-shadow:0 8px 24px rgba(33,212,253,.35)}
 .l5 .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(33,212,253,.55)}
 
-/* exercises chip button */
 .ex-btn{position:relative;z-index:1;width:100%;margin-top:.7rem;padding:.68rem 1rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;color:#a8f0c0;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.45rem;background:rgba(46,204,113,.1);border:1.5px solid rgba(46,204,113,.35);transition:all .25s}
 .ex-btn:hover{background:rgba(46,204,113,.22);border-color:#2ecc71;transform:translateY(-2px);box-shadow:0 8px 20px rgba(46,204,113,.25)}
 .ex-btn .ex-tag{font-size:.62rem;background:rgba(46,204,113,.25);padding:.05rem .55rem;border-radius:50px}
 
-/* new ribbon on lesson 3 */
 .new-ribbon{position:absolute;top:14px;left:-34px;z-index:2;background:linear-gradient(135deg,#2ecc71,#21d4fd);color:#04210f;font-size:.7rem;font-weight:900;padding:.25rem 2.6rem;transform:rotate(-38deg);box-shadow:0 4px 14px rgba(46,204,113,.45);animation:ribbonPulse 2s ease-in-out infinite}
 @keyframes ribbonPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
 
-/* lesson 6 */
 .l6 .lesson-btn{background:linear-gradient(135deg,#ff9f43,#ee5a6f);color:#fff;box-shadow:0 8px 24px rgba(255,159,67,.35)}
 .l6 .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,159,67,.55)}
 
-/* locked lesson 7 */
 .l7{opacity:.8}
 .l7 .lesson-num{color:rgba(255,255,255,.4)}
 .l7 .lesson-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);cursor:not-allowed;box-shadow:none}
@@ -143,6 +170,14 @@ footer .f-hearts{font-size:1.1rem}
     <div class="stat"><div class="st-num">18+</div><div class="st-lbl">مهمات وتمارين</div></div>
     <div class="stat"><div class="st-num">🐍</div><div class="st-lbl">لغة Python</div></div>
     <div class="stat"><div class="st-num">100%</div><div class="st-lbl">متعة وتجربة</div></div>
+  </div>
+
+  <!-- ===== STARS LEADERBOARD ===== -->
+  <div class="stars-section">
+    <div class="stars-title">🌟 نجوم اليوم</div>
+    <div class="stars-sub">المخيم الصيفي · مجمع أثير · الأستاذة نايلة</div>
+    <div class="podium" id="podium"></div>
+    <div class="lb-rows" id="lbRows"></div>
   </div>
 
   <div class="lessons">
@@ -276,7 +311,7 @@ for(let i=0;i<110;i++){
   sc.appendChild(s);
 }
 
-// shooting stars every few seconds
+// shooting stars
 function spawnShootingStar(){
   const st=document.createElement('div');
   st.className='shooting-star';
@@ -287,6 +322,67 @@ function spawnShootingStar(){
 }
 setInterval(()=>{if(Math.random()>.4)spawnShootingStar();},2600);
 setTimeout(spawnShootingStar,900);
+
+// ===== LEADERBOARD =====
+const students = [
+  {n:"يوسف",   s:10},
+  {n:"كوثر",   s:8},
+  {n:"مريم",   s:8},
+  {n:"نادية",  s:7},
+  {n:"عمالو",  s:6},
+  {n:"آية",    s:4},
+  {n:"يسين طه",s:3},
+  {n:"الياس",  s:3},
+  {n:"بن صالح",s:2},
+  {n:"انس",    s:2},
+  {n:"عماد",   s:1},
+  {n:"يسين2",  s:0},
+];
+
+const sorted = [...students].sort((a,b)=>b.s-a.s);
+const maxS = sorted[0].s;
+
+function initials(name){ return name.trim().slice(0,2); }
+
+// Podium (top 3)
+const podiumEl = document.getElementById('podium');
+const top3 = sorted.slice(0,3);
+const medals = ['🥇','🥈','🥉'];
+// display order: 2nd, 1st, 3rd
+const podOrder = [
+  {data:top3[1], rank:2},
+  {data:top3[0], rank:1},
+  {data:top3[2], rank:3}
+];
+
+podOrder.forEach(({data:p, rank})=>{
+  if(!p) return;
+  const div = document.createElement('div');
+  div.className = 'pod pod-'+rank;
+  div.innerHTML = `
+    <div class="pod-medal">${medals[rank-1]}</div>
+    <div class="pod-avatar">${initials(p.n)}</div>
+    <div class="pod-name">${p.n}</div>
+    <div class="pod-stars-val">★ ${p.s}</div>
+    <div class="pod-bar"></div>
+  `;
+  podiumEl.appendChild(div);
+});
+
+// Rows (4th onwards)
+const rowsEl = document.getElementById('lbRows');
+sorted.slice(3).forEach((p,i)=>{
+  const pct = maxS>0 ? Math.round((p.s/maxS)*100) : 0;
+  const row = document.createElement('div');
+  row.className = 'lb-row';
+  row.innerHTML = `
+    <div class="lb-rank">${i+4}</div>
+    <div class="lb-name">${p.n}</div>
+    <div class="lb-bar-wrap"><div class="lb-bar-fill" style="width:${pct}%"></div></div>
+    <div class="lb-val">★ ${p.s}</div>
+  `;
+  rowsEl.appendChild(row);
+});
 </script>
 </body>
 </html>
