@@ -59,8 +59,8 @@ h1{font-size:clamp(2rem,5.5vw,3.8rem);font-weight:900;line-height:1.35;margin-bo
 .lesson-card:nth-child(3){animation-delay:.34s}
 .lesson-card:nth-child(4){animation-delay:.46s}
 .lesson-card:nth-child(5){animation-delay:.58s}
-.lesson-card:nth-child(6){animation-delay:.68s}
-.lesson-card:nth-child(7){animation-delay:.78s}
+.lesson-card:nth-child(6){animation-delay:.7s}
+.lesson-card:nth-child(7){animation-delay:.82s}
 @keyframes cardIn{to{opacity:1;transform:none}}
 .lesson-card:hover{transform:translateY(-10px);box-shadow:0 20px 50px rgba(0,0,0,.5);border-color:color-mix(in srgb,var(--lc) 55%,transparent)}
 
@@ -68,11 +68,11 @@ h1{font-size:clamp(2rem,5.5vw,3.8rem);font-weight:900;line-height:1.35;margin-bo
 .l2{--lc:#ffd200}
 .l3{--lc:#2ecc71}
 .l4{--lc:#b721ff}
-.l5{--lc:#777}
-.l-results{--lc:#f7971e}
+.l5{--lc:#21d4fd}
+.l6{--lc:#ff9f43}
+.l7{--lc:#777}
 
 .lesson-num{position:relative;z-index:1;font-size:.8rem;font-weight:700;letter-spacing:.5px;padding:.28rem 1.1rem;border-radius:50px;margin-bottom:.5rem;background:color-mix(in srgb,var(--lc) 14%,transparent);color:var(--lc);border:1px solid color-mix(in srgb,var(--lc) 35%,transparent)}
-.l5 .lesson-num{color:rgba(255,255,255,.4)}
 
 .emoji-ring{position:relative;z-index:1;width:86px;height:86px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.7rem;background:color-mix(in srgb,var(--lc) 10%,transparent);border:2px solid color-mix(in srgb,var(--lc) 30%,transparent);margin-bottom:.5rem;transition:transform .35s,box-shadow .35s}
 .lesson-card:hover .emoji-ring{transform:scale(1.12) rotate(-6deg);box-shadow:0 0 28px color-mix(in srgb,var(--lc) 35%,transparent)}
@@ -93,8 +93,8 @@ h1{font-size:clamp(2rem,5.5vw,3.8rem);font-weight:900;line-height:1.35;margin-bo
 .l3 .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(46,204,113,.55)}
 .l4 .lesson-btn{background:linear-gradient(135deg,#b721ff,#21d4fd);color:#fff;box-shadow:0 8px 24px rgba(183,33,255,.35)}
 .l4 .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(183,33,255,.55)}
-.l-results .lesson-btn{background:linear-gradient(135deg,#f7971e,#ffd200);color:#080818;box-shadow:0 8px 24px rgba(247,151,30,.35)}
-.l-results .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(247,151,30,.55)}
+.l5 .lesson-btn{background:linear-gradient(135deg,#21d4fd,#2ecc71);color:#04210f;box-shadow:0 8px 24px rgba(33,212,253,.35)}
+.l5 .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(33,212,253,.55)}
 
 /* exercises chip button */
 .ex-btn{position:relative;z-index:1;width:100%;margin-top:.7rem;padding:.68rem 1rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;color:#a8f0c0;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.45rem;background:rgba(46,204,113,.1);border:1.5px solid rgba(46,204,113,.35);transition:all .25s}
@@ -105,14 +105,16 @@ h1{font-size:clamp(2rem,5.5vw,3.8rem);font-weight:900;line-height:1.35;margin-bo
 .new-ribbon{position:absolute;top:14px;left:-34px;z-index:2;background:linear-gradient(135deg,#2ecc71,#21d4fd);color:#04210f;font-size:.7rem;font-weight:900;padding:.25rem 2.6rem;transform:rotate(-38deg);box-shadow:0 4px 14px rgba(46,204,113,.45);animation:ribbonPulse 2s ease-in-out infinite}
 @keyframes ribbonPulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
 
-/* results ribbon */
-.results-ribbon{position:absolute;top:14px;left:-34px;z-index:2;background:linear-gradient(135deg,#f7971e,#ffd200);color:#080818;font-size:.7rem;font-weight:900;padding:.25rem 2.6rem;transform:rotate(-38deg);box-shadow:0 4px 14px rgba(247,151,30,.5);animation:ribbonPulse 2s ease-in-out infinite}
+/* lesson 6 */
+.l6 .lesson-btn{background:linear-gradient(135deg,#ff9f43,#ee5a6f);color:#fff;box-shadow:0 8px 24px rgba(255,159,67,.35)}
+.l6 .lesson-btn:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,159,67,.55)}
 
-/* locked lesson 5 */
-.l5{opacity:.8}
-.l5 .lesson-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);cursor:not-allowed;box-shadow:none}
-.l5 .lesson-btn:hover{transform:none}
-.l5 .emoji-ring{filter:grayscale(.6)}
+/* locked lesson 7 */
+.l7{opacity:.8}
+.l7 .lesson-num{color:rgba(255,255,255,.4)}
+.l7 .lesson-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);cursor:not-allowed;box-shadow:none}
+.l7 .lesson-btn:hover{transform:none}
+.l7 .emoji-ring{filter:grayscale(.6)}
 
 /* ===== PATH NOTE ===== */
 .path-note{margin-top:2.6rem;display:flex;align-items:center;gap:.7rem;color:rgba(255,255,255,.35);font-size:.85rem}
@@ -137,8 +139,8 @@ footer .f-hearts{font-size:1.1rem}
 
   <!-- STATS -->
   <div class="stats">
-    <div class="stat"><div class="st-num">4</div><div class="st-lbl">دروس تفاعلية</div></div>
-    <div class="stat"><div class="st-num">12+</div><div class="st-lbl">مهمات وتمارين</div></div>
+    <div class="stat"><div class="st-num">6</div><div class="st-lbl">دروس تفاعلية</div></div>
+    <div class="stat"><div class="st-num">18+</div><div class="st-lbl">مهمات وتمارين</div></div>
     <div class="stat"><div class="st-num">🐍</div><div class="st-lbl">لغة Python</div></div>
     <div class="stat"><div class="st-num">100%</div><div class="st-lbl">متعة وتجربة</div></div>
   </div>
@@ -156,7 +158,7 @@ footer .f-hearts{font-size:1.1rem}
         <span class="tchip">الذكاء الاصطناعي</span>
         <span class="tchip">الخوارزميات</span>
       </div>
-      <a class="lesson-btn" href="lessonn1.html">ابدأ الدرس ▸</a>
+      <a class="lesson-btn" href="lesson1.html">ابدأ الدرس ▸</a>
     </div>
 
     <!-- LESSON 2 -->
@@ -192,7 +194,6 @@ footer .f-hearts{font-size:1.1rem}
 
     <!-- LESSON 4 -->
     <div class="lesson-card l4">
-      <div class="new-ribbon">جديد ✨</div>
       <span class="lesson-num">الدرس الرابع</span>
       <div class="emoji-ring">🔁</div>
       <h2>الحلقات التكرارية<br>حلقة while</h2>
@@ -206,32 +207,48 @@ footer .f-hearts{font-size:1.1rem}
       <a class="ex-btn" href="code-quest-while.html">🔁 أمثلة while من الحياة <span class="ex-tag">سهل</span></a>
     </div>
 
-    <!-- LESSON 5 (locked) -->
+    <!-- LESSON 5 -->
     <div class="lesson-card l5">
       <span class="lesson-num">الدرس الخامس</span>
+      <div class="emoji-ring">🔂</div>
+      <h2>الحلقات التكرارية<br>حلقة for</h2>
+      <p class="desc">كرّر لكل عنصر! تعلّم حلقة for و range() ومتى تختارها بدل while.</p>
+      <div class="topic-chips">
+        <span class="tchip">for</span>
+        <span class="tchip">range()</span>
+        <span class="tchip">for vs while</span>
+      </div>
+      <a class="lesson-btn" href="lesson5_for_no_lists.html">ابدأ الدرس ▸</a>
+      <a class="ex-btn" href="code-quest-for.html">🔂 أمثلة for من الحياة <span class="ex-tag">سهل</span></a>
+    </div>
+
+    <!-- LESSON 6 -->
+    <div class="lesson-card l6">
+      <div class="new-ribbon">جديد ✨</div>
+      <span class="lesson-num">الدرس السادس</span>
+      <div class="emoji-ring">📦</div>
+      <h2>القوائم<br>Lists والفهرس</h2>
+      <p class="desc">ضع أشياء كثيرة في صندوق واحد! تعلّم القوائم والفهرس ولماذا يبدأ من الصفر.</p>
+      <div class="topic-chips">
+        <span class="tchip">list [ ]</span>
+        <span class="tchip">index</span>
+        <span class="tchip">append</span>
+      </div>
+      <a class="lesson-btn" href="lesson6.html">ابدأ الدرس ▸</a>
+      <a class="ex-btn" href="code-quest-arrays.html">📦 القوائم في حياتنا <span class="ex-tag">سهل</span></a>
+    </div>
+
+    <!-- LESSON 7 (coming soon) -->
+    <div class="lesson-card l7">
+      <span class="lesson-num">الدرس السابع</span>
       <div class="emoji-ring">🔒</div>
       <h2>قريبا...</h2>
-      <p class="desc">الدرس الخامس قيد الإعداد، ترقّبه قريبا!</p>
+      <p class="desc">الدرس السابع قيد الإعداد، ترقّبه قريبا!</p>
       <div class="topic-chips">
         <span class="tchip">؟؟؟</span>
         <span class="tchip">؟؟؟</span>
       </div>
       <button class="lesson-btn" disabled>قريبا 🔜</button>
-    </div>
-
-    <!-- RESULTS CARD -->
-    <div class="lesson-card l-results">
-      <div class="results-ribbon">نتائج 🏆</div>
-      <span class="lesson-num">امتحان المستوى الصعب</span>
-      <div class="emoji-ring">🏆</div>
-      <h2>نتائج الامتحان<br>ألف مبروك! 🎉</h2>
-      <p class="desc">شاهد ترتيب الطلاب ونتائج امتحان المستوى الصعب!</p>
-      <div class="topic-chips">
-        <span class="tchip">16 طالب</span>
-        <span class="tchip">7 مراكز</span>
-        <span class="tchip">مستوى صعب ⚡</span>
-      </div>
-      <a class="lesson-btn" href="results.html">عرض النتائج 🏅</a>
     </div>
 
   </div>
