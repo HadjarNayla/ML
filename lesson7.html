@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدرس السابع · الدوال (Functions) 🧰</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#0c0814;color:#fff;overflow-x:hidden}
+#progress-bar{position:fixed;top:0;right:0;height:4px;background:linear-gradient(90deg,#a55eea,#f368e0,#feca57,#21d4fd);z-index:999;width:0%;transition:width .1s}
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite var(--delay,0s)}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;position:relative;background:linear-gradient(160deg,#0c0814 0%,#1a0f24 50%,#150a1e 100%)}
+.hero-badge{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:.5rem 1.5rem;border-radius:50px;font-size:.9rem;margin-bottom:1.5rem;color:#e0bbff;backdrop-filter:blur(8px)}
+.hero-icons{font-size:3.5rem;display:flex;gap:1rem;margin-bottom:1.5rem;animation:floaty 2.5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.hero h1{font-size:clamp(2rem,6vw,4.2rem);font-weight:900;line-height:1.3;margin-bottom:1.2rem;background:linear-gradient(135deg,#fff 0%,#a55eea 40%,#f368e0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,.65);max-width:620px;line-height:1.9;margin-bottom:2.5rem}
+.hero-btn{background:linear-gradient(135deg,#a55eea,#f368e0);color:#fff;border:none;padding:1rem 2.5rem;border-radius:50px;font-size:1.1rem;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;box-shadow:0 8px 30px rgba(165,94,234,.4);transition:transform .3s,box-shadow .3s}
+.hero-btn:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(165,94,234,.6)}
+.hero-scroll{margin-top:2.5rem;font-size:.85rem;color:rgba(255,255,255,.3);animation:fadeUD 2s ease-in-out infinite}
+@keyframes fadeUD{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:.7;transform:translateY(6px)}}
+
+/* SECTIONS */
+.section{padding:5rem 1.5rem;position:relative}
+.sec-inner{max-width:1050px;margin:0 auto}
+.sec-title{text-align:center;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;margin-bottom:.7rem}
+.sec-sub{text-align:center;color:rgba(255,255,255,.55);margin-bottom:3rem;font-size:1rem;line-height:1.8}
+.fi{opacity:0;transform:translateY(35px);transition:opacity .65s ease,transform .65s ease}
+.fi.vis{opacity:1;transform:none}
+
+/* CARDS */
+.card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.5rem;margin-bottom:2rem}
+.icard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:1.8rem;text-align:center;transition:transform .3s,box-shadow .3s}
+.icard:hover{transform:translateY(-6px);box-shadow:0 12px 35px rgba(0,0,0,.4)}
+.icard .ico{font-size:2.8rem;margin-bottom:.8rem}
+.icard h3{font-size:1.1rem;margin-bottom:.6rem}
+.icard p{color:rgba(255,255,255,.6);line-height:1.7;font-size:.92rem}
+
+/* CODE */
+.code-panel{background:#0d1117;border-radius:14px;padding:1.4rem;font-family:'Courier New',monospace;direction:ltr;overflow-x:auto}
+.cline{padding:.28rem .5rem;border-radius:6px;font-size:.85rem;color:#cdd6e0;line-height:1.9;white-space:pre}
+.kw{color:#ff7b72}.fn{color:#d2a8ff}.str{color:#a5d6ff}.cm{color:#5a6a7a;font-style:italic}.num{color:#f8c555}.op{color:#79c0ff}.it{color:#feca57}.param{color:#7ee787}
+
+/* COMPARE */
+.compare-box{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:2rem}
+.compare-card{border-radius:18px;padding:1.8rem}
+.compare-card.bad-card{background:rgba(231,76,60,.07);border:1px solid rgba(231,76,60,.25)}
+.compare-card.good-card{background:rgba(165,94,234,.07);border:1px solid rgba(165,94,234,.3)}
+.compare-card h3{margin-bottom:1rem;font-size:1.1rem;text-align:center}
+.bad-card h3{color:#ff7b72}.good-card h3{color:#c08cff}
+
+/* NOTE BOX */
+.note-box{background:rgba(165,94,234,.08);border:1px solid rgba(165,94,234,.28);border-radius:14px;padding:1.2rem 1.4rem;margin-top:1rem;font-size:.92rem;color:#e3ccff;line-height:1.9}
+.note-box.gold{background:rgba(254,202,87,.08);border-color:rgba(254,202,87,.3);color:#ffe9b8}
+.note-box.pink{background:rgba(243,104,224,.08);border-color:rgba(243,104,224,.3);color:#ffc8f5}
+
+/* ===== CAKE MACHINE ===== */
+.machine{background:rgba(165,94,234,.05);border:1px solid rgba(165,94,234,.25);border-radius:22px;padding:2rem 1.4rem;margin-bottom:2rem}
+.machine-title{text-align:center;font-family:'Courier New',monospace;direction:ltr;color:#d2a8ff;font-size:1.02rem;margin-bottom:1.6rem}
+.flow-col{display:flex;flex-direction:column;align-items:center;gap:.6rem}
+.io-label{font-size:.82rem;color:rgba(255,255,255,.5);margin-bottom:.5rem;text-align:center;font-weight:700}
+.ingredients{display:flex;gap:.55rem;flex-wrap:wrap;justify-content:center}
+.ing{width:62px;height:64px;border-radius:14px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.14);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.ing .em{font-size:1.6rem;line-height:1}
+.ing .nm{font-size:.55rem;color:rgba(255,255,255,.55)}
+.ing.go{border-color:#feca57;background:rgba(254,202,87,.16);transform:translateY(8px) scale(1.08)}
+.flow-arrow{font-size:1.7rem;color:#a55eea;line-height:1}
+.machine-core{width:100%;max-width:380px;background:rgba(165,94,234,.08);border:2px solid rgba(165,94,234,.4);border-radius:18px;padding:1.1rem 1.2rem}
+.core-emoji{text-align:center;font-size:1.9rem;transition:transform .5s}
+.core-emoji.spin{animation:spin 1.2s linear}
+@keyframes spin{to{transform:rotate(360deg)}}
+.steps{display:flex;flex-direction:column;gap:.5rem;margin-top:.8rem}
+.step-row{display:flex;align-items:center;gap:.6rem;padding:.5rem .8rem;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);font-size:.86rem;color:rgba(255,255,255,.55);transition:all .35s}
+.step-row.on{background:rgba(165,94,234,.2);border-color:#a55eea;color:#fff;transform:translateX(-4px)}
+.step-row .sr-ico{font-size:1.15rem}
+.cake-out{width:100px;height:100px;border-radius:20px;background:rgba(254,202,87,.08);border:2px dashed rgba(254,202,87,.4);display:flex;align-items:center;justify-content:center;font-size:3.2rem;transition:all .5s cubic-bezier(.34,1.56,.64,1)}
+.cake-out.done{border-style:solid;border-color:#feca57;background:rgba(254,202,87,.2);transform:scale(1.12);box-shadow:0 12px 34px rgba(254,202,87,.32)}
+.cake-out img{width:92px;height:92px;object-fit:contain;animation:popIn .5s ease;filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+.return-tag{font-family:'Courier New',monospace;direction:ltr;color:#feca57;font-size:.88rem;margin-top:.5rem;min-height:1.2em;opacity:0;transition:opacity .4s}
+.return-tag.show{opacity:1}
+.pick-row{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0 1rem}
+.pick-btn{border:2px solid rgba(254,202,87,.35);background:rgba(254,202,87,.08);color:#ffe9b8;border-radius:14px;padding:.6rem 1.1rem;font-family:'Cairo',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .2s}
+.pick-btn:hover{transform:translateY(-3px)}
+.pick-btn.on{background:#feca57;color:#3a2700;border-color:#feca57}
+.run-fn-btn{display:block;margin:0 auto;background:linear-gradient(135deg,#a55eea,#f368e0);color:#fff;border:none;padding:.8rem 2rem;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:transform .2s;box-shadow:0 8px 24px rgba(165,94,234,.35)}
+.run-fn-btn:hover{transform:translateY(-3px)}
+
+/* ANATOMY */
+.anat-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:1.8rem;margin-bottom:1.5rem}
+.anat-code{background:#0d1117;border-radius:12px;padding:1.2rem;font-family:'Courier New',monospace;direction:ltr;font-size:.92rem;margin-bottom:1.4rem;line-height:2;white-space:pre;overflow-x:auto}
+.anat-row{display:flex;gap:.8rem;align-items:flex-start;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:.9rem}
+.anat-row:last-child{border-bottom:none}
+.anat-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.anat-row p{color:rgba(255,255,255,.68);line-height:1.6}
+
+/* ARGUMENTS / RETURN INTERACTIVE */
+.io-demo{background:rgba(243,104,224,.05);border:1px solid rgba(243,104,224,.25);border-radius:20px;padding:2rem 1.4rem;margin-bottom:2rem}
+.io-demo h3{color:#f368e0;text-align:center;margin-bottom:.4rem}
+.io-demo .hint{text-align:center;color:rgba(255,255,255,.5);font-size:.9rem;margin-bottom:1.5rem}
+.io-flow{display:flex;align-items:center;justify-content:center;gap:.8rem;flex-wrap:wrap}
+.io-pill{background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.14);border-radius:14px;padding:.8rem 1.1rem;font-family:'Courier New',monospace;direction:ltr;font-size:1rem;min-width:90px;text-align:center}
+.io-pill.machine-pill{background:rgba(165,94,234,.15);border-color:#a55eea;color:#fff;font-weight:700}
+.io-pill.out-pill{background:rgba(254,202,87,.12);border-color:#feca57;color:#ffe9b8}
+.io-arrow{font-size:1.6rem;color:#f368e0}
+.kid-input{background:rgba(255,255,255,.08);border:2px solid rgba(243,104,224,.35);border-radius:12px;padding:.6rem 1rem;color:#fff;font-family:'Cairo',sans-serif;font-size:1rem;width:150px;text-align:center;outline:none}
+.kid-input:focus{border-color:#f368e0}
+.num-input{width:80px;font-family:'Courier New',monospace}
+.demo-btn{background:linear-gradient(135deg,#f368e0,#a55eea);color:#fff;border:none;padding:.65rem 1.6rem;border-radius:50px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;transition:transform .2s}
+.demo-btn:hover{transform:translateY(-2px)}
+
+/* BUILTINS */
+.bi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-bottom:1.5rem}
+.bi-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1.4rem;text-align:center;transition:transform .3s,border-color .3s}
+.bi-card:hover{transform:translateY(-5px);border-color:rgba(165,94,234,.4)}
+.bi-name{font-family:'Courier New',monospace;direction:ltr;color:#d2a8ff;font-size:1.1rem;font-weight:700;margin-bottom:.5rem}
+.bi-eq{font-family:'Courier New',monospace;direction:ltr;font-size:.86rem;color:#7ee787;background:#0d1117;border-radius:8px;padding:.5rem;margin:.6rem 0}
+.bi-card p{color:rgba(255,255,255,.6);font-size:.85rem;line-height:1.6}
+
+/* REUSE */
+@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+.reuse-why{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;margin-bottom:2rem}
+.why-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1.4rem;text-align:center;transition:transform .3s,border-color .3s}
+.why-card:hover{transform:translateY(-5px);border-color:rgba(165,94,234,.45)}
+.why-card .ic{font-size:2.1rem;margin-bottom:.5rem}
+.why-card h4{font-size:1.02rem;margin-bottom:.4rem;color:#c08cff}
+.why-card p{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.65}
+.reuse-demo{background:rgba(165,94,234,.05);border:1px solid rgba(165,94,234,.25);border-radius:20px;padding:2rem 1.4rem;margin-bottom:2rem}
+.reuse-demo h3{color:#c08cff;text-align:center;margin-bottom:1rem}
+.friend-btns{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:1.2rem 0}
+.friend-btn{background:rgba(165,94,234,.12);border:2px solid rgba(165,94,234,.35);color:#e3ccff;border-radius:50px;padding:.5rem 1.1rem;font-family:'Courier New',monospace;direction:ltr;font-weight:700;font-size:.85rem;cursor:pointer;transition:transform .2s,background .2s}
+.friend-btn:hover{transform:translateY(-2px);background:rgba(165,94,234,.25)}
+.invite-grid{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center;min-height:30px;margin:1.2rem 0}
+.invite-card{background:linear-gradient(160deg,rgba(243,104,224,.14),rgba(165,94,234,.14));border:2px solid rgba(243,104,224,.35);border-radius:14px;padding:.9rem 1.1rem;min-width:165px;text-align:right;animation:popIn .4s ease}
+.invite-card .ic-t{font-weight:700;color:#ffc8f5;margin-bottom:.35rem;font-size:.95rem}
+.invite-card .ic-l{font-size:.8rem;color:rgba(255,255,255,.65);line-height:1.7}
+.save-meter{background:rgba(254,202,87,.1);border:1px solid rgba(254,202,87,.3);border-radius:14px;padding:1rem 1.2rem;text-align:center;color:#ffe9b8;font-weight:700;font-size:.95rem;line-height:1.9;margin-top:1rem}
+.save-meter b{color:#feca57;font-size:1.15rem}
+
+/* EXERCISES */
+.ex-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:2rem;margin-bottom:1.8rem}
+.ex-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.ex-num{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;flex-shrink:0}
+.ex-title{font-size:1.15rem;font-weight:700}
+.ex-desc{color:rgba(255,255,255,.6);font-size:.92rem;line-height:1.7;margin-bottom:1.4rem}
+.ex-task-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:.9rem;color:rgba(255,255,255,.75);line-height:1.8}
+.ex-task-box .task-label{font-size:.78rem;color:rgba(255,255,255,.35);margin-bottom:.3rem}
+.ex-editor-wrap{background:#0d1117;border-radius:12px;padding:.4rem;margin-bottom:.8rem}
+.ex-editor-header{display:flex;gap:.4rem;padding:.5rem .7rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.editor-dot{width:10px;height:10px;border-radius:50%}
+.ex-code{padding:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:104px;font-size:.88rem;color:#fff;outline:none;white-space:pre;caret-color:#fff;tab-size:4}
+.ex-code:empty::before{content:attr(data-placeholder);color:rgba(255,255,255,.2)}
+.ex-btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.ex-run-btn{background:linear-gradient(135deg,#a55eea,#7d3cc9);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-run-btn:hover{transform:translateY(-2px)}
+.ex-check-btn{background:linear-gradient(135deg,#f368e0,#b5179e);color:#fff;border:none;padding:.65rem 1.5rem;border-radius:50px;font-family:'Cairo',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.ex-check-btn:hover{transform:translateY(-2px)}
+.ex-output{background:#000;border-radius:8px;padding:.8rem 1rem;margin-bottom:.8rem;font-family:'Courier New',monospace;direction:ltr;min-height:36px;font-size:.85rem;color:#c08cff;border:1px solid rgba(255,255,255,.06);display:none;white-space:pre-wrap}
+.ex-output.show{display:block}
+.ex-output .output-label{font-size:.7rem;color:rgba(255,255,255,.25);margin-bottom:.3rem;direction:rtl;font-family:'Cairo',sans-serif}
+.ex-feedback{padding:.8rem 1.2rem;border-radius:10px;font-size:.9rem;margin-top:.5rem;display:none;line-height:1.7;white-space:pre-wrap}
+.ex-feedback.show{display:block}
+.ex-feedback.correct{background:rgba(165,94,234,.12);border:1px solid rgba(165,94,234,.35);color:#e3ccff}
+.ex-feedback.wrong{background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.3);color:#f0a8a8}
+
+/* FOOTER */
+footer{background:#060410;padding:3.5rem 2rem;text-align:center}
+footer .big-e{font-size:3rem;margin-bottom:1rem;animation:floaty 3s ease-in-out infinite}
+footer h3{font-size:1.2rem;color:rgba(255,255,255,.75);margin-bottom:.5rem}
+footer p{color:rgba(255,255,255,.3);font-size:.9rem}
+.home-btn{display:inline-block;margin-top:1.5rem;margin-right:.8rem;padding:.8rem 2rem;border-radius:50px;background:linear-gradient(135deg,#a55eea,#f368e0);color:#fff;font-family:'Cairo',sans-serif;font-weight:700;font-size:.95rem;text-decoration:none}
+.next-lesson-btn{display:inline-block;margin-top:1.5rem;padding:.8rem 2rem;border-radius:50px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.4);font-family:'Cairo',sans-serif;font-size:.95rem;text-decoration:none}
+
+@media(max-width:650px){
+  .compare-box{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div class="stars-bg" id="starsContainer"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🎓 الدرس السابع · Python للمبتدئين</div>
+  <div class="hero-icons">🧰</div>
+  <h1>الدوال<br>Functions</h1>
+  <p>الدالة مثل <strong>آلة سحرية</strong> 🪄: تضع فيها مكوّنات (دقيق، سكر، كرز 🍒) فتعمل خطواتها وتُخرج لك كعكة 🎂! تعلّم الوسائط والإرجاع، ولماذا تجعل برمجتك أسهل بكثير.</p>
+  <button class="hero-btn" onclick="document.getElementById('sec-intro').scrollIntoView({behavior:'smooth'})">اكتشف الدوال 🧰</button>
+  <div class="hero-scroll">▼ اسحب للأسفل</div>
+</section>
+
+<!-- WHAT IS A FUNCTION -->
+<section class="section" id="sec-intro" style="background:linear-gradient(180deg,#0c0814 0%,#150a1e 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#c08cff">🧰 ما هي الدالة؟</div>
+    <p class="sec-sub">الدالة (Function) هي <strong>مجموعة أوامر نجمعها معاً ونعطيها اسماً</strong>. نكتبها مرة واحدة، ثم <strong>نناديها</strong> (نستدعيها) كلما احتجناها، بدل إعادة كتابة الكود من الصفر!</p>
+  </div>
+
+  <div class="fi" style="transition-delay:.05s">
+    <div class="card-row">
+      <div class="icard"><div class="ico">📥</div><h3>تأخذ مدخلات</h3><p>نعطيها معلومات تُسمّى <strong>الوسائط (arguments)</strong>، مثل المكوّنات.</p></div>
+      <div class="icard"><div class="ico">⚙️</div><h3>تنفّذ خطوات</h3><p>تقوم بعملها داخلها خطوة بخطوة دون أن نراها.</p></div>
+      <div class="icard"><div class="ico">📤</div><h3>تُرجِع نتيجة</h3><p>تعطينا ناتجاً نسمّيه <strong>الإرجاع (return)</strong>، مثل الكعكة.</p></div>
+    </div>
+  </div>
+
+  <div class="fi compare-box" style="transition-delay:.1s">
+    <div class="compare-card bad-card">
+      <h3>😫 بدون دالة (تكرار)</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem">نكتب خطوات الكعكة كل مرة!</p>
+      <div class="code-panel">
+        <div class="cline"><span class="cm"># كعكة 1</span></div>
+        <div class="cline">اخلط، اسكب، اخبز، زيّن...</div>
+        <div class="cline"><span class="cm"># كعكة 2</span></div>
+        <div class="cline">اخلط، اسكب، اخبز، زيّن...</div>
+        <div class="cline"><span class="cm"># كعكة 3 ... 😩</span></div>
+      </div>
+    </div>
+    <div class="compare-card good-card">
+      <h3>✨ مع دالة (نناديها فقط)</h3>
+      <p style="color:rgba(255,255,255,.45);font-size:.82rem;margin-bottom:.8rem">نكتب الخطوات مرة، ثم ننادي!</p>
+      <div class="code-panel">
+        <div class="cline"><span class="kw">def</span> <span class="fn">bake_cake</span>():</div>
+        <div class="cline">    اخلط، اسكب، اخبز، زيّن</div>
+        <div class="cline"><span class="fn">bake_cake</span>()  <span class="cm"># كعكة 1</span></div>
+        <div class="cline"><span class="fn">bake_cake</span>()  <span class="cm"># كعكة 2</span></div>
+        <div class="cline"><span class="fn">bake_cake</span>()  <span class="cm"># كعكة 3 🎉</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CAKE MACHINE -->
+<section class="section" id="sec-cake" style="background:linear-gradient(180deg,#150a1e 0%,#1c0a1a 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#feca57">🎂 آلة الكعكة: المدخلات والإخراج</div>
+    <p class="sec-sub">هذه أوضح صورة للدالة! نُدخِل المكوّنات (الوسائط)، فتعمل الخطوات داخل الآلة، ثم تُخرِج لنا كعكة (الإرجاع). اختر النكهة وشغّل الدالة!</p>
+  </div>
+
+  <div class="fi machine" style="transition-delay:.1s">
+    <div class="machine-title">def bake_cake(flour, sugar, topping):</div>
+    <div class="flow-col">
+      <div class="io-label">📥 المدخلات (الوسائط · arguments)</div>
+      <div class="ingredients" id="cakeIngs">
+        <div class="ing" data-ing="0"><span class="em">🌾</span><span class="nm">دقيق</span></div>
+        <div class="ing" data-ing="1"><span class="em">🍬</span><span class="nm">سكر</span></div>
+        <div class="ing" data-ing="2"><span class="em">🥚</span><span class="nm">بيض</span></div>
+        <div class="ing" data-ing="3"><span class="em">🍒</span><span class="nm" id="topName">كرز</span></div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="machine-core">
+        <div class="core-emoji" id="cakeCore">⚙️</div>
+        <div class="steps" id="cakeSteps">
+          <div class="step-row" data-step="0"><span class="sr-ico">🥣</span> اخلط المكوّنات</div>
+          <div class="step-row" data-step="1"><span class="sr-ico">🫗</span> اسكب في القالب</div>
+          <div class="step-row" data-step="2"><span class="sr-ico">🔥</span> اخبز في الفرن</div>
+          <div class="step-row" data-step="3"><span class="sr-ico">✨</span> زيّن بالنكهة</div>
+        </div>
+      </div>
+      <div class="flow-arrow">⬇️</div>
+      <div class="io-label">📤 المُخرَج (الإرجاع · return)</div>
+      <div class="cake-out" id="cakeOut">❓</div>
+      <div class="return-tag" id="cakeReturn">return 🎂</div>
+    </div>
+
+    <div class="pick-row" id="toppingPick">
+      <button class="pick-btn on" data-top="كرز" data-emoji="🍒" data-img="birthday-cherries.png">🍒 كرز</button>
+      <button class="pick-btn" data-top="فراولة" data-emoji="🍓" data-img="birthday-strawberry.png">🍓 فراولة</button>
+      <button class="pick-btn" data-top="شوكولاتة" data-emoji="🍫" data-img="birthday-chocolate_bar.png">🍫 شوكولاتة</button>
+    </div>
+    <button class="run-fn-btn" id="cakeRun">▶ شغّل الدالة bake_cake</button>
+  </div>
+
+  <div class="fi note-box gold" style="transition-delay:.15s">
+    🎯 ركّز على شيئين: <strong>الوسائط (arguments)</strong> هي ما نعطيه للدالة بين القوسين (المكوّنات)،
+    و<strong>الإرجاع (return)</strong> هو ما تعطينا إياه الدالة في النهاية (الكعكة). غيّر النكهة وستتغيّر الكعكة!
+  </div>
+</div>
+</section>
+
+<!-- ANATOMY -->
+<section class="section" id="sec-anatomy" style="background:linear-gradient(180deg,#1c0a1a 0%,#0e0a18 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#c08cff">🔬 تشريح الدالة</div>
+    <p class="sec-sub">نُعرّف الدالة بكلمة <strong>def</strong>، ونعطيها اسماً وأقواساً للوسائط، ثم جسماً بمسافة بادئة، وأخيراً <strong>return</strong> للنتيجة.</p>
+  </div>
+
+  <div class="fi anat-box" style="transition-delay:.1s">
+    <div class="anat-code">
+<span class="kw">def</span> <span class="fn">add</span>(<span class="param">a</span>, <span class="param">b</span>):
+    <span class="kw">return</span> <span class="param">a</span> <span class="op">+</span> <span class="param">b</span>
+
+<span class="it">result</span> <span class="op">=</span> <span class="fn">add</span>(<span class="num">3</span>, <span class="num">5</span>)   <span class="cm"># result = 8</span>
+    </div>
+    <div class="anat-row">
+      <div class="anat-dot" style="background:#ff7b72"></div>
+      <p><strong style="color:#ff7b72">def</strong>  الكلمة السحرية التي تُعرِّف دالة جديدة</p>
+    </div>
+    <div class="anat-row">
+      <div class="anat-dot" style="background:#d2a8ff"></div>
+      <p><strong style="color:#d2a8ff">add</strong>  اسم الدالة، نناديها به لاحقاً</p>
+    </div>
+    <div class="anat-row">
+      <div class="anat-dot" style="background:#7ee787"></div>
+      <p><strong style="color:#7ee787">(a, b)</strong>  الوسائط (parameters): المعلومات التي تستقبلها الدالة</p>
+    </div>
+    <div class="anat-row">
+      <div class="anat-dot" style="background:#f8c555"></div>
+      <p><strong style="color:#f8c555">return a + b</strong>  ما تُرجعه الدالة (النتيجة) لمن ناداها</p>
+    </div>
+    <div class="anat-row">
+      <div class="anat-dot" style="background:#feca57"></div>
+      <p><strong style="color:#feca57">result = add(3, 5)</strong>  نُنادي الدالة ونخزّن ما أرجعته في متغيّر</p>
+    </div>
+  </div>
+
+  <div class="fi note-box" style="transition-delay:.15s">
+    💡 <strong>نناديها (call)</strong> بكتابة اسمها وأقواس: <code style="direction:ltr">add(3, 5)</code>. القيم بين القوسين (<code style="direction:ltr">3</code> و<code style="direction:ltr">5</code>) هي الوسائط التي تذهب إلى <code style="direction:ltr">a</code> و<code style="direction:ltr">b</code>.
+  </div>
+</div>
+</section>
+
+<!-- ARGUMENTS interactive -->
+<section class="section" id="sec-args" style="background:linear-gradient(180deg,#0e0a18 0%,#1a0a18 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#f368e0">📥 الوسائط (Arguments)</div>
+    <p class="sec-sub">الوسائط تجعل الدالة <strong>مرنة</strong>: نفس الدالة تعطي نتائج مختلفة حسب ما نُدخله! غيّر الاسم وشاهد التحية تتغيّر.</p>
+  </div>
+
+  <div class="fi io-demo" style="transition-delay:.1s">
+    <h3>🎛️ جرّب الوسائط</h3>
+    <p class="hint">اكتب اسماً ثم نادِ الدالة <code style="direction:ltr">greet(name)</code></p>
+    <div style="display:flex;gap:.7rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem">
+      <input class="kid-input" id="greetName" value="سارة" maxlength="12">
+      <button class="demo-btn" onclick="runGreet()">▶ greet(name)</button>
+    </div>
+    <div class="io-flow">
+      <div class="io-pill" id="greetIn">"سارة"</div>
+      <div class="io-arrow">➜</div>
+      <div class="io-pill machine-pill">greet()</div>
+      <div class="io-arrow">➜</div>
+      <div class="io-pill out-pill" id="greetOut">؟</div>
+    </div>
+    <div class="code-panel" style="margin-top:1.5rem;max-width:430px;margin-left:auto;margin-right:auto">
+      <div class="cline"><span class="kw">def</span> <span class="fn">greet</span>(<span class="param">name</span>):</div>
+      <div class="cline">    <span class="fn">print</span>(<span class="str">"مرحباً يا"</span>, <span class="param">name</span>)</div>
+    </div>
+  </div>
+
+  <div class="fi note-box pink" style="transition-delay:.15s">
+    🌈 الدالة الواحدة تخدمك في حالات كثيرة: <code style="direction:ltr">greet("سارة")</code> و<code style="direction:ltr">greet("أحمد")</code> ينتجان تحيتين مختلفتين، بنفس الكود!
+  </div>
+</div>
+</section>
+
+<!-- RETURN interactive -->
+<section class="section" id="sec-return" style="background:linear-gradient(180deg,#1a0a18 0%,#0e0814 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#feca57">📤 الإرجاع (Return)</div>
+    <p class="sec-sub"><strong>return</strong> تعني: «خذ هذه النتيجة!». الدالة تحسب شيئاً وتُعيده لك، فتستطيع <strong>تخزينه واستخدامه</strong> لاحقاً، تماماً كما تأخذ الكعكة من الآلة.</p>
+  </div>
+
+  <div class="fi io-demo" style="transition-delay:.1s;background:rgba(254,202,87,.05);border-color:rgba(254,202,87,.25)">
+    <h3 style="color:#feca57">🎛️ آلة الجمع</h3>
+    <p class="hint">أدخل رقمين، والدالة <code style="direction:ltr">add(a, b)</code> تُرجع مجموعهما</p>
+    <div style="display:flex;gap:.6rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-bottom:1.5rem">
+      <input class="kid-input num-input" id="addA" type="number" value="3">
+      <span style="font-size:1.4rem;color:#feca57">+</span>
+      <input class="kid-input num-input" id="addB" type="number" value="5">
+      <button class="demo-btn" style="background:linear-gradient(135deg,#feca57,#f39c12)" onclick="runAdd()">▶ add(a, b)</button>
+    </div>
+    <div class="io-flow">
+      <div class="io-pill" id="addIn">add(3, 5)</div>
+      <div class="io-arrow" style="color:#feca57">➜</div>
+      <div class="io-pill out-pill" id="addOut">return ؟</div>
+    </div>
+    <div id="addStore" style="text-align:center;margin-top:1rem;font-family:'Courier New',monospace;direction:ltr;color:#7ee787;min-height:1.4em"></div>
+  </div>
+
+  <div class="fi note-box gold" style="transition-delay:.15s">
+    ⚠️ فرقٌ مهم: <code style="direction:ltr;color:#d2a8ff">print()</code> فقط <strong>تُظهِر</strong> النص على الشاشة،
+    أما <code style="direction:ltr;color:#feca57">return</code> فـ<strong>تُعيد قيمة</strong> نستطيع تخزينها في متغيّر واستخدامها في حسابات أخرى!
+  </div>
+</div>
+</section>
+
+<!-- ALREADY USED -->
+<section class="section" id="sec-builtins" style="background:linear-gradient(180deg,#0e0814 0%,#150a1e 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#c08cff">🤯 أنت تستخدم الدوال من قبل!</div>
+    <p class="sec-sub">مفاجأة: كل هذه دوال جاهزة كتبها مبرمجون من أجلك! أنت تكتب اسمها وتعطيها وسائط، فتعطيك النتيجة، دون أن تعرف خطواتها الداخلية.</p>
+  </div>
+
+  <div class="fi bi-grid" style="transition-delay:.1s">
+    <div class="bi-card"><div class="bi-name">print()</div><div class="bi-eq">print("مرحبا")  →  مرحبا</div><p>تطبع ما تعطيها على الشاشة</p></div>
+    <div class="bi-card"><div class="bi-name">len()</div><div class="bi-eq">len("قطة")  →  3</div><p>تُرجع عدد العناصر أو الحروف</p></div>
+    <div class="bi-card"><div class="bi-name">input()</div><div class="bi-eq">input()  →  ما يكتبه المستخدم</div><p>تأخذ نصاً من المستخدم</p></div>
+    <div class="bi-card"><div class="bi-name">range()</div><div class="bi-eq">range(3)  →  0 1 2</div><p>تولّد سلسلة أرقام</p></div>
+    <div class="bi-card"><div class="bi-name">int()</div><div class="bi-eq">int("12")  →  12</div><p>تحوّل نصاً إلى رقم</p></div>
+    <div class="bi-card"><div class="bi-name">max()</div><div class="bi-eq">max(3, 9, 1)  →  9</div><p>تُرجع أكبر قيمة</p></div>
+  </div>
+
+  <div class="fi note-box" style="transition-delay:.15s">
+    💜 هذه فائدة الدوال الكبرى: مبرمجون كتبوا <code style="direction:ltr">print</code> و<code style="direction:ltr">len</code> مرة واحدة، والآن <strong>كل العالم يستعملها</strong> دون إعادة كتابتها. وأنت أيضاً تستطيع صنع دوالك الخاصة لتعيد استخدامها!
+  </div>
+</div>
+</section>
+
+<!-- REUSE -->
+<section class="section" id="sec-reuse" style="background:linear-gradient(180deg,#150a1e 0%,#0e0a18 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title" style="color:#c08cff">♻️ اكتب مرة، استخدم مرّات!</div>
+    <p class="sec-sub">تخيّل أنك تكتب نفس الكود الطويل في كل مرة... متعب! 😩 الدالة تكتبه <strong>مرة واحدة</strong>، ثم تناديه بسطر قصير كلما احتجته. إليك لماذا نحبّ الدوال:</p>
+  </div>
+
+  <div class="fi reuse-why" style="transition-delay:.05s">
+    <div class="why-card"><div class="ic">♻️</div><h4>إعادة الاستخدام</h4><p>اكتب الكود مرة، ونادِه مئات المرات بسطر واحد فقط.</p></div>
+    <div class="why-card"><div class="ic">🔧</div><h4>تصليح سهل</h4><p>وجدت خطأ؟ صحّحه في مكان واحد، فيُصلَح في كل مكان ناديته فيه.</p></div>
+    <div class="why-card"><div class="ic">🧹</div><h4>كود مرتّب</h4><p>برنامجك يصبح أقصر وأنظف بدل تكرار نفس الأسطر.</p></div>
+    <div class="why-card"><div class="ic">📖</div><h4>سهل القراءة</h4><p>اسم مثل <code style="direction:ltr">bake_cake()</code> يخبرك بما يحدث فوراً.</p></div>
+  </div>
+
+  <div class="fi reuse-demo" style="transition-delay:.1s">
+    <h3>🎉 مولّد الدعوات: عرّفنا الدالة مرة واحدة فقط</h3>
+    <div class="code-panel" style="max-width:460px;margin:0 auto 1rem">
+      <div class="cline"><span class="kw">def</span> <span class="fn">invite</span>(<span class="param">name</span>):</div>
+      <div class="cline">    <span class="fn">print</span>(<span class="str">"🎉 دعوة خاصة لـ"</span>, <span class="param">name</span>)</div>
+      <div class="cline">    <span class="fn">print</span>(<span class="str">"📅 السبت الساعة 4 مساءً"</span>)</div>
+      <div class="cline">    <span class="fn">print</span>(<span class="str">"🎂 احضر وكُل الكعكة معنا!"</span>)</div>
+    </div>
+    <p style="text-align:center;color:rgba(255,255,255,.55);font-size:.9rem">والآن نناديها لكل صديق بسطر واحد، دون إعادة كتابة الدعوة أبداً:</p>
+    <div class="friend-btns">
+      <button class="friend-btn" onclick="invite('سارة')">invite("سارة")</button>
+      <button class="friend-btn" onclick="invite('أحمد')">invite("أحمد")</button>
+      <button class="friend-btn" onclick="invite('ليلى')">invite("ليلى")</button>
+      <button class="friend-btn" onclick="invite('يوسف')">invite("يوسف")</button>
+      <button class="friend-btn" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)" onclick="resetInvite()">🔄 إعادة</button>
+    </div>
+    <div class="invite-grid" id="inviteGrid"></div>
+    <div class="save-meter" id="saveMeter"></div>
+  </div>
+
+  <div class="fi note-box gold" style="transition-delay:.15s">
+    🔧 وأجمل شيء: لو أردت تغيير نص الدعوة (مثلاً تجعلها الجمعة بدل السبت)، تغيّرها في <strong>مكان واحد</strong> داخل الدالة، فتتغيّر لكل الأصدقاء دفعةً واحدة! بدون دالة كنت ستعدّل كل دعوة على حدة 😱
+  </div>
+</div>
+</section>
+
+<!-- EXERCISES -->
+<section class="section" id="sec-exercises" style="background:linear-gradient(180deg,#0e0a18 0%,#0a0814 100%)">
+<div class="sec-inner">
+  <div class="fi">
+    <div class="sec-title">🏋️ وقت التمارين!</div>
+    <p class="sec-sub">اكتب دوالك الخاصة وشغّلها. المحرّر يفهم <code style="direction:ltr">def</code> و<code style="direction:ltr">return</code> فعلاً!</p>
+  </div>
+
+  <!-- Ex 1 -->
+  <div class="fi ex-card" style="transition-delay:.05s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(165,94,234,.2);color:#c08cff;border:2px solid rgba(165,94,234,.4)">1</div>
+      <div class="ex-title">عرّف دالة تُحيّي ثم نادِها</div>
+    </div>
+    <p class="ex-desc">عرّف دالة <code style="direction:ltr">greet(name)</code> تطبع تحية، ثم نادِها بالاسم <code style="direction:ltr">"سارة"</code>.</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div><code style="direction:ltr">def greet(name):</code> ثم <code style="direction:ltr">print("مرحباً يا", name)</code>، وفي سطر جديد (بلا مسافة) <code style="direction:ltr">greet("سارة")</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex1Code" contenteditable="true" data-placeholder='def greet(name):&#10;    print("مرحباً يا", name)&#10;greet("سارة")'></div></div>
+    <div class="ex-output" id="ex1Output"><div class="output-label">الإخراج:</div><div id="ex1OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(1)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(1)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex1Feedback"></div>
+  </div>
+
+  <!-- Ex 2 -->
+  <div class="fi ex-card" style="transition-delay:.1s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(243,104,224,.2);color:#f368e0;border:2px solid rgba(243,104,224,.4)">2</div>
+      <div class="ex-title">دالة تُرجع مجموع رقمين</div>
+    </div>
+    <p class="ex-desc">عرّف <code style="direction:ltr">add(a, b)</code> تُرجع <code style="direction:ltr">a + b</code> بـ <code style="direction:ltr">return</code>، ثم اطبع <code style="direction:ltr">add(3, 5)</code> (الجواب 8).</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div><code style="direction:ltr">def add(a, b):</code> ثم <code style="direction:ltr">return a + b</code>، وأخيراً <code style="direction:ltr">print(add(3, 5))</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex2Code" contenteditable="true" data-placeholder='def add(a, b):&#10;    return a + b&#10;print(add(3, 5))'></div></div>
+    <div class="ex-output" id="ex2Output"><div class="output-label">الإخراج:</div><div id="ex2OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(2)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(2)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex2Feedback"></div>
+  </div>
+
+  <!-- Ex 3 -->
+  <div class="fi ex-card" style="transition-delay:.15s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(254,202,87,.2);color:#feca57;border:2px solid rgba(254,202,87,.4)">3</div>
+      <div class="ex-title">آلة الكعكة: دالة تُرجع كعكة</div>
+    </div>
+    <p class="ex-desc">عرّف <code style="direction:ltr">bake_cake(fruit)</code> تُرجع نصاً مثل <code style="direction:ltr">"كعكة بـ" + fruit</code>، ثم اطبع نتيجة <code style="direction:ltr">bake_cake("فراولة")</code>.</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div><code style="direction:ltr">def bake_cake(fruit):</code> ثم <code style="direction:ltr">return "كعكة بـ" + fruit</code>، وأخيراً <code style="direction:ltr">print(bake_cake("فراولة"))</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex3Code" contenteditable="true" data-placeholder='def bake_cake(fruit):&#10;    return "كعكة بـ" + fruit&#10;print(bake_cake("فراولة"))'></div></div>
+    <div class="ex-output" id="ex3Output"><div class="output-label">الإخراج:</div><div id="ex3OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(3)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(3)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex3Feedback"></div>
+  </div>
+
+  <!-- Ex 4 -->
+  <div class="fi ex-card" style="transition-delay:.2s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(46,204,113,.2);color:#2ecc71;border:2px solid rgba(46,204,113,.4)">4</div>
+      <div class="ex-title">اكتب مرة، نادِ مرّات</div>
+    </div>
+    <p class="ex-desc">عرّف <code style="direction:ltr">square(n)</code> تُرجع <code style="direction:ltr">n * n</code>، ثم نادِها مرتين: اطبع <code style="direction:ltr">square(2)</code> و <code style="direction:ltr">square(5)</code> (الجواب 4 ثم 25).</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div><code style="direction:ltr">def square(n):</code> ثم <code style="direction:ltr">return n * n</code>، ثم <code style="direction:ltr">print(square(2))</code> و <code style="direction:ltr">print(square(5))</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex4Code" contenteditable="true" data-placeholder='def square(n):&#10;    return n * n&#10;print(square(2))&#10;print(square(5))'></div></div>
+    <div class="ex-output" id="ex4Output"><div class="output-label">الإخراج:</div><div id="ex4OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(4)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(4)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex4Feedback"></div>
+  </div>
+
+  <!-- Ex 5 -->
+  <div class="fi ex-card" style="transition-delay:.25s">
+    <div class="ex-header">
+      <div class="ex-num" style="background:rgba(33,212,253,.2);color:#21d4fd;border:2px solid rgba(33,212,253,.4)">5</div>
+      <div class="ex-title">دوال جاهزة استخدمتها من قبل</div>
+    </div>
+    <p class="ex-desc">استعمل دوالاً جاهزة: اطبع طول الكلمة <code style="direction:ltr">"Python"</code> بـ <code style="direction:ltr">len</code> (الجواب 6)، وأكبر رقم بين 3 و9 و1 بـ <code style="direction:ltr">max</code> (الجواب 9).</p>
+    <div class="ex-task-box"><div class="task-label">تلميح:</div><code style="direction:ltr">print(len("Python"))</code> ثم <code style="direction:ltr">print(max(3, 9, 1))</code></div>
+    <div class="ex-editor-wrap"><div class="ex-editor-header"><div class="editor-dot" style="background:#ff5f57"></div><div class="editor-dot" style="background:#ffbd2e"></div><div class="editor-dot" style="background:#28ca42"></div></div>
+      <div class="ex-code" id="ex5Code" contenteditable="true" data-placeholder='print(len("Python"))&#10;print(max(3, 9, 1))'></div></div>
+    <div class="ex-output" id="ex5Output"><div class="output-label">الإخراج:</div><div id="ex5OutText"></div></div>
+    <div class="ex-btns"><button class="ex-run-btn" onclick="runEx(5)">▶ تشغيل</button><button class="ex-check-btn" onclick="checkEx(5)">✅ تحقق</button></div>
+    <div class="ex-feedback" id="ex5Feedback"></div>
+  </div>
+
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="big-e">🧰</div>
+  <h3>أتممت الدرس السابع، أنت الآن تصنع دوالك بنفسك! 🎉</h3>
+  <p>تعلّمتَ: الدالة 🧰 · الوسائط 📥 · الإرجاع 📤 · آلة الكعكة 🎂 · دوال جاهزة 🤯 · اكتب مرة استخدم مرّات ♻️</p>
+  <div>
+    <a class="home-btn" href="index.html">🏠 الصفحة الرئيسية</a>
+    <a class="next-lesson-btn" href="#">الدرس الثامن قريباً 🔒</a>
+  </div>
+</footer>
+
+<script>
+/* ── Stars ── */
+(function(){
+  const c=document.getElementById('starsContainer');
+  for(let i=0;i<120;i++){
+    const s=document.createElement('div');s.className='star';
+    const sz=Math.random()*2.5+.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--d:${2+Math.random()*4}s;--delay:${Math.random()*5}s`;
+    c.appendChild(s);
+  }
+})();
+
+/* ── Progress bar ── */
+window.addEventListener('scroll',()=>{
+  const p=(window.scrollY/(document.body.scrollHeight-window.innerHeight))*100;
+  document.getElementById('progress-bar').style.width=Math.min(p,100)+'%';
+});
+
+/* ── Fade-in ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:.12});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+/* ══════════════════════════════
+   CAKE MACHINE
+   ══════════════════════════════ */
+let topping={top:'كرز',emoji:'🍒',img:'birthday-cherries.png'};
+let cakeBusy=false;
+document.querySelectorAll('#toppingPick .pick-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    if(cakeBusy)return;
+    document.querySelectorAll('#toppingPick .pick-btn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    topping={top:b.dataset.top,emoji:b.dataset.emoji,img:b.dataset.img};
+    document.querySelector('#cakeIngs [data-ing="3"] .em').textContent=b.dataset.emoji;
+    document.getElementById('topName').textContent=b.dataset.top;
+    document.querySelector('.machine-title').textContent=`def bake_cake(flour, sugar, "${b.dataset.top}"):`;
+  });
+});
+document.getElementById('cakeRun').addEventListener('click',runCake);
+async function runCake(){
+  if(cakeBusy)return;cakeBusy=true;
+  const out=document.getElementById('cakeOut');
+  const ret=document.getElementById('cakeReturn');
+  const core=document.getElementById('cakeCore');
+  out.classList.remove('done');out.textContent='❓';ret.classList.remove('show');
+  document.querySelectorAll('#cakeSteps .step-row').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('#cakeIngs .ing').forEach(s=>s.classList.remove('go'));
+  // ingredients drop in
+  const ings=document.querySelectorAll('#cakeIngs .ing');
+  for(const ing of ings){ ing.classList.add('go'); await sleep(280); }
+  core.classList.add('spin');
+  // steps light up
+  const steps=document.querySelectorAll('#cakeSteps .step-row');
+  for(const st of steps){ st.classList.add('on'); await sleep(560); }
+  core.classList.remove('spin');
+  document.querySelectorAll('#cakeIngs .ing').forEach(s=>s.classList.remove('go'));
+  // return the cake (image)
+  out.innerHTML='<img src="'+topping.img+'" alt="كعكة '+topping.top+'">';
+  out.classList.add('done');
+  ret.textContent='return "كعكة '+topping.top+'" 🎂';
+  ret.classList.add('show');
+  confettiBurst();
+  cakeBusy=false;
+}
+
+/* ══════════════════════════════
+   ARGUMENTS: greet(name)
+   ══════════════════════════════ */
+function runGreet(){
+  const name=(document.getElementById('greetName').value||'').trim()||'صديقي';
+  document.getElementById('greetIn').textContent='"'+name+'"';
+  const out=document.getElementById('greetOut');
+  out.textContent='مرحباً يا '+name+' 👋';
+  out.style.animation='none';void out.offsetWidth;out.style.animation='popIn .4s ease';
+}
+runGreet();
+
+/* ══════════════════════════════
+   RETURN: add(a, b)
+   ══════════════════════════════ */
+function runAdd(){
+  const a=parseInt(document.getElementById('addA').value)||0;
+  const b=parseInt(document.getElementById('addB').value)||0;
+  document.getElementById('addIn').textContent='add('+a+', '+b+')';
+  const out=document.getElementById('addOut');
+  out.textContent='return '+(a+b);
+  out.style.animation='none';void out.offsetWidth;out.style.animation='popIn .4s ease';
+  document.getElementById('addStore').textContent='result = add('+a+', '+b+')   →   result = '+(a+b);
+}
+runAdd();
+
+/* ══════════════════════════════
+   REUSE: invite(name) generator
+   ══════════════════════════════ */
+let inviteCalls=0;
+function invite(name){
+  inviteCalls++;
+  const grid=document.getElementById('inviteGrid');
+  const card=document.createElement('div');
+  card.className='invite-card';
+  card.innerHTML='<div class="ic-t">🎉 دعوة خاصة لـ '+name+'</div>'
+    +'<div class="ic-l">📅 السبت الساعة 4 مساءً<br>🎂 احضر وكُل الكعكة معنا!</div>';
+  grid.appendChild(card);
+  updateSaveMeter();
+}
+function resetInvite(){
+  inviteCalls=0;
+  document.getElementById('inviteGrid').innerHTML='';
+  updateSaveMeter();
+}
+function updateSaveMeter(){
+  const el=document.getElementById('saveMeter');
+  if(inviteCalls===0){
+    el.innerHTML='عرّفنا الدالة مرة واحدة (4 أسطر). اضغط زرًّا لتناديها لصديق! 👆';
+  }else{
+    const lines=inviteCalls*4;
+    el.innerHTML='ناديت الدالة <b>'+inviteCalls+'</b> مرة. بدون دالة كنت ستكتب <b>'+inviteCalls+'×4 = '+lines+'</b> سطرًا! ✍️ لكنك كتبتها <b>مرة واحدة</b> فقط 😎';
+  }
+}
+updateSaveMeter();
+
+/* ══════════════════════════════
+   CONFETTI (small burst)
+   ══════════════════════════════ */
+function confettiBurst(){
+  const colors=['#a55eea','#f368e0','#feca57','#21d4fd','#2ecc71'];
+  for(let i=0;i<40;i++){
+    const bit=document.createElement('div');
+    bit.style.cssText=`position:fixed;top:40%;left:50%;width:10px;height:10px;border-radius:${Math.random()>.5?'50%':'2px'};background:${colors[i%colors.length]};z-index:999;pointer-events:none`;
+    document.body.appendChild(bit);
+    const ang=Math.random()*Math.PI*2,dist=120+Math.random()*180;
+    const dx=Math.cos(ang)*dist,dy=Math.sin(ang)*dist+200;
+    bit.animate([{transform:'translate(0,0) rotate(0)',opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${Math.random()*720}deg)`,opacity:0}],{duration:1100+Math.random()*700,easing:'cubic-bezier(.2,.6,.3,1)'});
+    setTimeout(()=>bit.remove(),1900);
+  }
+}
+
+/* ══════════════════════════════
+   MINI PYTHON INTERPRETER (with def / return)
+   ══════════════════════════════ */
+function stripComment(line){
+  let out='',inStr=false,q='';
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(inStr){out+=ch;if(ch===q)inStr=false;continue;}
+    if(ch==='"'||ch==="'"){inStr=true;q=ch;out+=ch;continue;}
+    if(ch==='#')break;
+    out+=ch;
+  }
+  return out;
+}
+function tokenize(s){
+  const toks=[];let i=0;const two=['**','//','==','!=','<=','>=','+=','-=','*=','/='];
+  while(i<s.length){
+    const c=s[i];
+    if(c===' '||c==='\t'){i++;continue;}
+    if(c==='"'||c==="'"){
+      let q=c,j=i+1,str='';
+      while(j<s.length&&s[j]!==q){
+        if(s[j]==='\\'&&j+1<s.length){const esc=s[j+1];if(esc==='n')str+='\n';else if(esc==='t')str+='\t';else str+=esc;j+=2;}
+        else{str+=s[j];j++;}
+      }
+      toks.push({t:'str',v:str});i=j+1;continue;
+    }
+    if(/[0-9]/.test(c)||(c==='.'&&/[0-9]/.test(s[i+1]||''))){
+      let j=i,num='';while(j<s.length&&/[0-9.]/.test(s[j])){num+=s[j];j++;}
+      toks.push({t:'num',v:parseFloat(num)});i=j;continue;
+    }
+    if(/[A-Za-z_؀-ۿ]/.test(c)){
+      let j=i,id='';while(j<s.length&&/[A-Za-z0-9_؀-ۿ]/.test(s[j])){id+=s[j];j++;}
+      if(['and','or','not','True','False','in'].includes(id))toks.push({t:'kw',v:id});
+      else toks.push({t:'id',v:id});i=j;continue;
+    }
+    const tw=s.substr(i,2);
+    if(two.includes(tw)){toks.push({t:'op',v:tw});i+=2;continue;}
+    toks.push({t:'op',v:c});i++;
+  }
+  return toks;
+}
+function truthy(v){if(v===true)return true;if(v===false)return false;if(typeof v==='number')return v!==0;if(typeof v==='string')return v.length>0;if(Array.isArray(v))return v.length>0;return !!v;}
+function splitTopLevel(str,sep){
+  const parts=[];let cur='',depth=0,inStr=false,q='';
+  for(let i=0;i<str.length;i++){
+    const c=str[i];
+    if(inStr){cur+=c;if(c===q)inStr=false;continue;}
+    if(c==='"'||c==="'"){inStr=true;q=c;cur+=c;continue;}
+    if(c==='('||c==='['||c==='{')depth++;
+    else if(c===')'||c===']'||c==='}')depth--;
+    else if(c===sep&&depth===0){parts.push(cur);cur='';continue;}
+    cur+=c;
+  }
+  parts.push(cur);return parts;
+}
+function pyStr(v,top){
+  if(v===null||v===undefined)return 'None';
+  if(v===true)return 'True';
+  if(v===false)return 'False';
+  if(Array.isArray(v))return '['+v.map(x=>pyStr(x,false)).join(', ')+']';
+  if(typeof v==='string')return top?v:"'"+v+"'";
+  return String(v);
+}
+function indexInto(obj,idx,name){
+  if(obj===undefined)throw new Error('متغير غير معرّف: '+name);
+  let k=idx;
+  if((Array.isArray(obj)||typeof obj==='string')&&k<0)k=obj.length+k;
+  if((Array.isArray(obj)||typeof obj==='string')&&(k<0||k>=obj.length))throw new Error('الفهرس '+idx+' خارج الحدود');
+  return obj[k];
+}
+
+function runPython(code){
+  const raw=code.replace(/\t/g,'    ').split('\n');
+  const lines=[];
+  for(const r of raw){
+    const nc=stripComment(r);if(nc.trim()==='')continue;
+    lines.push({indent:nc.match(/^ */)[0].length,text:nc.trim()});
+  }
+  const G={};            // global scope
+  const funcs={};        // user-defined functions
+  const out=[];
+  const ctx={steps:0,depth:0};
+
+  function evalExpr(src,scope){
+    const toks=tokenize(src);let pos=0;
+    const peek=()=>toks[pos];
+    const next=()=>toks[pos++];
+    function parseOr(){let l=parseAnd();while(peek()&&peek().v==='or'){next();const r=parseAnd();l=truthy(l)||truthy(r);}return l;}
+    function parseAnd(){let l=parseNot();while(peek()&&peek().v==='and'){next();const r=parseNot();l=truthy(l)&&truthy(r);}return l;}
+    function parseNot(){if(peek()&&peek().v==='not'){next();return !truthy(parseNot());}return parseCmp();}
+    function parseCmp(){let l=parseAdd();
+      while(peek()&&['<','>','<=','>=','==','!=','in'].includes(peek().v)){
+        const op=next().v;
+        if(op==='in'){const r=parseAdd();if(Array.isArray(r))l=r.includes(l);else if(typeof r==='string')l=String(r).includes(String(l));else l=false;}
+        else{const r=parseAdd();if(op==='<')l=l<r;else if(op==='>')l=l>r;else if(op==='<=')l=l<=r;else if(op==='>=')l=l>=r;else if(op==='==')l=l===r;else l=l!==r;}
+      }return l;}
+    function parseAdd(){let l=parseMul();while(peek()&&(peek().v==='+'||peek().v==='-')){const op=next().v;const r=parseMul();
+      if(op==='+'){if(Array.isArray(l)&&Array.isArray(r))l=l.concat(r);else l=(typeof l==='string'||typeof r==='string')?String(l)+String(r):l+r;}else l=l-r;}return l;}
+    function parseMul(){let l=parsePow();while(peek()&&['*','/','//','%'].includes(peek().v)){const op=next().v;const r=parsePow();
+      if(op==='*'){if(typeof l==='string')l=l.repeat(Math.max(0,r));else if(typeof r==='string')l=r.repeat(Math.max(0,l));else l=l*r;}
+      else if(op==='/')l=l/r;else if(op==='//')l=Math.floor(l/r);else l=((l%r)+r)%r;}return l;}
+    function parsePow(){let l=parseUnary();if(peek()&&peek().v==='**'){next();const r=parsePow();l=Math.pow(l,r);}return l;}
+    function parseUnary(){if(peek()&&peek().v==='-'){next();return -parseUnary();}if(peek()&&peek().v==='+'){next();return parseUnary();}return parsePrimary();}
+    function parsePrimary(){
+      const t=peek();if(!t)throw new Error('تعبير ناقص');
+      if(t.t==='num'){next();return t.v;}
+      if(t.t==='str'){next();return t.v;}
+      if(t.t==='kw'&&t.v==='True'){next();return true;}
+      if(t.t==='kw'&&t.v==='False'){next();return false;}
+      if(t.v==='['){next();const arr=[];if(peek()&&peek().v!==']'){arr.push(parseOr());while(peek()&&peek().v===','){next();arr.push(parseOr());}}if(peek()&&peek().v===']')next();return arr;}
+      if(t.v==='('){next();const e=parseOr();if(peek()&&peek().v===')')next();return e;}
+      if(t.t==='id'){
+        const name=next().v;
+        if(peek()&&peek().v==='('){
+          next();const args=[];
+          if(peek()&&peek().v!==')'){args.push(parseOr());while(peek()&&peek().v===','){next();args.push(parseOr());}}
+          if(peek()&&peek().v===')')next();
+          return callFn(name,args,scope);
+        }
+        if(peek()&&peek().v==='['){next();const idx=parseOr();if(peek()&&peek().v===']')next();return indexInto(scope[name],idx,name);}
+        if(name in scope)return scope[name];
+        if(name in G)return G[name];
+        throw new Error('متغير غير معرّف: '+name);
+      }
+      throw new Error('رمز غير متوقع: '+(t.v||t.t));
+    }
+    return parseOr();
+  }
+
+  function callFn(name,args,scope){
+    switch(name){
+      case 'print':out.push(args.map(a=>pyStr(a,true)).join(' '));return null;
+      case 'str':return pyStr(args[0],true);
+      case 'int':return parseInt(args[0])||0;
+      case 'float':return parseFloat(args[0])||0;
+      case 'len':return Array.isArray(args[0])?args[0].length:String(args[0]).length;
+      case 'abs':return Math.abs(args[0]);
+      case 'sum':return Array.isArray(args[0])?args[0].reduce((a,b)=>a+b,0):0;
+      case 'max':return Array.isArray(args[0])?Math.max(...args[0]):Math.max(...args);
+      case 'min':return Array.isArray(args[0])?Math.min(...args[0]):Math.min(...args);
+      case 'range':{const s=args.length>=2?args[0]:0,e=args.length>=2?args[1]:args[0],st=args[2]||1;const r=[];if(st>0){for(let i=s;i<e;i+=st)r.push(i);}else{for(let i=s;i>e;i+=st)r.push(i);}return r;}
+      case 'list':return Array.isArray(args[0])?args[0].slice():[...String(args[0]||'')];
+      default:
+        if(funcs[name])return callUser(funcs[name],args);
+        throw new Error('دالة غير معروفة: '+name);
+    }
+  }
+
+  function callUser(fn,args){
+    if(++ctx.depth>200)throw new Error('استدعاء عميق جداً');
+    const local={};
+    fn.params.forEach((p,i)=>{local[p]=args[i]!==undefined?args[i]:null;});
+    let ret=null;
+    try{execBlock(fn.body,local);}
+    catch(sig){if(sig&&sig.__return){ret=sig.value;}else{ctx.depth--;throw sig;}}
+    ctx.depth--;
+    return ret;
+  }
+
+  function execBlock(block,scope){
+    let i=0;
+    while(i<block.length){
+      const ln=block[i];if(++ctx.steps>200000)throw new Error('البرنامج طويل جداً');
+      const gather=()=>{const body=[];let j=i+1;while(j<block.length&&block[j].indent>ln.indent){body.push(block[j]);j++;}return{body,next:j};};
+      // DEF
+      if(/^def\b/.test(ln.text)){
+        const m=ln.text.match(/^def\s+([A-Za-z_؀-ۿ][\w؀-ۿ]*)\s*\((.*)\)\s*:\s*$/);
+        if(!m)throw new Error('صيغة def غير صحيحة');
+        const name=m[1];const params=m[2].trim()===''?[]:m[2].split(',').map(p=>p.trim());
+        const {body,next}=gather();
+        funcs[name]={params,body};
+        i=next;continue;
+      }
+      // RETURN
+      if(/^return\b/.test(ln.text)){
+        const expr=ln.text.replace(/^return\b/,'').trim();
+        throw{__return:true,value:expr===''?null:evalExpr(expr,scope)};
+      }
+      // FOR
+      if(/^for\b/.test(ln.text)){
+        const m=ln.text.match(/^for\s+(.+?)\s+in\s+(.+?):\s*$/);
+        if(!m)throw new Error('صيغة for غير صحيحة');
+        const varPart=m[1].trim(),iterExpr=m[2].trim();
+        const {body,next}=gather();
+        const iterVal=evalExpr(iterExpr,scope);
+        const items=Array.isArray(iterVal)?iterVal:[...String(iterVal)];
+        for(const item of items){
+          scope[varPart]=item;
+          try{execBlock(body,scope);}catch(sig){if(sig.__brk)break;if(sig.__cont)continue;throw sig;}
+        }
+        i=next;continue;
+      }
+      // WHILE
+      if(/^while\b/.test(ln.text)){
+        const cond=ln.text.replace(/^while\s+/,'').replace(/:\s*$/,'');
+        const {body,next}=gather();let guard=0;
+        while(truthy(evalExpr(cond,scope))){
+          if(++guard>5000){out.push('⚠️ حلقة لا نهائية! (أوقفناها)');break;}
+          try{execBlock(body,scope);}catch(sig){if(sig.__brk)break;if(sig.__cont)continue;throw sig;}
+        }
+        i=next;continue;
+      }
+      // IF / ELSE
+      if(/^if\b/.test(ln.text)){
+        const cond=ln.text.replace(/^if\s+/,'').replace(/:\s*$/,'');
+        const {body,next}=gather();
+        let took=truthy(evalExpr(cond,scope));let cursor=next;
+        if(took)execBlock(body,scope);
+        if(cursor<block.length&&block[cursor].indent===ln.indent&&/^else\s*:/.test(block[cursor].text)){
+          const eb=block[cursor],elseBody=[];let j=cursor+1;
+          while(j<block.length&&block[j].indent>eb.indent){elseBody.push(block[j]);j++;}
+          if(!took)execBlock(elseBody,scope);cursor=j;
+        }
+        i=cursor;continue;
+      }
+      execStmt(ln.text,scope);i++;
+    }
+  }
+
+  function execStmt(text,scope){
+    if(text==='break')throw{__brk:true};
+    if(text==='continue')throw{__cont:true};
+    // print handled as expression too, but keep fast path
+    let m=text.match(/^([A-Za-z_؀-ۿ][\w؀-ۿ]*)\.(append|pop|remove)\s*\((.*)\)$/);
+    if(m){
+      const name=m[1],method=m[2],argStr=m[3].trim();const lst=scope[name];
+      if(!Array.isArray(lst))throw new Error(name+' ليست قائمة');
+      if(method==='append')lst.push(evalExpr(argStr,scope));
+      else if(method==='pop'){if(lst.length===0)throw new Error('القائمة فارغة');lst.pop();}
+      else if(method==='remove'){const v=evalExpr(argStr,scope);const idx=lst.indexOf(v);if(idx>=0)lst.splice(idx,1);}
+      return;
+    }
+    m=text.match(/^([A-Za-z_؀-ۿ][\w؀-ۿ]*)\s*\[(.+?)\]\s*=\s*(.+)$/);
+    if(m){
+      const name=m[1];const lst=scope[name];if(!Array.isArray(lst))throw new Error(name+' ليست قائمة');
+      let k=evalExpr(m[2],scope);if(k<0)k=lst.length+k;if(k<0||k>=lst.length)throw new Error('الفهرس خارج الحدود');
+      lst[k]=evalExpr(m[3],scope);return;
+    }
+    m=text.match(/^([A-Za-z_؀-ۿ][\w؀-ۿ]*(?:\s*,\s*[A-Za-z_؀-ۿ][\w؀-ۿ]*)*)\s*(\+=|-=|\*=|\/=|=)\s*(.+)$/);
+    if(m){
+      const lhsRaw=m[1],op=m[2],val=evalExpr(m[3],scope);
+      const lhsParts=lhsRaw.split(',').map(p=>p.trim());
+      if(lhsParts.length>1){
+        if(Array.isArray(val)){lhsParts.forEach((p,i)=>{scope[p]=val[i]!==undefined?val[i]:null;});}
+        else{lhsParts.forEach((p,i)=>{scope[p]=i===0?val:null;});}
+      }else{
+        const name=lhsParts[0];
+        if(op==='='){scope[name]=val;}
+        else{const cur=scope[name]||0;
+          if(op==='+=')scope[name]=(typeof cur==='string'||typeof val==='string')?String(cur)+String(val):cur+val;
+          else if(op==='-=')scope[name]=cur-val;else if(op==='*=')scope[name]=cur*val;else scope[name]=cur/val;}
+      }
+      return;
+    }
+    // expression statement (e.g., calling a function, or print(...))
+    evalExpr(text,scope);
+  }
+
+  execBlock(lines,G);
+  return{output:out,vars:G,funcs};
+}
+
+/* ── Exercises ── */
+function runEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText;
+  const outDiv=document.getElementById('ex'+n+'Output');
+  const outText=document.getElementById('ex'+n+'OutText');
+  let result;
+  try{result=runPython(code);}
+  catch(e){outText.textContent='⚠️ خطأ: '+e.message;outDiv.classList.add('show');return;}
+  outText.textContent=result.output.length?result.output.join('\n'):'(لا يوجد إخراج)';
+  outDiv.classList.add('show');
+}
+function checkEx(n){
+  const code=document.getElementById('ex'+n+'Code').innerText;
+  const fb=document.getElementById('ex'+n+'Feedback');
+  let result;
+  try{result=runPython(code);}
+  catch(e){fb.className='ex-feedback show wrong';fb.textContent='⚠️ في خطأ بالكود: '+e.message;return;}
+  const out=result.output.map(o=>String(o).trim());
+  const hasDef=/\bdef\b/.test(code), hasReturn=/\breturn\b/.test(code);
+  let ok=false,msg='';
+  if(n===1){
+    ok=hasDef&&out.some(o=>o.includes('سارة'));
+    msg=ok?'✅ ممتاز! عرّفت دالة greet وناديتها بالوسيط "سارة" 🎉':'❌ عرّف def greet(name): واطبع داخلها، ثم نادِها greet("سارة")';
+  }else if(n===2){
+    ok=hasDef&&hasReturn&&out.some(o=>o==='8');
+    msg=ok?'✅ رائع! دالتك تُرجع المجموع، add(3, 5) = 8 🎉':'❌ يجب أن تطبع 8. استخدم return a + b ثم print(add(3, 5))';
+  }else if(n===3){
+    ok=hasDef&&hasReturn&&out.some(o=>o.includes('فراولة')&&o.includes('كعكة'));
+    msg=ok?'✅ لذيذة! الدالة أرجعت "كعكة بـفراولة" 🎂':'❌ أرجِع نصاً يحتوي "كعكة" و"فراولة": return "كعكة بـ" + fruit';
+  }else if(n===4){
+    ok=hasDef&&hasReturn&&out.some(o=>o==='4')&&out.some(o=>o==='25');
+    msg=ok?'✅ أحسنت! عرّفت square مرة وناديتها مرتين (4 و25) ♻️':'❌ يجب طباعة 4 ثم 25. عرّف square(n) تُرجع n * n ونادِها مرتين';
+  }else if(n===5){
+    ok=out.some(o=>o==='6')&&out.some(o=>o==='9');
+    msg=ok?'✅ بالضبط! استعملت len و max، دالتان جاهزتان 🤯':'❌ يجب طباعة 6 ثم 9. استخدم len("Python") و max(3, 9, 1)';
+  }
+  fb.className='ex-feedback show '+(ok?'correct':'wrong');
+  fb.textContent=msg;
+}
+
+/* Tab key in editors */
+document.querySelectorAll('.ex-code').forEach(ed=>{
+  ed.addEventListener('keydown',e=>{
+    if(e.key==='Tab'){e.preventDefault();document.execCommand('insertText',false,'    ');}
+  });
+});
+</script>
+</body>
+</html>

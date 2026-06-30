@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مغامرة البرمجة - الدوال آلات سحرية! 🧰</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700;800&family=Rubik:wght@500;700;800;900&family=Fira+Code:wght@500;700&display=swap');
+
+:root{
+  --paper:#FFF6E9; --ink:#2B2342; --coral:#FF6B6B; --yellow:#FFD93D;
+  --mint:#5FD08D; --sky:#4D96FF; --purple:#9B5DE5; --pink:#FF8FAB; --orange:#FF9F43; --white:#FFFFFF;
+  --radius:24px;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:'Rubik', sans-serif; color:var(--ink);
+  background-color:var(--paper);
+  background-image:radial-gradient(rgba(43,35,66,.07) 2px, transparent 2px);
+  background-size:28px 28px; overflow-x:hidden;
+}
+h1,h2,h3{ font-family:'Baloo Bhaijaan 2', 'Rubik', cursive; line-height:1.25; }
+code, pre{ font-family:'Fira Code', monospace; direction:ltr; unicode-bidi:embed; }
+
+/* NAV */
+nav{ position:sticky; top:12px; z-index:50; display:flex; justify-content:center; gap:7px; flex-wrap:wrap; padding:0 12px; }
+nav a{ background:var(--white); border:3px solid var(--ink); border-radius:999px; box-shadow:3px 3px 0 var(--ink); padding:5px 12px; font-weight:900; font-size:.8rem; color:var(--ink); text-decoration:none; transition:transform .15s, box-shadow .15s; }
+nav a:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); background:var(--yellow); }
+nav a.home{ background:var(--purple); color:#fff; }
+
+/* HERO */
+header{ position:relative; text-align:center; padding:80px 20px 60px; overflow:hidden; }
+.blob{ position:absolute; border-radius:50%; border:3px solid var(--ink); animation:float 6s ease-in-out infinite; z-index:0; }
+.blob.b1{ width:70px; height:70px; background:var(--purple); top:12%; left:8%; animation-delay:0s; }
+.blob.b2{ width:46px; height:46px; background:var(--yellow); top:60%; left:14%; animation-delay:1.2s; }
+.blob.b3{ width:90px; height:90px; background:var(--pink); top:18%; right:7%; animation-delay:.6s; }
+.blob.b4{ width:40px; height:40px; background:var(--mint); top:65%; right:13%; animation-delay:1.8s; }
+.blob.b5{ width:30px; height:30px; background:var(--sky); top:38%; left:22%; animation-delay:2.4s; }
+@keyframes float{ 0%,100%{ transform:translateY(0) rotate(0deg);} 50%{ transform:translateY(-18px) rotate(8deg);} }
+header h1{ position:relative; z-index:1; font-size:clamp(2.2rem, 7vw, 4.4rem); font-weight:800; }
+header h1 span{ display:inline-block; animation:bounceIn .8s both; }
+header h1 span:nth-child(odd){ color:var(--purple); }
+header h1 span:nth-child(even){ color:var(--pink); }
+header h1 span:nth-child(3n){ color:var(--orange); }
+@keyframes bounceIn{ 0%{ transform:translateY(-40px) scale(.3); opacity:0; } 60%{ transform:translateY(8px) scale(1.1); opacity:1; } 100%{ transform:translateY(0) scale(1); } }
+header p.tagline{ position:relative; z-index:1; font-size:clamp(1.05rem, 2.5vw, 1.4rem); font-weight:800; max-width:700px; margin:18px auto 14px; }
+.hero-bot{ font-size:5rem; position:relative; z-index:1; animation:floaty 3s ease-in-out infinite; }
+@keyframes floaty{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-16px);} }
+.know-chips{ position:relative; z-index:1; display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:18px; }
+.know-chip{ background:var(--white); border:3px solid var(--ink); border-radius:999px; box-shadow:3px 3px 0 var(--ink); padding:6px 16px; font-family:'Fira Code', monospace; font-weight:700; font-size:.9rem; direction:ltr; }
+.know-chip.on{ background:var(--mint); }
+
+/* SECTIONS */
+main{ max-width:980px; margin:0 auto; padding:0 18px 80px; }
+section{ margin:64px 0; opacity:0; transform:translateY(40px); transition:opacity .7s ease, transform .7s ease; }
+section.visible{ opacity:1; transform:translateY(0); }
+.badge{ display:inline-block; font-family:'Baloo Bhaijaan 2', cursive; font-weight:800; font-size:.95rem; background:var(--yellow); border:3px solid var(--ink); border-radius:12px; box-shadow:4px 4px 0 var(--ink); padding:4px 16px; transform:rotate(3deg); margin-bottom:14px; }
+.badge.sky{ background:var(--sky); color:#fff; } .badge.coral{ background:var(--coral); color:#fff; }
+.badge.mint{ background:var(--mint); } .badge.purple{ background:var(--purple); color:#fff; } .badge.pink{ background:var(--pink); } .badge.orange{ background:var(--orange); color:#fff; }
+section h2{ font-size:clamp(1.6rem, 4.5vw, 2.4rem); margin-bottom:10px; }
+section .lead{ font-size:1.08rem; font-weight:700; max-width:760px; margin-bottom:24px; line-height:1.9; }
+.lead code, .mini-note code, .fact-strip code{ background:rgba(43,35,66,.08); padding:1px 7px; border-radius:7px; }
+.card{ background:var(--white); border:3px solid var(--ink); border-radius:var(--radius); box-shadow:7px 7px 0 var(--ink); padding:24px; }
+.grid{ display:grid; gap:20px; }
+.grid.cols-2{ grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); }
+
+/* CODE BLOCK */
+pre.codeblock{ background:var(--ink); color:#EDE9FE; border-radius:18px; border:3px solid var(--ink); box-shadow:5px 5px 0 var(--purple); padding:16px 18px; font-size:.9rem; line-height:1.95; overflow-x:auto; direction:ltr; text-align:left; }
+pre.codeblock .ln{ display:block; padding:0 10px; border-radius:8px; transition:background .35s ease, opacity .35s ease, transform .25s ease; }
+pre.codeblock .ln.active{ background:rgba(155,93,229,.45); outline:2px dashed var(--pink); transform:translateX(-4px); }
+pre.codeblock .ln.skipped{ opacity:.3; text-decoration:line-through; }
+pre.codeblock .kw{ color:#FF8FAB; font-weight:700; }
+pre.codeblock .fn{ color:#7DD3FC; }
+pre.codeblock .str{ color:#86EFAC; }
+pre.codeblock .num{ color:#FDE047; font-weight:700; }
+pre.codeblock .var{ color:#FCD5CE; }
+pre.codeblock .cm{ color:#9b8fb0; font-style:italic; }
+
+/* TERMINAL */
+.term-head{ display:flex; align-items:center; gap:8px; background:var(--ink); color:var(--paper); border:3px solid var(--ink); border-bottom:none; border-radius:14px 14px 0 0; padding:8px 14px; font-weight:900; font-size:.85rem; }
+.term-dot{ width:13px; height:13px; border-radius:50%; border:2px solid var(--paper); }
+.term-dot.r{ background:var(--coral); } .term-dot.y{ background:var(--yellow); } .term-dot.g{ background:var(--mint); }
+.term-head .title{ margin-inline-start:8px; opacity:.85; }
+.terminal{ background:#161126; color:#C7F9CC; border:3px solid var(--ink); border-top:none; border-radius:0 0 14px 14px; padding:14px 16px; min-height:80px; max-height:230px; overflow-y:auto; font-family:'Fira Code', monospace; font-size:.92rem; line-height:1.85; }
+.terminal:empty::before{ content:"اضغط زر التشغيل لتنادي الدالة..."; color:#6b6386; }
+.term-line{ white-space:pre-wrap; word-break:break-word; animation:lineIn .28s ease both; }
+@keyframes lineIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none;} }
+.t-out{ color:#C7F9CC; }
+.t-sys{ color:#FDE047; font-weight:700; }
+
+/* CONTROLS */
+.controls{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:14px 0 6px; }
+.btn{ font-family:'Rubik', sans-serif; font-weight:900; font-size:1.05rem; border:3px solid var(--ink); border-radius:16px; box-shadow:5px 5px 0 var(--ink); padding:11px 26px; cursor:pointer; color:var(--ink); transition:transform .12s, box-shadow .12s; background:var(--white); }
+.btn:hover{ transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink); }
+.btn:active{ transform:translate(3px,3px); box-shadow:2px 2px 0 var(--ink); }
+.btn.run{ background:var(--mint); }
+.btn.small{ font-size:.92rem; padding:9px 18px; box-shadow:4px 4px 0 var(--ink); }
+.kid-input{ font-family:'Fira Code', monospace; font-weight:700; font-size:1rem; border:3px solid var(--ink); border-radius:14px; padding:10px 14px; background:var(--white); color:var(--ink); box-shadow:3px 3px 0 var(--ink); outline:none; text-align:center; max-width:140px; }
+.kid-input:focus{ box-shadow:5px 5px 0 var(--sky); transform:translate(-1px,-1px); }
+.kid-input.num{ max-width:80px; direction:ltr; }
+.field-label{ font-weight:900; font-size:.95rem; }
+.opt-row{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:6px 0 12px; }
+.opt-btn{ background:var(--white); border:3px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); padding:8px 14px; font-family:'Rubik',sans-serif; font-weight:800; font-size:.92rem; cursor:pointer; transition:transform .12s, box-shadow .12s, background .15s; }
+.opt-btn:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--ink); }
+.opt-btn.on{ background:var(--yellow); }
+.try-hint{ font-weight:800; font-size:.92rem; opacity:.8; margin-top:10px; }
+
+/* MACHINE STAGE */
+.demo-stage{ border:3px solid var(--ink); border-radius:18px; min-height:230px; margin-bottom:6px; display:flex; align-items:center; justify-content:center; background:linear-gradient(#F3E8FF,#FDE68A); overflow:hidden; }
+@keyframes shake{ 0%,100%{ transform:translateX(0);} 15%{ transform:translateX(-8px) rotate(-2deg);} 35%{ transform:translateX(7px) rotate(2deg);} 55%{ transform:translateX(-6px);} 75%{ transform:translateX(5px);} 90%{ transform:translateX(-3px);} }
+@keyframes popIn{ 0%{ transform:scale(.2); opacity:0;} 55%{ transform:scale(1.2);} 100%{ transform:scale(1); opacity:1;} }
+.fmac{ display:flex; flex-direction:column; align-items:center; gap:7px; padding:10px; width:100%; animation:lineIn .3s ease both; }
+.fmac-label{ font-weight:800; font-size:.78rem; opacity:.7; }
+.fmac-row{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; align-items:center; }
+.fmac-chip{ background:#fff; border:3px solid var(--ink); border-radius:12px; box-shadow:3px 3px 0 var(--ink); min-width:48px; height:50px; display:flex; align-items:center; justify-content:center; padding:0 10px; font-weight:800; font-size:1.5rem; direction:ltr; transition:transform .4s cubic-bezier(.34,1.56,.64,1); }
+.fmac-chip.go{ transform:translateY(10px) scale(1.1); border-color:var(--orange); }
+.fmac-arrow{ font-size:1.4rem; line-height:1; }
+.fmac-box{ background:var(--purple); color:#fff; border:3px solid var(--ink); border-radius:16px; box-shadow:4px 4px 0 var(--ink); padding:10px 18px; font-weight:900; font-family:'Fira Code', monospace; direction:ltr; display:flex; align-items:center; gap:8px; font-size:1rem; }
+.fmac-box .be{ font-size:1.7rem; }
+.fmac-box.work{ animation:shake .55s; }
+.fmac-out{ width:96px; height:96px; border:3px dashed var(--ink); border-radius:18px; display:flex; align-items:center; justify-content:center; font-size:3rem; background:#fff; transition:transform .4s cubic-bezier(.34,1.56,.64,1), background .3s; }
+.fmac-out.done{ border-style:solid; background:#DCFCE7; transform:scale(1.12); box-shadow:3px 3px 0 var(--ink); }
+.fmac-out img{ width:82px; height:82px; object-fit:contain; animation:popIn .5s ease; }
+.fmac-out .bignum{ font-family:'Fira Code', monospace; font-weight:800; font-size:2.4rem; color:var(--ink); }
+.area-sq{ display:grid; gap:2px; padding:3px; }
+.area-sq i{ width:11px; height:11px; background:var(--mint); border:2px solid var(--ink); border-radius:2px; animation:popIn .35s ease; }
+
+/* WHY cards */
+.why-grid{ display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); }
+.why-card{ border:3px solid var(--ink); border-radius:var(--radius); padding:20px; box-shadow:6px 6px 0 var(--ink); }
+.why-card.bad{ background:#FFE4E6; } .why-card.good{ background:#DCFCE7; }
+.why-card h3{ margin-bottom:10px; font-size:1.2rem; }
+.flow{ display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:8px; }
+.flow .step{ background:var(--white); border:3px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); padding:10px 14px; font-weight:800; font-size:.92rem; text-align:center; }
+.flow .step.in{ background:var(--yellow); } .flow .step.mid{ background:var(--purple); color:#fff; } .flow .step.out{ background:var(--mint); }
+.flow .arr{ font-size:1.4rem; font-weight:900; }
+
+/* REUSE cards */
+.reuse-grid{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; min-height:30px; margin:14px 0; }
+.clean-card{ background:#E0F2FE; border:3px solid var(--ink); border-radius:14px; box-shadow:3px 3px 0 var(--ink); padding:10px 14px; font-weight:800; font-size:.95rem; animation:popIn .4s ease; }
+.save-meter{ background:var(--ink); color:var(--paper); border-radius:16px; border:3px solid var(--ink); box-shadow:5px 5px 0 var(--purple); padding:14px 18px; font-weight:800; text-align:center; line-height:1.9; }
+.save-meter b{ color:var(--yellow); font-size:1.2rem; }
+
+/* INFO STRIPS */
+.fact-strip{ margin-top:26px; background:var(--ink); color:var(--paper); border-radius:var(--radius); border:3px solid var(--ink); box-shadow:7px 7px 0 var(--purple); padding:20px 26px; font-weight:800; font-size:1.05rem; text-align:center; line-height:2; }
+.fact-strip code{ background:rgba(255,255,255,.15); color:var(--paper); }
+.mini-note{ margin-top:18px; font-weight:800; font-size:1rem; background:var(--yellow); border:3px solid var(--ink); border-radius:16px; box-shadow:4px 4px 0 var(--ink); padding:14px 18px; line-height:1.9; }
+
+/* confetti */
+.confetti-bit{ position:fixed; top:-20px; z-index:999; width:12px; height:12px; border:2px solid var(--ink); pointer-events:none; animation:confallin linear forwards; }
+@keyframes confallin{ 0%{ transform:translateY(0) rotate(0); opacity:1;} 100%{ transform:translateY(110vh) rotate(720deg); opacity:.6;} }
+
+footer{ text-align:center; padding:50px 20px 70px; font-weight:900; font-size:1.1rem; line-height:2; }
+footer .hearts{ font-size:1.6rem; }
+footer a{ color:var(--purple); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="lesson7.html" class="home">🧰 درس الدوال</a>
+  <a href="#why">🤔 لماذا؟</a>
+  <a href="#cake">🎂 الكعكة</a>
+  <a href="#juice">🥤 العصير</a>
+  <a href="#greet">👋 التحية</a>
+  <a href="#calc">➕ الجمع</a>
+  <a href="#area">🟩 المساحة</a>
+  <a href="#calculator">🧮 الحاسبة</a>
+  <a href="#wash">🧺 الغسالة</a>
+  <a href="#meal">🤖 المطعم</a>
+</nav>
+
+<!-- HERO -->
+<header>
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div>
+  <h1 id="heroTitle">الدوال آلات سحرية</h1>
+  <p class="tagline">
+    الدالة مثل آلة: تضع فيها <b>مدخلات</b> (مكوّنات)، فتعمل خطواتها، وتُخرج لك <b>نتيجة</b>! 🪄
+    نصنع الآلة مرة، ثم نضغط الزر كلما أردنا. تعال نرى الدوال في آلات من حياتنا!
+  </p>
+  <div class="know-chips">
+    <span class="know-chip on">print()</span>
+    <span class="know-chip on">المتغيرات</span>
+    <span class="know-chip">def ✨</span>
+    <span class="know-chip">return ✨</span>
+  </div>
+  <div class="hero-bot">🧰</div>
+</header>
+
+<main>
+
+<!-- WHY -->
+<section id="why">
+  <span class="badge purple">الفكرة الكبيرة</span>
+  <h2>لماذا نحتاج الدوال؟ 🤔</h2>
+  <p class="lead">
+    تخيّل أنك تصنع 3 شطائر. هل تشرح خطوات الصنع <b>من جديد</b> في كل مرة؟ 😩
+    الدالة تجمع الخطوات وتعطيها اسماً، فنكتبها <b>مرة واحدة</b> ثم نناديها كلما أردنا شطيرة!
+  </p>
+
+  <div class="why-grid">
+    <div class="why-card bad">
+      <h3>😫 بدون دالة (تكرار)</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--coral)"><span class="ln"><span class="cm"># شطيرة 1</span></span><span class="ln">خبز، جبن، خضار...</span><span class="ln"><span class="cm"># شطيرة 2</span></span><span class="ln">خبز، جبن، خضار...</span><span class="ln"><span class="cm"># شطيرة 3 ... 😩</span></span></pre>
+      <p style="font-weight:800;margin-top:12px">نكرّر نفس الخطوات كل مرة!</p>
+    </div>
+    <div class="why-card good">
+      <h3>✨ مع دالة (نناديها)</h3>
+<pre class="codeblock" style="box-shadow:4px 4px 0 var(--mint)"><span class="ln"><span class="kw">def</span> <span class="fn">make_sandwich</span>():</span><span class="ln">    خبز، جبن، خضار</span><span class="ln"><span class="fn">make_sandwich</span>()  <span class="cm"># 1</span></span><span class="ln"><span class="fn">make_sandwich</span>()  <span class="cm"># 2</span></span><span class="ln"><span class="fn">make_sandwich</span>()  <span class="cm"># 3 🎉</span></span></pre>
+      <p style="font-weight:800;margin-top:12px">كتبنا الخطوات مرة، ونناديها بسطر!</p>
+    </div>
+  </div>
+
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--sky)">
+    🧰 الدالة آلة تعمل هكذا:
+    <div class="flow">
+      <span class="step in">📥 مدخلات (الوسائط)</span>
+      <span class="arr">→</span>
+      <span class="step mid">⚙️ تنفّذ خطواتها</span>
+      <span class="arr">→</span>
+      <span class="step out">📤 تُرجِع نتيجة</span>
+    </div>
+    جرّب الآلات بالأسفل! اضغط الأزرار وشاهد المدخلات تتحوّل إلى مخرجات 👇
+  </div>
+</section>
+
+<!-- 1. CAKE -->
+<section id="cake">
+  <span class="badge pink">آلة 1</span>
+  <h2>آلة الكعكة 🎂</h2>
+  <p class="lead">
+    نُعطي الدالة <code>bake_cake</code> نكهةً (وسيط · argument)، فتخلط وتخبز وتزيّن، وتُرجِع لنا كعكة (return)!
+    غيّر النكهة وستتغيّر الكعكة، بنفس الدالة تماماً.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="cakeStage"></div>
+      <div class="opt-row" id="cakePick">
+        <button class="opt-btn on" data-arg="كرز">🍒 كرز</button>
+        <button class="opt-btn" data-arg="فراولة">🍓 فراولة</button>
+        <button class="opt-btn" data-arg="شوكولاتة">🍫 شوكولاتة</button>
+      </div>
+      <button class="btn run" id="cakeRun">▶ نادِ bake_cake</button>
+      <div class="try-hint">💡 نفس الدالة، نكهة مختلفة كل مرة = نتيجة مختلفة!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ck1"><span class="kw">def</span> <span class="fn">bake_cake</span>(<span class="var">flavor</span>):</span><span class="ln" id="ck2">    <span class="cm"># اخلط، اخبز، زيّن</span></span><span class="ln" id="ck3">    <span class="kw">return</span> <span class="str">"كعكة "</span> + <span class="var">flavor</span></span><span class="ln" id="ck4"><span class="fn">bake_cake</span>(<span class="str">"<span id="cakeArg">كرز</span>"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="cakeTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. JUICE -->
+<section id="juice">
+  <span class="badge orange">آلة 2</span>
+  <h2>آلة العصير 🥤</h2>
+  <p class="lead">
+    نفس الفكرة! نُدخِل فاكهة إلى الدالة <code>make_juice</code>، فتعصرها وتُرجِع لنا كوب عصير.
+    الفاكهة هي الوسيط، والعصير هو الإرجاع.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="juiceStage"></div>
+      <div class="opt-row" id="juicePick">
+        <button class="opt-btn on" data-arg="برتقال">🍊 برتقال</button>
+        <button class="opt-btn" data-arg="فراولة">🍓 فراولة</button>
+        <button class="opt-btn" data-arg="تفاح">🍎 تفاح</button>
+      </div>
+      <button class="btn run" id="juiceRun">▶ نادِ make_juice</button>
+      <div class="try-hint">💡 فاكهة تدخل ➜ عصير يخرج. آلة بسيطة وواضحة!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ju1"><span class="kw">def</span> <span class="fn">make_juice</span>(<span class="var">fruit</span>):</span><span class="ln" id="ju2">    <span class="kw">return</span> <span class="str">"عصير "</span> + <span class="var">fruit</span></span><span class="ln" id="ju3"><span class="fn">make_juice</span>(<span class="str">"<span id="juiceArg">برتقال</span>"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="juiceTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. GREET -->
+<section id="greet">
+  <span class="badge sky">آلة 3</span>
+  <h2>آلة التحية 👋</h2>
+  <p class="lead">
+    الوسيط يجعل الدالة <b>مرنة</b>: اكتب أيّ اسم، وستحيّيه الدالة <code>greet</code>!
+    دالة واحدة تخدم كل الأسماء في العالم.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="greetStage"></div>
+      <div class="controls">
+        <span class="field-label">👤 الاسم:</span>
+        <input class="kid-input" id="greetInput" value="سارة" maxlength="12">
+      </div>
+      <button class="btn run" id="greetRun">▶ نادِ greet</button>
+      <div class="try-hint">💡 جرّب اسمك، ثم اسم صديقك. نفس الدالة، تحية مختلفة!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="gr1"><span class="kw">def</span> <span class="fn">greet</span>(<span class="var">name</span>):</span><span class="ln" id="gr2">    <span class="fn">print</span>(<span class="str">"مرحباً يا"</span>, <span class="var">name</span>)</span><span class="ln" id="gr3"><span class="fn">greet</span>(<span class="str">"<span id="greetArg">سارة</span>"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="greetTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. ADD -->
+<section id="calc">
+  <span class="badge mint">آلة 4</span>
+  <h2>آلة الجمع ➕ · قوة الإرجاع</h2>
+  <p class="lead">
+    هنا نرى <code>return</code> بوضوح: ندخل رقمين، والدالة <code>add</code> تُرجع مجموعهما،
+    فنستطيع <b>تخزينه</b> في <code>result</code> واستخدامه. ليست مجرد طباعة، بل قيمة نملكها!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="addStage"></div>
+      <div class="controls" style="justify-content:center">
+        <input class="kid-input num" id="addA" type="number" value="3">
+        <span style="font-size:1.4rem;font-weight:900">+</span>
+        <input class="kid-input num" id="addB" type="number" value="5">
+      </div>
+      <button class="btn run" id="addRun">▶ نادِ add</button>
+      <div class="try-hint">💡 الدالة تُرجِع الرقم، فنخزّنه في result ونستعمله لاحقاً.</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ad1"><span class="kw">def</span> <span class="fn">add</span>(<span class="var">a</span>, <span class="var">b</span>):</span><span class="ln" id="ad2">    <span class="kw">return</span> <span class="var">a</span> + <span class="var">b</span></span><span class="ln" id="ad3"><span class="var">result</span> = <span class="fn">add</span>(<span class="num"><span id="addArg">3, 5</span></span>)</span><span class="ln" id="ad4"><span class="fn">print</span>(<span class="var">result</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="addTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. SQUARE AREA -->
+<section id="area">
+  <span class="badge sky">آلة 5</span>
+  <h2>آلة مساحة المربّع 🟩</h2>
+  <p class="lead">
+    رياضيات ممتعة! مساحة المربّع = <b>الضلع × الضلع</b>. نُعطي الدالة <code>square_area</code> طول الضلع،
+    فتضربه في نفسه وتُرجع المساحة. غيّر الضلع وشاهد المربّع يكبر!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="areaStage"></div>
+      <div class="controls" style="justify-content:center">
+        <span class="field-label">📏 طول الضلع:</span>
+        <input class="kid-input num" id="areaSide" type="number" min="1" max="6" value="4">
+      </div>
+      <button class="btn run" id="areaRun">▶ نادِ square_area</button>
+      <div class="try-hint">💡 ضلع 4 ➜ المساحة 4 × 4 = 16 مربّعًا صغيرًا!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="sq1"><span class="kw">def</span> <span class="fn">square_area</span>(<span class="var">side</span>):</span><span class="ln" id="sq2">    <span class="kw">return</span> <span class="var">side</span> * <span class="var">side</span></span><span class="ln" id="sq3"><span class="fn">square_area</span>(<span class="num"><span id="areaArg">4</span></span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="areaTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. CALCULATOR -->
+<section id="calculator">
+  <span class="badge orange">آلة 6</span>
+  <h2>الآلة الحاسبة 🧮</h2>
+  <p class="lead">
+    آلة حاسبة حقيقية بدالة واحدة! تأخذ <code>calc</code> رقمين والعملية بينهما، وتُرجع الناتج.
+    داخلها <code>if</code> تختار العملية الصحيحة. اختر + أو − أو × أو ÷ وجرّب!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="calculatorStage"></div>
+      <div class="controls" style="justify-content:center">
+        <input class="kid-input num" id="calcA" type="number" value="6">
+        <input class="kid-input num" id="calcB" type="number" value="3">
+      </div>
+      <div class="opt-row" id="calcOpPick">
+        <button class="opt-btn" data-op="+">➕ جمع</button>
+        <button class="opt-btn" data-op="-">➖ طرح</button>
+        <button class="opt-btn on" data-op="×">✖️ ضرب</button>
+        <button class="opt-btn" data-op="÷">➗ قسمة</button>
+      </div>
+      <button class="btn run" id="calculatorRun">▶ نادِ calc</button>
+      <div class="try-hint">💡 نفس الدالة تجمع وتطرح وتضرب وتقسم، حسب العملية التي تعطيها!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="cc1"><span class="kw">def</span> <span class="fn">calc</span>(<span class="var">a</span>, <span class="var">op</span>, <span class="var">b</span>):</span><span class="ln" id="cc2">    <span class="kw">if</span> <span class="var">op</span> == <span class="str">"+"</span>:</span><span class="ln" id="cc3">        <span class="kw">return</span> <span class="var">a</span> + <span class="var">b</span></span><span class="ln" id="cc4">    <span class="kw">if</span> <span class="var">op</span> == <span class="str">"-"</span>:</span><span class="ln" id="cc5">        <span class="kw">return</span> <span class="var">a</span> - <span class="var">b</span></span><span class="ln" id="cc6">    <span class="kw">if</span> <span class="var">op</span> == <span class="str">"×"</span>:</span><span class="ln" id="cc7">        <span class="kw">return</span> <span class="var">a</span> * <span class="var">b</span></span><span class="ln" id="cc8">    <span class="kw">return</span> <span class="var">a</span> / <span class="var">b</span></span><span class="ln" id="cc9"><span class="fn">calc</span>(<span class="num"><span id="calculatorArg">6, "×", 3</span></span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="calculatorTerm"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 7. WASH (reuse) -->
+<section id="wash">
+  <span class="badge coral">آلة 7</span>
+  <h2>الغسالة 🧺 · اكتب مرة، شغّل مرّات</h2>
+  <p class="lead">
+    صنعنا الغسالة <b>مرة واحدة</b>. الآن نضع فيها أيّ ملابس وتغسلها! لا نعيد بناء غسالة جديدة كل مرة.
+    هذه أكبر فائدة للدوال: نكتبها مرة، ونناديها كم نشاء.
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div style="text-align:center;font-size:.95rem;font-weight:800;margin-bottom:6px">اضغط لتغسل قطعة ملابس:</div>
+      <div class="opt-row">
+        <button class="opt-btn" onclick="wash('قميص 👕')">wash("قميص")</button>
+        <button class="opt-btn" onclick="wash('بنطال 👖')">wash("بنطال")</button>
+        <button class="opt-btn" onclick="wash('جوارب 🧦')">wash("جوارب")</button>
+        <button class="opt-btn" onclick="resetWash()" style="background:#FFE4E6">🔄 إعادة</button>
+      </div>
+      <div class="reuse-grid" id="washGrid"></div>
+      <div class="save-meter" id="washMeter"></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln"><span class="kw">def</span> <span class="fn">wash</span>(<span class="var">clothes</span>):</span><span class="ln">    <span class="cm"># تدور وتنظّف</span></span><span class="ln">    <span class="kw">return</span> <span class="var">clothes</span> + <span class="str">" نظيفة ✨"</span></span><span class="ln"></span><span class="ln"><span class="fn">wash</span>(<span class="str">"قميص"</span>)   <span class="cm"># نناديها</span></span><span class="ln"><span class="fn">wash</span>(<span class="str">"بنطال"</span>)  <span class="cm"># ونناديها</span></span><span class="ln"><span class="fn">wash</span>(<span class="str">"جوارب"</span>)  <span class="cm"># بلا حدود!</span></span></pre>
+      <div class="mini-note">
+        🔧 لو أردت تغيير طريقة الغسل، تغيّرها <b>داخل الدالة مرة واحدة</b>، فتتغيّر لكل المرّات!
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT: RESTAURANT -->
+<section id="meal">
+  <span class="badge purple">المشروع الكبير 🎮</span>
+  <h2>روبوت المطعم 🤖🍽️</h2>
+  <p class="lead">
+    لنجمع كل شيء! الدالة <code>make_meal</code> تأخذ طلبك (وسيط)، يطبخه الروبوت خطوة بخطوة،
+    ثم يُرجِع لك وجبتك جاهزة (return). اختر طلبك واضغط!
+  </p>
+  <div class="grid cols-2">
+    <div class="card">
+      <div class="demo-stage" id="mealStage"></div>
+      <div class="opt-row" id="mealPick">
+        <button class="opt-btn on" data-arg="برغر" data-emoji="🍔">🍔 برغر</button>
+        <button class="opt-btn" data-arg="بيتزا" data-emoji="🍕">🍕 بيتزا</button>
+        <button class="opt-btn" data-arg="سلطة" data-emoji="🥗">🥗 سلطة</button>
+      </div>
+      <button class="btn run" id="mealRun">▶ نادِ make_meal</button>
+      <div class="try-hint">💡 نفس الروبوت يصنع أيّ وجبة حسب الطلب الذي تعطيه!</div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">📜 البرنامج:</h3>
+<pre class="codeblock"><span class="ln" id="ml1"><span class="kw">def</span> <span class="fn">make_meal</span>(<span class="var">order</span>):</span><span class="ln" id="ml2">    <span class="cm"># يطبخ المكوّنات</span></span><span class="ln" id="ml3">    <span class="kw">return</span> <span class="var">order</span> + <span class="str">" جاهز! 🍽️"</span></span><span class="ln" id="ml4"><span class="fn">make_meal</span>(<span class="str">"<span id="mealArg">برغر</span>"</span>)</span></pre>
+      <div class="term-head" style="margin-top:14px"><span class="term-dot r"></span><span class="term-dot y"></span><span class="term-dot g"></span><span class="title">🖥️ الشاشة</span></div>
+      <div class="terminal" id="mealTerm"></div>
+    </div>
+  </div>
+  <div class="fact-strip" style="box-shadow:7px 7px 0 var(--coral)">
+    🎉 رائع! الدالة آلة: <b>وسيط</b> يدخل، خطوات تُنفَّذ، <b>نتيجة</b> تُرجَع. نكتبها مرة ونناديها مرّات.<br>
+    من الكعكة، إلى العصير، إلى المطعم.. الدوال تجعل برمجتنا أسهل وأقصر! 🚀
+  </div>
+</section>
+
+</main>
+
+<footer>
+  أنت الآن تفهم <b>لماذا</b> نستخدم الدوال! 🧰<br>
+  جرّب أن تتخيّل آلتك الخاصة: ما مدخلاتها؟ وما الذي تُرجِعه؟
+  <span class="hearts">💜💛💚❤️</span><br>
+  <a href="lesson7.html">⬅️ ارجع إلى درس الدوال</a>
+</footer>
+
+<script>
+/* HERO title split */
+(function(){
+  const h1=document.getElementById('heroTitle');
+  const words=h1.textContent.trim().split(' ');
+  h1.textContent='';
+  words.forEach((w,i)=>{ const s=document.createElement('span'); s.textContent=w; s.style.animationDelay=(i*0.18)+'s'; h1.appendChild(s); if(i<words.length-1) h1.appendChild(document.createTextNode(' ')); });
+})();
+
+/* SCROLL REVEAL */
+const observer=new IntersectionObserver(es=>{ es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:.08});
+document.querySelectorAll('section').forEach(s=>observer.observe(s));
+
+/* HELPERS */
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function clearCode(pre){ if(pre) pre.querySelectorAll('.ln').forEach(l=>l.classList.remove('active','skipped')); }
+function setActive(pre,id){ if(!pre) return; pre.querySelectorAll('.ln').forEach(l=>l.classList.remove('active')); if(id){ const el=document.getElementById(id); if(el) el.classList.add('active'); } }
+async function typeOut(term,text,cls){
+  const line=document.createElement('div'); line.className='term-line'; line.dir='auto';
+  const span=document.createElement('span'); span.className=cls||'t-out';
+  line.appendChild(span); term.appendChild(line); term.scrollTop=term.scrollHeight;
+  for(const ch of text){ span.textContent+=ch; await sleep(15); term.scrollTop=term.scrollHeight; }
+}
+function confetti(){
+  const colors=['#FF6B6B','#FFD93D','#5FD08D','#4D96FF','#9B5DE5','#FF8FAB','#FF9F43'];
+  for(let i=0;i<80;i++){
+    const bit=document.createElement('div'); bit.className='confetti-bit';
+    bit.style.left=Math.random()*100+'vw';
+    bit.style.background=colors[Math.floor(Math.random()*colors.length)];
+    bit.style.animationDuration=(2+Math.random()*2.5)+'s';
+    bit.style.animationDelay=(Math.random()*.8)+'s';
+    if(Math.random()>.5) bit.style.borderRadius='50%';
+    document.body.appendChild(bit);
+    setTimeout(()=>bit.remove(),6000);
+  }
+}
+
+/* MACHINE BUILDER */
+function buildMachine(stage,inputs,boxEmoji,boxLabel){
+  const chips=inputs.map(x=>`<span class="fmac-chip">${x}</span>`).join('');
+  stage.innerHTML=`<div class="fmac">
+    <span class="fmac-label">📥 المدخلات (الوسائط)</span>
+    <div class="fmac-row" data-in>${chips}</div>
+    <span class="fmac-arrow">⬇️</span>
+    <div class="fmac-box" data-box><span class="be">${boxEmoji}</span> ${boxLabel}</div>
+    <span class="fmac-arrow">⬇️</span>
+    <span class="fmac-label">📤 المُخرَج (الإرجاع)</span>
+    <div class="fmac-out" data-out>❓</div>
+  </div>`;
+}
+
+/* GENERIC MACHINE RUNNER */
+async function runMachine(cfg,arg){
+  if(cfg._busy) return; cfg._busy=true;
+  const pre=document.querySelector(cfg.section+' pre');
+  const term=document.getElementById(cfg.termId);
+  const stage=document.getElementById(cfg.stageId);
+  const r=cfg.compute(arg);
+  term.innerHTML=''; clearCode(pre);
+  if(cfg.argSpanId) document.getElementById(cfg.argSpanId).textContent=cfg.argText?cfg.argText(arg):arg;
+  buildMachine(stage,r.inputs,r.box,r.label);
+  setActive(pre,cfg.defId); await sleep(480);
+  setActive(pre,cfg.callId); await sleep(420);
+  const chips=stage.querySelectorAll('[data-in] .fmac-chip');
+  for(const c of chips){ c.classList.add('go'); await sleep(230); }
+  for(const id of (cfg.bodyIds||[])){ setActive(pre,id); await sleep(440); }
+  stage.querySelector('[data-box]').classList.add('work'); await sleep(540);
+  const out=stage.querySelector('[data-out]'); out.innerHTML=r.out; out.classList.add('done');
+  await sleep(120);
+  await typeOut(term,r.text);
+  if(cfg.afterId){ setActive(pre,cfg.afterId); await sleep(300); }
+  if(cfg.confetti) confetti();
+  setTimeout(()=>clearCode(pre),900);
+  cfg._busy=false;
+}
+
+/* pick-button wiring helper */
+function wirePicker(pickId,cfg,store){
+  document.querySelectorAll('#'+pickId+' .opt-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      if(cfg._busy) return;
+      document.querySelectorAll('#'+pickId+' .opt-btn').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on');
+      store.arg=b.dataset.arg;
+    });
+  });
+}
+
+/* ===== CAKE ===== */
+const CAKE_IMG={'كرز':'birthday-cherries.png','فراولة':'birthday-strawberry.png','شوكولاتة':'birthday-chocolate_bar.png'};
+const CAKE_EM={'كرز':'🍒','فراولة':'🍓','شوكولاتة':'🍫'};
+const cakeCfg={ section:'#cake', termId:'cakeTerm', stageId:'cakeStage', defId:'ck1', bodyIds:['ck2','ck3'], callId:'ck4', argSpanId:'cakeArg',
+  compute(f){ return { inputs:['🌾','🍬',CAKE_EM[f]], box:'🎂', label:'bake_cake', out:`<img src="${CAKE_IMG[f]}" alt="كعكة ${f}">`, text:'return "كعكة '+f+'"  🎂' }; } };
+const cakeStore={arg:'كرز'};
+wirePicker('cakePick',cakeCfg,cakeStore);
+document.getElementById('cakeRun').addEventListener('click',()=>runMachine(cakeCfg,cakeStore.arg));
+
+/* ===== JUICE ===== */
+const JUICE_EM={'برتقال':'🍊','فراولة':'🍓','تفاح':'🍎'};
+const juiceCfg={ section:'#juice', termId:'juiceTerm', stageId:'juiceStage', defId:'ju1', bodyIds:['ju2'], callId:'ju3', argSpanId:'juiceArg',
+  compute(f){ return { inputs:[JUICE_EM[f]], box:'🥤', label:'make_juice', out:'🥤', text:'return "عصير '+f+'"  🥤' }; } };
+const juiceStore={arg:'برتقال'};
+wirePicker('juicePick',juiceCfg,juiceStore);
+document.getElementById('juiceRun').addEventListener('click',()=>runMachine(juiceCfg,juiceStore.arg));
+
+/* ===== GREET ===== */
+const greetCfg={ section:'#greet', termId:'greetTerm', stageId:'greetStage', defId:'gr1', bodyIds:['gr2'], callId:'gr3', argSpanId:'greetArg',
+  argText:n=>n,
+  compute(n){ return { inputs:['"'+n+'"'], box:'👋', label:'greet', out:'💬', text:'مرحباً يا '+n+'! 👋' }; } };
+document.getElementById('greetRun').addEventListener('click',()=>{
+  const n=(document.getElementById('greetInput').value||'').trim()||'صديقي';
+  runMachine(greetCfg,n);
+});
+
+/* ===== ADD ===== */
+const addCfg={ section:'#calc', termId:'addTerm', stageId:'addStage', defId:'ad1', bodyIds:['ad2'], callId:'ad3', afterId:'ad4', argSpanId:'addArg',
+  argText:o=>o.a+', '+o.b,
+  compute(o){ const s=o.a+o.b; return { inputs:[String(o.a),String(o.b)], box:'➕', label:'add', out:'<span class="bignum">'+s+'</span>', text:'result = '+s+'   →   نطبعه: '+s }; } };
+document.getElementById('addRun').addEventListener('click',()=>{
+  const a=parseInt(document.getElementById('addA').value)||0;
+  const b=parseInt(document.getElementById('addB').value)||0;
+  runMachine(addCfg,{a,b});
+});
+
+/* ===== SQUARE AREA ===== */
+const areaCfg={ section:'#area', termId:'areaTerm', stageId:'areaStage', defId:'sq1', bodyIds:['sq2'], callId:'sq3', argSpanId:'areaArg',
+  compute(side){
+    side=Math.max(1,Math.min(6,side));
+    let cells=''; for(let i=0;i<side*side;i++) cells+='<i></i>';
+    const grid='<div class="area-sq" style="grid-template-columns:repeat('+side+',1fr)">'+cells+'</div>';
+    return { inputs:[String(side)], box:'🟩', label:'square_area', out:grid, text:'return '+(side*side)+'   (المساحة = '+side+' × '+side+')' };
+  } };
+document.getElementById('areaRun').addEventListener('click',()=>{
+  const s=parseInt(document.getElementById('areaSide').value)||1;
+  runMachine(areaCfg,s);
+});
+
+/* ===== CALCULATOR ===== */
+const CALC_OPS={'+':(a,b)=>a+b,'-':(a,b)=>a-b,'×':(a,b)=>a*b,'÷':(a,b)=>a/b};
+const CALC_LINES={'+':['cc2','cc3'],'-':['cc4','cc5'],'×':['cc6','cc7'],'÷':['cc8']};
+let calcOp='×';
+const calculatorCfg={ section:'#calculator', termId:'calculatorTerm', stageId:'calculatorStage', defId:'cc1', callId:'cc9', argSpanId:'calculatorArg',
+  argText:o=>o.a+', "'+o.op+'", '+o.b,
+  compute(o){
+    let res,text;
+    if(o.op==='÷'&&o.b===0){ res='🚫'; text='🚫 لا يمكن القسمة على صفر!'; }
+    else { res=CALC_OPS[o.op](o.a,o.b); text='return '+res+'   ('+o.a+' '+o.op+' '+o.b+')'; }
+    return { inputs:[String(o.a),'"'+o.op+'"',String(o.b)], box:'🧮', label:'calc', out:'<span class="bignum">'+res+'</span>', text };
+  } };
+document.querySelectorAll('#calcOpPick .opt-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    if(calculatorCfg._busy) return;
+    document.querySelectorAll('#calcOpPick .opt-btn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on'); calcOp=b.dataset.op;
+  });
+});
+document.getElementById('calculatorRun').addEventListener('click',()=>{
+  const a=parseInt(document.getElementById('calcA').value)||0;
+  const b=parseInt(document.getElementById('calcB').value)||0;
+  calculatorCfg.bodyIds=CALC_LINES[calcOp];
+  runMachine(calculatorCfg,{a,op:calcOp,b});
+});
+
+/* ===== MEAL (project) ===== */
+const MEAL_EM={'برغر':'🍔','بيتزا':'🍕','سلطة':'🥗'};
+const mealCfg={ section:'#meal', termId:'mealTerm', stageId:'mealStage', defId:'ml1', bodyIds:['ml2','ml3'], callId:'ml4', argSpanId:'mealArg', confetti:true,
+  compute(o){ return { inputs:['🍅','🧀',MEAL_EM[o]], box:'🤖', label:'make_meal', out:MEAL_EM[o], text:'return "'+o+' جاهز! 🍽️"' }; } };
+const mealStore={arg:'برغر'};
+wirePicker('mealPick',mealCfg,mealStore);
+document.getElementById('mealRun').addEventListener('click',()=>runMachine(mealCfg,mealStore.arg));
+
+/* draw the starting machine views */
+[['cakeStage',['🌾','🍬','🍒'],'🎂','bake_cake'],
+ ['juiceStage',['🍊'],'🥤','make_juice'],
+ ['greetStage',['"سارة"'],'👋','greet'],
+ ['addStage',['3','5'],'➕','add'],
+ ['areaStage',['4'],'🟩','square_area'],
+ ['calculatorStage',['6','"×"','3'],'🧮','calc'],
+ ['mealStage',['🍅','🧀','🍔'],'🤖','make_meal']
+].forEach(([id,ins,bx,lb])=>buildMachine(document.getElementById(id),ins,bx,lb));
+
+/* ===== WASH (reuse) ===== */
+let washCount=0;
+function wash(item){
+  washCount++;
+  const grid=document.getElementById('washGrid');
+  const card=document.createElement('div'); card.className='clean-card';
+  card.textContent='🧺 '+item+' نظيفة ✨';
+  grid.appendChild(card);
+  updateWash();
+}
+function resetWash(){ washCount=0; document.getElementById('washGrid').innerHTML=''; updateWash(); }
+function updateWash(){
+  const el=document.getElementById('washMeter');
+  if(washCount===0){ el.innerHTML='صنعنا الغسالة مرة واحدة. اضغط لتغسل ملابسك! 🧺'; }
+  else{ el.innerHTML='شغّلت الغسالة <b>'+washCount+'</b> مرة. وكتبنا كودها <b>مرة واحدة</b> فقط! 😎'; }
+}
+updateWash();
+</script>
+</body>
+</html>
