@@ -269,6 +269,106 @@
     padding:30px;
     border-top:1px solid var(--card-border);
   }
+
+  /* ---------- NEW: step-by-step explanation box ---------- */
+  .steps{
+    background:var(--bg-soft);
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    padding:16px 20px;
+    margin-bottom:18px;
+  }
+  .steps h3{
+    margin:0 0 10px;
+    font-size:13px;
+    color:var(--teal);
+    font-family:var(--mono);
+    letter-spacing:.3px;
+  }
+  .steps ol{margin:0;padding-inline-start:22px;}
+  .steps li{color:var(--text);font-size:14.5px;margin-bottom:9px;line-height:1.85;}
+  .steps li:last-child{margin-bottom:0;}
+  .steps b{color:var(--amber);}
+  .steps code{
+    font-family:var(--mono);
+    background:rgba(53,208,168,0.1);
+    color:var(--teal);
+    padding:1px 6px;
+    border-radius:4px;
+    font-size:13px;
+    direction:ltr;display:inline-block;
+  }
+
+  /* ---------- NEW: worked example (sample run) ---------- */
+  .example{
+    background:#081310;
+    border:1px dashed var(--teal-dim);
+    border-radius:10px;
+    padding:14px 18px;
+    margin-bottom:18px;
+  }
+  .example h3{
+    margin:0 0 10px;
+    font-size:13px;
+    color:var(--amber);
+    font-family:var(--mono);
+    letter-spacing:.3px;
+  }
+  .example pre{
+    margin:0;padding:0 !important;
+    font-family:var(--mono);
+    font-size:12.8px;
+    color:#c9f2e5;
+    white-space:pre-wrap;
+    direction:ltr;
+    text-align:left;
+    background:transparent !important;
+  }
+  .example p{
+    margin:10px 0 0;
+    color:var(--text-dim);
+    font-size:13.5px;
+    direction:rtl;
+    text-align:right;
+  }
+
+  /* ---------- NEW: intro "how to read this page" guide ---------- */
+  .howto{
+    max-width:900px;
+    margin:26px 6vw 0;
+    background:linear-gradient(135deg, rgba(53,208,168,0.07), rgba(232,180,92,0.05));
+    border:1px solid var(--card-border);
+    border-radius:14px;
+    padding:22px 26px;
+  }
+  .howto h2{margin:0 0 14px;font-size:17px;color:var(--text);}
+  .howto .howto-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:12px;
+  }
+  .howto-item{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    padding:12px 14px;
+  }
+  .howto-item .hi-emoji{font-size:18px;margin-inline-end:6px;}
+  .howto-item .hi-title{font-weight:700;font-size:13.5px;color:var(--teal);}
+  .howto-item p{margin:6px 0 0;font-size:13px;color:var(--text-dim);line-height:1.7;}
+
+  /* ---------- NEW: general note callout ---------- */
+  .note{
+    background:rgba(232,180,92,0.07);
+    border:1px solid rgba(232,180,92,0.35);
+    border-radius:10px;
+    padding:12px 16px;
+    margin-bottom:18px;
+    font-size:14px;
+    color:var(--text);
+    line-height:1.8;
+  }
+  .note b{color:var(--amber);}
 </style>
 </head>
 <body>
@@ -302,6 +402,24 @@
 ...
 0  - خروج
 اختر رقم العملية: <span class="caret"></span></pre>
+  </div>
+</div>
+
+<div class="howto">
+  <h2>🧭 كيف تقرأ هذا الحل؟ (اقرأ هذا أولاً)</h2>
+  <div class="howto-grid">
+    <div class="howto-item"><span class="hi-emoji">📝</span><span class="hi-title">الوصف</span><p>جملة أو جملتان تشرحان الفكرة العامة للدالة بكلمات بسيطة، قبل أي كود.</p></div>
+    <div class="howto-item"><span class="hi-emoji">🔤</span><span class="hi-title">المتغيرات المستخدمة</span><p>قائمة بأسماء كل المتغيرات في الدالة، ومعنى كل واحد منها.</p></div>
+    <div class="howto-item"><span class="hi-emoji">🧩</span><span class="hi-title">خطوة بخطوة</span><p>شرح مفصّل لما يحدث سطرًا سطرًا، بترتيب التنفيذ الفعلي، بدون قفز.</p></div>
+    <div class="howto-item"><span class="hi-emoji">💬</span><span class="hi-title">مثال تشغيل</span><p>محاكاة حقيقية لما سيظهر على الشاشة عند تشغيل الدالة، بأرقام وأسماء وهمية.</p></div>
+    <div class="howto-item"><span class="hi-emoji">💻</span><span class="hi-title">الكود</span><p>الكود الفعلي بلغة بايثون، جاهز للنسخ بزر "نسخ" في أعلى كل مربع كود.</p></div>
+  </div>
+  <div class="note" style="margin:16px 0 0">
+    <b>ملاحظة مهمة قبل أن تبدأ:</b> كل شيء يدخله المستخدم عبر <code style="direction:ltr;display:inline-block;font-family:var(--mono);background:rgba(53,208,168,.1);color:var(--teal);padding:1px 6px;border-radius:4px">input()</code>
+    يُخزَّن دائمًا كـ <b>نص (string)</b>، حتى لو كتب المستخدم رقمًا! لهذا نرى في بعض الدوال تحويلات مثل
+    <code style="direction:ltr;display:inline-block;font-family:var(--mono);background:rgba(53,208,168,.1);color:var(--teal);padding:1px 6px;border-radius:4px">float(invoice[1])</code>
+    أو <code style="direction:ltr;display:inline-block;font-family:var(--mono);background:rgba(53,208,168,.1);color:var(--teal);padding:1px 6px;border-radius:4px">int(sorted_patients[j][1])</code>
+    — لتحويل النص إلى رقم قبل حساب مجموع أو مقارنة أعمار.
   </div>
 </div>
 
@@ -347,6 +465,26 @@
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>patients: قائمة تخزن كل مريض على شكل [الاسم، العمر، الجنس، الهاتف، العنوان]</li><li>doctors: قائمة تخزن كل طبيب على شكل [الاسم، التخصص، ساعات العمل]</li><li>appointments: قائمة تخزن كل موعد على شكل [اسم المريض، اسم الطبيب، التاريخ، الوقت]</li><li>invoices: قائمة تخزن كل فاتورة على شكل [اسم المريض، القيمة، الخدمة]</li><li>medicines: قائمة تخزن كل دواء على شكل [الاسم، السعر، الكمية]</li><li>employee_username / employee_password: بيانات دخول الموظف</li></ul>
   </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نكتب خمس قوائم فارغة <code>[]</code>: <b>patients</b>, <b>doctors</b>, <b>appointments</b>, <b>invoices</b>, <b>medicines</b>. كل قائمة هي صندوق فارغ سيخزن نوعًا واحدًا فقط من البيانات.</li>
+    <li>القوائم فارغة الآن لأن البرنامج بدأ للتو، ولم يسجّل أحد أي شيء بعد.</li>
+    <li>نضيف متغيرين ثابتين <b>employee_username</b> و<b>employee_password</b> يمثلان بيانات دخول الموظف الذي سيدير العيادة.</li>
+    <li>هذه القوائم الخمسة ستبقى موجودة طوال تشغيل البرنامج، وكل دالة سنكتبها لاحقًا ستُضيف إليها أو تحذف منها أو تعدّل عناصرها.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 الحالة الابتدائية للقوائم</h3>
+    <pre>patients      = []
+doctors       = []
+appointments  = []
+invoices      = []
+medicines     = []
+
+employee_username = "admin"
+employee_password = "1234"</pre>
+    <p>في هذه اللحظة، كل القوائم فارغة تمامًا. أول استدعاء لأي دالة تسجيل (مثل register_patient) هو من سيضع أول عنصر داخلها.</p>
+  </div>
   <div class="code-wrap">
     <div class="code-bar">
       <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -374,6 +512,25 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>name, age, gender, phone, address: متغيرات مؤقتة تخزن مدخلات المستخدم</li><li>patient: قائمة صغيرة تجمع بيانات المريض الواحد</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نطلب من المستخدم خمس معلومات بالتتابع عبر <code>input()</code>: الاسم، العمر، الجنس، الهاتف، العنوان.</li>
+    <li>كل قيمة يُدخلها المستخدم تُخزَّن مؤقتًا في متغير باسمها (name, age, gender, phone, address) — وتذكّر: كل هذه القيم نصوص (str) دائمًا.</li>
+    <li>نجمع المتغيرات الخمسة في قائمة واحدة اسمها <b>patient</b>. ترتيب العناصر هنا مهم جدًا: index 0 = الاسم، index 1 = العمر، index 2 = الجنس، index 3 = الهاتف، index 4 = العنوان.</li>
+    <li>نستخدم <code>patients.append(patient)</code> لإضافة قائمة المريض في نهاية القائمة الكبيرة patients، دون أن نلمس أو نحذف أي مريض مسجّل من قبل.</li>
+    <li>أخيرًا نطبع رسالة تأكيد للمستخدم بأن التسجيل نجح.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>أدخل اسم المريض: أحمد
+أدخل عمر المريض: 25
+أدخل جنس المريض (ذكر/أنثى): ذكر
+أدخل رقم هاتف المريض: 0555000000
+أدخل عنوان المريض: الجزائر العاصمة
+تم تسجيل المريض بنجاح</pre>
+    <p>بعد هذا الاستدعاء تصبح القائمة: <code style="direction:ltr;display:inline-block">patients = [["أحمد", "25", "ذكر", "0555000000", "الجزائر العاصمة"]]</code></p>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -406,6 +563,20 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>index: عداد يزيد يدويًا لترقيم المرضى في الطباعة</li><li>patient: يمثل كل عنصر (مريض) أثناء المرور على القائمة</li></ul>
   </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>أولاً نتحقق: هل القائمة patients فارغة؟ بواسطة <code>len(patients) == 0</code>. إن كانت فارغة نطبع رسالة ونتوقف دون الدخول في أي حلقة.</li>
+    <li>إن لم تكن فارغة، ندخل <b>else</b> ونبدأ عدّاد <b>index</b> من 1 (وليس صفر) لأن الترقيم الذي يراه المستخدم يبدأ عادة من 1.</li>
+    <li><code>for patient in patients:</code> تمر تلقائيًا على كل عنصر (كل مريض) داخل القائمة، عنصرًا بعد الآخر، بدون أن نكتب عداد يدوي للوصول للعناصر.</li>
+    <li>داخل الحلقة، patient هو قائمة صغيرة، فنطبع عناصرها واحدًا واحدًا: patient[0] للاسم، patient[1] للعمر، وهكذا حتى patient[4].</li>
+    <li>بعد طباعة كل مريض، نزيد index يدويًا بسطر <code>index = index + 1</code> — لأن for لا يعطينا رقم الترتيب تلقائيًا هنا، نحن من يتكفّل بذلك.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة مع مريضين مسجّلين</h3>
+    <pre>1 - الاسم: أحمد | العمر: 25 | الجنس: ذكر | الهاتف: 0555000000 | العنوان: الجزائر العاصمة
+2 - الاسم: سارة | العمر: 30 | الجنس: أنثى | الهاتف: 0666111111 | العنوان: وهران</pre>
+  </div>
   <div class="code-wrap">
     <div class="code-bar">
       <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -437,6 +608,22 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>name: الاسم المدخل من المستخدم للبحث عنه</li><li>found: عدّاد يبدأ من 0، ويصبح 1 عند العثور على المريض</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نطلب من المستخدم اسم المريض المراد البحث عنه، ونضعه في المتغير name.</li>
+    <li>نجهّز متغيرًا <b>found = 0</b>، وكأننا نقول للبرنامج: «لم نجد أحدًا بعد».</li>
+    <li><code>for patient in patients:</code> يمر على كل مريض، ونقارن في كل مرة patient[0] (اسم ذلك المريض) مع name باستخدام <code>if patient[0] == name:</code></li>
+    <li>إذا تطابق الاسم: نطبع كل بيانات ذلك المريض، ونجعل <b>found = 1</b> — أي «لقد وجدناه!».</li>
+    <li>بعد أن تنتهي الحلقة تمامًا (بعد المرور على كل المرضى)، نتحقق: <code>if found == 0:</code> — إذا بقيت found صفرًا فهذا يعني أن الحلقة انتهت بالكامل ولم تجد أي تطابق، فنطبع رسالة عدم العثور.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>أدخل اسم المريض للبحث: أحمد
+تم العثور على المريض:
+الاسم: أحمد | العمر: 25 | الجنس: ذكر | الهاتف: 0555000000 | العنوان: الجزائر العاصمة</pre>
+    <p>⚠️ ملاحظة: لا يوجد break هنا، فلو كان هناك مريضان بنفس الاسم بالضبط، ستتم طباعة الاثنين معًا وليس الأول فقط.</p>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -473,6 +660,24 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>name: اسم المريض المراد حذفه</li><li>deleted: عدّاد يبدأ من 0 ويصبح 1 عند العثور على المريض وحذفه</li><li>new_patients: قائمة جديدة تحتوي على كل المرضى ما عدا المريض المحذوف</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نكتب <code>global patients</code> في أول سطر لأننا سنُعدّل القائمة الأصلية patients من داخل الدالة (وهي معرّفة خارجها في الأعلى).</li>
+    <li>نطلب اسم المريض المراد حذفه، ونجهّز <b>deleted = 0</b> (لم يُحذف أحد بعد) وقائمة جديدة فارغة <b>new_patients</b> ستحتوي على «الناجين» فقط.</li>
+    <li>نمر بحلقة <code>for patient in patients:</code> على كل مريض في القائمة الأصلية، ولكل مريض نتخذ قرارًا:</li>
+    <li>&nbsp;&nbsp;• إذا كان اسمه يطابق name <b>ولم نحذف أحدًا من قبل</b> (deleted == 0): نتجاهله ببساطة — أي لا نضيفه إلى new_patients — ونجعل deleted = 1.</li>
+    <li>&nbsp;&nbsp;• وإلا (<b>else</b>): نضيف المريض كما هو إلى new_patients، لأنه ليس المطلوب حذفه.</li>
+    <li>بعد انتهاء الحلقة، نستبدل القائمة القديمة بالكامل بالجديدة: <code>patients = new_patients</code>. هذه هي فكرة «الحذف»: لم نحذف عنصرًا من المنتصف مباشرة، بل بنينا قائمة جديدة مطابقة للقديمة لكن بدون العنصر المطلوب حذفه!</li>
+    <li>أخيرًا نطبع رسالة النجاح أو الفشل حسب قيمة deleted.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 مثال مبسّط</h3>
+    <pre>قبل الحذف: patients = [أحمد, سارة, يوسف]
+أدخل اسم المريض المراد حذفه: سارة
+تم حذف المريض بنجاح
+بعد الحذف:  patients = [أحمد, يوسف]</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -511,6 +716,27 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>new_age, new_phone, new_address: القيم الجديدة المدخلة من المستخدم</li><li>patient[1], patient[3], patient[4]: عناصر داخل قائمة المريض يتم تعديلها مباشرة</li><li>found: عدّاد يبدأ من 0 ويصبح 1 عند العثور على المريض</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نطلب اسم المريض المراد تعديله ونضعه في name، ونجهّز found = 0.</li>
+    <li>نمر بحلقة for على كل مريض؛ إذا وجدنا تطابق الاسم <code>if patient[0] == name:</code> نجعل found = 1 وندخل داخل هذا الشرط.</li>
+    <li>نطلب من المستخدم القيم الجديدة (العمر، الهاتف، العنوان)، لكن نسمح له بترك أي حقل <b>فارغًا</b> إن لم يرغب في تغييره.</li>
+    <li>لكل حقل، نتحقق: <code>if new_age != "":</code> — هل كتب المستخدم شيئًا فعلاً؟ إن كانت الإجابة نعم، نُحدّث patient[1] بالقيمة الجديدة. وإلا نتركه دون أي تغيير.</li>
+    <li>نكرر نفس المنطق لكل من new_phone (يُحدّث patient[3]) وnew_address (يُحدّث patient[4]).</li>
+    <li><b>ملاحظة مهمة:</b> patient هنا ليس نسخة منفصلة، بل هو <b>نفس</b> العنصر الموجود داخل القائمة patients. لذلك أي تعديل نجريه على patient[1] مثلاً يُحفظ تلقائيًا في القائمة الأصلية، بدون الحاجة لإعادة الإسناد كما فعلنا في دالة الحذف.</li>
+    <li>إذا انتهت الحلقة كاملة ولم يتحقق الشرط أبدًا (found بقيت 0)، نطبع أنه لم يتم العثور على المريض.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>أدخل اسم المريض المراد تعديله: أحمد
+اترك الحقل فارغاً إذا لم ترغب في تغييره
+العمر الجديد: 26
+رقم الهاتف الجديد: 
+العنوان الجديد: البليدة
+تم تعديل بيانات المريض بنجاح</pre>
+    <p>لاحظ أن رقم الهاتف تُرك فارغًا، فبقيت قيمته القديمة كما هي، بينما تغيّر العمر والعنوان فقط.</p>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -555,6 +781,20 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>name, specialty, hours: مدخلات الطبيب الجديد</li><li>doctor: قائمة صغيرة تجمع بيانات الطبيب</li></ul>
   </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نفس فكرة تسجيل المريض بالضبط (القسم 02)، لكن بثلاث معلومات فقط بدل خمسة: <b>الاسم</b>، <b>التخصص</b>، و<b>ساعات العمل</b>.</li>
+    <li>نجمع الثلاثة في قائمة صغيرة <b>doctor</b>، حيث doctor[0] = الاسم، doctor[1] = التخصص، doctor[2] = ساعات العمل.</li>
+    <li>نضيف doctor إلى نهاية القائمة الكبيرة doctors بواسطة <code>doctors.append(doctor)</code>، ثم نطبع رسالة نجاح.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>أدخل اسم الطبيب: د. كريم
+أدخل تخصص الطبيب: طب عام
+أدخل ساعات عمل الطبيب: 8ص - 4م
+تمت إضافة الطبيب بنجاح</pre>
+  </div>
   <div class="code-wrap">
     <div class="code-bar">
       <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -583,6 +823,16 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>index: عداد لترقيم الأطباء عند الطباعة</li><li>doctor: يمثل كل طبيب أثناء المرور على القائمة</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نفس فكرة عرض المرضى بالضبط (القسم 03): نتحقق أولاً هل doctors فارغة بـ <code>len(doctors) == 0</code>.</li>
+    <li>إن لم تكن فارغة، نمر بـ <code>for doctor in doctors:</code> ونطبع doctor[0] (الاسم)، doctor[1] (التخصص)، doctor[2] (ساعات العمل) لكل طبيب، مع عدّاد index يبدأ من 1 ويزيد يدويًا في كل دورة.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>1 - الاسم: د. كريم | التخصص: طب عام | ساعات العمل: 8ص - 4م</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -614,6 +864,21 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>patient_name, doctor_name, date, time: بيانات الموعد</li><li>appointment: قائمة صغيرة تمثل الموعد الواحد</li></ul>
   </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>تشبه تسجيل مريض جديد، لكن هذه المرة نطلب أربع معلومات: اسم المريض، اسم الطبيب، التاريخ، والوقت.</li>
+    <li>نجمعها في قائمة صغيرة <b>appointment</b> بنفس الترتيب: appointment[0]=المريض، [1]=الطبيب، [2]=التاريخ، [3]=الوقت.</li>
+    <li>نضيفها إلى القائمة appointments بواسطة append، ثم نطبع رسالة تأكيد الحجز.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>أدخل اسم المريض: أحمد
+أدخل اسم الطبيب: د. كريم
+أدخل تاريخ الموعد: 2026-07-10
+أدخل وقت الموعد: 10:00
+تم حجز الموعد بنجاح</pre>
+  </div>
   <div class="code-wrap">
     <div class="code-bar">
       <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -643,6 +908,15 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>index: عداد لترقيم المواعيد</li><li>appointment: يمثل كل موعد أثناء المرور على القائمة</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نفس أسلوب عرض المرضى والأطباء تمامًا: نتحقق من الفراغ أولاً بـ len، ثم نمر بـ for على appointments، ونطبع appointment[0] إلى appointment[3] (المريض، الطبيب، التاريخ، الوقت) لكل موعد مع عدّاد index.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>1 - المريض: أحمد | الطبيب: د. كريم | التاريخ: 2026-07-10 | الوقت: 10:00</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -674,6 +948,21 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>patient_name: اسم المريض صاحب الموعد المراد إلغاؤه</li><li>cancelled: عدّاد يبدأ من 0 ويصبح 1 عند العثور على الموعد وإلغائه</li><li>new_appointments: قائمة جديدة تحتوي على كل المواعيد ما عدا الموعد الملغى</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>تشبه دالة حذف مريض (القسم 05) خطوة بخطوة، تمامًا بنفس الأسلوب، لكن بدل البحث في patient[0] نبحث هنا في <b>appointment[0]</b> (اسم المريض صاحب الموعد).</li>
+    <li>نستخدم <code>global appointments</code> لأننا سنستبدل القائمة الأصلية بالكامل.</li>
+    <li>نمر بحلقة for على appointments، ونبني قائمة جديدة <b>new_appointments</b> تحتوي على كل المواعيد <b>ما عدا</b> أول موعد يطابق اسم المريض المطلوب (بفضل شرط <code>cancelled == 0</code> الذي يمنع حذف أكثر من موعد واحد بالخطأ).</li>
+    <li>بعد الحلقة: <code>appointments = new_appointments</code> — وكأننا استبدلنا الدفتر القديم بدفتر جديد بدون ذلك الموعد.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 مثال مبسّط</h3>
+    <pre>قبل الإلغاء: appointments لأحمد وسارة
+أدخل اسم المريض لإلغاء موعده: أحمد
+تم إلغاء الموعد بنجاح
+بعد الإلغاء: appointments تحتوي على موعد سارة فقط</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -713,6 +1002,19 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>patient_name, amount, service: بيانات الفاتورة</li><li>invoice: قائمة صغيرة تمثل الفاتورة الواحدة</li></ul>
   </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نفس فكرة إضافة طبيب أو حجز موعد: نطلب ثلاث معلومات (اسم المريض، قيمة الفاتورة، الخدمة المقدمة)، نجمعها في قائمة <b>invoice</b>، ثم نضيفها إلى invoices.</li>
+    <li>لاحظ أن amount هنا تُخزَّن كـ<b>نص</b> وليس رقمًا (لأنها جاءت من input) — لهذا سنحتاج لتحويلها لاحقًا عند جمع الفواتير في القسم التالي.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>أدخل اسم المريض: أحمد
+أدخل قيمة الفاتورة: 1500
+أدخل الخدمة المقدمة: فحص عام
+تمت إضافة الفاتورة بنجاح</pre>
+  </div>
   <div class="code-wrap">
     <div class="code-bar">
       <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -742,6 +1044,23 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>total: متغير يبدأ من صفر ويتجمع فيه مجموع كل الفواتير</li><li>invoice[1]: قيمة الفاتورة (نحولها إلى رقم عشري باستخدام float)</li></ul>
   </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نبدأ متغيرًا <b>total = 0</b> — المجموع في البداية صفر تمامًا.</li>
+    <li><code>for invoice in invoices:</code> يمر على كل فاتورة في القائمة، واحدة تلو الأخرى.</li>
+    <li>في كل مرة، نأخذ invoice[1] (قيمة الفاتورة، وهي نص لأنها جاءت من input) ونحوّلها إلى رقم عشري بواسطة <code>float(invoice[1])</code> — لأننا لا نستطيع جمع النصوص رياضيًا.</li>
+    <li>نضيف هذه القيمة المحوّلة إلى total: <code>total = total + float(invoice[1])</code>.</li>
+    <li>بعد أن تنتهي الحلقة من المرور على كل الفواتير، نطبع القيمة النهائية لـ total وهي المجموع الكلي.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 مثال حسابي</h3>
+    <pre>لو كانت invoices تحتوي على فاتورتين بقيمة "1500" و "2300":
+total = 0
+total = 0 + 1500.0 = 1500.0
+total = 1500.0 + 2300.0 = 3800.0
+مجموع الفواتير هو: 3800.0</pre>
+  </div>
   <div class="code-wrap">
     <div class="code-bar">
       <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -767,6 +1086,18 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>name, price, quantity: بيانات الدواء الجديد</li><li>medicine: قائمة صغيرة تمثل الدواء الواحد</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نفس فكرة إضافة طبيب بالضبط: ثلاث معلومات (الاسم، السعر، الكمية) تُجمع في قائمة <b>medicine</b> وتُضاف إلى medicines.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>أدخل اسم الدواء: باراسيتامول
+أدخل سعر الدواء: 150
+أدخل كمية الدواء: 40
+تمت إضافة الدواء بنجاح</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -797,6 +1128,15 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>index: عداد لترقيم الأدوية</li><li>medicine: يمثل كل دواء أثناء المرور على القائمة</li></ul>
   </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نفس أسلوب عرض الأطباء والمرضى: تحقق من الفراغ، ثم for على medicines وطباعة medicine[0] (الاسم)، medicine[1] (السعر)، medicine[2] (الكمية) مع عدّاد index.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>1 - الاسم: باراسيتامول | السعر: 150 | الكمية: 40</pre>
+  </div>
   <div class="code-wrap">
     <div class="code-bar">
       <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -826,6 +1166,19 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>name: اسم الدواء المدخل للبحث</li><li>found: عدّاد يبدأ من 0 ويصبح 1 عند العثور على الدواء</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نفس فكرة البحث عن مريض بالاسم بالضبط (القسم 04)، لكن نبحث هنا داخل القائمة medicines عن دواء بنفس الاسم المدخل.</li>
+    <li>found = 0 في البداية، وتصبح 1 إذا طابق medicine[0] الاسم المطلوب، فنطبع بياناته الكاملة.</li>
+    <li>إن انتهت الحلقة و found ما تزال 0، نطبع أن الدواء غير متوفر.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>أدخل اسم الدواء للبحث: باراسيتامول
+تم العثور على الدواء:
+الاسم: باراسيتامول | السعر: 150 | الكمية: 40</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -861,6 +1214,22 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>username, password: القيم المدخلة من الموظف</li><li>employee_username, employee_password: القيم الصحيحة المخزنة مسبقًا</li></ul>
   </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نطلب اسم المستخدم وكلمة المرور من الموظف عبر input.</li>
+    <li>نتحقق بجملة واحدة تجمع شرطين بكلمة <b>and</b>: <code>if username == employee_username and password == employee_password:</code> — يجب أن يتحقق الشرطان معًا في نفس الوقت.</li>
+    <li>إن تحقق الشرطان: نطبع رسالة نجاح، ثم نكتب <code>return 1</code> لنُخبر من استدعى هذه الدالة أن تسجيل الدخول نجح.</li>
+    <li>وإلا (<b>else</b>): نطبع رسالة خطأ، ونكتب <code>return 0</code> لنُخبر أن الدخول فشل.</li>
+    <li>القيمة التي تُرجعها هذه الدالة (1 أو 0) ستُستخدم لاحقًا في قسم «تشغيل البرنامج» للتقرير هل نسمح بالدخول إلى القائمة الرئيسية أم لا.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 محاولة ناجحة</h3>
+    <pre>أدخل اسم المستخدم: admin
+أدخل كلمة المرور: 1234
+تم تسجيل الدخول بنجاح</pre>
+    <p>الدالة هنا تُرجع القيمة 1.</p>
+  </div>
   <div class="code-wrap">
     <div class="code-bar">
       <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -890,6 +1259,21 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>old_password: كلمة المرور الحالية المدخلة للتحقق</li><li>new_password: كلمة المرور الجديدة</li><li>global employee_password: نستخدمها لتعديل المتغير الأصلي من داخل الدالة</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نكتب <code>global employee_password</code> لأننا سنُغيّر قيمة هذا المتغير من داخل الدالة، وهو معرّف خارجها في أعلى الملف.</li>
+    <li>نطلب من الموظف كلمة المرور <b>الحالية</b> أولاً، للتأكد أنه فعلاً صاحب الصلاحية قبل السماح له بتغيير أي شيء.</li>
+    <li>نقارنها بـ employee_password المخزنة حاليًا: <code>if old_password == employee_password:</code></li>
+    <li>إن تطابقتا: نسمح له بإدخال new_password ونضعها مباشرة في employee_password — وهنا تتغيّر كلمة المرور فعليًا وتبقى محفوظة طوال بقية تشغيل البرنامج.</li>
+    <li>إن لم تتطابق كلمة المرور الحالية، نرفض التغيير ونطبع رسالة خطأ.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>أدخل كلمة المرور الحالية: 1234
+أدخل كلمة المرور الجديدة: clinic2026
+تم تغيير كلمة المرور بنجاح</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -921,6 +1305,16 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>len(patients): يحسب عدد المرضى الموجودين في القائمة</li></ul>
   </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>أبسط دالة في المشروع بأكمله: نستخدم الدالة الجاهزة <code>len(patients)</code> التي تحسب تلقائيًا عدد العناصر (المرضى) الموجودين داخل القائمة.</li>
+    <li>نطبع الرقم الناتج مباشرة بجانب جملة توضيحية، دون أي حلقة أو شرط.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 تشغيل الدالة</h3>
+    <pre>عدد المرضى المسجلين هو: 2</pre>
+  </div>
   <div class="code-wrap">
     <div class="code-bar">
       <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
@@ -942,6 +1336,26 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>order: اختيار المستخدم بين الترتيب التصاعدي أو التنازلي</li><li>sorted_patients: نسخة من قائمة المرضى سيتم ترتيبها</li><li>n: عدد المرضى</li><li>i, j: عدّادات حلقتي while المستخدمتين في الترتيب</li><li>temp: متغير مؤقت لتبديل مكان مريضين أثناء الترتيب</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li>نسأل المستخدم: هل يريد الترتيب تصاعديًا (1، من الأصغر للأكبر) أم تنازليًا (2، من الأكبر للأصغر)؟ نخزّن الجواب في <b>order</b>.</li>
+    <li>نصنع <b>نسخة</b> من قائمة المرضى الأصلية اسمها <b>sorted_patients</b> (بدل ترتيب القائمة الأصلية patients مباشرة، نرتّب نسخة عنها فقط، حفاظًا على البيانات الأصلية).</li>
+    <li>n = عدد المرضى. i و j عدّادان لحلقتين <b>while متداخلتين</b> (حلقة داخل حلقة) — هذه هي خوارزمية <b>الترتيب الفقاعي (Bubble Sort)</b> الشهيرة، وتُبنى فقط من حلقات ومقارنات دون أي دالة ترتيب جاهزة.</li>
+    <li>الفكرة الأساسية: نقارن في كل خطوة عنصرين متجاورين sorted_patients[j] و sorted_patients[j+1]. إن كانا بترتيب خاطئ (الأول أكبر من الثاني تصاعديًا، أو أصغر تنازليًا)، نُبدّل مكانهما بواسطة متغير مؤقت <b>temp</b> (نخزن الأول فيه مؤقتًا حتى لا نفقده أثناء التبديل).</li>
+    <li>الحلقة الخارجية <code>while i &lt; n:</code> تتكرر n مرة، وفي كل دورة كاملة يُدفع أكبر (أو أصغر) عنصر متبقٍ إلى مكانه الصحيح في نهاية الجزء غير المرتب — تمامًا كفقاعة تصعد تدريجيًا لأعلى، ولهذا سُمّيت «الفقاعية».</li>
+    <li>بعد انتهاء الحلقتين تكون sorted_patients مرتبة بالكامل، فنطبعها بنفس أسلوب عرض المرضى العادي (اسم وعمر فقط هذه المرة).</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 مثال ترتيب تصاعدي لأعمار [25, 19, 30]</h3>
+    <pre>الدورة الأولى (i=0):
+  مقارنة (25, 19) → 25 أكبر من 19 → نُبدّل     → [19, 25, 30]
+  مقارنة (25, 30) → بترتيب صحيح، لا نُبدّل      → [19, 25, 30]
+الدورة الثانية (i=1):
+  مقارنة (19, 25) → بترتيب صحيح، لا نُبدّل      → [19, 25, 30]
+
+النتيجة النهائية: [19, 25, 30] ✅ من الأصغر إلى الأكبر</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -991,6 +1405,27 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>running: عدّاد يبقي حلقة while تعمل طالما قيمته 1 (بدل استخدام True)</li><li>choice: رقم العملية الذي يختاره المستخدم من القائمة</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li><b>running = 1</b> يجعل حلقة while تستمر بالعمل — تخيّل running وكأنه مفتاح كهربائي: 1 يعني «مُشغّل»، و0 يعني «مُطفأ».</li>
+    <li>داخل كل دورة من حلقة <code>while running == 1:</code>، نطبع أولاً كل خيارات القائمة الرئيسية الثمانية عشر بالإضافة لخيار الخروج 0.</li>
+    <li>نطلب من المستخدم اختيار رقم العملية عبر input، ونضعه في <b>choice</b> (وهو نص، مثل "1" وليس الرقم 1).</li>
+    <li>سلسلة طويلة من <code>if / elif</code> تقارن choice بكل رقم ممكن (كنص بين علامتي تنصيص)، وتستدعي الدالة المناسبة لذلك الرقم — وهي كل الدوال التي بنيناها في الأقسام من 02 إلى 20!</li>
+    <li>إذا اختار المستخدم "0": نجعل running = 0، فيصبح شرط الحلقة <code>running == 1</code> خاطئًا في الدورة القادمة، فتتوقف الحلقة تلقائيًا.</li>
+    <li>إذا كتب المستخدم رقمًا غير موجود في القائمة، تقع كل الشروط السابقة خطأ فيصل التنفيذ إلى <b>else</b> الأخيرة، فتظهر له رسالة «اختيار غير صحيح، حاول مرة أخرى» وتُعاد طباعة القائمة من جديد.</li>
+    <li>هذه الدالة هي «قلب» البرنامج الذي يربط كل الأجزاء السابقة معًا في مكان واحد ويُبقي البرنامج يعمل حتى يقرر المستخدم الخروج.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 جزء من التشغيل</h3>
+    <pre>---------- القائمة الرئيسية ----------
+1  - تسجيل مريض جديد
+2  - عرض المرضى
+...
+0  - خروج
+اختر رقم العملية: 2
+(تُستدعى display_patients() هنا تلقائيًا)</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
@@ -1078,6 +1513,32 @@ employee_password = &quot;1234&quot;</code></pre>
   <div class="vars">
     <h3>المتغيرات المستخدمة</h3>
     <ul><li>login_success: يخبرنا إذا نجح تسجيل الدخول (1 نجاح / 0 فشل)</li><li>attempts: عدد المحاولات التي قام بها الموظف</li></ul>
+  </div>
+    <div class="steps">
+    <h3>🧩 خطوة بخطوة</h3>
+    <ol>
+    <li><b>login_success = 0</b> و<b>attempts = 0</b> في البداية: لم ينجح أحد بعد في الدخول، ولم تُجرَ أي محاولة.</li>
+    <li>حلقة <code>while login_success == 0 and attempts &lt; 3:</code> تستمر طالما تحقق الشرطان معًا: لم ينجح الدخول بعد، <b>و</b>عدد المحاولات ما زال أقل من 3.</li>
+    <li>في كل دورة: نستدعي <code>employee_login()</code> ونخزّن ما تُرجعه (1 أو 0) مباشرة في login_success، ثم نزيد attempts بمقدار 1 لتسجيل هذه المحاولة.</li>
+    <li>إن أدخل الموظف بيانات صحيحة، تصبح login_success = 1، فيصبح الشرط الأول للحلقة خاطئًا، فتتوقف الحلقة فورًا — حتى لو لم يستنفد كل المحاولات الثلاث.</li>
+    <li>إن فشل 3 مرات متتالية، تتوقف الحلقة أيضًا لأن attempts &lt; 3 لم تعد صحيحة، لكن login_success تبقى 0 هذه المرة.</li>
+    <li>بعد الحلقة: <code>if login_success == 1:</code> نستدعي <code>main_menu()</code> ليبدأ العمل الفعلي في العيادة. وإلا (فشلت كل المحاولات) نطبع أن البرنامج أُغلق بسبب فشل تسجيل الدخول.</li>
+    <li>هذا هو أول شيء يحدث فعليًا عند تشغيل ملف clinic.py بالكامل — قبل أي شيء آخر، يجب اجتياز هذه البوابة.</li>
+    </ol>
+  </div><div class="example">
+    <h3>💬 محاولتان فاشلتان ثم نجاح</h3>
+    <pre>أدخل اسم المستخدم: admin
+أدخل كلمة المرور: 0000
+اسم المستخدم أو كلمة المرور غير صحيحة
+
+أدخل اسم المستخدم: admin
+أدخل كلمة المرور: 1111
+اسم المستخدم أو كلمة المرور غير صحيحة
+
+أدخل اسم المستخدم: admin
+أدخل كلمة المرور: 1234
+تم تسجيل الدخول بنجاح
+(تبدأ القائمة الرئيسية الآن)</pre>
   </div>
   <div class="code-wrap">
     <div class="code-bar">
