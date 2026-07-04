@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حل مشروع عيادة طبية | بايثون بالعربية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/night-owl.min.css">
+<style>
+  :root{
+    --bg: #0b1512;
+    --bg-soft: #101f1a;
+    --card: #12251f;
+    --card-border: #1e3a30;
+    --teal: #35d0a8;
+    --teal-dim: #1f8f74;
+    --amber: #e8b45c;
+    --text: #eaf3ef;
+    --text-dim: #8fa9a0;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Cairo', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(53,208,168,0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 20%, rgba(232,180,92,0.05), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.7;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  /* ---------- Top hero ---------- */
+  .hero{
+    padding:56px 6vw 40px;
+    border-bottom:1px solid var(--card-border);
+    position:relative;
+    overflow:hidden;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--teal);
+    letter-spacing:.5px;
+    border:1px solid var(--teal-dim);
+    padding:5px 12px;
+    border-radius:999px;
+    background:rgba(53,208,168,0.06);
+  }
+  .eyebrow .pulse{
+    width:7px;height:7px;border-radius:50%;background:var(--teal);
+    box-shadow:0 0 0 0 rgba(53,208,168,.6);
+    animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(53,208,168,.55);}
+    70%{box-shadow:0 0 0 9px rgba(53,208,168,0);}
+    100%{box-shadow:0 0 0 0 rgba(53,208,168,0);}
+  }
+  .hero h1{
+    font-size:clamp(28px, 4vw, 44px);
+    font-weight:800;
+    margin:18px 0 10px;
+    max-width:820px;
+  }
+  .hero h1 span{color:var(--teal);}
+  .hero p.lead{
+    color:var(--text-dim);
+    max-width:680px;
+    font-size:16px;
+    margin:0 0 26px;
+  }
+  .rules{
+    display:flex;flex-wrap:wrap;gap:10px;
+    margin-bottom:30px;
+  }
+  .rule-chip{
+    font-family:var(--mono);
+    font-size:13px;
+    background:var(--card);
+    border:1px solid var(--card-border);
+    color:var(--amber);
+    padding:6px 12px;
+    border-radius:8px;
+  }
+
+  /* ---------- terminal mock (signature element) ---------- */
+  .terminal{
+    max-width:640px;
+    background:#081310;
+    border:1px solid var(--card-border);
+    border-radius:12px;
+    box-shadow:0 20px 60px rgba(0,0,0,.45);
+    overflow:hidden;
+  }
+  .terminal .tbar{
+    display:flex;align-items:center;gap:6px;
+    padding:10px 14px;
+    background:#0e1e19;
+    border-bottom:1px solid var(--card-border);
+    direction:ltr;
+  }
+  .terminal .tdot{width:10px;height:10px;border-radius:50%;}
+  .tdot.r{background:#ff5f56;} .tdot.y{background:#ffbd2e;} .tdot.g{background:#27c93f;}
+  .terminal .tname{
+    margin-inline-start:10px;
+    font-family:var(--mono);
+    font-size:12px;color:var(--text-dim);
+  }
+  .terminal pre{
+    margin:0;padding:18px 20px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#c9f2e5;
+    direction:ltr;
+    text-align:left;
+    white-space:pre-wrap;
+  }
+  .terminal .caret{
+    display:inline-block;width:8px;height:14px;background:var(--teal);
+    animation:blink 1s step-end infinite;
+    vertical-align:middle;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---------- layout ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns: 300px 1fr;
+    gap:0;
+    align-items:start;
+  }
+  @media (max-width: 900px){
+    .layout{grid-template-columns:1fr;}
+    .sidebar{position:static !important; max-height:none !important;}
+  }
+
+  .sidebar{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    overflow-y:auto;
+    padding:28px 20px;
+    border-inline-start:1px solid var(--card-border);
+    background:var(--bg-soft);
+  }
+  .sidebar h4{
+    font-family:var(--mono);
+    color:var(--text-dim);
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin:0 0 14px 6px;
+  }
+  .sidebar ul{list-style:none;margin:0;padding:0;}
+  .sidebar li a{
+    display:flex;align-items:center;gap:10px;
+    padding:9px 10px;
+    border-radius:8px;
+    font-size:14.5px;
+    color:var(--text-dim);
+    transition:background .15s, color .15s;
+  }
+  .sidebar li a:hover{background:rgba(53,208,168,0.08); color:var(--text);}
+  .nav-num{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--teal);
+    background:rgba(53,208,168,0.1);
+    border-radius:5px;
+    padding:2px 6px;
+    flex:0 0 auto;
+  }
+
+  .content{padding:40px 6vw 100px;}
+
+  /* ---------- cards ---------- */
+  .card{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:14px;
+    padding:26px 26px 22px;
+    margin-bottom:26px;
+    scroll-margin-top:24px;
+  }
+  .card-head{
+    display:flex;align-items:center;gap:12px;
+    margin-bottom:10px;
+  }
+  .badge{
+    font-family:var(--mono);
+    font-size:13px;
+    color:#08120f;
+    background:var(--teal);
+    border-radius:7px;
+    padding:3px 9px;
+    font-weight:700;
+  }
+  .card h2{margin:0;font-size:20px;font-weight:700;}
+  .card .desc{color:var(--text-dim);margin:0 0 16px;font-size:15px;}
+  .vars{
+    background:var(--bg-soft);
+    border:1px dashed var(--card-border);
+    border-radius:10px;
+    padding:14px 18px;
+    margin-bottom:18px;
+  }
+  .vars h3{
+    margin:0 0 8px;font-size:13px;color:var(--amber);
+    font-family:var(--mono); letter-spacing:.3px;
+  }
+  .vars ul{margin:0;padding-inline-start:20px;}
+  .vars li{color:var(--text-dim);font-size:14px;margin-bottom:4px;}
+  .vars li::marker{color:var(--teal-dim);}
+
+  .code-wrap{
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .code-bar{
+    display:flex;align-items:center;gap:6px;
+    padding:9px 14px;
+    background:#0e1e19;
+    direction:ltr;
+  }
+  .dot{width:9px;height:9px;border-radius:50%;}
+  .dot.red{background:#ff5f56;} .dot.yellow{background:#ffbd2e;} .dot.green{background:#27c93f;}
+  .file-name{
+    margin-inline-start:10px;
+    font-family:var(--mono);font-size:12px;color:var(--text-dim);
+  }
+  .copy-btn{
+    margin-inline-start:auto;
+    background:transparent;
+    border:1px solid var(--card-border);
+    color:var(--text-dim);
+    font-family:var(--mono);
+    font-size:11.5px;
+    padding:4px 10px;
+    border-radius:6px;
+    cursor:pointer;
+  }
+  .copy-btn:hover{color:var(--teal); border-color:var(--teal-dim);}
+  pre{margin:0;padding:16px 18px !important; overflow-x:auto; direction:ltr; text-align:left;}
+  pre code{font-family:var(--mono) !important; font-size:13.5px !important; line-height:1.65 !important;}
+
+  /* full code section */
+  .full-block{
+    background:var(--card);
+    border:1px solid var(--teal-dim);
+    border-radius:14px;
+    padding:26px;
+  }
+  .full-block h2{margin-top:0;}
+  .full-block .desc{color:var(--text-dim);}
+
+  footer{
+    text-align:center;
+    color:var(--text-dim);
+    font-size:13px;
+    padding:30px;
+    border-top:1px solid var(--card-border);
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="eyebrow"><span class="pulse"></span> نظام إدارة عيادة طبية &mdash; حل كامل بلغة Python</span>
+  <h1>حل مشروع العيادة الطبية <span>خطوة بخطوة</span> باستخدام أبسط أدوات بايثون</h1>
+  <p class="lead">
+    الكود بالكامل مبني فقط باستخدام: المتغيرات، القوائم (Lists)، الدوال (Functions)،
+    حلقتي for و while، أوامر print و input، وجمل الشرط if / elif / else — بدون أي أدوات متقدمة.
+    كل جزء من مشروعك (تسجيل مرضى، أطباء، مواعيد، فواتير، أدوية...) له قسم مستقل بالأسفل مع شرح المتغيرات.
+  </p>
+  <div class="rules">
+    <span class="rule-chip">for</span>
+    <span class="rule-chip">while</span>
+    <span class="rule-chip">list</span>
+    <span class="rule-chip">function</span>
+    <span class="rule-chip">print / input</span>
+    <span class="rule-chip">if / elif / else</span>
+  </div>
+
+  <div class="terminal">
+    <div class="tbar">
+      <span class="tdot r"></span><span class="tdot y"></span><span class="tdot g"></span>
+      <span class="tname">python3 clinic.py</span>
+    </div>
+    <pre>---------- القائمة الرئيسية ----------
+1  - تسجيل مريض جديد
+2  - عرض المرضى
+3  - البحث عن مريض بالاسم
+...
+0  - خروج
+اختر رقم العملية: <span class="caret"></span></pre>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h4>أقسام الحل</h4>
+    <ul>
+<li><a href="#setup"><span class="nav-num">01</span><span class="nav-label">الإعدادات الأولية وتجهيز القوائم</span></a></li>
+<li><a href="#register_patient"><span class="nav-num">02</span><span class="nav-label">تسجيل المرضى</span></a></li>
+<li><a href="#display_patients"><span class="nav-num">03</span><span class="nav-label">عرض المرضى</span></a></li>
+<li><a href="#search_patient"><span class="nav-num">04</span><span class="nav-label">البحث عن مريض بالاسم</span></a></li>
+<li><a href="#delete_patient"><span class="nav-num">05</span><span class="nav-label">حذف مريض</span></a></li>
+<li><a href="#edit_patient"><span class="nav-num">06</span><span class="nav-label">تعديل بيانات مريض</span></a></li>
+<li><a href="#add_doctor"><span class="nav-num">07</span><span class="nav-label">إضافة طبيب</span></a></li>
+<li><a href="#display_doctors"><span class="nav-num">08</span><span class="nav-label">عرض الأطباء</span></a></li>
+<li><a href="#book_appointment"><span class="nav-num">09</span><span class="nav-label">حجز موعد</span></a></li>
+<li><a href="#display_appointments"><span class="nav-num">10</span><span class="nav-label">عرض المواعيد</span></a></li>
+<li><a href="#cancel_appointment"><span class="nav-num">11</span><span class="nav-label">إلغاء موعد</span></a></li>
+<li><a href="#add_invoice"><span class="nav-num">12</span><span class="nav-label">إضافة فاتورة</span></a></li>
+<li><a href="#sum_invoices"><span class="nav-num">13</span><span class="nav-label">حساب مجموع الفواتير</span></a></li>
+<li><a href="#add_medicine"><span class="nav-num">14</span><span class="nav-label">إضافة دواء</span></a></li>
+<li><a href="#display_medicines"><span class="nav-num">15</span><span class="nav-label">عرض الأدوية</span></a></li>
+<li><a href="#search_medicine"><span class="nav-num">16</span><span class="nav-label">البحث عن دواء</span></a></li>
+<li><a href="#employee_login"><span class="nav-num">17</span><span class="nav-label">تسجيل دخول الموظف</span></a></li>
+<li><a href="#change_password"><span class="nav-num">18</span><span class="nav-label">تغيير كلمة المرور</span></a></li>
+<li><a href="#count_patients"><span class="nav-num">19</span><span class="nav-label">إحصاء عدد المرضى</span></a></li>
+<li><a href="#patients_by_age"><span class="nav-num">20</span><span class="nav-label">قائمة المرضى حسب العمر</span></a></li>
+<li><a href="#main_menu"><span class="nav-num">21</span><span class="nav-label">القائمة الرئيسية التي تربط جميع الأجزاء</span></a></li>
+<li><a href="#run_program"><span class="nav-num">22</span><span class="nav-label">تشغيل البرنامج (تسجيل الدخول ثم القائمة الرئيسية)</span></a></li>
+      <li><a href="#full-code"><span class="nav-num">★</span><span class="nav-label">الكود الكامل مجمّعًا</span></a></li>
+    </ul>
+  </aside>
+
+  <main class="content">
+
+<section class="card" id="setup">
+  <div class="card-head">
+    <span class="badge">01</span>
+    <h2>الإعدادات الأولية وتجهيز القوائم</h2>
+  </div>
+  <p class="desc">قبل بداية البرنامج، نجهّز القوائم (Lists) الفارغة التي ستخزن بيانات المرضى والأطباء والمواعيد والفواتير والأدوية، بالإضافة إلى اسم المستخدم وكلمة مرور الموظف.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>patients: قائمة تخزن كل مريض على شكل [الاسم، العمر، الجنس، الهاتف، العنوان]</li><li>doctors: قائمة تخزن كل طبيب على شكل [الاسم، التخصص، ساعات العمل]</li><li>appointments: قائمة تخزن كل موعد على شكل [اسم المريض، اسم الطبيب، التاريخ، الوقت]</li><li>invoices: قائمة تخزن كل فاتورة على شكل [اسم المريض، القيمة، الخدمة]</li><li>medicines: قائمة تخزن كل دواء على شكل [الاسم، السعر، الكمية]</li><li>employee_username / employee_password: بيانات دخول الموظف</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">patients = []
+doctors = []
+appointments = []
+invoices = []
+medicines = []
+
+employee_username = &quot;admin&quot;
+employee_password = &quot;1234&quot;</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="register_patient">
+  <div class="card-head">
+    <span class="badge">02</span>
+    <h2>تسجيل المرضى</h2>
+  </div>
+  <p class="desc">تأخذ هذه الدالة بيانات مريض جديد من المستخدم عبر input()، وتضعها في قائمة واحدة (list) تمثل المريض، ثم تضيف هذه القائمة إلى القائمة الكبيرة patients باستخدام append().</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>name, age, gender, phone, address: متغيرات مؤقتة تخزن مدخلات المستخدم</li><li>patient: قائمة صغيرة تجمع بيانات المريض الواحد</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def register_patient():
+    name = input(&quot;أدخل اسم المريض: &quot;)
+    age = input(&quot;أدخل عمر المريض: &quot;)
+    gender = input(&quot;أدخل جنس المريض (ذكر/أنثى): &quot;)
+    phone = input(&quot;أدخل رقم هاتف المريض: &quot;)
+    address = input(&quot;أدخل عنوان المريض: &quot;)
+
+    patient = [name, age, gender, phone, address]
+    patients.append(patient)
+
+    print(&quot;تم تسجيل المريض بنجاح&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="display_patients">
+  <div class="card-head">
+    <span class="badge">03</span>
+    <h2>عرض المرضى</h2>
+  </div>
+  <p class="desc">تستخدم حلقة for للمرور على كل مريض داخل قائمة patients وطباعة بياناته بشكل منظم. إذا كانت القائمة فارغة، تُعلم المستخدم بذلك باستخدام if.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>index: عداد يزيد يدويًا لترقيم المرضى في الطباعة</li><li>patient: يمثل كل عنصر (مريض) أثناء المرور على القائمة</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def display_patients():
+    if len(patients) == 0:
+        print(&quot;لا يوجد مرضى مسجلون&quot;)
+    else:
+        index = 1
+        for patient in patients:
+            print(index, &quot;- الاسم:&quot;, patient[0],
+                  &quot;| العمر:&quot;, patient[1],
+                  &quot;| الجنس:&quot;, patient[2],
+                  &quot;| الهاتف:&quot;, patient[3],
+                  &quot;| العنوان:&quot;, patient[4])
+            index = index + 1</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="search_patient">
+  <div class="card-head">
+    <span class="badge">04</span>
+    <h2>البحث عن مريض بالاسم</h2>
+  </div>
+  <p class="desc">تبحث الدالة داخل قائمة patients عن مريض اسمه يطابق ما أدخله المستخدم، باستخدام for و if. المتغير found هو عدّاد رقمي (0 أو 1) يخبرنا إن كان البحث ناجحًا أم لا، بدل استخدام True/False.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>name: الاسم المدخل من المستخدم للبحث عنه</li><li>found: عدّاد يبدأ من 0، ويصبح 1 عند العثور على المريض</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def search_patient_by_name():
+    name = input(&quot;أدخل اسم المريض للبحث: &quot;)
+    found = 0
+
+    for patient in patients:
+        if patient[0] == name:
+            print(&quot;تم العثور على المريض:&quot;)
+            print(&quot;الاسم:&quot;, patient[0],
+                  &quot;| العمر:&quot;, patient[1],
+                  &quot;| الجنس:&quot;, patient[2],
+                  &quot;| الهاتف:&quot;, patient[3],
+                  &quot;| العنوان:&quot;, patient[4])
+            found = 1
+
+    if found == 0:
+        print(&quot;لم يتم العثور على مريض بهذا الاسم&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="delete_patient">
+  <div class="card-head">
+    <span class="badge">05</span>
+    <h2>حذف مريض</h2>
+  </div>
+  <p class="desc">تبحث الدالة عن المريض بالاسم داخل القائمة. بدل استخدام break لإيقاف الحلقة، نمر على كل المرضى ونبني قائمة جديدة new_patients تحتوي على كل من لا يطابق الاسم المطلوب حذفه، ثم نستبدل بها القائمة الأصلية باستخدام global.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>name: اسم المريض المراد حذفه</li><li>deleted: عدّاد يبدأ من 0 ويصبح 1 عند العثور على المريض وحذفه</li><li>new_patients: قائمة جديدة تحتوي على كل المرضى ما عدا المريض المحذوف</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def delete_patient():
+    global patients
+    name = input(&quot;أدخل اسم المريض المراد حذفه: &quot;)
+    deleted = 0
+    new_patients = []
+
+    for patient in patients:
+        if patient[0] == name and deleted == 0:
+            deleted = 1
+        else:
+            new_patients.append(patient)
+
+    patients = new_patients
+
+    if deleted == 1:
+        print(&quot;تم حذف المريض بنجاح&quot;)
+    else:
+        print(&quot;لم يتم العثور على المريض&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="edit_patient">
+  <div class="card-head">
+    <span class="badge">06</span>
+    <h2>تعديل بيانات مريض</h2>
+  </div>
+  <p class="desc">تسمح للمستخدم بتحديث بيانات مريض موجود. إذا ترك المستخدم أي حقل فارغًا، تبقى القيمة القديمة كما هي دون تغيير (باستخدام if للتحقق من الفراغ).</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>new_age, new_phone, new_address: القيم الجديدة المدخلة من المستخدم</li><li>patient[1], patient[3], patient[4]: عناصر داخل قائمة المريض يتم تعديلها مباشرة</li><li>found: عدّاد يبدأ من 0 ويصبح 1 عند العثور على المريض</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def edit_patient():
+    name = input(&quot;أدخل اسم المريض المراد تعديله: &quot;)
+    found = 0
+
+    for patient in patients:
+        if patient[0] == name:
+            found = 1
+            print(&quot;اترك الحقل فارغاً إذا لم ترغب في تغييره&quot;)
+            new_age = input(&quot;العمر الجديد: &quot;)
+            new_phone = input(&quot;رقم الهاتف الجديد: &quot;)
+            new_address = input(&quot;العنوان الجديد: &quot;)
+
+            if new_age != &quot;&quot;:
+                patient[1] = new_age
+            if new_phone != &quot;&quot;:
+                patient[3] = new_phone
+            if new_address != &quot;&quot;:
+                patient[4] = new_address
+
+            print(&quot;تم تعديل بيانات المريض بنجاح&quot;)
+
+    if found == 0:
+        print(&quot;لم يتم العثور على المريض&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="add_doctor">
+  <div class="card-head">
+    <span class="badge">07</span>
+    <h2>إضافة طبيب</h2>
+  </div>
+  <p class="desc">نفس فكرة تسجيل المريض، لكن هذه المرة نبني قائمة تمثل الطبيب (الاسم، التخصص، ساعات العمل) ونضيفها إلى القائمة doctors.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>name, specialty, hours: مدخلات الطبيب الجديد</li><li>doctor: قائمة صغيرة تجمع بيانات الطبيب</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def add_doctor():
+    name = input(&quot;أدخل اسم الطبيب: &quot;)
+    specialty = input(&quot;أدخل تخصص الطبيب: &quot;)
+    hours = input(&quot;أدخل ساعات عمل الطبيب: &quot;)
+
+    doctor = [name, specialty, hours]
+    doctors.append(doctor)
+
+    print(&quot;تمت إضافة الطبيب بنجاح&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="display_doctors">
+  <div class="card-head">
+    <span class="badge">08</span>
+    <h2>عرض الأطباء</h2>
+  </div>
+  <p class="desc">تعرض جميع الأطباء المسجلين باستخدام حلقة for، بنفس أسلوب عرض المرضى.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>index: عداد لترقيم الأطباء عند الطباعة</li><li>doctor: يمثل كل طبيب أثناء المرور على القائمة</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def display_doctors():
+    if len(doctors) == 0:
+        print(&quot;لا يوجد أطباء مسجلون&quot;)
+    else:
+        index = 1
+        for doctor in doctors:
+            print(index, &quot;- الاسم:&quot;, doctor[0],
+                  &quot;| التخصص:&quot;, doctor[1],
+                  &quot;| ساعات العمل:&quot;, doctor[2])
+            index = index + 1</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="book_appointment">
+  <div class="card-head">
+    <span class="badge">09</span>
+    <h2>حجز موعد</h2>
+  </div>
+  <p class="desc">تأخذ اسم المريض واسم الطبيب والتاريخ والوقت، وتجمعهم في قائمة تمثل الموعد، ثم تضيفها إلى appointments.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>patient_name, doctor_name, date, time: بيانات الموعد</li><li>appointment: قائمة صغيرة تمثل الموعد الواحد</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def book_appointment():
+    patient_name = input(&quot;أدخل اسم المريض: &quot;)
+    doctor_name = input(&quot;أدخل اسم الطبيب: &quot;)
+    date = input(&quot;أدخل تاريخ الموعد: &quot;)
+    time = input(&quot;أدخل وقت الموعد: &quot;)
+
+    appointment = [patient_name, doctor_name, date, time]
+    appointments.append(appointment)
+
+    print(&quot;تم حجز الموعد بنجاح&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="display_appointments">
+  <div class="card-head">
+    <span class="badge">10</span>
+    <h2>عرض المواعيد</h2>
+  </div>
+  <p class="desc">تعرض كل المواعيد المحجوزة مع اسم المريض والطبيب والتاريخ والوقت، باستخدام for.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>index: عداد لترقيم المواعيد</li><li>appointment: يمثل كل موعد أثناء المرور على القائمة</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def display_appointments():
+    if len(appointments) == 0:
+        print(&quot;لا يوجد مواعيد محجوزة&quot;)
+    else:
+        index = 1
+        for appointment in appointments:
+            print(index, &quot;- المريض:&quot;, appointment[0],
+                  &quot;| الطبيب:&quot;, appointment[1],
+                  &quot;| التاريخ:&quot;, appointment[2],
+                  &quot;| الوقت:&quot;, appointment[3])
+            index = index + 1</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="cancel_appointment">
+  <div class="card-head">
+    <span class="badge">11</span>
+    <h2>إلغاء موعد</h2>
+  </div>
+  <p class="desc">بدل استخدام break، نمر على كل المواعيد ونبني قائمة جديدة new_appointments تحتوي على كل المواعيد ما عدا موعد المريض المطلوب إلغاؤه، ثم نستبدل بها القائمة الأصلية باستخدام global.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>patient_name: اسم المريض صاحب الموعد المراد إلغاؤه</li><li>cancelled: عدّاد يبدأ من 0 ويصبح 1 عند العثور على الموعد وإلغائه</li><li>new_appointments: قائمة جديدة تحتوي على كل المواعيد ما عدا الموعد الملغى</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def cancel_appointment():
+    global appointments
+    patient_name = input(&quot;أدخل اسم المريض لإلغاء موعده: &quot;)
+    cancelled = 0
+    new_appointments = []
+
+    for appointment in appointments:
+        if appointment[0] == patient_name and cancelled == 0:
+            cancelled = 1
+        else:
+            new_appointments.append(appointment)
+
+    appointments = new_appointments
+
+    if cancelled == 1:
+        print(&quot;تم إلغاء الموعد بنجاح&quot;)
+    else:
+        print(&quot;لم يتم العثور على موعد لهذا المريض&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="add_invoice">
+  <div class="card-head">
+    <span class="badge">12</span>
+    <h2>إضافة فاتورة</h2>
+  </div>
+  <p class="desc">تنشئ فاتورة جديدة لمريض معيّن، وتحفظ اسم المريض وقيمة الفاتورة والخدمة المقدمة داخل القائمة invoices.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>patient_name, amount, service: بيانات الفاتورة</li><li>invoice: قائمة صغيرة تمثل الفاتورة الواحدة</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def add_invoice():
+    patient_name = input(&quot;أدخل اسم المريض: &quot;)
+    amount = input(&quot;أدخل قيمة الفاتورة: &quot;)
+    service = input(&quot;أدخل الخدمة المقدمة: &quot;)
+
+    invoice = [patient_name, amount, service]
+    invoices.append(invoice)
+
+    print(&quot;تمت إضافة الفاتورة بنجاح&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="sum_invoices">
+  <div class="card-head">
+    <span class="badge">13</span>
+    <h2>حساب مجموع الفواتير</h2>
+  </div>
+  <p class="desc">تستخدم حلقة for لجمع قيمة كل فاتورة على حدة في متغير total، ثم تطبع المجموع الكلي في النهاية.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>total: متغير يبدأ من صفر ويتجمع فيه مجموع كل الفواتير</li><li>invoice[1]: قيمة الفاتورة (نحولها إلى رقم عشري باستخدام float)</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def sum_invoices():
+    total = 0
+    for invoice in invoices:
+        total = total + float(invoice[1])
+
+    print(&quot;مجموع الفواتير هو:&quot;, total)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="add_medicine">
+  <div class="card-head">
+    <span class="badge">14</span>
+    <h2>إضافة دواء</h2>
+  </div>
+  <p class="desc">تضيف دواء جديدًا مع اسمه وسعره وكميته إلى القائمة medicines.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>name, price, quantity: بيانات الدواء الجديد</li><li>medicine: قائمة صغيرة تمثل الدواء الواحد</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def add_medicine():
+    name = input(&quot;أدخل اسم الدواء: &quot;)
+    price = input(&quot;أدخل سعر الدواء: &quot;)
+    quantity = input(&quot;أدخل كمية الدواء: &quot;)
+
+    medicine = [name, price, quantity]
+    medicines.append(medicine)
+
+    print(&quot;تمت إضافة الدواء بنجاح&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="display_medicines">
+  <div class="card-head">
+    <span class="badge">15</span>
+    <h2>عرض الأدوية</h2>
+  </div>
+  <p class="desc">تعرض جميع الأدوية المسجلة مع أسعارها وكمياتها باستخدام for.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>index: عداد لترقيم الأدوية</li><li>medicine: يمثل كل دواء أثناء المرور على القائمة</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def display_medicines():
+    if len(medicines) == 0:
+        print(&quot;لا يوجد أدوية مسجلة&quot;)
+    else:
+        index = 1
+        for medicine in medicines:
+            print(index, &quot;- الاسم:&quot;, medicine[0],
+                  &quot;| السعر:&quot;, medicine[1],
+                  &quot;| الكمية:&quot;, medicine[2])
+            index = index + 1</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="search_medicine">
+  <div class="card-head">
+    <span class="badge">16</span>
+    <h2>البحث عن دواء</h2>
+  </div>
+  <p class="desc">تبحث عن دواء باسمه داخل القائمة medicines، وتعرض معلوماته إذا كان متوفرًا.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>name: اسم الدواء المدخل للبحث</li><li>found: عدّاد يبدأ من 0 ويصبح 1 عند العثور على الدواء</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def search_medicine():
+    name = input(&quot;أدخل اسم الدواء للبحث: &quot;)
+    found = 0
+
+    for medicine in medicines:
+        if medicine[0] == name:
+            print(&quot;تم العثور على الدواء:&quot;)
+            print(&quot;الاسم:&quot;, medicine[0],
+                  &quot;| السعر:&quot;, medicine[1],
+                  &quot;| الكمية:&quot;, medicine[2])
+            found = 1
+
+    if found == 0:
+        print(&quot;الدواء غير متوفر&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="employee_login">
+  <div class="card-head">
+    <span class="badge">17</span>
+    <h2>تسجيل دخول الموظف</h2>
+  </div>
+  <p class="desc">تتحقق من اسم المستخدم وكلمة المرور المدخلين مقارنة بالقيم المخزنة، وتُرجع 1 إذا كانا صحيحين أو 0 إذا كانا خاطئين (بدل استخدام True/False).</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>username, password: القيم المدخلة من الموظف</li><li>employee_username, employee_password: القيم الصحيحة المخزنة مسبقًا</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def employee_login():
+    username = input(&quot;أدخل اسم المستخدم: &quot;)
+    password = input(&quot;أدخل كلمة المرور: &quot;)
+
+    if username == employee_username and password == employee_password:
+        print(&quot;تم تسجيل الدخول بنجاح&quot;)
+        return 1
+    else:
+        print(&quot;اسم المستخدم أو كلمة المرور غير صحيحة&quot;)
+        return 0</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="change_password">
+  <div class="card-head">
+    <span class="badge">18</span>
+    <h2>تغيير كلمة المرور</h2>
+  </div>
+  <p class="desc">تطلب من الموظف كلمة المرور الحالية للتحقق منها أولاً، ثم إن كانت صحيحة تسمح له بإدخال كلمة مرور جديدة وتخزينها.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>old_password: كلمة المرور الحالية المدخلة للتحقق</li><li>new_password: كلمة المرور الجديدة</li><li>global employee_password: نستخدمها لتعديل المتغير الأصلي من داخل الدالة</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def change_password():
+    global employee_password
+    old_password = input(&quot;أدخل كلمة المرور الحالية: &quot;)
+
+    if old_password == employee_password:
+        new_password = input(&quot;أدخل كلمة المرور الجديدة: &quot;)
+        employee_password = new_password
+        print(&quot;تم تغيير كلمة المرور بنجاح&quot;)
+    else:
+        print(&quot;كلمة المرور الحالية غير صحيحة&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="count_patients">
+  <div class="card-head">
+    <span class="badge">19</span>
+    <h2>إحصاء عدد المرضى</h2>
+  </div>
+  <p class="desc">تستخدم الدالة الجاهزة len() لمعرفة عدد العناصر داخل قائمة patients وطباعته مباشرة.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>len(patients): يحسب عدد المرضى الموجودين في القائمة</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def count_patients():
+    print(&quot;عدد المرضى المسجلين هو:&quot;, len(patients))</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="patients_by_age">
+  <div class="card-head">
+    <span class="badge">20</span>
+    <h2>قائمة المرضى حسب العمر</h2>
+  </div>
+  <p class="desc">تقوم بترتيب نسخة من قائمة المرضى حسب العمر تصاعديًا أو تنازليًا، باستخدام خوارزمية ترتيب فقاعي (Bubble Sort) مبنية فقط على حلقتين while متداخلتين ومقارنات if، دون استخدام دوال ترتيب جاهزة.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>order: اختيار المستخدم بين الترتيب التصاعدي أو التنازلي</li><li>sorted_patients: نسخة من قائمة المرضى سيتم ترتيبها</li><li>n: عدد المرضى</li><li>i, j: عدّادات حلقتي while المستخدمتين في الترتيب</li><li>temp: متغير مؤقت لتبديل مكان مريضين أثناء الترتيب</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def patients_by_age():
+    order = input(&quot;اكتب 1 للترتيب تصاعدياً أو 2 للترتيب تنازلياً: &quot;)
+
+    sorted_patients = []
+    for patient in patients:
+        sorted_patients.append(patient)
+
+    n = len(sorted_patients)
+    i = 0
+    while i &lt; n:
+        j = 0
+        while j &lt; n - i - 1:
+            if order == &quot;1&quot;:
+                if int(sorted_patients[j][1]) &gt; int(sorted_patients[j + 1][1]):
+                    temp = sorted_patients[j]
+                    sorted_patients[j] = sorted_patients[j + 1]
+                    sorted_patients[j + 1] = temp
+            else:
+                if int(sorted_patients[j][1]) &lt; int(sorted_patients[j + 1][1]):
+                    temp = sorted_patients[j]
+                    sorted_patients[j] = sorted_patients[j + 1]
+                    sorted_patients[j + 1] = temp
+            j = j + 1
+        i = i + 1
+
+    index = 1
+    for patient in sorted_patients:
+        print(index, &quot;- الاسم:&quot;, patient[0], &quot;| العمر:&quot;, patient[1])
+        index = index + 1</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="main_menu">
+  <div class="card-head">
+    <span class="badge">21</span>
+    <h2>القائمة الرئيسية التي تربط جميع الأجزاء</h2>
+  </div>
+  <p class="desc">تعرض القائمة الرئيسية داخل حلقة while تستمر حتى يختار المستخدم الخروج (0). عند كل اختيار، تُستخدم سلسلة من if / elif / else لاستدعاء الدالة المناسبة لذلك الرقم.</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>running: عدّاد يبقي حلقة while تعمل طالما قيمته 1 (بدل استخدام True)</li><li>choice: رقم العملية الذي يختاره المستخدم من القائمة</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">def main_menu():
+    running = 1
+    while running == 1:
+        print(&quot;---------- القائمة الرئيسية ----------&quot;)
+        print(&quot;1  - تسجيل مريض جديد&quot;)
+        print(&quot;2  - عرض المرضى&quot;)
+        print(&quot;3  - البحث عن مريض بالاسم&quot;)
+        print(&quot;4  - حذف مريض&quot;)
+        print(&quot;5  - تعديل بيانات مريض&quot;)
+        print(&quot;6  - إضافة طبيب&quot;)
+        print(&quot;7  - عرض الأطباء&quot;)
+        print(&quot;8  - حجز موعد&quot;)
+        print(&quot;9  - عرض المواعيد&quot;)
+        print(&quot;10 - إلغاء موعد&quot;)
+        print(&quot;11 - إضافة فاتورة&quot;)
+        print(&quot;12 - حساب مجموع الفواتير&quot;)
+        print(&quot;13 - إضافة دواء&quot;)
+        print(&quot;14 - عرض الأدوية&quot;)
+        print(&quot;15 - البحث عن دواء&quot;)
+        print(&quot;16 - تغيير كلمة المرور&quot;)
+        print(&quot;17 - إحصاء عدد المرضى&quot;)
+        print(&quot;18 - عرض المرضى حسب العمر&quot;)
+        print(&quot;0  - خروج&quot;)
+
+        choice = input(&quot;اختر رقم العملية: &quot;)
+
+        if choice == &quot;1&quot;:
+            register_patient()
+        elif choice == &quot;2&quot;:
+            display_patients()
+        elif choice == &quot;3&quot;:
+            search_patient_by_name()
+        elif choice == &quot;4&quot;:
+            delete_patient()
+        elif choice == &quot;5&quot;:
+            edit_patient()
+        elif choice == &quot;6&quot;:
+            add_doctor()
+        elif choice == &quot;7&quot;:
+            display_doctors()
+        elif choice == &quot;8&quot;:
+            book_appointment()
+        elif choice == &quot;9&quot;:
+            display_appointments()
+        elif choice == &quot;10&quot;:
+            cancel_appointment()
+        elif choice == &quot;11&quot;:
+            add_invoice()
+        elif choice == &quot;12&quot;:
+            sum_invoices()
+        elif choice == &quot;13&quot;:
+            add_medicine()
+        elif choice == &quot;14&quot;:
+            display_medicines()
+        elif choice == &quot;15&quot;:
+            search_medicine()
+        elif choice == &quot;16&quot;:
+            change_password()
+        elif choice == &quot;17&quot;:
+            count_patients()
+        elif choice == &quot;18&quot;:
+            patients_by_age()
+        elif choice == &quot;0&quot;:
+            running = 0
+            print(&quot;تم إنهاء البرنامج&quot;)
+        else:
+            print(&quot;اختيار غير صحيح، حاول مرة أخرى&quot;)</code></pre>
+  </div>
+</section>
+
+
+<section class="card" id="run_program">
+  <div class="card-head">
+    <span class="badge">22</span>
+    <h2>تشغيل البرنامج (تسجيل الدخول ثم القائمة الرئيسية)</h2>
+  </div>
+  <p class="desc">قبل الدخول إلى القائمة الرئيسية، يجب على الموظف تسجيل الدخول بنجاح. تُمنح 3 محاولات كحد أقصى باستخدام حلقة while. القيمة 1 تعني نجاح الدخول، والقيمة 0 تعني الفشل (بدل استخدام True/False).</p>
+  <div class="vars">
+    <h3>المتغيرات المستخدمة</h3>
+    <ul><li>login_success: يخبرنا إذا نجح تسجيل الدخول (1 نجاح / 0 فشل)</li><li>attempts: عدد المحاولات التي قام بها الموظف</li></ul>
+  </div>
+  <div class="code-wrap">
+    <div class="code-bar">
+      <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+      <span class="file-name">clinic.py</span>
+      <button class="copy-btn" onclick="copyCode(this)">نسخ</button>
+    </div>
+    <pre dir="ltr"><code class="language-python">login_success = 0
+attempts = 0
+
+while login_success == 0 and attempts &lt; 3:
+    login_success = employee_login()
+    attempts = attempts + 1
+
+if login_success == 1:
+    main_menu()
+else:
+    print(&quot;تم إغلاق البرنامج بسبب فشل تسجيل الدخول&quot;)</code></pre>
+  </div>
+</section>
+
+
+    <section class="full-block" id="full-code">
+      <div class="card-head">
+        <span class="badge">★</span>
+        <h2>الكود الكامل مجمّعًا (جاهز للنسخ والتشغيل)</h2>
+      </div>
+      <p class="desc">هذا هو نفس الكود أعلاه، لكن مرتّبًا بالكامل في ملف واحد بترتيب التشغيل الصحيح. انسخه في ملف باسم clinic.py وشغّله بأمر: python3 clinic.py</p>
+      <div class="code-wrap">
+        <div class="code-bar">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="file-name">clinic.py — الملف الكامل</span>
+          <button class="copy-btn" onclick="copyCode(this)">نسخ الكل</button>
+        </div>
+        <pre dir="ltr"><code class="language-python">patients = []
+doctors = []
+appointments = []
+invoices = []
+medicines = []
+
+employee_username = &quot;admin&quot;
+employee_password = &quot;1234&quot;
+
+def register_patient():
+    name = input(&quot;أدخل اسم المريض: &quot;)
+    age = input(&quot;أدخل عمر المريض: &quot;)
+    gender = input(&quot;أدخل جنس المريض (ذكر/أنثى): &quot;)
+    phone = input(&quot;أدخل رقم هاتف المريض: &quot;)
+    address = input(&quot;أدخل عنوان المريض: &quot;)
+
+    patient = [name, age, gender, phone, address]
+    patients.append(patient)
+
+    print(&quot;تم تسجيل المريض بنجاح&quot;)
+
+def display_patients():
+    if len(patients) == 0:
+        print(&quot;لا يوجد مرضى مسجلون&quot;)
+    else:
+        index = 1
+        for patient in patients:
+            print(index, &quot;- الاسم:&quot;, patient[0],
+                  &quot;| العمر:&quot;, patient[1],
+                  &quot;| الجنس:&quot;, patient[2],
+                  &quot;| الهاتف:&quot;, patient[3],
+                  &quot;| العنوان:&quot;, patient[4])
+            index = index + 1
+
+def search_patient_by_name():
+    name = input(&quot;أدخل اسم المريض للبحث: &quot;)
+    found = 0
+
+    for patient in patients:
+        if patient[0] == name:
+            print(&quot;تم العثور على المريض:&quot;)
+            print(&quot;الاسم:&quot;, patient[0],
+                  &quot;| العمر:&quot;, patient[1],
+                  &quot;| الجنس:&quot;, patient[2],
+                  &quot;| الهاتف:&quot;, patient[3],
+                  &quot;| العنوان:&quot;, patient[4])
+            found = 1
+
+    if found == 0:
+        print(&quot;لم يتم العثور على مريض بهذا الاسم&quot;)
+
+def delete_patient():
+    global patients
+    name = input(&quot;أدخل اسم المريض المراد حذفه: &quot;)
+    deleted = 0
+    new_patients = []
+
+    for patient in patients:
+        if patient[0] == name and deleted == 0:
+            deleted = 1
+        else:
+            new_patients.append(patient)
+
+    patients = new_patients
+
+    if deleted == 1:
+        print(&quot;تم حذف المريض بنجاح&quot;)
+    else:
+        print(&quot;لم يتم العثور على المريض&quot;)
+
+def edit_patient():
+    name = input(&quot;أدخل اسم المريض المراد تعديله: &quot;)
+    found = 0
+
+    for patient in patients:
+        if patient[0] == name:
+            found = 1
+            print(&quot;اترك الحقل فارغاً إذا لم ترغب في تغييره&quot;)
+            new_age = input(&quot;العمر الجديد: &quot;)
+            new_phone = input(&quot;رقم الهاتف الجديد: &quot;)
+            new_address = input(&quot;العنوان الجديد: &quot;)
+
+            if new_age != &quot;&quot;:
+                patient[1] = new_age
+            if new_phone != &quot;&quot;:
+                patient[3] = new_phone
+            if new_address != &quot;&quot;:
+                patient[4] = new_address
+
+            print(&quot;تم تعديل بيانات المريض بنجاح&quot;)
+
+    if found == 0:
+        print(&quot;لم يتم العثور على المريض&quot;)
+
+def add_doctor():
+    name = input(&quot;أدخل اسم الطبيب: &quot;)
+    specialty = input(&quot;أدخل تخصص الطبيب: &quot;)
+    hours = input(&quot;أدخل ساعات عمل الطبيب: &quot;)
+
+    doctor = [name, specialty, hours]
+    doctors.append(doctor)
+
+    print(&quot;تمت إضافة الطبيب بنجاح&quot;)
+
+def display_doctors():
+    if len(doctors) == 0:
+        print(&quot;لا يوجد أطباء مسجلون&quot;)
+    else:
+        index = 1
+        for doctor in doctors:
+            print(index, &quot;- الاسم:&quot;, doctor[0],
+                  &quot;| التخصص:&quot;, doctor[1],
+                  &quot;| ساعات العمل:&quot;, doctor[2])
+            index = index + 1
+
+def book_appointment():
+    patient_name = input(&quot;أدخل اسم المريض: &quot;)
+    doctor_name = input(&quot;أدخل اسم الطبيب: &quot;)
+    date = input(&quot;أدخل تاريخ الموعد: &quot;)
+    time = input(&quot;أدخل وقت الموعد: &quot;)
+
+    appointment = [patient_name, doctor_name, date, time]
+    appointments.append(appointment)
+
+    print(&quot;تم حجز الموعد بنجاح&quot;)
+
+def display_appointments():
+    if len(appointments) == 0:
+        print(&quot;لا يوجد مواعيد محجوزة&quot;)
+    else:
+        index = 1
+        for appointment in appointments:
+            print(index, &quot;- المريض:&quot;, appointment[0],
+                  &quot;| الطبيب:&quot;, appointment[1],
+                  &quot;| التاريخ:&quot;, appointment[2],
+                  &quot;| الوقت:&quot;, appointment[3])
+            index = index + 1
+
+def cancel_appointment():
+    global appointments
+    patient_name = input(&quot;أدخل اسم المريض لإلغاء موعده: &quot;)
+    cancelled = 0
+    new_appointments = []
+
+    for appointment in appointments:
+        if appointment[0] == patient_name and cancelled == 0:
+            cancelled = 1
+        else:
+            new_appointments.append(appointment)
+
+    appointments = new_appointments
+
+    if cancelled == 1:
+        print(&quot;تم إلغاء الموعد بنجاح&quot;)
+    else:
+        print(&quot;لم يتم العثور على موعد لهذا المريض&quot;)
+
+def add_invoice():
+    patient_name = input(&quot;أدخل اسم المريض: &quot;)
+    amount = input(&quot;أدخل قيمة الفاتورة: &quot;)
+    service = input(&quot;أدخل الخدمة المقدمة: &quot;)
+
+    invoice = [patient_name, amount, service]
+    invoices.append(invoice)
+
+    print(&quot;تمت إضافة الفاتورة بنجاح&quot;)
+
+def sum_invoices():
+    total = 0
+    for invoice in invoices:
+        total = total + float(invoice[1])
+
+    print(&quot;مجموع الفواتير هو:&quot;, total)
+
+def add_medicine():
+    name = input(&quot;أدخل اسم الدواء: &quot;)
+    price = input(&quot;أدخل سعر الدواء: &quot;)
+    quantity = input(&quot;أدخل كمية الدواء: &quot;)
+
+    medicine = [name, price, quantity]
+    medicines.append(medicine)
+
+    print(&quot;تمت إضافة الدواء بنجاح&quot;)
+
+def display_medicines():
+    if len(medicines) == 0:
+        print(&quot;لا يوجد أدوية مسجلة&quot;)
+    else:
+        index = 1
+        for medicine in medicines:
+            print(index, &quot;- الاسم:&quot;, medicine[0],
+                  &quot;| السعر:&quot;, medicine[1],
+                  &quot;| الكمية:&quot;, medicine[2])
+            index = index + 1
+
+def search_medicine():
+    name = input(&quot;أدخل اسم الدواء للبحث: &quot;)
+    found = 0
+
+    for medicine in medicines:
+        if medicine[0] == name:
+            print(&quot;تم العثور على الدواء:&quot;)
+            print(&quot;الاسم:&quot;, medicine[0],
+                  &quot;| السعر:&quot;, medicine[1],
+                  &quot;| الكمية:&quot;, medicine[2])
+            found = 1
+
+    if found == 0:
+        print(&quot;الدواء غير متوفر&quot;)
+
+def employee_login():
+    username = input(&quot;أدخل اسم المستخدم: &quot;)
+    password = input(&quot;أدخل كلمة المرور: &quot;)
+
+    if username == employee_username and password == employee_password:
+        print(&quot;تم تسجيل الدخول بنجاح&quot;)
+        return 1
+    else:
+        print(&quot;اسم المستخدم أو كلمة المرور غير صحيحة&quot;)
+        return 0
+
+def change_password():
+    global employee_password
+    old_password = input(&quot;أدخل كلمة المرور الحالية: &quot;)
+
+    if old_password == employee_password:
+        new_password = input(&quot;أدخل كلمة المرور الجديدة: &quot;)
+        employee_password = new_password
+        print(&quot;تم تغيير كلمة المرور بنجاح&quot;)
+    else:
+        print(&quot;كلمة المرور الحالية غير صحيحة&quot;)
+
+def count_patients():
+    print(&quot;عدد المرضى المسجلين هو:&quot;, len(patients))
+
+def patients_by_age():
+    order = input(&quot;اكتب 1 للترتيب تصاعدياً أو 2 للترتيب تنازلياً: &quot;)
+
+    sorted_patients = []
+    for patient in patients:
+        sorted_patients.append(patient)
+
+    n = len(sorted_patients)
+    i = 0
+    while i &lt; n:
+        j = 0
+        while j &lt; n - i - 1:
+            if order == &quot;1&quot;:
+                if int(sorted_patients[j][1]) &gt; int(sorted_patients[j + 1][1]):
+                    temp = sorted_patients[j]
+                    sorted_patients[j] = sorted_patients[j + 1]
+                    sorted_patients[j + 1] = temp
+            else:
+                if int(sorted_patients[j][1]) &lt; int(sorted_patients[j + 1][1]):
+                    temp = sorted_patients[j]
+                    sorted_patients[j] = sorted_patients[j + 1]
+                    sorted_patients[j + 1] = temp
+            j = j + 1
+        i = i + 1
+
+    index = 1
+    for patient in sorted_patients:
+        print(index, &quot;- الاسم:&quot;, patient[0], &quot;| العمر:&quot;, patient[1])
+        index = index + 1
+
+def main_menu():
+    running = 1
+    while running == 1:
+        print(&quot;---------- القائمة الرئيسية ----------&quot;)
+        print(&quot;1  - تسجيل مريض جديد&quot;)
+        print(&quot;2  - عرض المرضى&quot;)
+        print(&quot;3  - البحث عن مريض بالاسم&quot;)
+        print(&quot;4  - حذف مريض&quot;)
+        print(&quot;5  - تعديل بيانات مريض&quot;)
+        print(&quot;6  - إضافة طبيب&quot;)
+        print(&quot;7  - عرض الأطباء&quot;)
+        print(&quot;8  - حجز موعد&quot;)
+        print(&quot;9  - عرض المواعيد&quot;)
+        print(&quot;10 - إلغاء موعد&quot;)
+        print(&quot;11 - إضافة فاتورة&quot;)
+        print(&quot;12 - حساب مجموع الفواتير&quot;)
+        print(&quot;13 - إضافة دواء&quot;)
+        print(&quot;14 - عرض الأدوية&quot;)
+        print(&quot;15 - البحث عن دواء&quot;)
+        print(&quot;16 - تغيير كلمة المرور&quot;)
+        print(&quot;17 - إحصاء عدد المرضى&quot;)
+        print(&quot;18 - عرض المرضى حسب العمر&quot;)
+        print(&quot;0  - خروج&quot;)
+
+        choice = input(&quot;اختر رقم العملية: &quot;)
+
+        if choice == &quot;1&quot;:
+            register_patient()
+        elif choice == &quot;2&quot;:
+            display_patients()
+        elif choice == &quot;3&quot;:
+            search_patient_by_name()
+        elif choice == &quot;4&quot;:
+            delete_patient()
+        elif choice == &quot;5&quot;:
+            edit_patient()
+        elif choice == &quot;6&quot;:
+            add_doctor()
+        elif choice == &quot;7&quot;:
+            display_doctors()
+        elif choice == &quot;8&quot;:
+            book_appointment()
+        elif choice == &quot;9&quot;:
+            display_appointments()
+        elif choice == &quot;10&quot;:
+            cancel_appointment()
+        elif choice == &quot;11&quot;:
+            add_invoice()
+        elif choice == &quot;12&quot;:
+            sum_invoices()
+        elif choice == &quot;13&quot;:
+            add_medicine()
+        elif choice == &quot;14&quot;:
+            display_medicines()
+        elif choice == &quot;15&quot;:
+            search_medicine()
+        elif choice == &quot;16&quot;:
+            change_password()
+        elif choice == &quot;17&quot;:
+            count_patients()
+        elif choice == &quot;18&quot;:
+            patients_by_age()
+        elif choice == &quot;0&quot;:
+            running = 0
+            print(&quot;تم إنهاء البرنامج&quot;)
+        else:
+            print(&quot;اختيار غير صحيح، حاول مرة أخرى&quot;)
+
+login_success = 0
+attempts = 0
+
+while login_success == 0 and attempts &lt; 3:
+    login_success = employee_login()
+    attempts = attempts + 1
+
+if login_success == 1:
+    main_menu()
+else:
+    print(&quot;تم إغلاق البرنامج بسبب فشل تسجيل الدخول&quot;)
+</code></pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer>
+  مُعدّة خصيصًا لمشروع نظام العيادة الطبية — كل الدوال تستخدم فقط: for, while, list, function, print, input, if/elif/else
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script>
+  hljs.highlightAll();
+
+  function copyCode(btn){
+    const wrap = btn.closest('.code-wrap');
+    const code = wrap.querySelector('code').innerText;
+    navigator.clipboard.writeText(code).then(function(){
+      const old = btn.innerText;
+      btn.innerText = "تم النسخ ✓";
+      setTimeout(function(){ btn.innerText = old; }, 1500);
+    });
+  }
+</script>
+</body>
+</html>
