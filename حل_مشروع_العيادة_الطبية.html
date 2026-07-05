@@ -369,16 +369,423 @@
     line-height:1.8;
   }
   .note b{color:var(--amber);}
+
+  /* ---------- KIDS: reading progress bar ---------- */
+  #readbar{
+    position:fixed;top:0;right:0;height:4px;width:0%;
+    background:linear-gradient(90deg,var(--teal),var(--amber));
+    z-index:99;transition:width .1s linear;border-radius:0 0 0 4px;
+  }
+
+  /* ---------- KIDS: full-width sections ---------- */
+  .kids-section{
+    margin:30px 6vw 0;
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:16px;
+    padding:26px 28px;
+    scroll-margin-top:24px;
+  }
+  .kids-section > h2{
+    margin:0 0 6px;font-size:22px;font-weight:800;
+  }
+  .kids-section > p.sub{
+    color:var(--text-dim);margin:0 0 22px;font-size:15px;
+  }
+
+  /* concept cards */
+  .concepts-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:16px;
+  }
+  .concept{
+    background:var(--bg-soft);
+    border:1px solid var(--card-border);
+    border-radius:14px;
+    padding:18px;
+    display:flex;flex-direction:column;gap:12px;
+  }
+  .concept h3{
+    margin:0;font-size:16.5px;color:var(--teal);font-weight:800;
+    display:flex;align-items:center;gap:8px;
+  }
+  .concept h3 .c-emoji{font-size:22px;}
+  .concept .analogy{
+    background:rgba(232,180,92,.08);
+    border-inline-start:3px solid var(--amber);
+    border-radius:8px;padding:9px 12px;
+    font-size:13.5px;color:var(--text);line-height:1.8;margin:0;
+  }
+  .concept .analogy b{color:var(--amber);}
+  .concept .tiny-code{
+    font-family:var(--mono);font-size:12.5px;
+    background:#081310;border:1px solid var(--card-border);
+    border-radius:8px;padding:10px 12px;color:#c9f2e5;
+    direction:ltr;text-align:left;white-space:pre;overflow-x:auto;
+  }
+
+  /* the list = train visual */
+  .train{
+    display:flex;align-items:flex-end;gap:6px;direction:ltr;
+    flex-wrap:wrap;padding:4px 0;
+  }
+  .wagon{
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+  }
+  .wagon .w-box{
+    min-width:64px;padding:9px 8px;text-align:center;
+    background:#0e2a22;border:2px solid var(--teal-dim);
+    border-radius:9px;font-size:12.5px;color:var(--text);
+    font-weight:700;
+  }
+  .wagon .w-idx{
+    font-family:var(--mono);font-size:11px;color:var(--amber);
+    background:rgba(232,180,92,.12);border-radius:5px;padding:1px 7px;
+  }
+  .train .loco{
+    font-size:26px;align-self:center;margin-inline-end:2px;
+  }
+
+  /* function = machine visual */
+  .machine{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    direction:ltr;flex-wrap:wrap;padding:6px 0;
+  }
+  .machine .m-in,.machine .m-out{
+    background:#0e2a22;border:1.5px dashed var(--teal-dim);
+    border-radius:9px;padding:8px 11px;font-size:12.5px;color:var(--text);
+    text-align:center;
+  }
+  .machine .m-body{
+    background:linear-gradient(160deg,#123529,#0e2a22);
+    border:2px solid var(--teal);
+    border-radius:12px;padding:12px 16px;text-align:center;
+    font-weight:800;font-size:13.5px;color:var(--teal);
+    box-shadow:0 6px 18px rgba(53,208,168,.15);
+  }
+  .machine .m-arrow{color:var(--amber);font-size:20px;font-weight:800;}
+
+  /* loop visual */
+  .loop-track{
+    display:flex;align-items:center;gap:8px;direction:ltr;
+    flex-wrap:wrap;padding:4px 0;
+  }
+  .loop-track .robot{font-size:24px;animation:hop 1.4s ease-in-out infinite;}
+  @keyframes hop{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+  .loop-track .house{
+    background:#0e2a22;border:2px solid var(--teal-dim);border-radius:9px;
+    padding:8px 12px;font-size:15px;
+  }
+  .loop-track .h-arrow{color:var(--amber);font-weight:800;}
+
+  /* traffic light for if/else */
+  .siglight{
+    display:flex;align-items:center;gap:14px;direction:rtl;padding:4px 0;
+  }
+  .siglight .pole{
+    background:#081310;border:2px solid var(--card-border);border-radius:12px;
+    padding:9px 8px;display:flex;flex-direction:column;gap:7px;
+  }
+  .siglight .lamp{width:20px;height:20px;border-radius:50%;opacity:.9;}
+  .lamp.lr{background:#ff5f56;box-shadow:0 0 10px rgba(255,95,86,.55);}
+  .lamp.ly{background:#ffbd2e;box-shadow:0 0 10px rgba(255,189,46,.5);}
+  .lamp.lg{background:#27c93f;box-shadow:0 0 10px rgba(39,201,63,.5);}
+  .siglight .sig-lines{display:flex;flex-direction:column;gap:6px;font-size:13px;}
+  .siglight .sig-lines span code{
+    font-family:var(--mono);background:rgba(53,208,168,.1);color:var(--teal);
+    padding:0 6px;border-radius:4px;font-size:12px;direction:ltr;display:inline-block;
+  }
+
+  /* ---------- KIDS: flow map ---------- */
+  .flowmap{
+    display:flex;flex-direction:column;align-items:center;gap:0;
+    padding:8px 0;
+  }
+  .fnode{
+    background:var(--bg-soft);
+    border:2px solid var(--teal-dim);
+    border-radius:12px;
+    padding:12px 22px;
+    font-weight:700;font-size:14.5px;
+    text-align:center;max-width:420px;width:100%;
+  }
+  .fnode.decision{border-color:var(--amber);background:rgba(232,180,92,.07);}
+  .fnode.endnode{border-color:#ff5f56;background:rgba(255,95,86,.06);}
+  .fnode small{display:block;font-weight:400;color:var(--text-dim);font-size:12.5px;margin-top:3px;}
+  .fconn{
+    color:var(--teal);font-size:20px;line-height:1;padding:6px 0;
+    display:flex;flex-direction:column;align-items:center;gap:2px;
+  }
+  .fconn .flabel{
+    font-size:12px;color:var(--text-dim);font-family:var(--mono);
+    background:var(--card);border:1px solid var(--card-border);
+    padding:1px 9px;border-radius:999px;
+  }
+  .fbranch{
+    display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:640px;
+  }
+  .fbranch .fcol{display:flex;flex-direction:column;align-items:center;}
+  .floop-note{
+    margin-top:10px;
+    font-size:13px;color:var(--amber);
+    background:rgba(232,180,92,.08);border:1px dashed rgba(232,180,92,.4);
+    border-radius:999px;padding:5px 16px;
+  }
+
+  /* ---------- KIDS: mission checklist ---------- */
+  .progress-wrap{
+    background:var(--bg-soft);border:1px solid var(--card-border);
+    border-radius:999px;height:26px;overflow:hidden;margin:6px 0 20px;
+    position:relative;
+  }
+  .progress-fill{
+    height:100%;width:0%;
+    background:linear-gradient(90deg,var(--teal-dim),var(--teal));
+    border-radius:999px;transition:width .4s ease;
+  }
+  .progress-label{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--text);
+    direction:ltr;
+  }
+
+  /* dark thin scrollbars for code boxes */
+  pre, .tiny-code{scrollbar-width:thin;scrollbar-color:var(--teal-dim) transparent;}
+  pre::-webkit-scrollbar, .tiny-code::-webkit-scrollbar{height:7px;}
+  pre::-webkit-scrollbar-track, .tiny-code::-webkit-scrollbar-track{background:transparent;}
+  pre::-webkit-scrollbar-thumb, .tiny-code::-webkit-scrollbar-thumb{
+    background:var(--teal-dim);border-radius:99px;
+  }
+  .missions{display:flex;flex-direction:column;gap:10px;}
+  .mission{
+    display:flex;align-items:flex-start;gap:13px;
+    background:var(--bg-soft);
+    border:1px solid var(--card-border);
+    border-radius:12px;padding:13px 15px;
+    cursor:pointer;transition:border-color .15s, background .15s;
+  }
+  .mission:hover{border-color:var(--teal-dim);}
+  .mission.done{
+    background:rgba(53,208,168,.06);border-color:var(--teal-dim);
+  }
+  .mission.done .m-title{text-decoration:line-through;color:var(--text-dim);}
+  .mission input{
+    width:20px;height:20px;margin-top:3px;accent-color:var(--teal);
+    cursor:pointer;flex:0 0 auto;
+  }
+  .mission .m-title{font-weight:700;font-size:14.5px;}
+  .mission .m-info{color:var(--text-dim);font-size:13px;line-height:1.75;margin-top:2px;}
+  .mission .m-info a{color:var(--teal);text-decoration:underline;}
+  .mission .m-lvl{
+    margin-inline-start:auto;flex:0 0 auto;
+    font-family:var(--mono);font-size:11px;color:var(--teal);
+    background:rgba(53,208,168,.1);border-radius:6px;padding:2px 8px;
+    align-self:flex-start;
+  }
+  .run-steps{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:12px;margin-top:16px;
+  }
+  .run-step{
+    background:var(--bg-soft);border:1px solid var(--card-border);
+    border-radius:12px;padding:14px;
+  }
+  .run-step .rs-num{
+    font-family:var(--mono);font-size:12px;color:#08120f;background:var(--amber);
+    border-radius:6px;padding:2px 9px;font-weight:800;
+  }
+  .run-step p{margin:8px 0 0;font-size:13.5px;color:var(--text);line-height:1.8;}
+  .run-step code{
+    font-family:var(--mono);background:#081310;color:var(--teal);
+    padding:2px 8px;border-radius:5px;font-size:12.5px;direction:ltr;display:inline-block;
+  }
+
+  /* ---------- KIDS: quiz ---------- */
+  .quiz-q{
+    background:var(--bg-soft);border:1px solid var(--card-border);
+    border-radius:12px;padding:16px 18px;margin-bottom:14px;
+  }
+  .quiz-q h3{margin:0 0 12px;font-size:15px;}
+  .quiz-opts{display:flex;flex-wrap:wrap;gap:9px;}
+  .quiz-opt{
+    background:var(--card);border:1.5px solid var(--card-border);
+    color:var(--text);border-radius:9px;padding:8px 15px;
+    font-family:var(--sans);font-size:13.5px;cursor:pointer;
+    transition:border-color .15s, background .15s;
+  }
+  .quiz-opt:hover{border-color:var(--teal-dim);}
+  .quiz-opt.correct{border-color:var(--teal);background:rgba(53,208,168,.15);}
+  .quiz-opt.wrong{border-color:#ff5f56;background:rgba(255,95,86,.12);}
+  .quiz-opt:disabled{cursor:default;opacity:.85;}
+  .quiz-fb{margin:10px 0 0;font-size:13px;display:none;line-height:1.8;}
+  .quiz-fb.show{display:block;}
+  .quiz-fb.good{color:var(--teal);}
+  .quiz-fb.bad{color:#ff9b94;}
+
+  /* emoji added to section cards */
+  .card-head .card-emoji{font-size:24px;flex:0 0 auto;}
+
+  /* ---------- WOW: scroll reveal ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+
+  /* ---------- WOW: hover lift ---------- */
+  .card{transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease, opacity .6s ease;}
+  .card:hover{
+    transform:translateY(-4px);
+    border-color:var(--teal-dim);
+    box-shadow:0 16px 44px rgba(0,0,0,.4), 0 0 0 1px rgba(53,208,168,.14);
+  }
+  .concept{transition:transform .25s ease, border-color .25s ease;}
+  .concept:hover{transform:translateY(-4px);border-color:var(--teal-dim);}
+  .howto-item{transition:transform .2s ease, border-color .2s ease;}
+  .howto-item:hover{transform:translateY(-3px);border-color:var(--teal-dim);}
+  .run-step{transition:transform .2s ease, border-color .2s ease;}
+  .run-step:hover{transform:translateY(-3px);border-color:var(--teal-dim);}
+
+  /* ---------- WOW: hero ---------- */
+  .hero h1 span{
+    background:linear-gradient(90deg, var(--teal), #a7f3dd, var(--teal));
+    background-size:200% auto;
+    -webkit-background-clip:text;background-clip:text;
+    color:transparent;
+    animation:sheen 4s linear infinite;
+  }
+  @keyframes sheen{to{background-position:-200% center;}}
+  .hero .floaty{
+    position:absolute;font-size:34px;opacity:.14;
+    pointer-events:none;user-select:none;
+    animation:floaty 9s ease-in-out infinite;
+  }
+  @keyframes floaty{
+    0%,100%{transform:translateY(0) rotate(-8deg);}
+    50%{transform:translateY(-28px) rotate(10deg);}
+  }
+
+  /* ---------- WOW: game map (clickable plan) ---------- */
+  .gamepath{padding:14px 0 30px;}
+  .prow{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    position:relative;padding:16px 26px;
+  }
+  .prow::before{
+    content:'';position:absolute;top:47px;right:57px;left:57px;
+    border-top:3px dashed rgba(53,208,168,.4);
+  }
+  .prow.rev{flex-direction:row-reverse;}
+  .pturn{height:26px;position:relative;}
+  .pturn::before{
+    content:'';position:absolute;top:-32px;bottom:-32px;width:0;
+    border-inline-start:3px dashed rgba(53,208,168,.4);
+  }
+  .pturn.tl::before{left:55px;}
+  .pturn.tr::before{right:55px;}
+  .pnode{
+    width:62px;height:62px;border-radius:50%;
+    background:linear-gradient(160deg,#123529,#0b1f19);
+    border:3px solid var(--teal-dim);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    position:relative;z-index:1;cursor:pointer;
+    transition:transform .2s ease, box-shadow .2s ease;
+    animation:bob 3.4s ease-in-out infinite;
+  }
+  .pnode:nth-child(2n){animation-delay:-1.2s;}
+  .pnode:nth-child(3n){animation-delay:-2.3s;}
+  .pnode .p-emoji{font-size:19px;line-height:1.2;}
+  .pnode .p-num{font-family:var(--mono);font-size:9.5px;color:var(--text-dim);font-weight:700;}
+  .pnode:hover{
+    animation:none;transform:scale(1.2);z-index:4;
+    box-shadow:0 0 26px rgba(53,208,168,.5);
+  }
+  .pnode::after{
+    content:attr(data-title);
+    position:absolute;top:72px;right:50%;transform:translateX(50%);
+    background:#0a1a15;border:1px solid var(--teal-dim);
+    color:var(--text);font-size:11.5px;font-weight:700;white-space:nowrap;
+    padding:4px 11px;border-radius:7px;
+    opacity:0;pointer-events:none;transition:opacity .18s ease;z-index:6;
+  }
+  .pnode:hover::after{opacity:1;}
+  @keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+  .pnode.c1{border-color:#35d0a8;} .pnode.c2{border-color:#5cc8e8;}
+  .pnode.c3{border-color:#e8b45c;} .pnode.c4{border-color:#e88a5c;}
+  .pnode.c5{border-color:#b18ae8;} .pnode.c6{border-color:#e85c7a;}
+  .pnode.c7{border-color:#8ae0a0;} .pnode.c8{border-color:#f2e05c;}
+  .pnode.gold{
+    border-color:var(--amber);
+    box-shadow:0 0 18px rgba(232,180,92,.35);
+  }
+  .map-legend{
+    display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:center;
+    margin-top:4px;
+  }
+  .map-legend span{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12.5px;color:var(--text-dim);
+  }
+  .map-legend i{
+    width:11px;height:11px;border-radius:50%;display:inline-block;
+  }
+  @media (max-width:640px){
+    .pnode{width:46px;height:46px;border-width:2.5px;}
+    .pnode .p-emoji{font-size:14px;}
+    .pnode .p-num{font-size:8.5px;}
+    .prow{padding:12px 8px;}
+    .prow::before{top:35px;right:31px;left:31px;}
+    .pturn.tl::before{left:29px;}
+    .pturn.tr::before{right:29px;}
+  }
+
+  /* ---------- WOW: animated flow arrows + progress shimmer ---------- */
+  .fconn{animation:nudge 1.7s ease-in-out infinite;}
+  @keyframes nudge{0%,100%{transform:translateY(0);}50%{transform:translateY(4px);}}
+  .progress-fill{position:relative;overflow:hidden;}
+  .progress-fill::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+    animation:shimmer 2s infinite;
+  }
+  @keyframes shimmer{from{transform:translateX(-100%);}to{transform:translateX(100%);}}
+
+  /* ---------- WOW: sidebar scrollspy + back to top ---------- */
+  .sidebar li a.active{
+    background:rgba(53,208,168,.14);color:var(--teal);font-weight:700;
+  }
+  .sidebar li a.active .nav-num{background:var(--teal);color:#08120f;}
+  #toTop{
+    position:fixed;bottom:22px;inset-inline-start:22px;
+    width:48px;height:48px;border-radius:50%;
+    background:var(--teal);color:#08120f;font-size:21px;border:none;cursor:pointer;
+    box-shadow:0 10px 26px rgba(53,208,168,.4);
+    opacity:0;pointer-events:none;transform:translateY(16px);
+    transition:opacity .3s, transform .3s;z-index:60;
+  }
+  #toTop.show{opacity:1;pointer-events:auto;transform:none;}
+  #toTop:hover{transform:scale(1.1);}
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none;}
+    .pnode,.fconn,.floaty,.progress-fill::after,.hero h1 span,.loop-track .robot,.eyebrow .pulse{animation:none !important;}
+  }
 </style>
 </head>
 <body>
 
+<div id="readbar"></div>
+
 <div class="hero">
-  <span class="eyebrow"><span class="pulse"></span> نظام إدارة عيادة طبية &mdash; حل كامل بلغة Python</span>
+  <span class="floaty" style="top:10%;left:6%;">🩺</span>
+  <span class="floaty" style="top:58%;left:3%;font-size:46px;animation-delay:-3s;">💊</span>
+  <span class="floaty" style="top:16%;left:26%;animation-delay:-5.5s;">🧪</span>
+  <span class="floaty" style="top:72%;left:34%;font-size:28px;animation-delay:-2s;">📅</span>
+  <span class="floaty" style="top:34%;left:14%;font-size:26px;animation-delay:-7s;">❤️</span>
+  <span class="floaty" style="top:80%;left:16%;animation-delay:-4.2s;">🏥</span>
+  <span class="eyebrow"><span class="pulse"></span> نظام إدارة عيادة طبية • حل كامل بلغة Python</span>
   <h1>حل مشروع العيادة الطبية <span>خطوة بخطوة</span> باستخدام أبسط أدوات بايثون</h1>
   <p class="lead">
     الكود بالكامل مبني فقط باستخدام: المتغيرات، القوائم (Lists)، الدوال (Functions)،
-    حلقتي for و while، أوامر print و input، وجمل الشرط if / elif / else — بدون أي أدوات متقدمة.
+    حلقتي for و while، أوامر print و input، وجمل الشرط if / elif / else، بدون أي أدوات متقدمة.
     كل جزء من مشروعك (تسجيل مرضى، أطباء، مواعيد، فواتير، أدوية...) له قسم مستقل بالأسفل مع شرح المتغيرات.
   </p>
   <div class="rules">
@@ -405,6 +812,59 @@
   </div>
 </div>
 
+<!-- ================= WOW: خريطة اللعبة القابلة للنقر ================= -->
+<section class="kids-section" id="map">
+  <h2>🗺️ خريطة اللعبة الكاملة</h2>
+  <p class="sub">هذه كل رحلة المشروع من أول محطة إلى الكأس! مرّر الفأرة فوق أي محطة لترى اسمها، واضغط عليها لتسافر مباشرة إلى شرحها.</p>
+  <div class="gamepath">
+    <div class="prow">
+      <a class="pnode c1" href="#setup" data-title="التجهيز وبناء القوائم"><span class="p-emoji">📦</span><span class="p-num">01</span></a>
+      <a class="pnode c1" href="#register_patient" data-title="تسجيل مريض جديد"><span class="p-emoji">🧍</span><span class="p-num">02</span></a>
+      <a class="pnode c1" href="#display_patients" data-title="عرض المرضى"><span class="p-emoji">📋</span><span class="p-num">03</span></a>
+      <a class="pnode c1" href="#search_patient" data-title="البحث عن مريض"><span class="p-emoji">🔎</span><span class="p-num">04</span></a>
+      <a class="pnode c1" href="#delete_patient" data-title="حذف مريض"><span class="p-emoji">🗑️</span><span class="p-num">05</span></a>
+      <a class="pnode c1" href="#edit_patient" data-title="تعديل بيانات مريض"><span class="p-emoji">✏️</span><span class="p-num">06</span></a>
+    </div>
+    <div class="pturn tl"></div>
+    <div class="prow rev">
+      <a class="pnode c2" href="#add_doctor" data-title="إضافة طبيب"><span class="p-emoji">🩺</span><span class="p-num">07</span></a>
+      <a class="pnode c2" href="#display_doctors" data-title="عرض الأطباء"><span class="p-emoji">👨‍⚕️</span><span class="p-num">08</span></a>
+      <a class="pnode c3" href="#book_appointment" data-title="حجز موعد"><span class="p-emoji">📅</span><span class="p-num">09</span></a>
+      <a class="pnode c3" href="#display_appointments" data-title="عرض المواعيد"><span class="p-emoji">🗓️</span><span class="p-num">10</span></a>
+      <a class="pnode c3" href="#cancel_appointment" data-title="إلغاء موعد"><span class="p-emoji">❌</span><span class="p-num">11</span></a>
+      <a class="pnode c4" href="#add_invoice" data-title="إضافة فاتورة"><span class="p-emoji">🧾</span><span class="p-num">12</span></a>
+    </div>
+    <div class="pturn tr"></div>
+    <div class="prow">
+      <a class="pnode c4" href="#sum_invoices" data-title="مجموع الفواتير"><span class="p-emoji">➕</span><span class="p-num">13</span></a>
+      <a class="pnode c5" href="#add_medicine" data-title="إضافة دواء"><span class="p-emoji">💊</span><span class="p-num">14</span></a>
+      <a class="pnode c5" href="#display_medicines" data-title="عرض الأدوية"><span class="p-emoji">🧪</span><span class="p-num">15</span></a>
+      <a class="pnode c5" href="#search_medicine" data-title="البحث عن دواء"><span class="p-emoji">🔍</span><span class="p-num">16</span></a>
+      <a class="pnode c6" href="#employee_login" data-title="تسجيل دخول الموظف"><span class="p-emoji">🔐</span><span class="p-num">17</span></a>
+      <a class="pnode c6" href="#change_password" data-title="تغيير كلمة المرور"><span class="p-emoji">🔑</span><span class="p-num">18</span></a>
+    </div>
+    <div class="pturn tl"></div>
+    <div class="prow rev">
+      <a class="pnode c7" href="#count_patients" data-title="إحصاء عدد المرضى"><span class="p-emoji">🔢</span><span class="p-num">19</span></a>
+      <a class="pnode c7" href="#patients_by_age" data-title="ترتيب المرضى بالعمر"><span class="p-emoji">📊</span><span class="p-num">20</span></a>
+      <a class="pnode c8" href="#main_menu" data-title="القائمة الرئيسية"><span class="p-emoji">🎛️</span><span class="p-num">21</span></a>
+      <a class="pnode c8" href="#run_program" data-title="تشغيل البرنامج"><span class="p-emoji">🚀</span><span class="p-num">22</span></a>
+      <a class="pnode gold" href="#full-code" data-title="الكود الكامل جاهز للنسخ"><span class="p-emoji">⭐</span><span class="p-num">23</span></a>
+      <a class="pnode gold" href="#quiz" data-title="اختبر نفسك واربح الكأس!"><span class="p-emoji">🏆</span><span class="p-num">24</span></a>
+    </div>
+  </div>
+  <div class="map-legend">
+    <span><i style="background:#35d0a8"></i> المرضى</span>
+    <span><i style="background:#5cc8e8"></i> الأطباء</span>
+    <span><i style="background:#e8b45c"></i> المواعيد</span>
+    <span><i style="background:#e88a5c"></i> الفواتير</span>
+    <span><i style="background:#b18ae8"></i> الأدوية</span>
+    <span><i style="background:#e85c7a"></i> الحماية</span>
+    <span><i style="background:#8ae0a0"></i> الإحصاء</span>
+    <span><i style="background:#f2e05c"></i> القيادة</span>
+  </div>
+</section>
+
 <div class="howto">
   <h2>🧭 كيف تقرأ هذا الحل؟ (اقرأ هذا أولاً)</h2>
   <div class="howto-grid">
@@ -419,14 +879,200 @@
     يُخزَّن دائمًا كـ <b>نص (string)</b>، حتى لو كتب المستخدم رقمًا! لهذا نرى في بعض الدوال تحويلات مثل
     <code style="direction:ltr;display:inline-block;font-family:var(--mono);background:rgba(53,208,168,.1);color:var(--teal);padding:1px 6px;border-radius:4px">float(invoice[1])</code>
     أو <code style="direction:ltr;display:inline-block;font-family:var(--mono);background:rgba(53,208,168,.1);color:var(--teal);padding:1px 6px;border-radius:4px">int(sorted_patients[j][1])</code>
-    — لتحويل النص إلى رقم قبل حساب مجموع أو مقارنة أعمار.
+   ، لتحويل النص إلى رقم قبل حساب مجموع أو مقارنة أعمار.
   </div>
 </div>
+
+<!-- ================= KIDS: المفاهيم الكبرى ================= -->
+<section class="kids-section" id="concepts">
+  <h2>🎒 المفاهيم الستة الكبرى، افهمها كأنها لعبة</h2>
+  <p class="sub">كل المشروع مبني على هذه الأفكار الست فقط. اقرأ التشبيه، انظر إلى الرسمة، وستفهم كل الكود الذي يأتي بعدها بسهولة.</p>
+  <div class="concepts-grid">
+
+    <div class="concept">
+      <h3><span class="c-emoji">🚂</span> القائمة (List) = قطار بعربات مرقّمة</h3>
+      <p class="analogy">تخيل <b>قطارًا</b>: كل عربة تحمل شيئًا واحدًا، وكل عربة لها <b>رقم</b>. الأرقام تبدأ من <b>0</b> وليس من 1! هكذا يخزن البرنامج بيانات المريض الواحد:</p>
+      <div class="train">
+        <span class="loco">🚂</span>
+        <div class="wagon"><div class="w-box">أحمد</div><span class="w-idx">0</span></div>
+        <div class="wagon"><div class="w-box">25</div><span class="w-idx">1</span></div>
+        <div class="wagon"><div class="w-box">ذكر</div><span class="w-idx">2</span></div>
+        <div class="wagon"><div class="w-box">0555000000</div><span class="w-idx">3</span></div>
+        <div class="wagon"><div class="w-box">الجزائر</div><span class="w-idx">4</span></div>
+      </div>
+      <div class="tiny-code">patient = ["أحمد", "25", "ذكر", "0555000000", "الجزائر"]
+patient[0]  ➜  "أحمد"      (العربة رقم 0)
+patient[1]  ➜  "25"        (العربة رقم 1)</div>
+    </div>
+
+    <div class="concept">
+      <h3><span class="c-emoji">🧃</span> الدالة (Function) = آلة العصير</h3>
+      <p class="analogy">الدالة مثل <b>آلة العصير</b>: تضع فيها فواكه (مدخلات)، تضغط الزر (تستدعيها)، فتعطيك عصيرًا (نتيجة). نكتبها <b>مرة واحدة</b> ونستعملها آلاف المرات!</p>
+      <div class="machine">
+        <div class="m-in">🍎 الاسم<br>🍊 العمر<br>🍇 الهاتف</div>
+        <span class="m-arrow">➜</span>
+        <div class="m-body">⚙️ register_patient()</div>
+        <span class="m-arrow">➜</span>
+        <div class="m-out">✅ مريض جديد<br>داخل القائمة</div>
+      </div>
+      <div class="tiny-code">def register_patient():   # نصنع الآلة مرة واحدة
+    ...
+register_patient()         # نضغط الزر متى شئنا!</div>
+    </div>
+
+    <div class="concept">
+      <h3><span class="c-emoji">📬</span> حلقة for = ساعي البريد</h3>
+      <p class="analogy"><b>ساعي البريد</b> يمر على كل بيت في الشارع، بيتًا بيتًا، ولا ينسى أحدًا. هكذا تمر حلقة for على <b>كل عنصر</b> في القائمة بالترتيب، ثم تتوقف وحدها عند النهاية.</p>
+      <div class="loop-track">
+        <span class="robot">🤖</span>
+        <span class="h-arrow">➜</span><span class="house">🏠</span>
+        <span class="h-arrow">➜</span><span class="house">🏠</span>
+        <span class="h-arrow">➜</span><span class="house">🏠</span>
+        <span class="h-arrow">➜</span><span class="house">🏁</span>
+      </div>
+      <div class="tiny-code">for patient in patients:   # زُر كل مريض
+    print(patient[0])       # واطبع اسمه</div>
+    </div>
+
+    <div class="concept">
+      <h3><span class="c-emoji">🔁</span> حلقة while = «كرّر ما دام...»</h3>
+      <p class="analogy">مثل قول ماما: <b>«ظل تلعب ما دامت الشمس لم تغرب»</b>. لا نعرف كم مرة سنكرر، لكن نعرف <b>الشرط</b> الذي يوقفنا. القائمة الرئيسية تعمل بها: تتكرر ما دام المستخدم لم يختر 0.</p>
+      <div class="loop-track">
+        <span class="house">🎛️ اعرض القائمة</span>
+        <span class="h-arrow">➜</span>
+        <span class="house">🙋 خذ الاختيار</span>
+        <span class="h-arrow">➜</span>
+        <span class="house">⚙️ نفّذ</span>
+        <span class="h-arrow">↩️ وارجع!</span>
+      </div>
+      <div class="tiny-code">running = 1
+while running == 1:      # ما دام لم يختر 0
+    ...                  # استمر في العمل</div>
+    </div>
+
+    <div class="concept">
+      <h3><span class="c-emoji">🚦</span> if / elif / else = إشارة المرور</h3>
+      <p class="analogy">البرنامج يقف عند <b>مفترق طرق</b> ويقرأ الإشارة: إذا تحقق الشرط الأول يسلك طريقه، وإلا يجرب الشرط الثاني، وإلا يسلك طريق «else» الأخير. طريق <b>واحد فقط</b> في كل مرة!</p>
+      <div class="siglight">
+        <div class="pole"><span class="lamp lg"></span><span class="lamp ly"></span><span class="lamp lr"></span></div>
+        <div class="sig-lines">
+          <span>🟢 <code>if choice == "1":</code> سجّل مريضًا</span>
+          <span>🟡 <code>elif choice == "2":</code> اعرض المرضى</span>
+          <span>🔴 <code>else:</code> «اختيار غير صحيح!»</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="concept">
+      <h3><span class="c-emoji">🗣️</span> input و print = أذن البرنامج وفمه</h3>
+      <p class="analogy"><b>👂 input()</b> هي أذن البرنامج: تسمع ما يكتبه المستخدم. <b>👄 print()</b> هي فمه: تقول له ما يحدث. تذكّر دائمًا: كل ما تسمعه الأذن يصل <b>نصًّا (string)</b> حتى لو كان رقمًا!</p>
+      <div class="tiny-code">age = input("أدخل العمر: ")   # 👂 يسمع "25" كنص
+print("العمر هو:", age)        # 👄 يتكلم
+int(age) + 1  ➜  26            # نحوّله لرقم لنحسب به</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= KIDS: خريطة سير البرنامج ================= -->
+<section class="kids-section" id="flowmap">
+  <h2>🗺️ خريطة رحلة البرنامج، من التشغيل إلى الخروج</h2>
+  <p class="sub">هكذا «يسافر» البرنامج من أول سطر إلى آخر سطر. تتبّع الأسهم بإصبعك!</p>
+  <div class="flowmap">
+    <div class="fnode">🚀 تشغيل البرنامج<br><small>python clinic.py</small></div>
+    <div class="fconn">⬇</div>
+    <div class="fnode">🔐 تسجيل دخول الموظف<br><small>لديك 3 محاولات فقط (حلقة while)</small></div>
+    <div class="fconn">⬇</div>
+    <div class="fnode decision">🤔 هل الاسم وكلمة المرور صحيحان؟</div>
+    <div class="fconn">⬇</div>
+    <div class="fbranch">
+      <div class="fcol">
+        <div class="fconn"><span class="flabel">نعم ✅</span>⬇</div>
+        <div class="fnode">🎛️ القائمة الرئيسية<br><small>تعرض 19 خيارًا وتنتظر رقمك</small></div>
+        <div class="fconn">⬇</div>
+        <div class="fnode">⚙️ تُنفَّذ الدالة المطلوبة<br><small>تسجيل مريض، حجز موعد، فاتورة...</small></div>
+        <div class="fconn"><span class="flabel">ثم نعود للقائمة 🔁</span>⬇</div>
+        <div class="fnode endnode">👋 اخترتَ 0؟ وداعًا!<br><small>running = 0 فتتوقف حلقة while</small></div>
+      </div>
+      <div class="fcol">
+        <div class="fconn"><span class="flabel">لا ❌ (3 مرات)</span>⬇</div>
+        <div class="fnode endnode">🔒 يُغلق البرنامج<br><small>حماية من الغرباء!</small></div>
+      </div>
+    </div>
+    <div class="floop-note">🔁 السر الكبير: القائمة الرئيسية تعيش داخل حلقة while، لهذا تعود إليك بعد كل عملية!</div>
+  </div>
+</section>
+
+<!-- ================= KIDS: خطة إنهاء المشروع ================= -->
+<section class="kids-section" id="mission">
+  <h2>🏁 خطتك لإنهاء المشروع، 10 مهمات</h2>
+  <p class="sub">ابنِ مشروعك مرحلة مرحلة بهذا الترتيب، وجرّب كل مرحلة قبل الانتقال للتالية. علّم ✔ على كل مهمة تنهيها، الصفحة تتذكّر تقدّمك حتى لو أغلقتها!</p>
+
+  <div class="progress-wrap">
+    <div class="progress-fill" id="missionFill"></div>
+    <div class="progress-label" id="missionLabel">0 / 10</div>
+  </div>
+
+  <div class="missions" id="missionList">
+    <label class="mission"><input type="checkbox" data-m="m1">
+      <span><span class="m-title">🛠️ جهّز أدواتك</span>
+      <span class="m-info">ثبّت بايثون من python.org، افتح محررًا (مثل VS Code أو حتى المفكرة)، وأنشئ ملفًا جديدًا اسمه <b>clinic.py</b>.</span></span>
+      <span class="m-lvl">المهمة 1</span></label>
+    <label class="mission"><input type="checkbox" data-m="m2">
+      <span><span class="m-title">📦 ابنِ الصناديق الفارغة</span>
+      <span class="m-info">انسخ القوائم الخمس وبيانات الموظف من <a href="#setup">القسم 01</a>. هذه هي «خزائن» العيادة التي ستمتلئ لاحقًا.</span></span>
+      <span class="m-lvl">المهمة 2</span></label>
+    <label class="mission"><input type="checkbox" data-m="m3">
+      <span><span class="m-title">🧍 مهمة المرضى</span>
+      <span class="m-info">اكتب دوال الأقسام <a href="#register_patient">02</a> إلى <a href="#edit_patient">06</a>: تسجيل، عرض، بحث، حذف، تعديل. <b>جرّب:</b> سجّل مريضين واعرضهما ثم احذف واحدًا.</span></span>
+      <span class="m-lvl">المهمة 3</span></label>
+    <label class="mission"><input type="checkbox" data-m="m4">
+      <span><span class="m-title">🩺 مهمة الأطباء</span>
+      <span class="m-info">اكتب دالتي <a href="#add_doctor">إضافة</a> و<a href="#display_doctors">عرض</a> الأطباء، ستلاحظ أنها نسخة أبسط من دوال المرضى!</span></span>
+      <span class="m-lvl">المهمة 4</span></label>
+    <label class="mission"><input type="checkbox" data-m="m5">
+      <span><span class="m-title">📅 مهمة المواعيد</span>
+      <span class="m-info">الأقسام <a href="#book_appointment">09</a> إلى <a href="#cancel_appointment">11</a>: حجز، عرض، إلغاء. <b>جرّب:</b> احجز موعدًا لمريض سجّلته في المهمة 3.</span></span>
+      <span class="m-lvl">المهمة 5</span></label>
+    <label class="mission"><input type="checkbox" data-m="m6">
+      <span><span class="m-title">🧾 مهمة الفواتير</span>
+      <span class="m-info">القسمان <a href="#add_invoice">12</a> و<a href="#sum_invoices">13</a>. انتبه هنا لتحويل النص إلى رقم بـ float() قبل الجمع!</span></span>
+      <span class="m-lvl">المهمة 6</span></label>
+    <label class="mission"><input type="checkbox" data-m="m7">
+      <span><span class="m-title">💊 مهمة الأدوية</span>
+      <span class="m-info">الأقسام <a href="#add_medicine">14</a> إلى <a href="#search_medicine">16</a>: إضافة، عرض، بحث، نفس أنماط المرضى تمامًا.</span></span>
+      <span class="m-lvl">المهمة 7</span></label>
+    <label class="mission"><input type="checkbox" data-m="m8">
+      <span><span class="m-title">🔐 مهمة الحارس</span>
+      <span class="m-info">القسمان <a href="#employee_login">17</a> و<a href="#change_password">18</a>: تسجيل الدخول وتغيير كلمة المرور لحماية العيادة.</span></span>
+      <span class="m-lvl">المهمة 8</span></label>
+    <label class="mission"><input type="checkbox" data-m="m9">
+      <span><span class="m-title">📊 مهمة الإحصاء</span>
+      <span class="m-info">القسمان <a href="#count_patients">19</a> و<a href="#patients_by_age">20</a>: عدّ المرضى ورتّبهم حسب العمر (أصعب مهمة، خذ وقتك!).</span></span>
+      <span class="m-lvl">المهمة 9</span></label>
+    <label class="mission"><input type="checkbox" data-m="m10">
+      <span><span class="m-title">🎛️ مهمة القيادة الكبرى</span>
+      <span class="m-info">اربط كل شيء بالقائمة الرئيسية والتشغيل (<a href="#main_menu">21</a> و<a href="#run_program">22</a>)، ثم شغّل البرنامج وجرّب <b>كل خيار من 0 إلى 18</b>. إذا عمل كل شيء... أنهيت المشروع! 🎉</span></span>
+      <span class="m-lvl">المهمة 10</span></label>
+  </div>
+
+  <h2 style="font-size:17px;margin:26px 0 4px">▶️ كيف تشغّل برنامجك؟</h2>
+  <div class="run-steps">
+    <div class="run-step"><span class="rs-num">1</span><p>احفظ كل الكود في ملف واحد اسمه <code>clinic.py</code> (زر «نسخ» فوق <a href="#full-code" style="color:var(--teal);text-decoration:underline">الكود الكامل</a> ينسخه دفعة واحدة).</p></div>
+    <div class="run-step"><span class="rs-num">2</span><p>افتح الطرفية (Terminal) أو موجّه الأوامر (CMD) داخل المجلد الذي حفظت فيه الملف.</p></div>
+    <div class="run-step"><span class="rs-num">3</span><p>اكتب <code>python clinic.py</code> واضغط Enter. (إن لم يعمل جرّب <code>python3 clinic.py</code>).</p></div>
+    <div class="run-step"><span class="rs-num">4</span><p>سجّل الدخول بـ <code>admin</code> وكلمة المرور <code>1234</code>... ومبروك، عيادتك فتحت أبوابها! 🏥</p></div>
+  </div>
+</section>
 
 <div class="layout">
   <aside class="sidebar">
     <h4>أقسام الحل</h4>
     <ul>
+<li><a href="#map"><span class="nav-num">🗺️</span><span class="nav-label">خريطة اللعبة الكاملة</span></a></li>
+<li><a href="#concepts"><span class="nav-num">🎒</span><span class="nav-label">المفاهيم الستة الكبرى (ابدأ هنا!)</span></a></li>
+<li><a href="#flowmap"><span class="nav-num">🗺️</span><span class="nav-label">خريطة رحلة البرنامج</span></a></li>
+<li><a href="#mission"><span class="nav-num">🏁</span><span class="nav-label">خطة إنهاء المشروع (10 مهمات)</span></a></li>
 <li><a href="#setup"><span class="nav-num">01</span><span class="nav-label">الإعدادات الأولية وتجهيز القوائم</span></a></li>
 <li><a href="#register_patient"><span class="nav-num">02</span><span class="nav-label">تسجيل المرضى</span></a></li>
 <li><a href="#display_patients"><span class="nav-num">03</span><span class="nav-label">عرض المرضى</span></a></li>
@@ -450,6 +1096,7 @@
 <li><a href="#main_menu"><span class="nav-num">21</span><span class="nav-label">القائمة الرئيسية التي تربط جميع الأجزاء</span></a></li>
 <li><a href="#run_program"><span class="nav-num">22</span><span class="nav-label">تشغيل البرنامج (تسجيل الدخول ثم القائمة الرئيسية)</span></a></li>
       <li><a href="#full-code"><span class="nav-num">★</span><span class="nav-label">الكود الكامل مجمّعًا</span></a></li>
+      <li><a href="#quiz"><span class="nav-num">✅</span><span class="nav-label">اختبر نفسك (5 أسئلة)</span></a></li>
     </ul>
   </aside>
 
@@ -517,7 +1164,7 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>🧩 خطوة بخطوة</h3>
     <ol>
     <li>نطلب من المستخدم خمس معلومات بالتتابع عبر <code>input()</code>: الاسم، العمر، الجنس، الهاتف، العنوان.</li>
-    <li>كل قيمة يُدخلها المستخدم تُخزَّن مؤقتًا في متغير باسمها (name, age, gender, phone, address) — وتذكّر: كل هذه القيم نصوص (str) دائمًا.</li>
+    <li>كل قيمة يُدخلها المستخدم تُخزَّن مؤقتًا في متغير باسمها (name, age, gender, phone, address)، وتذكّر: كل هذه القيم نصوص (str) دائمًا.</li>
     <li>نجمع المتغيرات الخمسة في قائمة واحدة اسمها <b>patient</b>. ترتيب العناصر هنا مهم جدًا: index 0 = الاسم، index 1 = العمر، index 2 = الجنس، index 3 = الهاتف، index 4 = العنوان.</li>
     <li>نستخدم <code>patients.append(patient)</code> لإضافة قائمة المريض في نهاية القائمة الكبيرة patients، دون أن نلمس أو نحذف أي مريض مسجّل من قبل.</li>
     <li>أخيرًا نطبع رسالة تأكيد للمستخدم بأن التسجيل نجح.</li>
@@ -570,7 +1217,7 @@ employee_password = &quot;1234&quot;</code></pre>
     <li>إن لم تكن فارغة، ندخل <b>else</b> ونبدأ عدّاد <b>index</b> من 1 (وليس صفر) لأن الترقيم الذي يراه المستخدم يبدأ عادة من 1.</li>
     <li><code>for patient in patients:</code> تمر تلقائيًا على كل عنصر (كل مريض) داخل القائمة، عنصرًا بعد الآخر، بدون أن نكتب عداد يدوي للوصول للعناصر.</li>
     <li>داخل الحلقة، patient هو قائمة صغيرة، فنطبع عناصرها واحدًا واحدًا: patient[0] للاسم، patient[1] للعمر، وهكذا حتى patient[4].</li>
-    <li>بعد طباعة كل مريض، نزيد index يدويًا بسطر <code>index = index + 1</code> — لأن for لا يعطينا رقم الترتيب تلقائيًا هنا، نحن من يتكفّل بذلك.</li>
+    <li>بعد طباعة كل مريض، نزيد index يدويًا بسطر <code>index = index + 1</code>، لأن for لا يعطينا رقم الترتيب تلقائيًا هنا، نحن من يتكفّل بذلك.</li>
     </ol>
   </div><div class="example">
     <h3>💬 تشغيل الدالة مع مريضين مسجّلين</h3>
@@ -615,8 +1262,8 @@ employee_password = &quot;1234&quot;</code></pre>
     <li>نطلب من المستخدم اسم المريض المراد البحث عنه، ونضعه في المتغير name.</li>
     <li>نجهّز متغيرًا <b>found = 0</b>، وكأننا نقول للبرنامج: «لم نجد أحدًا بعد».</li>
     <li><code>for patient in patients:</code> يمر على كل مريض، ونقارن في كل مرة patient[0] (اسم ذلك المريض) مع name باستخدام <code>if patient[0] == name:</code></li>
-    <li>إذا تطابق الاسم: نطبع كل بيانات ذلك المريض، ونجعل <b>found = 1</b> — أي «لقد وجدناه!».</li>
-    <li>بعد أن تنتهي الحلقة تمامًا (بعد المرور على كل المرضى)، نتحقق: <code>if found == 0:</code> — إذا بقيت found صفرًا فهذا يعني أن الحلقة انتهت بالكامل ولم تجد أي تطابق، فنطبع رسالة عدم العثور.</li>
+    <li>إذا تطابق الاسم: نطبع كل بيانات ذلك المريض، ونجعل <b>found = 1</b>، أي «لقد وجدناه!».</li>
+    <li>بعد أن تنتهي الحلقة تمامًا (بعد المرور على كل المرضى)، نتحقق: <code>if found == 0:</code>، إذا بقيت found صفرًا فهذا يعني أن الحلقة انتهت بالكامل ولم تجد أي تطابق، فنطبع رسالة عدم العثور.</li>
     </ol>
   </div><div class="example">
     <h3>💬 تشغيل الدالة</h3>
@@ -667,7 +1314,7 @@ employee_password = &quot;1234&quot;</code></pre>
     <li>نكتب <code>global patients</code> في أول سطر لأننا سنُعدّل القائمة الأصلية patients من داخل الدالة (وهي معرّفة خارجها في الأعلى).</li>
     <li>نطلب اسم المريض المراد حذفه، ونجهّز <b>deleted = 0</b> (لم يُحذف أحد بعد) وقائمة جديدة فارغة <b>new_patients</b> ستحتوي على «الناجين» فقط.</li>
     <li>نمر بحلقة <code>for patient in patients:</code> على كل مريض في القائمة الأصلية، ولكل مريض نتخذ قرارًا:</li>
-    <li>&nbsp;&nbsp;• إذا كان اسمه يطابق name <b>ولم نحذف أحدًا من قبل</b> (deleted == 0): نتجاهله ببساطة — أي لا نضيفه إلى new_patients — ونجعل deleted = 1.</li>
+    <li>&nbsp;&nbsp;• إذا كان اسمه يطابق name <b>ولم نحذف أحدًا من قبل</b> (deleted == 0): نتجاهله ببساطة، أي لا نضيفه إلى new_patients، ونجعل deleted = 1.</li>
     <li>&nbsp;&nbsp;• وإلا (<b>else</b>): نضيف المريض كما هو إلى new_patients، لأنه ليس المطلوب حذفه.</li>
     <li>بعد انتهاء الحلقة، نستبدل القائمة القديمة بالكامل بالجديدة: <code>patients = new_patients</code>. هذه هي فكرة «الحذف»: لم نحذف عنصرًا من المنتصف مباشرة، بل بنينا قائمة جديدة مطابقة للقديمة لكن بدون العنصر المطلوب حذفه!</li>
     <li>أخيرًا نطبع رسالة النجاح أو الفشل حسب قيمة deleted.</li>
@@ -723,7 +1370,7 @@ employee_password = &quot;1234&quot;</code></pre>
     <li>نطلب اسم المريض المراد تعديله ونضعه في name، ونجهّز found = 0.</li>
     <li>نمر بحلقة for على كل مريض؛ إذا وجدنا تطابق الاسم <code>if patient[0] == name:</code> نجعل found = 1 وندخل داخل هذا الشرط.</li>
     <li>نطلب من المستخدم القيم الجديدة (العمر، الهاتف، العنوان)، لكن نسمح له بترك أي حقل <b>فارغًا</b> إن لم يرغب في تغييره.</li>
-    <li>لكل حقل، نتحقق: <code>if new_age != "":</code> — هل كتب المستخدم شيئًا فعلاً؟ إن كانت الإجابة نعم، نُحدّث patient[1] بالقيمة الجديدة. وإلا نتركه دون أي تغيير.</li>
+    <li>لكل حقل، نتحقق: <code>if new_age != "":</code>، هل كتب المستخدم شيئًا فعلاً؟ إن كانت الإجابة نعم، نُحدّث patient[1] بالقيمة الجديدة. وإلا نتركه دون أي تغيير.</li>
     <li>نكرر نفس المنطق لكل من new_phone (يُحدّث patient[3]) وnew_address (يُحدّث patient[4]).</li>
     <li><b>ملاحظة مهمة:</b> patient هنا ليس نسخة منفصلة، بل هو <b>نفس</b> العنصر الموجود داخل القائمة patients. لذلك أي تعديل نجريه على patient[1] مثلاً يُحفظ تلقائيًا في القائمة الأصلية، بدون الحاجة لإعادة الإسناد كما فعلنا في دالة الحذف.</li>
     <li>إذا انتهت الحلقة كاملة ولم يتحقق الشرط أبدًا (found بقيت 0)، نطبع أنه لم يتم العثور على المريض.</li>
@@ -955,7 +1602,7 @@ employee_password = &quot;1234&quot;</code></pre>
     <li>تشبه دالة حذف مريض (القسم 05) خطوة بخطوة، تمامًا بنفس الأسلوب، لكن بدل البحث في patient[0] نبحث هنا في <b>appointment[0]</b> (اسم المريض صاحب الموعد).</li>
     <li>نستخدم <code>global appointments</code> لأننا سنستبدل القائمة الأصلية بالكامل.</li>
     <li>نمر بحلقة for على appointments، ونبني قائمة جديدة <b>new_appointments</b> تحتوي على كل المواعيد <b>ما عدا</b> أول موعد يطابق اسم المريض المطلوب (بفضل شرط <code>cancelled == 0</code> الذي يمنع حذف أكثر من موعد واحد بالخطأ).</li>
-    <li>بعد الحلقة: <code>appointments = new_appointments</code> — وكأننا استبدلنا الدفتر القديم بدفتر جديد بدون ذلك الموعد.</li>
+    <li>بعد الحلقة: <code>appointments = new_appointments</code>، وكأننا استبدلنا الدفتر القديم بدفتر جديد بدون ذلك الموعد.</li>
     </ol>
   </div><div class="example">
     <h3>💬 مثال مبسّط</h3>
@@ -1006,7 +1653,7 @@ employee_password = &quot;1234&quot;</code></pre>
     <h3>🧩 خطوة بخطوة</h3>
     <ol>
     <li>نفس فكرة إضافة طبيب أو حجز موعد: نطلب ثلاث معلومات (اسم المريض، قيمة الفاتورة، الخدمة المقدمة)، نجمعها في قائمة <b>invoice</b>، ثم نضيفها إلى invoices.</li>
-    <li>لاحظ أن amount هنا تُخزَّن كـ<b>نص</b> وليس رقمًا (لأنها جاءت من input) — لهذا سنحتاج لتحويلها لاحقًا عند جمع الفواتير في القسم التالي.</li>
+    <li>لاحظ أن amount هنا تُخزَّن كـ<b>نص</b> وليس رقمًا (لأنها جاءت من input)، لهذا سنحتاج لتحويلها لاحقًا عند جمع الفواتير في القسم التالي.</li>
     </ol>
   </div><div class="example">
     <h3>💬 تشغيل الدالة</h3>
@@ -1047,9 +1694,9 @@ employee_password = &quot;1234&quot;</code></pre>
     <div class="steps">
     <h3>🧩 خطوة بخطوة</h3>
     <ol>
-    <li>نبدأ متغيرًا <b>total = 0</b> — المجموع في البداية صفر تمامًا.</li>
+    <li>نبدأ متغيرًا <b>total = 0</b>، المجموع في البداية صفر تمامًا.</li>
     <li><code>for invoice in invoices:</code> يمر على كل فاتورة في القائمة، واحدة تلو الأخرى.</li>
-    <li>في كل مرة، نأخذ invoice[1] (قيمة الفاتورة، وهي نص لأنها جاءت من input) ونحوّلها إلى رقم عشري بواسطة <code>float(invoice[1])</code> — لأننا لا نستطيع جمع النصوص رياضيًا.</li>
+    <li>في كل مرة، نأخذ invoice[1] (قيمة الفاتورة، وهي نص لأنها جاءت من input) ونحوّلها إلى رقم عشري بواسطة <code>float(invoice[1])</code>، لأننا لا نستطيع جمع النصوص رياضيًا.</li>
     <li>نضيف هذه القيمة المحوّلة إلى total: <code>total = total + float(invoice[1])</code>.</li>
     <li>بعد أن تنتهي الحلقة من المرور على كل الفواتير، نطبع القيمة النهائية لـ total وهي المجموع الكلي.</li>
     </ol>
@@ -1218,7 +1865,7 @@ total = 1500.0 + 2300.0 = 3800.0
     <h3>🧩 خطوة بخطوة</h3>
     <ol>
     <li>نطلب اسم المستخدم وكلمة المرور من الموظف عبر input.</li>
-    <li>نتحقق بجملة واحدة تجمع شرطين بكلمة <b>and</b>: <code>if username == employee_username and password == employee_password:</code> — يجب أن يتحقق الشرطان معًا في نفس الوقت.</li>
+    <li>نتحقق بجملة واحدة تجمع شرطين بكلمة <b>and</b>: <code>if username == employee_username and password == employee_password:</code>، يجب أن يتحقق الشرطان معًا في نفس الوقت.</li>
     <li>إن تحقق الشرطان: نطبع رسالة نجاح، ثم نكتب <code>return 1</code> لنُخبر من استدعى هذه الدالة أن تسجيل الدخول نجح.</li>
     <li>وإلا (<b>else</b>): نطبع رسالة خطأ، ونكتب <code>return 0</code> لنُخبر أن الدخول فشل.</li>
     <li>القيمة التي تُرجعها هذه الدالة (1 أو 0) ستُستخدم لاحقًا في قسم «تشغيل البرنامج» للتقرير هل نسمح بالدخول إلى القائمة الرئيسية أم لا.</li>
@@ -1266,7 +1913,7 @@ total = 1500.0 + 2300.0 = 3800.0
     <li>نكتب <code>global employee_password</code> لأننا سنُغيّر قيمة هذا المتغير من داخل الدالة، وهو معرّف خارجها في أعلى الملف.</li>
     <li>نطلب من الموظف كلمة المرور <b>الحالية</b> أولاً، للتأكد أنه فعلاً صاحب الصلاحية قبل السماح له بتغيير أي شيء.</li>
     <li>نقارنها بـ employee_password المخزنة حاليًا: <code>if old_password == employee_password:</code></li>
-    <li>إن تطابقتا: نسمح له بإدخال new_password ونضعها مباشرة في employee_password — وهنا تتغيّر كلمة المرور فعليًا وتبقى محفوظة طوال بقية تشغيل البرنامج.</li>
+    <li>إن تطابقتا: نسمح له بإدخال new_password ونضعها مباشرة في employee_password، وهنا تتغيّر كلمة المرور فعليًا وتبقى محفوظة طوال بقية تشغيل البرنامج.</li>
     <li>إن لم تتطابق كلمة المرور الحالية، نرفض التغيير ونطبع رسالة خطأ.</li>
     </ol>
   </div><div class="example">
@@ -1342,9 +1989,9 @@ total = 1500.0 + 2300.0 = 3800.0
     <ol>
     <li>نسأل المستخدم: هل يريد الترتيب تصاعديًا (1، من الأصغر للأكبر) أم تنازليًا (2، من الأكبر للأصغر)؟ نخزّن الجواب في <b>order</b>.</li>
     <li>نصنع <b>نسخة</b> من قائمة المرضى الأصلية اسمها <b>sorted_patients</b> (بدل ترتيب القائمة الأصلية patients مباشرة، نرتّب نسخة عنها فقط، حفاظًا على البيانات الأصلية).</li>
-    <li>n = عدد المرضى. i و j عدّادان لحلقتين <b>while متداخلتين</b> (حلقة داخل حلقة) — هذه هي خوارزمية <b>الترتيب الفقاعي (Bubble Sort)</b> الشهيرة، وتُبنى فقط من حلقات ومقارنات دون أي دالة ترتيب جاهزة.</li>
+    <li>n = عدد المرضى. i و j عدّادان لحلقتين <b>while متداخلتين</b> (حلقة داخل حلقة)، هذه هي خوارزمية <b>الترتيب الفقاعي (Bubble Sort)</b> الشهيرة، وتُبنى فقط من حلقات ومقارنات دون أي دالة ترتيب جاهزة.</li>
     <li>الفكرة الأساسية: نقارن في كل خطوة عنصرين متجاورين sorted_patients[j] و sorted_patients[j+1]. إن كانا بترتيب خاطئ (الأول أكبر من الثاني تصاعديًا، أو أصغر تنازليًا)، نُبدّل مكانهما بواسطة متغير مؤقت <b>temp</b> (نخزن الأول فيه مؤقتًا حتى لا نفقده أثناء التبديل).</li>
-    <li>الحلقة الخارجية <code>while i &lt; n:</code> تتكرر n مرة، وفي كل دورة كاملة يُدفع أكبر (أو أصغر) عنصر متبقٍ إلى مكانه الصحيح في نهاية الجزء غير المرتب — تمامًا كفقاعة تصعد تدريجيًا لأعلى، ولهذا سُمّيت «الفقاعية».</li>
+    <li>الحلقة الخارجية <code>while i &lt; n:</code> تتكرر n مرة، وفي كل دورة كاملة يُدفع أكبر (أو أصغر) عنصر متبقٍ إلى مكانه الصحيح في نهاية الجزء غير المرتب، تمامًا كفقاعة تصعد تدريجيًا لأعلى، ولهذا سُمّيت «الفقاعية».</li>
     <li>بعد انتهاء الحلقتين تكون sorted_patients مرتبة بالكامل، فنطبعها بنفس أسلوب عرض المرضى العادي (اسم وعمر فقط هذه المرة).</li>
     </ol>
   </div><div class="example">
@@ -1409,10 +2056,10 @@ total = 1500.0 + 2300.0 = 3800.0
     <div class="steps">
     <h3>🧩 خطوة بخطوة</h3>
     <ol>
-    <li><b>running = 1</b> يجعل حلقة while تستمر بالعمل — تخيّل running وكأنه مفتاح كهربائي: 1 يعني «مُشغّل»، و0 يعني «مُطفأ».</li>
+    <li><b>running = 1</b> يجعل حلقة while تستمر بالعمل، تخيّل running وكأنه مفتاح كهربائي: 1 يعني «مُشغّل»، و0 يعني «مُطفأ».</li>
     <li>داخل كل دورة من حلقة <code>while running == 1:</code>، نطبع أولاً كل خيارات القائمة الرئيسية الثمانية عشر بالإضافة لخيار الخروج 0.</li>
     <li>نطلب من المستخدم اختيار رقم العملية عبر input، ونضعه في <b>choice</b> (وهو نص، مثل "1" وليس الرقم 1).</li>
-    <li>سلسلة طويلة من <code>if / elif</code> تقارن choice بكل رقم ممكن (كنص بين علامتي تنصيص)، وتستدعي الدالة المناسبة لذلك الرقم — وهي كل الدوال التي بنيناها في الأقسام من 02 إلى 20!</li>
+    <li>سلسلة طويلة من <code>if / elif</code> تقارن choice بكل رقم ممكن (كنص بين علامتي تنصيص)، وتستدعي الدالة المناسبة لذلك الرقم، وهي كل الدوال التي بنيناها في الأقسام من 02 إلى 20!</li>
     <li>إذا اختار المستخدم "0": نجعل running = 0، فيصبح شرط الحلقة <code>running == 1</code> خاطئًا في الدورة القادمة، فتتوقف الحلقة تلقائيًا.</li>
     <li>إذا كتب المستخدم رقمًا غير موجود في القائمة، تقع كل الشروط السابقة خطأ فيصل التنفيذ إلى <b>else</b> الأخيرة، فتظهر له رسالة «اختيار غير صحيح، حاول مرة أخرى» وتُعاد طباعة القائمة من جديد.</li>
     <li>هذه الدالة هي «قلب» البرنامج الذي يربط كل الأجزاء السابقة معًا في مكان واحد ويُبقي البرنامج يعمل حتى يقرر المستخدم الخروج.</li>
@@ -1520,10 +2167,10 @@ total = 1500.0 + 2300.0 = 3800.0
     <li><b>login_success = 0</b> و<b>attempts = 0</b> في البداية: لم ينجح أحد بعد في الدخول، ولم تُجرَ أي محاولة.</li>
     <li>حلقة <code>while login_success == 0 and attempts &lt; 3:</code> تستمر طالما تحقق الشرطان معًا: لم ينجح الدخول بعد، <b>و</b>عدد المحاولات ما زال أقل من 3.</li>
     <li>في كل دورة: نستدعي <code>employee_login()</code> ونخزّن ما تُرجعه (1 أو 0) مباشرة في login_success، ثم نزيد attempts بمقدار 1 لتسجيل هذه المحاولة.</li>
-    <li>إن أدخل الموظف بيانات صحيحة، تصبح login_success = 1، فيصبح الشرط الأول للحلقة خاطئًا، فتتوقف الحلقة فورًا — حتى لو لم يستنفد كل المحاولات الثلاث.</li>
+    <li>إن أدخل الموظف بيانات صحيحة، تصبح login_success = 1، فيصبح الشرط الأول للحلقة خاطئًا، فتتوقف الحلقة فورًا، حتى لو لم يستنفد كل المحاولات الثلاث.</li>
     <li>إن فشل 3 مرات متتالية، تتوقف الحلقة أيضًا لأن attempts &lt; 3 لم تعد صحيحة، لكن login_success تبقى 0 هذه المرة.</li>
     <li>بعد الحلقة: <code>if login_success == 1:</code> نستدعي <code>main_menu()</code> ليبدأ العمل الفعلي في العيادة. وإلا (فشلت كل المحاولات) نطبع أن البرنامج أُغلق بسبب فشل تسجيل الدخول.</li>
-    <li>هذا هو أول شيء يحدث فعليًا عند تشغيل ملف clinic.py بالكامل — قبل أي شيء آخر، يجب اجتياز هذه البوابة.</li>
+    <li>هذا هو أول شيء يحدث فعليًا عند تشغيل ملف clinic.py بالكامل، قبل أي شيء آخر، يجب اجتياز هذه البوابة.</li>
     </ol>
   </div><div class="example">
     <h3>💬 محاولتان فاشلتان ثم نجاح</h3>
@@ -1570,7 +2217,7 @@ else:
       <div class="code-wrap">
         <div class="code-bar">
           <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
-          <span class="file-name">clinic.py — الملف الكامل</span>
+          <span class="file-name">clinic.py، الملف الكامل</span>
           <button class="copy-btn" onclick="copyCode(this)">نسخ الكل</button>
         </div>
         <pre dir="ltr"><code class="language-python">patients = []
@@ -1923,14 +2570,75 @@ else:
   </main>
 </div>
 
+<!-- ================= KIDS: اختبر نفسك ================= -->
+<section class="kids-section" id="quiz" style="margin-bottom:30px">
+  <h2>✅ اختبر نفسك، 5 أسئلة سريعة</h2>
+  <p class="sub">أجب لتعرف إن كنت جاهزًا لبناء المشروع. اضغط على الإجابة التي تظنها صحيحة!</p>
+
+  <div class="quiz-q">
+    <h3>1️⃣ كتب المستخدم رقم عمره <b>25</b> في input()... ماذا يستلم البرنامج؟</h3>
+    <div class="quiz-opts">
+      <button class="quiz-opt" data-ok="1">نصًّا "25" (string)</button>
+      <button class="quiz-opt">رقمًا 25 (int)</button>
+      <button class="quiz-opt">رقمًا عشريًا 25.0</button>
+    </div>
+    <p class="quiz-fb"></p>
+  </div>
+
+  <div class="quiz-q">
+    <h3>2️⃣ في القطار patient = ["أحمد", "25", "ذكر"]، ماذا يعطينا patient[0]؟</h3>
+    <div class="quiz-opts">
+      <button class="quiz-opt">لا شيء، القطار يبدأ من 1</button>
+      <button class="quiz-opt" data-ok="1">"أحمد"، أول عربة رقمها 0</button>
+      <button class="quiz-opt">"25"</button>
+    </div>
+    <p class="quiz-fb"></p>
+  </div>
+
+  <div class="quiz-q">
+    <h3>3️⃣ نريد تكرار القائمة الرئيسية حتى يختار المستخدم 0، لكننا لا نعرف كم مرة. أي حلقة نستخدم؟</h3>
+    <div class="quiz-opts">
+      <button class="quiz-opt">for، لأنها الأسرع</button>
+      <button class="quiz-opt" data-ok="1">while، لأننا نعرف شرط التوقف لا عدد المرات</button>
+      <button class="quiz-opt">لا نحتاج حلقة أصلًا</button>
+    </div>
+    <p class="quiz-fb"></p>
+  </div>
+
+  <div class="quiz-q">
+    <h3>4️⃣ ماذا تفعل patients.append(patient)؟</h3>
+    <div class="quiz-opts">
+      <button class="quiz-opt">تحذف المريض من القائمة</button>
+      <button class="quiz-opt">تستبدل كل المرضى بهذا المريض</button>
+      <button class="quiz-opt" data-ok="1">تضيف المريض في نهاية القائمة دون لمس الباقين</button>
+    </div>
+    <p class="quiz-fb"></p>
+  </div>
+
+  <div class="quiz-q">
+    <h3>5️⃣ لماذا نكتب float(invoice[1]) قبل جمع الفواتير؟</h3>
+    <div class="quiz-opts">
+      <button class="quiz-opt" data-ok="1">لأن القيمة مخزنة كنص، ويجب تحويلها لرقم قبل الجمع</button>
+      <button class="quiz-opt">لجعل البرنامج أجمل</button>
+      <button class="quiz-opt">float تحذف الفاتورة بعد جمعها</button>
+    </div>
+    <p class="quiz-fb"></p>
+  </div>
+
+  <div class="note" id="quizResult" style="display:none;margin:6px 0 0"></div>
+</section>
+
+<button id="toTop" title="العودة إلى الأعلى">⬆</button>
+
 <footer>
-  مُعدّة خصيصًا لمشروع نظام العيادة الطبية — كل الدوال تستخدم فقط: for, while, list, function, print, input, if/elif/else
+  مُعدّة خصيصًا لمشروع نظام العيادة الطبية، كل الدوال تستخدم فقط: for, while, list, function, print, input, if/elif/else
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+<script src="assets/confetti.min.js"></script>
 <script>
-  hljs.highlightAll();
+  if (window.hljs) hljs.highlightAll();
 
   function copyCode(btn){
     const wrap = btn.closest('.code-wrap');
@@ -1941,6 +2649,169 @@ else:
       setTimeout(function(){ btn.innerText = old; }, 1500);
     });
   }
+
+  /* ---------- emoji لكل قسم ---------- */
+  const sectionEmojis = {
+    setup:"📦", register_patient:"🧍", display_patients:"📋", search_patient:"🔎",
+    delete_patient:"🗑️", edit_patient:"✏️", add_doctor:"🩺", display_doctors:"👨‍⚕️",
+    book_appointment:"📅", display_appointments:"🗓️", cancel_appointment:"❌",
+    add_invoice:"🧾", sum_invoices:"➕", add_medicine:"💊", display_medicines:"🧪",
+    search_medicine:"🔍", employee_login:"🔐", change_password:"🔑",
+    count_patients:"🔢", patients_by_age:"📊", main_menu:"🎛️", run_program:"🚀"
+  };
+  for (const id in sectionEmojis){
+    const head = document.querySelector('#' + id + ' .card-head');
+    if (head){
+      const e = document.createElement('span');
+      e.className = 'card-emoji';
+      e.textContent = sectionEmojis[id];
+      head.appendChild(e);
+    }
+  }
+
+  /* ---------- شريط تقدم القراءة ---------- */
+  const readbar = document.getElementById('readbar');
+  window.addEventListener('scroll', function(){
+    const h = document.documentElement;
+    const max = h.scrollHeight - h.clientHeight;
+    readbar.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+  }, {passive:true});
+
+  /* ---------- قائمة المهمات (تُحفظ في المتصفح) ---------- */
+  const missionBoxes = document.querySelectorAll('#missionList input[type="checkbox"]');
+  const missionFill  = document.getElementById('missionFill');
+  const missionLabel = document.getElementById('missionLabel');
+  const MISSION_KEY  = 'clinic-missions';
+
+  function loadMissions(){
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem(MISSION_KEY)) || {}; } catch(e){}
+    missionBoxes.forEach(function(box){
+      box.checked = !!saved[box.dataset.m];
+      box.closest('.mission').classList.toggle('done', box.checked);
+    });
+  }
+
+  function updateMissions(fireConfetti){
+    const saved = {};
+    let done = 0;
+    missionBoxes.forEach(function(box){
+      saved[box.dataset.m] = box.checked;
+      if (box.checked) done++;
+      box.closest('.mission').classList.toggle('done', box.checked);
+    });
+    try { localStorage.setItem(MISSION_KEY, JSON.stringify(saved)); } catch(e){}
+    const pct = Math.round((done / missionBoxes.length) * 100);
+    missionFill.style.width = pct + '%';
+    missionLabel.textContent = done + ' / ' + missionBoxes.length + (pct === 100 ? ' 🎉 أنهيت المشروع!' : '');
+    if (fireConfetti && pct === 100 && typeof confetti === 'function'){
+      confetti({particleCount:180, spread:90, origin:{y:.7}});
+      setTimeout(function(){ confetti({particleCount:120, angle:60,  spread:70, origin:{x:0}}); }, 350);
+      setTimeout(function(){ confetti({particleCount:120, angle:120, spread:70, origin:{x:1}}); }, 700);
+    }
+  }
+
+  missionBoxes.forEach(function(box){
+    box.addEventListener('change', function(){ updateMissions(true); });
+  });
+  loadMissions();
+  updateMissions(false);
+
+  /* ---------- ظهور الأقسام أثناء التمرير ---------- */
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('.card, .kids-section, .howto, .full-block');
+  if (!reduceMotion && 'IntersectionObserver' in window){
+    revealEls.forEach(function(el){ el.classList.add('reveal'); });
+    const io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, {threshold:.06});
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
+
+  /* ---------- تمييز القسم الحالي في القائمة الجانبية ---------- */
+  const navLinks = Array.from(document.querySelectorAll('.sidebar li a'));
+  const spyPairs = navLinks
+    .map(function(a){ return [document.querySelector(a.getAttribute('href')), a]; })
+    .filter(function(p){ return p[0]; });
+  if ('IntersectionObserver' in window){
+    const spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        const pair = spyPairs.find(function(p){ return p[0] === en.target; });
+        if (pair){
+          navLinks.forEach(function(l){ l.classList.remove('active'); });
+          pair[1].classList.add('active');
+        }
+      });
+    }, {rootMargin:'-25% 0px -65% 0px'});
+    spyPairs.forEach(function(p){ spy.observe(p[0]); });
+  }
+
+  /* ---------- زر العودة للأعلى ---------- */
+  const toTop = document.getElementById('toTop');
+  window.addEventListener('scroll', function(){
+    toTop.classList.toggle('show', window.scrollY > 700);
+  }, {passive:true});
+  toTop.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  /* ---------- كتابة حية داخل الطرفية ---------- */
+  const termPre = document.querySelector('.terminal pre');
+  if (termPre && !reduceMotion){
+    const caret = termPre.querySelector('.caret');
+    const fullText = termPre.textContent.replace(/\s+$/, '') + ' ';
+    const txt = document.createTextNode('');
+    termPre.textContent = '';
+    termPre.appendChild(txt);
+    termPre.appendChild(caret);
+    let ti = 0;
+    const timer = setInterval(function(){
+      ti++;
+      txt.data = fullText.slice(0, ti);
+      if (ti >= fullText.length) clearInterval(timer);
+    }, 22);
+  }
+
+  /* ---------- الاختبار القصير ---------- */
+  const quizQs = document.querySelectorAll('.quiz-q');
+  const quizResult = document.getElementById('quizResult');
+  let answered = 0, correctCount = 0;
+
+  quizQs.forEach(function(q){
+    const fb = q.querySelector('.quiz-fb');
+    q.querySelectorAll('.quiz-opt').forEach(function(opt){
+      opt.addEventListener('click', function(){
+        if (q.dataset.done) return;
+        q.dataset.done = '1';
+        answered++;
+        const ok = opt.dataset.ok === '1';
+        if (ok){
+          correctCount++;
+          opt.classList.add('correct');
+          fb.textContent = '🎉 أحسنت! إجابة صحيحة.';
+          fb.className = 'quiz-fb show good';
+          if (typeof confetti === 'function') confetti({particleCount:40, spread:55, origin:{y:.8}});
+        } else {
+          opt.classList.add('wrong');
+          const right = q.querySelector('[data-ok="1"]');
+          if (right) right.classList.add('correct');
+          fb.textContent = '🤔 ليس تمامًا، الإجابة الصحيحة مُظللة بالأخضر. أعد قراءة قسم المفاهيم الكبرى!';
+          fb.className = 'quiz-fb show bad';
+        }
+        q.querySelectorAll('.quiz-opt').forEach(function(b){ b.disabled = true; });
+        if (answered === quizQs.length){
+          quizResult.style.display = 'block';
+          quizResult.innerHTML = '<b>نتيجتك: ' + correctCount + ' / ' + quizQs.length + '</b>، ' +
+            (correctCount === quizQs.length ? 'ممتاز! أنت جاهز تمامًا لبناء المشروع 🚀'
+             : correctCount >= 3 ? 'جيد جدًا! راجع الأسئلة الخاطئة ثم ابدأ المهمة الأولى 💪'
+             : 'لا بأس! اقرأ قسم «المفاهيم الستة الكبرى» مرة أخرى ثم أعد المحاولة بعد تحديث الصفحة 🎒');
+        }
+      });
+    });
+  });
 </script>
 </body>
 </html>
